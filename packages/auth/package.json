@@ -29,7 +29,6 @@
     "./auth": "./src/auth.ts",
     "./auth-client": "./src/auth-client.ts",
     "./providers": "./src/lib/providers.tsx",
-    "./middleware": "./src/lib/middleware.ts",
-    "./*": "./src/components/*.tsx"
+    "./middleware": "./src/lib/middleware.ts"
   }
 }
