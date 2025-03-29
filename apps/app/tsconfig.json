@@ -1,0 +1,20 @@
+{
+  "extends": "@coordinize/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@coordinize/ui/*": ["../../packages/ui/src/*"]
+    },
+    "strict": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.js",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "tailwind.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}

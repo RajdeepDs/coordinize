@@ -1,0 +1,37 @@
+{
+  "name": "@coordinize/database",
+  "version": "1.0.0",
+  "private": "true",
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
+  },
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "biome check .",
+    "format": "biome --write .",
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "npx prisma format && npx prisma generate && npx prisma db push"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
+    "@prisma/adapter-neon": "^6.5.0",
+    "@prisma/client": "^6.5.0",
+    "@t3-oss/env-nextjs": "^0.12.0",
+    "server-only": "^0.0.1",
+    "undici": "^7.6.0",
+    "ws": "^8.18.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "@types/ws": "^8.18.0",
+    "@coordinize/tsconfig": "workspace:*",
+    "bufferutil": "^4.0.9",
+    "prisma": "^6.5.0",
+    "typescript": "^5.8.2"
+  },
+  "exports": {
+    "./keys": "./keys.ts",
+    "./db": "./src/index.ts"
+  }
+}

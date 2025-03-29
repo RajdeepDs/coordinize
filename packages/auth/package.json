@@ -1,0 +1,35 @@
+{
+  "name": "@coordinize/auth",
+  "version": "1.0.0",
+  "private": "true",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "biome check .",
+    "format": "biome --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@t3-oss/env-nextjs": "^0.12.0",
+    "@coordinize/database": "workspace:*",
+    "better-auth": "^1.2.5",
+    "next": "^15.2.4",
+    "react": "^19.0.0",
+    "server-only": "^0.0.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@coordinize/tsconfig": "workspace:*",
+    "typescript": "^5.8.2"
+  },
+  "exports": {
+    "./keys": "./keys.ts",
+    "./auth": "./src/auth.ts",
+    "./auth-client": "./src/auth-client.ts",
+    "./providers": "./src/lib/providers.tsx",
+    "./middleware": "./src/lib/middleware.ts",
+    "./*": "./src/components/*.tsx"
+  }
+}

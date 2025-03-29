@@ -1,0 +1,3 @@
+{
+  "extends": "@coordinize/tsconfig/base.json"
+}

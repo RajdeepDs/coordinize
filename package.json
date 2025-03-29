@@ -1,0 +1,34 @@
+{
+  "name": "coordinize",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "packages/email/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo clean",
+    "format": "biome format --write .",
+    "lint": "turbo lint && manypkg check",
+    "typecheck": "turbo typecheck",
+    "dev": "turbo dev --parallel",
+    "test": "turbo test --parallel",
+    "start:web": "turbo start --filter=@coordinize/web",
+    "dev:web": "turbo dev --filter=@coordinize/web ",
+    "start:app": "turbo start --filter=@coordinize/app",
+    "dev:app": "turbo dev --filter=@coordinize/app ",
+    "db:migrate": "cd packages/database && bun run db:migrate"
+  },
+  "dependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@manypkg/cli": "^0.23.0",
+    "turbo": "2.3.3",
+    "typescript": "^5.7.2"
+  },
+  "packageManager": "bun@1.1.38",
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  }
+}
