@@ -28,5 +28,8 @@
     "strings": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["Coordinize"]
+  "cSpell.words": ["Coordinize"],
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }
