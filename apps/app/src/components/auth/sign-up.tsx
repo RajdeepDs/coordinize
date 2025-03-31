@@ -1,5 +1,11 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { authClient } from "@coordinize/auth/auth-client";
 import { Button } from "@coordinize/ui/components/button";
 import {
@@ -13,11 +19,6 @@ import {
 import { Input } from "@coordinize/ui/components/input";
 import { toast } from "@coordinize/ui/components/sonner";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 const formSchema = z
   .object({
@@ -47,14 +48,14 @@ export const SignUp = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { data, error } = await authClient.signUp.email(
+    const { error } = await authClient.signUp.email(
       {
         name: values.name,
         email: values.email,
         password: values.password,
       },
       {
-        onRequest: async () => {
+        onRequest: () => {
           setSubmitted(true);
         },
         onSuccess: () => {

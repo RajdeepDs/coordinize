@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,7 +18,6 @@ import {
   FormMessage,
 } from "@coordinize/ui/form";
 import { Input } from "@coordinize/ui/input";
-import { useAction } from "next-safe-action/hooks";
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Name must be at least 3 characters." }),
