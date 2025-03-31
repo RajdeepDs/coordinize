@@ -1,32 +1,50 @@
-import { headers } from "next/headers";
+import { betterFetch } from "@better-fetch/fetch";
 import { type NextRequest, NextResponse } from "next/server";
-import { auth } from "../auth";
+import type { auth } from "../auth";
 
-const authPages: string[] = ["/sign-in", "/sign-up"] as const;
+type Session = typeof auth.$Infer.Session;
+
+const authPages: string[] = [
+  "/private-beta",
+  "/sign-up",
+  "/join-waitlist",
+] as const;
 
 export async function authMiddleware(request: NextRequest) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const pathname = request.nextUrl.pathname;
 
-  // If on auth pages, always proceed
-  if (authPages.some((page) => request.nextUrl.pathname.includes(page))) {
+  // Allow access to authentication-related pages
+  if (authPages.some((page) => pathname.includes(page))) {
     return NextResponse.next();
   }
 
-  // If no session, redirect to sign-in
-  if (!session) {
-    const signInUrl = new URL("/sign-in", request.url);
-    return NextResponse.redirect(signInUrl);
+  // Exclude auth API routes (especially /api/auth/get-session) from the middleware logic
+  if (pathname.startsWith("/api/auth")) {
+    return NextResponse.next();
   }
 
-  // User is authenticated, proceed
+  // Fetch session only if it's NOT an excluded route
+  const { data: session } = await betterFetch<Session>(
+    "/api/auth/get-session",
+    {
+      baseURL: request.nextUrl.origin,
+      headers: {
+        cookie: request.headers.get("cookie") || "",
+      },
+    },
+  );
+
+  // If no session, redirect to private-beta
+  if (!session) {
+    return NextResponse.redirect(new URL("/private-beta", request.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    "/((?!_next|static|public|sign-in|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
+    "/((?!_next|static|public|private-beta|auth/get-session|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(?!/auth/get-session)(.*)",
   ],
 };
