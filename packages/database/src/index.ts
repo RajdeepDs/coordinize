@@ -6,17 +6,30 @@ import ws from "ws";
 import { keys } from "../keys";
 import { PrismaClient } from "./generated/client";
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+let connectionString = keys().DATABASE_URL;
+
+// Configuring Neon for local development
+if (process.env.NODE_ENV === "development") {
+  connectionString =
+    "postgres://postgres:postgres@db.localtest.me:5432/coordinize";
+  neonConfig.fetchEndpoint = (host) => {
+    const [protocol, port] =
+      host === "db.localtest.me" ? ["http", 4444] : ["https", 443];
+    return `${protocol}://${host}:${port}/sql`;
+  };
+  const connectionStringUrl = new URL(connectionString);
+  neonConfig.useSecureWebSocket =
+    connectionStringUrl.hostname !== "db.localtest.me";
+  neonConfig.wsProxy = (host) =>
+    host === "db.localtest.me" ? `${host}:4444/v2` : `${host}/v2`;
+}
 
 neonConfig.webSocketConstructor = ws;
 
-const pool = new Pool({ connectionString: keys().DATABASE_URL });
+const pool = new Pool({ connectionString });
+
 const adapter = new PrismaNeon(pool);
 
-export const database = globalForPrisma.prisma || new PrismaClient({ adapter });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = database;
-}
+export const database = new PrismaClient({ adapter });
 
 export * from "./generated/client";

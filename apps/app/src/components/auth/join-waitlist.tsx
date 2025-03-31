@@ -1,10 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { joinWaitlistAction } from "@/actions/join-waitlist-action";
 import { Button } from "@coordinize/ui/button";
+import { toast } from "@coordinize/ui/components/sonner";
 import {
   Form,
   FormControl,
@@ -14,59 +17,78 @@ import {
   FormMessage,
 } from "@coordinize/ui/form";
 import { Input } from "@coordinize/ui/input";
+import { useAction } from "next-safe-action/hooks";
 
 const formSchema = z.object({
   name: z.string().min(3, { message: "Name must be at least 3 characters." }),
   email: z.string().email({ message: "Invalid email address." }),
 });
+
 export const JoinWaitlist = () => {
+  const [submitted, setSubmitted] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
+    defaultValues: { name: "", email: "" },
+  });
+
+  const { execute, status } = useAction(joinWaitlistAction, {
+    onError: ({ error }) => {
+      toast.warning(error.serverError as string);
+    },
+    onSuccess: () => {
+      setSubmitted(true);
+      toast.success("You're on the list.", {
+        description: "We'll let you know when we're ready!",
+      });
+      form.reset();
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    execute(values);
   }
+
   return (
-    <>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-full flex-col space-y-3"
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Join waitlist!</Button>
-        </form>
-      </Form>
-    </>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex w-full flex-col space-y-3"
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input {...field} disabled={submitted} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" {...field} disabled={submitted} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" disabled={status === "executing" || submitted}>
+          {status === "executing"
+            ? "Joining..."
+            : submitted
+              ? "Joined 🎉"
+              : "Join Waitlist!"}
+        </Button>
+      </form>
+    </Form>
   );
 };

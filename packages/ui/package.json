@@ -18,10 +18,11 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
-    "next-themes": "^0.4.4",
+    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
+    "sonner": "^2.0.2",
     "tailwind-merge": "^3.0.1",
     "tw-animate-css": "^1.2.4",
     "zod": "^3.24.2"
@@ -45,6 +46,7 @@
     "./button": "./src/components/button.tsx",
     "./input": "./src/components/input.tsx",
     "./label": "./src/components/label.tsx",
-    "./form": "./src/components/form.tsx"
+    "./form": "./src/components/form.tsx",
+    "./sooner": "./src/components/sonner.tsx"
   }
 }
