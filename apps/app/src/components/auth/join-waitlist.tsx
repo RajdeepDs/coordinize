@@ -41,7 +41,10 @@ export const JoinWaitlist = () => {
       toast.success("You're on the list.", {
         description: "We'll let you know when we're ready!",
       });
+    },
+    onSettled: () => {
       form.reset();
+      setSubmitted(false);
     },
   });
 

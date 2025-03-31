@@ -10,7 +10,7 @@ export const joinWaitlistAction = actionClient
     const existing = await db.earlyAccess.findUnique({ where: { email } });
 
     if (existing) {
-      throw Error("This email is already on the waitlist.");
+      throw Error("You're already on the list.");
     }
 
     await db.earlyAccess.create({
