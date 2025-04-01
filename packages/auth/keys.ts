@@ -11,6 +11,6 @@ export const keys = () =>
     },
     runtimeEnv: {
       BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
-      NEXT_PUBLIC_BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+      NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
     },
   });
