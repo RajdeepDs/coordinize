@@ -14,7 +14,7 @@ export function Header() {
           <WordLogo />
         </Link>
         <Button asChild size={"sm"}>
-          <Link href={`${APP_URL}/sign-in`}>Sign in</Link>
+          <Link href={`${APP_URL}/private-beta`}>Sign in</Link>
         </Button>
       </div>
     </header>
