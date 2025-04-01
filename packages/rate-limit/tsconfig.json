@@ -1,5 +1,5 @@
 {
-  "extends": "@coordinize/tsconfig/react-library.json",
+  "extends": "@coordinize/tsconfig/nextjs.json",
   "compilerOptions": {
     "baseUrl": "."
   },

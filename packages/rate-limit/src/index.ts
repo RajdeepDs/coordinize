@@ -1,6 +1,6 @@
 import { Ratelimit, type RatelimitConfig } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { keys } from "../keys.js";
+import { keys } from "../keys";
 
 export const redis = new Redis({
   url: keys().UPSTASH_REDIS_REST_URL,
