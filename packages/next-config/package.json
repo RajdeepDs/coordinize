@@ -1,0 +1,17 @@
+{
+  "name": "@coordinize/next-config",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@prisma/nextjs-monorepo-workaround-plugin": "^6.5.0",
+    "next": "^15.2.4"
+  },
+  "devDependencies": {
+    "@coordinize/tsconfig": "workspace:*",
+    "@types/node": "^22.13.17"
+  }
+}

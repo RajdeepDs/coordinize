@@ -14,6 +14,7 @@
   "dependencies": {
     "@coordinize/auth": "workspace:*",
     "@coordinize/database": "workspace:*",
+    "@coordinize/next-config": "workspace:*",
     "@coordinize/rate-limit": "workspace:*",
     "@coordinize/ui": "workspace:*",
     "@t3-oss/env-nextjs": "^0.12.0",
