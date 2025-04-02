@@ -1,5 +1,7 @@
 import "@coordinize/ui/globals.css";
 import { DesignSystemProvider } from "@coordinize/ui/providers";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -30,7 +32,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <DesignSystemProvider>{children}</DesignSystemProvider>
+        <DesignSystemProvider>
+          {children}
+          <VercelAnalytics />
+          <SpeedInsights />
+        </DesignSystemProvider>
       </body>
     </html>
   );

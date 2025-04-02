@@ -13,11 +13,14 @@
   "dependencies": {
     "@coordinize/auth": "workspace:*",
     "@hookform/resolvers": "^4.1.3",
+    "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.1.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.475.0",
+    "lucide-react": "^0.486.0",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -47,6 +50,11 @@
     "./input": "./src/components/input.tsx",
     "./label": "./src/components/label.tsx",
     "./form": "./src/components/form.tsx",
-    "./sooner": "./src/components/sonner.tsx"
+    "./sooner": "./src/components/sonner.tsx",
+    "./separator": "./src/components/separator.tsx",
+    "./sheet": "./src/components/sheet.tsx",
+    "./sidebar": "./src/components/sidebar.tsx",
+    "./skeleton": "./src/components/skeleton.tsx",
+    "./tooltip": "./src/components/tooltip.tsx"
   }
 }

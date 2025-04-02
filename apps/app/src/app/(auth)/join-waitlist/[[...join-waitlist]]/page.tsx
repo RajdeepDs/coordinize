@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 const title = "Welcome to Coordinize";
@@ -6,6 +7,10 @@ const description = "Join the waitlist to get early access of the coordinize.";
 const JoinWaitlist = dynamic(() =>
   import("@/components/auth/join-waitlist").then((mod) => mod.JoinWaitlist),
 );
+
+export const metadata: Metadata = {
+  title: "Join waitlist",
+};
 
 export default function JoinWaitlistPage() {
   return (

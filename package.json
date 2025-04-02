@@ -1,11 +1,7 @@
 {
   "name": "coordinize",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "packages/email/*"
-  ],
+  "workspaces": ["apps/*", "packages/*", "packages/email/*"],
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
@@ -19,7 +15,8 @@
     "dev:web": "turbo dev --filter=@coordinize/web ",
     "start:app": "turbo start --filter=@coordinize/app",
     "dev:app": "turbo dev --filter=@coordinize/app ",
-    "db:migrate": "cd packages/database && bun run db:migrate"
+    "db:migrate": "cd packages/database && bun run db:migrate",
+    "docker:up": "docker compose up -d"
   },
   "dependencies": {
     "@biomejs/biome": "1.9.4",
