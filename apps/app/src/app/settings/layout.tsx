@@ -1,4 +1,5 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { SettingsSidebar } from "@/components/settings-sidebar";
+import { settingsSidebarNav } from "@/config/navigation";
 import {
   SidebarInset,
   SidebarProvider,
@@ -15,10 +16,11 @@ export const metadata: Metadata = {
 };
 
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
+  const settingsNav = settingsSidebarNav;
   return (
     <>
       <SidebarProvider>
-        <AppSidebar />
+        <SettingsSidebar nav={settingsNav} />
         <SidebarInset>{children}</SidebarInset>
       </SidebarProvider>
     </>
