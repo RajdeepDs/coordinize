@@ -15,7 +15,7 @@ export const settingsSidebarNav: SidebarSection[] = [
     items: [
       {
         title: "Preferences",
-        href: "/settings",
+        href: "/settings/preferences",
         icon: "home",
       },
       {
