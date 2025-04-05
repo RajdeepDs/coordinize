@@ -19,11 +19,9 @@ export const metadata: Metadata = {
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   const settingsNav = settingsSidebarNav;
   return (
-    <>
-      <SidebarProvider>
-        <SettingsSidebar nav={settingsNav} />
-        <SidebarInset>{children}</SidebarInset>
-      </SidebarProvider>
-    </>
+    <SidebarProvider>
+      <SettingsSidebar nav={settingsNav} />
+      <SidebarInset className="px-60 py-14">{children}</SidebarInset>
+    </SidebarProvider>
   );
 }
