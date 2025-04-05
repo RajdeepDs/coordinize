@@ -8,9 +8,11 @@ import {
   CircleAlert,
   Command,
   CreditCard,
+  Dot,
   Home,
   Keyboard,
   Loader2Icon,
+  Monitor,
   ShieldUser,
   UserCircle2,
   UserSquare2,
@@ -57,4 +59,6 @@ export const Icons = {
   bookOpen: BookOpen,
   keyboard: Keyboard,
   calendar: Calendar,
+  dot: Dot,
+  monitor: Monitor,
 };

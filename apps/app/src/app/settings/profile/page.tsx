@@ -15,6 +15,7 @@ export default async function ProfilePage() {
       <div className="flex flex-col gap-4">
         <Label className="text-muted-foreground">General</Label>
         <SettingsCard title="Profile picture" className="flex-col items-start">
+          {/* TODO: Add update profile picture functionality */}
           {user?.image ? (
             <Image
               src={user.image}
@@ -35,6 +36,7 @@ export default async function ProfilePage() {
         </SettingsCard>
       </div>
       <Separator />
+      {/* TODO: Add Change email and password functionality - (Dialog Form) */}
       <div className="flex flex-col gap-4">
         <Label className="text-muted-foreground">Account security</Label>
         <SettingsCard title="Email" description={user?.email}>

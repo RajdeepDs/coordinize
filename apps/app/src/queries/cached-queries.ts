@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { cache } from "react";
 
 import { auth } from "@coordinize/auth/auth";
-import { getUserQuery } from "./index";
+import { getUserQuery, getUserSessionsQuery } from "./index";
 
 export const getSession = cache(async () => {
   const res = await auth.api.getSession({
@@ -32,6 +32,24 @@ export const getUser = cache(async () => {
     {
       tags: [`user_${userId}`],
       // 30 minutes
+      revalidate: 1800,
+    },
+  )();
+});
+
+export const getSessions = cache(async () => {
+  const session = await getSession();
+  const userId = session?.userId;
+  if (!userId) {
+    return null;
+  }
+  return unstable_cache(
+    async () => {
+      return getUserSessionsQuery(userId);
+    },
+    ["sessions", userId],
+    {
+      tags: [`sessions_${userId}`],
       revalidate: 1800,
     },
   )();

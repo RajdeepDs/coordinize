@@ -16,13 +16,13 @@
   },
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+    "source.organizeImports.biome": "always",
+    "source.removeUnusedImports": "always"
   },
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "emmet.showExpandedAbbreviation": "never",
-  "prettier.enable": false,
   "tailwindCSS.experimental.configFile": "",
   "editor.quickSuggestions": {
     "strings": true
