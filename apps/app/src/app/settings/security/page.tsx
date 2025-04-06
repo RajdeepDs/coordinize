@@ -1,10 +1,10 @@
+import { LogOutAllDevices } from "@/components/settings/log-out-all-devices";
 import { SessionCard } from "@/components/settings/session-card";
 import { SettingsCard } from "@/components/settings/settings-card";
 import {
   getSession as getCurrentSession,
   getSessions,
 } from "@/queries/cached-queries";
-import { Button } from "@coordinize/ui/components/button";
 import { Label } from "@coordinize/ui/components/label";
 
 export default async function SecurityPage() {
@@ -35,18 +35,7 @@ export default async function SecurityPage() {
           </div>
         </SettingsCard>
       </div>
-      <SettingsCard
-        title="Log out of all devices"
-        description="Log out of all other active sessions on other devices besides this one."
-      >
-        <Button
-          variant={"outline"}
-          size={"sm"}
-          className="font-normal cursor-pointer"
-        >
-          Log out of all devices{" "}
-        </Button>
-      </SettingsCard>
+      <LogOutAllDevices />
     </div>
   );
 }

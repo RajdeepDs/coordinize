@@ -1,8 +1,10 @@
 "use client";
 
+import { authClient } from "@coordinize/auth/auth-client";
 import type { Session } from "@coordinize/database/db";
 import { Button } from "@coordinize/ui/components/button";
 import { Icons } from "@coordinize/ui/lib/icons";
+import { redirect } from "next/navigation";
 import { UAParser } from "ua-parser-js";
 
 interface SessionCardProps {
@@ -40,6 +42,15 @@ export function SessionCard({ session }: SessionCardProps) {
         variant={"ghost"}
         size={"sm"}
         className="hidden group-hover:block font-normal cursor-pointer"
+        onClick={async () => {
+          await authClient.signOut({
+            fetchOptions: {
+              onSuccess: () => {
+                redirect("/private-beta");
+              },
+            },
+          });
+        }}
       >
         Log out
       </Button>

@@ -43,14 +43,6 @@ export const getSessions = cache(async () => {
   if (!userId) {
     return null;
   }
-  return unstable_cache(
-    async () => {
-      return getUserSessionsQuery(userId);
-    },
-    ["sessions", userId],
-    {
-      tags: [`sessions_${userId}`],
-      revalidate: 1800,
-    },
-  )();
+
+  return await getUserSessionsQuery(userId);
 });
