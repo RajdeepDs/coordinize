@@ -13,7 +13,9 @@ import {
   Keyboard,
   Loader2Icon,
   Monitor,
+  Moon,
   ShieldUser,
+  Sun,
   UserCircle2,
   UserSquare2,
   Users2,
@@ -61,4 +63,6 @@ export const Icons = {
   calendar: Calendar,
   dot: Dot,
   monitor: Monitor,
+  sun: Sun,
+  moon: Moon,
 };

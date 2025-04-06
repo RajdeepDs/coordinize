@@ -17,6 +17,7 @@
     "@radix-ui/react-dropdown-menu": "^2.1.6",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-popover": "^1.1.6",
+    "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
@@ -59,6 +60,8 @@
     "./skeleton": "./src/components/skeleton.tsx",
     "./tooltip": "./src/components/tooltip.tsx",
     "./popover": "./src/components/popover.tsx",
-    "./dropdown-menu": "./src/components/dropdown-menu.tsx"
+    "./dropdown-menu": "./src/components/dropdown-menu.tsx",
+    "./select": "./src/components/select.tsx",
+    "./theme-select": "./src/lib/theme-select.tsx"
   }
 }
