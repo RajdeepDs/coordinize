@@ -13,7 +13,7 @@ import { Icons } from "./icons";
 export function ThemeSelect() {
   const { theme, setTheme } = useTheme();
   return (
-    <Select value={theme} onValueChange={setTheme}>
+    <Select value={theme} onValueChange={setTheme} defaultValue={"light"}>
       <SelectTrigger className="w-[120px]" size="sm">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
