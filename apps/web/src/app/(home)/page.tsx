@@ -27,7 +27,7 @@ export default function Home() {
         </div>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Button variant={"default"} className="font-normal" asChild>
-            <Link href={`${APP_URL}/join-beta`}>Join private beta!</Link>
+            <Link href={`${APP_URL}/join-waitlist`}>Join private beta!</Link>
           </Button>
           <Button variant={"outline"} className="font-normal" asChild>
             <Link
