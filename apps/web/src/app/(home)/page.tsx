@@ -7,7 +7,7 @@ const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 export default function Home() {
   return (
     <>
-      <div className="hidden sm:block -translate-x-1/2 -top-0 pointer-events-none absolute left-1/2 h-[800px] w-[90%] max-w-[1600px]">
+      <div className="-translate-x-1/2 -top-0 pointer-events-none absolute left-1/2 hidden h-[800px] w-[90%] max-w-[1600px] sm:block">
         <div className="h-full w-full rounded-b-full border-border border-b" />
       </div>
       <div className="z-10 flex min-h-[calc(100vh-4rem)] flex-1 flex-col items-center justify-center gap-6 px-4 text-center">
@@ -18,7 +18,7 @@ export default function Home() {
           <h1 className="font-bold text-xl leading-tight sm:text-3xl">
             Rethinking Remote Work: Seamless Async Collaboration
           </h1>
-          <p className="max-w-2xl text-muted-foreground text-base">
+          <p className="max-w-2xl text-base text-muted-foreground">
             Work smarter with purpose-driven communication. Stay aligned,
             collaborate seamlessly,
             <br className="hidden sm:block" />
