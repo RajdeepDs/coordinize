@@ -3,7 +3,7 @@ import { cn } from "@coordinize/ui/lib/utils";
 import type { ReactNode } from "react";
 
 interface SettingsCardProps {
-  readonly children: ReactNode;
+  readonly children?: ReactNode;
   title: string;
   description?: string;
   className?: string;

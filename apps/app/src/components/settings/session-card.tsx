@@ -28,7 +28,7 @@ export function SessionCard({ session }: SessionCardProps) {
           </h3>
           {session.isCurrent ? (
             <p className="flex items-center text-sm text-green-700 gap-1">
-              <div className="bg-green-600 size-1.5 rounded-full" />
+              <span className="bg-green-600 size-1.5 rounded-full" />
               Current session
             </p>
           ) : (
