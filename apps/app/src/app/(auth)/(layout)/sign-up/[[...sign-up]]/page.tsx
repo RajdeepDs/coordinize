@@ -13,14 +13,14 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <div className="mx-auto flex h-full w-[30%] flex-col justify-center space-y-3">
+    <div className="mx-auto flex h-full max-w-[20rem] flex-col justify-center space-y-3">
       <div className="flex flex-col">
         <h1 className="font-semibold text-base">{title}</h1>
         <p className="text-muted-foreground text-sm">
           Already have an account?{" "}
           <Link
             href={"/private-beta"}
-            className="text-blue-700 hover:underline underline-offset-1"
+            className="text-blue-700 underline-offset-1 hover:underline dark:text-blue-400"
           >
             Sign in
           </Link>

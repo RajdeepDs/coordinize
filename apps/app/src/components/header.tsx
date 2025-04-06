@@ -9,8 +9,8 @@ const WEB_URL: string = env.NEXT_PUBLIC_WEB_URL;
 
 export function Header() {
   return (
-    <header className="border-b box-border">
-      <div className="container mx-auto h-14 flex items-center justify-between">
+    <header className="box-border border-b">
+      <div className="container mx-auto flex h-14 items-center justify-between px-5 ">
         <Link href={`${WEB_URL}`}>
           <WordLogo />
         </Link>

@@ -19,8 +19,8 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="flex h-screen flex-col overflow-hidden">
       <Header />
-      <main className="grid flex-1 grid-cols-3">
-        <div className="col-span-2 overflow-auto">{children}</div>
+      <main className="flex flex-1 lg:grid lg:grid-cols-3">
+        <div className="w-full overflow-auto lg:col-span-2">{children}</div>
         <RollingCaptions captions={captions} />
       </main>
     </div>

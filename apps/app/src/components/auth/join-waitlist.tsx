@@ -65,7 +65,7 @@ export const JoinWaitlist = () => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} disabled={submitted} />
+                <Input {...field} placeholder="John Doe" disabled={submitted} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,7 +78,12 @@ export const JoinWaitlist = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" {...field} disabled={submitted} />
+                <Input
+                  type="email"
+                  {...field}
+                  placeholder="johndoe@example.com"
+                  disabled={submitted}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

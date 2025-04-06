@@ -16,8 +16,8 @@ export default function JoinWaitlistPage() {
   return (
     <>
       <Header />
-      <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-[20%] flex-col items-center justify-center gap-5">
-        <span className="inline-flex w-fit items-center rounded-full border bg-[#FAFAFA] px-3 py-1 text-center text-xs">
+      <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-[20rem] flex-col items-center justify-center gap-5">
+        <span className="inline-flex w-fit items-center rounded-full border bg-muted px-3 py-1 text-center text-xs">
           Coming soon!
         </span>
         <div className="flex flex-col text-center">
