@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
@@ -58,52 +58,50 @@ export function PreferredName() {
     formData.append("file", file);
 
     // Upload using the server action
-    const url = "https://www.coordinize.app";
+    const url = "https://app.coordinize.tech";
     // Set the URL in the form state
     form.setValue("profilePic", url);
     return url;
   };
 
   return (
-    <FormProvider {...form}>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="profilePic"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Profile Picture</FormLabel>
-                <FormControl>
-                  <AvatarUploadField
-                    name="profilePic"
-                    onUpload={handleImageUpload}
-                    size="sm"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="preferredName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Preferred name</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="Enter you name" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="profilePic"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Profile Picture</FormLabel>
+              <FormControl>
+                <AvatarUploadField
+                  name="profilePic"
+                  onUpload={handleImageUpload}
+                  size="sm"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="preferredName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Preferred name</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter you name" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Saving..." : "Save Profile"}
-          </Button>
-        </form>
-      </Form>
-    </FormProvider>
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? "Saving..." : "Save Profile"}
+        </Button>
+      </form>
+    </Form>
   );
 }
