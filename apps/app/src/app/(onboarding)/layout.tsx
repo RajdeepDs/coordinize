@@ -18,7 +18,7 @@ export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
       <Header>
         <Button size={"sm"}>Log out</Button>
       </Header>
-      <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-[20rem] flex-col items-center justify-center gap-5">
+      <div className="absolute inset-x-0 top-[20%] mx-auto flex max-w-[20rem] flex-col items-center gap-5">
         {children}
       </div>
     </>

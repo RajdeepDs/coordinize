@@ -15,6 +15,19 @@ const stepComponents = {
   confirmation: Confirmation,
 };
 
+const headers = [
+  {
+    title: "Hi there",
+    description: "Let's personalize your experience on Coordinize.",
+  },
+  {
+    title: "Workspace setup",
+    description: "Create a workspace and invite your team.",
+  },
+  { title: "Preferences", description: "Customize your workspace." },
+  { title: "Confirmation", description: "You're all set!" },
+];
+
 export default function OnboardingPage() {
   const { step } = useParams();
   const router = useRouter();
@@ -30,9 +43,17 @@ export default function OnboardingPage() {
     else router.push("/");
   };
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col gap-8">
       <OnboardingStepper />
-      <CurrentStepComponent />
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col">
+          <h1 className="font-medium text-xl">{headers[stepIndex]?.title}</h1>
+          <p className="text-muted-foreground text-sm">
+            {headers[stepIndex]?.description}
+          </p>
+        </div>
+        <CurrentStepComponent />
+      </div>
     </div>
   );
 }

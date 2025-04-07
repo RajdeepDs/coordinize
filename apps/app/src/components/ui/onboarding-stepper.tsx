@@ -19,7 +19,7 @@ export function OnboardingStepper() {
 
   return (
     <div className="mx-auto w-full text-center">
-      <p className="text-start text-muted-foreground text-sm">
+      <p className="select-none text-start text-muted-foreground text-sm">
         Step {currentStepIndex} of {onboardingSteps.length}
       </p>
       <Stepper value={currentStepIndex} defaultValue={1} className="gap-2">
