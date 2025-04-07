@@ -96,7 +96,7 @@ export function Preferences() {
           />
 
           <div className="flex items-center justify-between gap-2 pt-4">
-            <Button type="button" variant="ghost" className="flex-1">
+            <Button type="button" variant="secondary" className="flex-1">
               Skip for now
             </Button>
             <Button type="submit" className="flex-1">

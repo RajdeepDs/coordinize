@@ -111,7 +111,7 @@ export function WorkspaceSetup() {
           name="workspaceSlug"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Workspace slug</FormLabel>
+              <FormLabel>Workspace URL</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Enter workspace slug" />
               </FormControl>

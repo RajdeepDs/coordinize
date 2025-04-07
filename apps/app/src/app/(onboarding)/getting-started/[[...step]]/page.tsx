@@ -1,6 +1,5 @@
 "use client";
 
-import { Confirmation } from "@/components/getting-started/confirmation";
 import { Preferences } from "@/components/getting-started/preferences";
 import { PreferredName } from "@/components/getting-started/preferred-name";
 import { WorkspaceSetup } from "@/components/getting-started/workspace-setup";
@@ -12,7 +11,6 @@ const stepComponents = {
   "preferred-name": PreferredName,
   "workspace-setup": WorkspaceSetup,
   preferences: Preferences,
-  confirmation: Confirmation,
 };
 
 const headers = [
@@ -25,7 +23,6 @@ const headers = [
     description: "Create a workspace and invite your team.",
   },
   { title: "Preferences", description: "Customize your workspace." },
-  { title: "Confirmation", description: "You're all set!" },
 ];
 
 export default function OnboardingPage() {
@@ -37,6 +34,7 @@ export default function OnboardingPage() {
   const CurrentStepComponent = stepComponents[currentStep] ?? PreferredName;
 
   const stepIndex = onboardingSteps.findIndex((s) => s.id === currentStep);
+
   const goToNext = () => {
     const next = onboardingSteps[stepIndex + 1]?.id;
     if (next) router.push(`/getting-started/${next}`);
