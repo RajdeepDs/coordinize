@@ -55,6 +55,7 @@
     "./sheet": "./src/components/sheet.tsx",
     "./sidebar": "./src/components/sidebar.tsx",
     "./skeleton": "./src/components/skeleton.tsx",
-    "./tooltip": "./src/components/tooltip.tsx"
+    "./tooltip": "./src/components/tooltip.tsx",
+    "./stepper": "./src/components/stepper.tsx"
   }
 }
