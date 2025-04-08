@@ -18,7 +18,7 @@ export function OnboardingStepper() {
     onboardingSteps.findIndex((s) => s.id === currentStepId) + 1;
 
   return (
-    <div className="mx-auto w-full text-center">
+    <div className="mx-auto flex w-full flex-col gap-1 text-center">
       <p className="select-none text-start text-muted-foreground text-sm">
         Step {currentStepIndex} of {onboardingSteps.length}
       </p>

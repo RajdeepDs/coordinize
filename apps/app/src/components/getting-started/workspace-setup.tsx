@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Icons } from "@coordinize/ui/lib/icons";
 import slugify from "@sindresorhus/slugify";
 import { useEffect } from "react";
 
@@ -46,18 +47,13 @@ export function WorkspaceSetup() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // setIsSubmitting(true);
       console.log("Form values:", values);
 
       // Here you would save the values to your Neon DB
       // Example:
       // await saveToDatabase(values);
-
-      // Reset form state
-      // setIsSubmitting(false);
     } catch (error) {
       console.error("Error submitting form:", error);
-      // setIsSubmitting(false);
     }
   }
 
@@ -122,6 +118,7 @@ export function WorkspaceSetup() {
 
         <Button type="submit" className="w-full">
           Next
+          <Icons.arrowRight />
         </Button>
       </form>
     </Form>

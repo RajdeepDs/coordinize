@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,6 +15,7 @@ import {
   FormMessage,
 } from "@coordinize/ui/components/form";
 import { Input } from "@coordinize/ui/components/input";
+import { Icons } from "@coordinize/ui/lib/icons";
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
@@ -25,8 +25,6 @@ const formSchema = z.object({
 });
 
 export function PreferredName() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,18 +35,13 @@ export function PreferredName() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsSubmitting(true);
       console.log("Form values:", values);
 
       // Here you would save the values to your Neon DB
       // Example:
       // await saveToDatabase(values);
-
-      // Reset form state
-      setIsSubmitting(false);
     } catch (error) {
       console.error("Error submitting form:", error);
-      setIsSubmitting(false);
     }
   }
 
@@ -98,8 +91,9 @@ export function PreferredName() {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Saving..." : "Save Profile"}
+        <Button type="submit" className="w-full">
+          Next
+          <Icons.arrowRight />
         </Button>
       </form>
     </Form>

@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  ArrowRight,
   BellDot,
   ChevronRight,
   Command,
@@ -27,4 +28,5 @@ export const Icons = {
   users: Users2,
   userSquare: UserSquare2,
   creditCard: CreditCard,
+  arrowRight: ArrowRight,
 };

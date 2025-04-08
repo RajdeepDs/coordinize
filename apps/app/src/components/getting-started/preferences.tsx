@@ -43,68 +43,58 @@ export function Preferences() {
   };
 
   return (
-    <div className="max-w-md space-y-6">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="emailNotifications"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-between">
-                <FormLabel>Email Notifications</FormLabel>
-                <FormControl>
-                  <Switch
-                    id="emailNotifications"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="pushNotifications"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-between">
-                <FormLabel>Push Notifications</FormLabel>
-                <FormControl>
-                  <Switch
-                    id="pushNotifications"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="timezone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Timezone</FormLabel>
-                <FormControl>
-                  <TimezoneSelect
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="emailNotifications"
+          render={({ field }) => (
+            <FormItem className="flex items-center justify-between">
+              <FormLabel>Email Notifications</FormLabel>
+              <FormControl>
+                <Switch
+                  id="emailNotifications"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="pushNotifications"
+          render={({ field }) => (
+            <FormItem className="flex items-center justify-between">
+              <FormLabel>Push Notifications</FormLabel>
+              <FormControl>
+                <Switch
+                  id="pushNotifications"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="timezone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Timezone</FormLabel>
+              <FormControl>
+                <TimezoneSelect value={field.value} onChange={field.onChange} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <div className="flex items-center justify-between gap-2 pt-4">
-            <Button type="button" variant="secondary" className="flex-1">
-              Skip for now
-            </Button>
-            <Button type="submit" className="flex-1">
-              Finish Setup
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+        <Button type="submit" className="w-full">
+          Finish Setup
+        </Button>
+      </form>
+    </Form>
   );
 }
