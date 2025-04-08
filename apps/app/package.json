@@ -16,6 +16,7 @@
     "@coordinize/database": "workspace:*",
     "@coordinize/next-config": "workspace:*",
     "@coordinize/rate-limit": "workspace:*",
+    "@coordinize/storage": "workspace:*",
     "@coordinize/ui": "workspace:*",
     "@sindresorhus/slugify": "^2.2.1",
     "@t3-oss/env-nextjs": "^0.12.0",
