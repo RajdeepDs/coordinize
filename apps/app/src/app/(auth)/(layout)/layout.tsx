@@ -28,7 +28,6 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             <Icons.x className="size-4" />
           </Link>
         </Button>
-        ;
       </Header>
       <main className="flex flex-1 lg:grid lg:grid-cols-3">
         <div className="w-full overflow-auto lg:col-span-2">{children}</div>
