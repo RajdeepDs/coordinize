@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useUploadThing } from "@/utils/lib";
 import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
 import { Button } from "@coordinize/ui/button";
 import {
@@ -19,6 +20,7 @@ import { Icons } from "@coordinize/ui/lib/icons";
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
+  profilePicFile: z.any().optional(),
   preferredName: z.string().min(1, {
     message: "Preferred name is required",
   }),
@@ -30,32 +32,35 @@ export function Welcome() {
     defaultValues: {
       profilePic: "",
       preferredName: "",
+      profilePicFile: null,
     },
   });
 
+  const { startUpload } = useUploadThing("profilePicUploader");
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log("Form values:", values);
+      let profilePicUrl = values.profilePic;
 
-      // Here you would save the values to your Neon DB
-      // Example:
-      // await saveToDatabase(values);
+      // If a new image was selected, upload it
+      if (values.profilePicFile instanceof File) {
+        const uploaded = await startUpload([values.profilePicFile]);
+        profilePicUrl = uploaded?.[0]?.ufsUrl || "";
+      }
+
+      console.log("Saving to DB:", {
+        preferredName: values.preferredName,
+        profilePic: profilePicUrl,
+      });
+
+      // await saveToDatabase({
+      //   preferredName: values.preferredName,
+      //   profilePic: profilePicUrl,
+      // });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   }
-
-  const handleImageUpload = async (file: File) => {
-    // Create FormData to send the file
-    const formData = new FormData();
-    formData.append("file", file);
-
-    // Upload using the server action
-    const url = "https://app.coordinize.tech";
-    // Set the URL in the form state
-    form.setValue("profilePic", url);
-    return url;
-  };
 
   return (
     <Form {...form}>
@@ -63,20 +68,17 @@ export function Welcome() {
         <FormField
           control={form.control}
           name="profilePic"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Profile Picture</FormLabel>
               <FormControl>
-                <AvatarUploadField
-                  name="profilePic"
-                  onUpload={handleImageUpload}
-                  size="sm"
-                />
+                <AvatarUploadField name="profilePic" size="sm" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="preferredName"
@@ -84,7 +86,7 @@ export function Welcome() {
             <FormItem>
               <FormLabel>Preferred name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter you name" />
+                <Input {...field} placeholder="Enter your name" />
               </FormControl>
               <FormMessage />
             </FormItem>
