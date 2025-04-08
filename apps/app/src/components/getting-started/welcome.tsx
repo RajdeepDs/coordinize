@@ -24,7 +24,7 @@ const formSchema = z.object({
   }),
 });
 
-export function PreferredName() {
+export function Welcome() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

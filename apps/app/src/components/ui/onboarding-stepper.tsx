@@ -12,7 +12,7 @@ import { useParams, useRouter } from "next/navigation";
 export function OnboardingStepper() {
   const router = useRouter();
   const { step } = useParams();
-  const currentStepId = (step?.[0] as string) || "preferred-name";
+  const currentStepId = (step?.[0] as string) || "welcome";
 
   const currentStepIndex =
     onboardingSteps.findIndex((s) => s.id === currentStepId) + 1;

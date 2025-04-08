@@ -1,5 +1,5 @@
 export const onboardingSteps = [
-  { id: "preferred-name", label: "Your Name" },
+  { id: "welcome", label: "Your Name" },
   { id: "workspace-setup", label: "Workspace Setup" },
   { id: "preferences", label: "Preferences" },
 ] as const;

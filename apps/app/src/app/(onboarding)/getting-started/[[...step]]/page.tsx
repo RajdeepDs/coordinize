@@ -1,14 +1,14 @@
 "use client";
 
 import { Preferences } from "@/components/getting-started/preferences";
-import { PreferredName } from "@/components/getting-started/preferred-name";
+import { Welcome } from "@/components/getting-started/welcome";
 import { WorkspaceSetup } from "@/components/getting-started/workspace-setup";
 import { OnboardingStepper } from "@/components/ui/onboarding-stepper";
 import { onboardingSteps } from "@/config/onboarding-steps";
 import { useParams, useRouter } from "next/navigation";
 
 const stepComponents = {
-  "preferred-name": PreferredName,
+  welcome: Welcome,
   "workspace-setup": WorkspaceSetup,
   preferences: Preferences,
 };
@@ -32,9 +32,8 @@ export default function OnboardingPage() {
   const { step } = useParams();
   const router = useRouter();
 
-  const currentStep =
-    (step?.[0] as keyof typeof stepComponents) || "preferred-name";
-  const CurrentStepComponent = stepComponents[currentStep] ?? PreferredName;
+  const currentStep = (step?.[0] as keyof typeof stepComponents) || "welcome";
+  const CurrentStepComponent = stepComponents[currentStep] ?? Welcome;
 
   const stepIndex = onboardingSteps.findIndex((s) => s.id === currentStep);
 
