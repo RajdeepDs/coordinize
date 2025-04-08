@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { useOnboardingStore } from "@/store/onboarding-store";
 import { useUploadThing } from "@/utils/lib";
 import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
 import { Button } from "@coordinize/ui/button";
@@ -27,6 +28,8 @@ const formSchema = z.object({
 });
 
 export function Welcome() {
+  const { setField } = useOnboardingStore();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,15 +51,8 @@ export function Welcome() {
         profilePicUrl = uploaded?.[0]?.ufsUrl || "";
       }
 
-      console.log("Saving to DB:", {
-        preferredName: values.preferredName,
-        profilePic: profilePicUrl,
-      });
-
-      // await saveToDatabase({
-      //   preferredName: values.preferredName,
-      //   profilePic: profilePicUrl,
-      // });
+      setField("preferredName", values.preferredName);
+      setField("profilePic", profilePicUrl);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -78,7 +74,6 @@ export function Welcome() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="preferredName"
@@ -92,7 +87,6 @@ export function Welcome() {
             </FormItem>
           )}
         />
-
         <Button type="submit" className="w-full">
           Next
           <Icons.arrowRight />

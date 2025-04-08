@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import TimezoneSelect from "@/components/ui/timezone-select";
+import { useOnboardingStore } from "@/store/onboarding-store";
 import { Button } from "@coordinize/ui/button";
 import {
   Form,
@@ -29,6 +30,8 @@ const preferencesSchema = z.object({
 type PreferencesValues = z.infer<typeof preferencesSchema>;
 
 export function Preferences() {
+  const { setField } = useOnboardingStore();
+
   const form = useForm<PreferencesValues>({
     resolver: zodResolver(preferencesSchema),
     defaultValues: {
@@ -40,6 +43,10 @@ export function Preferences() {
 
   const onSubmit = async (value: PreferencesValues) => {
     console.log(value);
+
+    setField("emailNotifications", value.emailNotifications);
+    setField("pushNotifications", value.pushNotifications);
+    setField("timezone", value.timezone);
   };
 
   return (
