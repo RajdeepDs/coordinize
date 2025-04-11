@@ -42,11 +42,11 @@ export function Preferences() {
   });
 
   const onSubmit = async (value: PreferencesValues) => {
-    console.log(value);
-
     setField("emailNotifications", value.emailNotifications);
     setField("pushNotifications", value.pushNotifications);
     setField("timezone", value.timezone);
+
+    // A Server action would go here - to submit the form data to the server.
   };
 
   return (

@@ -14,15 +14,19 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  Session       Session[]
-  Account       Account[]
+  id                     String                   @id @default(cuid())
+  name                   String
+  email                  String
+  emailVerified          Boolean                  @default(false)
+  image                  String?
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  timezone               String?
+  Session                Session[]
+  Account                Account[]
+  Workspace              Workspace[]
+  WorkspaceMember        WorkspaceMember[]
+  NotificationPreference NotificationPreference[]
 
   @@unique([email])
   @@map("user")
@@ -86,4 +90,51 @@ model EarlyAccess {
 
   @@unique([email])
   @@map("earlyAccess")
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  logo      String?
+  createdBy String
+  createdAt DateTime @default(now())
+
+  creator         User              @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  WorkspaceMember WorkspaceMember[]
+
+  @@index([createdBy])
+  @@map("workspace")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
+
+model WorkspaceMember {
+  id          String   @id @default(cuid())
+  userId      String
+  workspaceId String
+  role        Role     @default(MEMBER)
+  joinedAt    DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([workspaceId])
+  @@map("workspaceMember")
+}
+
+model NotificationPreference {
+  id                 String  @id @default(cuid())
+  userId             String
+  emailNotifications Boolean @default(true)
+  pushNotifications  Boolean @default(true)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("notificationPreference")
 }
