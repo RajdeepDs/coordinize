@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useOnboardingStore } from "@/store/onboarding-store";
-import { useUploadThing } from "@/utils/lib";
+import { useUploadThing } from "@/utils/uploadthing";
 import { AvatarUploadField } from "@coordinize/ui/components/avatar-upload";
 import { Button } from "@coordinize/ui/components/button";
 import {
@@ -31,7 +31,11 @@ const formSchema = z.object({
   workspaceLogoFile: z.any().optional(),
 });
 
-export function WorkspaceSetup() {
+interface WorkspaceSetupProps {
+  nextStep: () => void;
+}
+
+export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
   const { setField } = useOnboardingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -57,7 +61,7 @@ export function WorkspaceSetup() {
     try {
       let workspaceLogoUrl = values.workspaceLogo;
 
-      // If a new image was selected, upload it
+      // If a file is uploaded, upload it and get the URL
       if (values.workspaceLogoFile instanceof File) {
         const uploaded = await startUpload([values.workspaceLogoFile]);
         workspaceLogoUrl = uploaded?.[0]?.ufsUrl || "";
@@ -66,6 +70,8 @@ export function WorkspaceSetup() {
       setField("workspaceName", values.workspaceName);
       setField("workspaceURL", values.workspaceSlug);
       setField("workspaceLogo", workspaceLogoUrl);
+
+      nextStep();
     } catch (error) {
       console.error("Error submitting form:", error);
     }

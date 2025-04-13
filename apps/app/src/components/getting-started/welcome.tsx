@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useOnboardingStore } from "@/store/onboarding-store";
-import { useUploadThing } from "@/utils/lib";
+import { useUploadThing } from "@/utils/uploadthing";
 import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
 import { Button } from "@coordinize/ui/button";
 import {

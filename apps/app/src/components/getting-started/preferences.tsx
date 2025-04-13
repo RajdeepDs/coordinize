@@ -1,12 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { onboardingAction } from "@/actions/onboarding-action";
 import TimezoneSelect from "@/components/ui/timezone-select";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { Button } from "@coordinize/ui/button";
+import { toast } from "@coordinize/ui/components/sonner";
 import {
   Form,
   FormControl,
@@ -15,11 +19,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@coordinize/ui/form";
+import { Icons } from "@coordinize/ui/lib/icons";
 import { Switch } from "@coordinize/ui/switch";
-
-type PreferencesProps = {
-  nextStep: () => void;
-};
 
 const preferencesSchema = z.object({
   emailNotifications: z.boolean(),
@@ -27,12 +28,21 @@ const preferencesSchema = z.object({
   timezone: z.string().min(1),
 });
 
-type PreferencesValues = z.infer<typeof preferencesSchema>;
-
 export function Preferences() {
-  const { setField } = useOnboardingStore();
+  const {
+    reset: storeReset,
+    setField,
+    preferredName,
+    profilePic,
+    workspaceName,
+    workspaceURL,
+    workspaceLogo,
+    emailNotifications,
+    pushNotifications,
+    timezone,
+  } = useOnboardingStore();
 
-  const form = useForm<PreferencesValues>({
+  const form = useForm<z.infer<typeof preferencesSchema>>({
     resolver: zodResolver(preferencesSchema),
     defaultValues: {
       emailNotifications: true,
@@ -41,12 +51,37 @@ export function Preferences() {
     },
   });
 
-  const onSubmit = async (value: PreferencesValues) => {
-    setField("emailNotifications", value.emailNotifications);
-    setField("pushNotifications", value.pushNotifications);
-    setField("timezone", value.timezone);
+  const { execute, isExecuting } = useAction(onboardingAction, {
+    onError: ({ error }) => {
+      toast.error(error.serverError as string);
+    },
+    onSuccess: () => {
+      toast.success("Welcome aboard!", {
+        description: "Your workspace is all set up and ready to go 🚀",
+      });
+    },
+    onSettled: () => {
+      form.reset();
+      storeReset();
+      redirect("/"); // TODO: Redirect to the workspace home page once it's created. - '/{workspaceId}/'
+    },
+  });
 
-    // A Server action would go here - to submit the form data to the server.
+  const onSubmit = async (values: z.infer<typeof preferencesSchema>) => {
+    setField("emailNotifications", values.emailNotifications);
+    setField("pushNotifications", values.pushNotifications);
+    setField("timezone", values.timezone);
+
+    execute({
+      preferredName,
+      profilePicURL: profilePic,
+      workspaceName,
+      workspaceURL,
+      workspaceLogoURL: workspaceLogo,
+      emailNotifications,
+      pushNotifications,
+      timezone,
+    });
   };
 
   return (
@@ -98,8 +133,12 @@ export function Preferences() {
           )}
         />
 
-        <Button type="submit" className="w-full">
-          Finish Setup
+        <Button type="submit" className="w-full" disabled={isExecuting}>
+          {isExecuting ? (
+            <Icons.loader className="animate-spin" />
+          ) : (
+            "Get Started"
+          )}
         </Button>
       </form>
     </Form>
