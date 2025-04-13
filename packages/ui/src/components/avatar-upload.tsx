@@ -83,9 +83,9 @@ export function AvatarUploadField({
               e.stopPropagation();
               removeImage();
             }}
-            className="absolute top-0 right-0 m-1 rounded-full bg-background p-1 shadow-md hover:bg-muted"
+            className="absolute top-0 right-0 m-1 rounded-full bg-background p-0.5 shadow-md hover:bg-muted"
           >
-            <X className="h-4 w-4 text-red-500" />
+            <X className="size-3 text-red-500" />
           </button>
         )}
       </div>

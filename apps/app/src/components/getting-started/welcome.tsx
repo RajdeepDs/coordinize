@@ -1,11 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { getCurrentUser } from "@/queries/cached-queries";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useUploadThing } from "@/utils/uploadthing";
+import type { User } from "@coordinize/database/db";
 import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
 import { Button } from "@coordinize/ui/button";
 import {
@@ -21,7 +24,9 @@ import { Icons } from "@coordinize/ui/lib/icons";
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
-  profilePicFile: z.any().optional(),
+  profilePicFile: z
+    .custom<File>((val) => val instanceof File || val === null)
+    .optional(),
   preferredName: z.string().min(1, {
     message: "Preferred name is required",
   }),
@@ -32,6 +37,8 @@ interface WelcomeProps {
 }
 
 export function Welcome({ nextStep }: WelcomeProps) {
+  const [user, setUser] = useState<User | null>(null);
+
   const { setField } = useOnboardingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,11 +46,30 @@ export function Welcome({ nextStep }: WelcomeProps) {
     defaultValues: {
       profilePic: "",
       preferredName: "",
-      profilePicFile: null,
+      profilePicFile: undefined,
     },
   });
 
   const { startUpload } = useUploadThing("imageUploader");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await getCurrentUser();
+
+      setUser(userData);
+
+      if (userData) {
+        form.reset({
+          profilePic: userData.image ?? "",
+          preferredName: userData.name,
+        });
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  if (!user) return null;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -52,7 +78,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
       // If a file is uploaded, upload it and get the URL
       if (values.profilePicFile instanceof File) {
         const uploaded = await startUpload([values.profilePicFile]);
-        profilePicUrl = uploaded?.[0]?.ufsUrl || "";
+        profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? "";
       }
 
       setField("preferredName", values.preferredName);
@@ -87,7 +113,11 @@ export function Welcome({ nextStep }: WelcomeProps) {
             <FormItem>
               <FormLabel>Preferred name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter your name" />
+                <Input
+                  {...field}
+                  placeholder="Enter your name"
+                  className={user && "bg-muted"}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

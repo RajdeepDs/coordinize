@@ -1,6 +1,7 @@
 "use server";
 
 import { Prisma } from "@coordinize/database/db";
+import { redirect } from "next/navigation";
 import { authActionClient } from "./safe-action";
 import { onboardingSchema } from "./schema";
 
@@ -62,9 +63,15 @@ export const onboardingAction = authActionClient
               },
             }),
           ]);
-        });
+          tx.user.update({
+            where: { id: user.id },
+            data: {
+              onboarded: true,
+            },
+          });
 
-        return { success: true };
+          redirect(`/${workspace.slug}`);
+        });
       } catch (error) {
         console.error("Onboarding action failed:", error);
 
