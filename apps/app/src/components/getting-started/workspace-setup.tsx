@@ -44,7 +44,7 @@ export function WorkspaceSetup() {
     },
   });
 
-  const { startUpload } = useUploadThing("workspaceLogoUploader");
+  const { startUpload } = useUploadThing("imageUploader");
 
   const workspaceName = form.watch("workspaceName");
 
@@ -77,7 +77,7 @@ export function WorkspaceSetup() {
         <FormField
           control={form.control}
           name="workspaceLogo"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Workspace logo</FormLabel>
               <FormControl>

@@ -52,7 +52,7 @@ export default function OnboardingPage() {
             {headers[stepIndex]?.description}
           </p>
         </div>
-        <CurrentStepComponent />
+        <CurrentStepComponent nextStep={goToNext} />
       </div>
     </div>
   );

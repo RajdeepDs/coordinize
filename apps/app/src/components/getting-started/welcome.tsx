@@ -27,7 +27,11 @@ const formSchema = z.object({
   }),
 });
 
-export function Welcome() {
+interface WelcomeProps {
+  nextStep: () => void;
+}
+
+export function Welcome({ nextStep }: WelcomeProps) {
   const { setField } = useOnboardingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,13 +43,13 @@ export function Welcome() {
     },
   });
 
-  const { startUpload } = useUploadThing("profilePicUploader");
+  const { startUpload } = useUploadThing("imageUploader");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       let profilePicUrl = values.profilePic;
 
-      // If a new image was selected, upload it
+      // If a file is uploaded, upload it and get the URL
       if (values.profilePicFile instanceof File) {
         const uploaded = await startUpload([values.profilePicFile]);
         profilePicUrl = uploaded?.[0]?.ufsUrl || "";
@@ -53,6 +57,8 @@ export function Welcome() {
 
       setField("preferredName", values.preferredName);
       setField("profilePic", profilePicUrl);
+
+      nextStep();
     } catch (error) {
       console.error("Error submitting form:", error);
     }
