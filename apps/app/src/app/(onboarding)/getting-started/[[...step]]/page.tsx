@@ -5,6 +5,7 @@ import { Welcome } from "@/components/getting-started/welcome";
 import { WorkspaceSetup } from "@/components/getting-started/workspace-setup";
 import { OnboardingStepper } from "@/components/ui/onboarding-stepper";
 import { onboardingSteps } from "@/config/onboarding-steps";
+import { motion } from "motion/react";
 import { useParams, useRouter } from "next/navigation";
 
 const stepComponents = {
@@ -43,7 +44,12 @@ export default function OnboardingPage() {
     else router.push("/");
   };
   return (
-    <div className="flex w-full flex-col gap-10">
+    <motion.div
+      className="flex w-full flex-col gap-10"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, ease: "easeInOut" }}
+    >
       <OnboardingStepper />
       <div className="flex flex-col gap-6">
         <div className="flex flex-col">
@@ -54,6 +60,6 @@ export default function OnboardingPage() {
         </div>
         <CurrentStepComponent nextStep={goToNext} />
       </div>
-    </div>
+    </motion.div>
   );
 }

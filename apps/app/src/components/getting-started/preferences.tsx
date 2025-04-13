@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
-import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -57,13 +56,12 @@ export function Preferences() {
     },
     onSuccess: () => {
       toast.success("Welcome aboard!", {
-        description: "Your workspace is all set up and ready to go 🚀",
+        description: "Your workspace is all set up and ready to go.",
       });
     },
     onSettled: () => {
       form.reset();
       storeReset();
-      redirect("/"); // TODO: Redirect to the workspace home page once it's created. - '/{workspaceId}/'
     },
   });
 
