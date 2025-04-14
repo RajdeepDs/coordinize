@@ -36,3 +36,14 @@ export const getUser = cache(async () => {
     },
   )();
 });
+
+export async function getCurrentUser() {
+  const session = await getSession();
+
+  const userId = session?.userId;
+
+  if (!userId) {
+    return null;
+  }
+  return getUserQuery(userId);
+}

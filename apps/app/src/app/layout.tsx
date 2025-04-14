@@ -1,8 +1,12 @@
 import "@coordinize/ui/globals.css";
-import { DesignSystemProvider } from "@coordinize/ui/providers";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
+import { router } from "@/utils/upload";
+import { extractRouterConfig } from "@coordinize/storage";
+import { StorageSSRPlugin } from "@coordinize/storage/ssr";
+import { DesignSystemProvider } from "@coordinize/ui/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +38,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
+        <StorageSSRPlugin routerConfig={extractRouterConfig(router)} />
         <DesignSystemProvider>
           {children}
           <VercelAnalytics />
