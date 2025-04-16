@@ -32,7 +32,7 @@ Coordinize is built using modern and reliable technologies:
 ### Hosting
 
 - Neon DB (database)
-- Vercel Blob (Storage)
+- UploadThing (Storage)
 - Vercel (Website)
 - Upstash (redis)
 - BaseHub CMS (Documentation)
@@ -60,3 +60,7 @@ For questions, suggestions, or support, feel free to reach out:
 - **Email:** [rajdeepds626@gmail.com](mailto:rajdeepds626@gmail.com)
 
 Coordinize your global team, simplify your workflow.
+
+## Repo Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/9c53d1ddae02846e54135793035500f3cacfb5e7.svg "Repobeats analytics image")

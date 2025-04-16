@@ -12,7 +12,9 @@
     "lint": "biome check .",
     "format": "biome --write .",
     "typecheck": "tsc --noEmit",
-    "db:migrate": "npx prisma format && npx prisma generate && npx prisma db push"
+    "db:generate": "npx prisma format && npx prisma generate",
+    "db:migrate": "npx prisma format && npx prisma generate && npx prisma db push",
+    "db:postinstall": "prisma migrate deploy"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
