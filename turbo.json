@@ -17,7 +17,7 @@
         "NEXT_PUBLIC_WEB_URL"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate", "^db:deploy"],
       "outputs": [
         ".next/**",
         "!.next/cache/**",
@@ -27,18 +27,22 @@
         ".react-email/*"
       ]
     },
-    "start": {
+    "db:generate": {
       "cache": false
     },
-    "test": {
+    "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:deploy": {
       "cache": false
     },
     "dev": {
+      "dependsOn": ["^db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
       "persistent": true,
       "cache": false
     },
-    "format": {},
     "lint": {
       "dependsOn": ["^topo"]
     },

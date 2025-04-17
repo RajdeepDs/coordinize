@@ -16,9 +16,10 @@
     "start:app": "turbo start --filter=@coordinize/app",
     "dev:app": "turbo dev --filter=@coordinize/app ",
     "docker:up": "docker compose up -d",
-    "db:generate": "cd packages/database && bun run db:generate",
-    "db:migrate": "cd packages/database && bun run db:migrate",
-    "postinstall": "cd packages/database && bun run db:postinstall"
+    "db:generate": "turbo db:generate --filter=@coordinize/database",
+    "db:migrate": "turbo db:migrate --filter=@coordinize/database",
+    "db:deploy": "turbo db:deploy --filter=@coordinize/database",
+    "postinstall": "bun run db:generate"
   },
   "dependencies": {
     "@biomejs/biome": "1.9.4",
