@@ -33,7 +33,9 @@ jobs:
 
       # Run Prisma migrations (apply changes to production database)
       - name: Apply Prisma Migrations
-        run: bun run db:deploy --filter=@coordinize/database
+        run: |
+          cd packages/database
+          npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
