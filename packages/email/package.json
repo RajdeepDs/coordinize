@@ -16,10 +16,10 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@coordinize/tsconfig": "workspace:*",
     "@types/node": "^22.13.14",
     "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
-    "@coordinize/tsconfig": "workspace:*",
+    "@types/react-dom": "^19",
     "typescript": "^5.8.2"
   },
   "exports": {

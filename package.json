@@ -21,14 +21,14 @@
     "db:deploy": "turbo db:deploy --filter=@coordinize/database",
     "postinstall": "bun run db:generate"
   },
-  "dependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@manypkg/cli": "^0.23.0",
-    "turbo": "2.3.3",
-    "typescript": "^5.7.2"
-  },
   "packageManager": "bun@1.1.38",
   "resolutions": {
     "jackspeak": "2.1.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@manypkg/cli": "^0.23.0",
+    "turbo": "2.3.3",
+    "typescript": "^5.8.2"
   }
 }

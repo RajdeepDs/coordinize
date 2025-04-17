@@ -26,9 +26,9 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@coordinize/tsconfig": "workspace:*",
     "@types/node": "^22.13.14",
     "@types/ws": "^8.18.0",
-    "@coordinize/tsconfig": "workspace:*",
     "bufferutil": "^4.0.9",
     "prisma": "^6.5.0",
     "typescript": "^5.8.2"

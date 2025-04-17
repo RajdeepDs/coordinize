@@ -17,7 +17,7 @@
         "NEXT_PUBLIC_WEB_URL"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env"],
-      "dependsOn": ["^build", "^db:generate", "^db:deploy"],
+      "dependsOn": ["^build", "^db:generate"],
       "outputs": [
         ".next/**",
         "!.next/cache/**",

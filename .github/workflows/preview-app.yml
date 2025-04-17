@@ -1,0 +1,35 @@
+name: Preview Deployment - app
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+on:
+  pull_request:
+    paths: 
+      - 'apps/app/**'
+      - 'packages/**'
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v2
+
+      # Setup Bun
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: bun install
+
+
+      # Generate Prisma Client
+      - name: Generate Prisma Client
+        run: bun run db:generate --filter=@coordinize/database
+
+      # Deploy to Vercel (Preview)
+      - name: Deploy to Vercel
+        run: npx vercel deploy --cwd=apps/app --token=${{ secrets.VERCEL_TOKEN }}

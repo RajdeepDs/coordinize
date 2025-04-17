@@ -1,0 +1,42 @@
+name: Production Deployment - app
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+on:
+  push:
+    branches:
+      - main
+    paths: 
+      - 'apps/app/**'
+      - 'packages/**'
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - uses: actions/checkout@v4
+
+      # Setup Bun
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: bun install
+
+      # Generate Prisma Client (to ensure up-to-date client)
+      - name: Generate Prisma Client
+        run: bun run db:generate --filter=@coordinize/database
+
+      # Run Prisma migrations (apply changes to production database)
+      - name: Apply Prisma Migrations
+        run: bun run db:deploy --filter=@coordinize/database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      # Deploy to Vercel
+      - name: Deploy to Vercel
+        run: npx vercel deploy --prod --cwd=apps/app --token=${{ secrets.VERCEL_TOKEN }}

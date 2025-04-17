@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack -p 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "format": "biome format --write .",
     "clean": "git clean -xdf .next .turbo node_modules",
     "typecheck": "tsc --noEmit"
@@ -22,7 +21,7 @@
     "@t3-oss/env-nextjs": "^0.12.0",
     "@vercel/analytics": "^1.5.0",
     "motion": "^12.6.2",
-    "next": "15.2.4",
+    "next": "^15.2.4",
     "next-safe-action": "^7.10.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -30,12 +29,12 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
     "@coordinize/tsconfig": "workspace:*",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5.8.2"
   }
 }
