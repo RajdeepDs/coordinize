@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useUploadThing } from "@/utils/uploadthing";
-import { AvatarUploadField } from "@coordinize/ui/components/avatar-upload";
+import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import { Button } from "@coordinize/ui/components/button";
 import {
   Form,
@@ -87,7 +87,12 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
             <FormItem>
               <FormLabel>Workspace logo</FormLabel>
               <FormControl>
-                <AvatarUploadField name="workspaceLogo" size="sm" />
+                <AvatarUploader
+                  onChange={(file) =>
+                    form.setValue("workspaceLogoFile", file || undefined)
+                  }
+                  previewUrl={form.getValues("workspaceLogo")}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

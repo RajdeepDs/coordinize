@@ -9,8 +9,8 @@ import { getCurrentUser } from "@/queries/cached-queries";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useUploadThing } from "@/utils/uploadthing";
 import type { User } from "@coordinize/database/db";
-import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
 import { Button } from "@coordinize/ui/button";
+import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import {
   Form,
   FormControl,
@@ -100,7 +100,12 @@ export function Welcome({ nextStep }: WelcomeProps) {
             <FormItem>
               <FormLabel>Profile Picture</FormLabel>
               <FormControl>
-                <AvatarUploadField name="profilePic" size="sm" />
+                <AvatarUploader
+                  onChange={(file) =>
+                    form.setValue("profilePicFile", file || undefined)
+                  }
+                  previewUrl={form.getValues("profilePic")}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
