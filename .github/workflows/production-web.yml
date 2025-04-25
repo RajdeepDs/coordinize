@@ -38,7 +38,3 @@ jobs:
           npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-      # Deploy to Vercel
-      - name: Deploy to Vercel
-        run: npx vercel deploy --prod --cwd=apps/web --token=${{ secrets.VERCEL_TOKEN }}
