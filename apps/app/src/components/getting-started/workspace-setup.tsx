@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -36,6 +36,8 @@ interface WorkspaceSetupProps {
 }
 
 export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
+  const [submitting, setSubmitting] = useState(false);
+
   const { setField } = useOnboardingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -58,6 +60,7 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
   }, [workspaceName, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSubmitting(true);
     try {
       let workspaceLogoUrl = values.workspaceLogo;
 
@@ -74,6 +77,8 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
       nextStep();
     } catch (error) {
       console.error("Error submitting form:", error);
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -124,10 +129,15 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
             </FormItem>
           )}
         />
-
-        <Button type="submit" className="w-full">
-          Next
-          <Icons.arrowRight />
+        <Button type="submit" className="w-full" disabled={submitting}>
+          {submitting ? (
+            <Icons.loader className="animate-spin" />
+          ) : (
+            <>
+              Next
+              <Icons.arrowRight />
+            </>
+          )}
         </Button>
       </form>
     </Form>
