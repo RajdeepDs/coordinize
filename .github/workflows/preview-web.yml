@@ -8,6 +8,8 @@ on:
     paths: 
       - 'apps/web/**'
       - 'packages/**'
+      - '*'
+      - '!*.md'
 
 jobs:
   deploy-preview:
@@ -28,3 +30,7 @@ jobs:
       # Generate Prisma Client
       - name: Generate Prisma Client
         run: bun run db:generate --filter=@coordinize/database
+       
+      # Deploy to Vercel (Preview)
+      - name: Deploy to Vercel
+        run: npx vercel deploy --yes --cwd=apps/web --token=${{ secrets.VERCEL_TOKEN }}

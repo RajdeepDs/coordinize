@@ -7,9 +7,12 @@ on:
   push:
     branches:
       - main
+    
     paths: 
       - 'apps/app/**'
       - 'packages/**'
+      - '*'
+      - '!*.md'
 
 jobs:
   deploy-production:
@@ -38,3 +41,8 @@ jobs:
           npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      
+      # Trigger Vercel cloud build + deploy
+      - name: Trigger Vercel Deployment
+        run: |
+          npx vercel deploy --prod --yes --cwd=apps/app --token=${{secrets.VERCEL_TOKEN}} 

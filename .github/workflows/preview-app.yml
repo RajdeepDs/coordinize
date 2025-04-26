@@ -8,16 +8,18 @@ on:
     paths: 
       - 'apps/app/**'
       - 'packages/**'
+      - '*'
+      - '!*.md'
 
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # Setup Bun
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
@@ -25,7 +27,10 @@ jobs:
       - name: Install Dependencies
         run: bun install
 
-
       # Generate Prisma Client
       - name: Generate Prisma Client
         run: bun run db:generate --filter=@coordinize/database
+
+      # Deploy to Vercel (Preview)
+      - name: Deploy to Vercel
+        run: npx vercel deploy --cwd=apps/app --token=${{ secrets.VERCEL_TOKEN }}
