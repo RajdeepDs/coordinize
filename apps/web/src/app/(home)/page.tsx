@@ -1,10 +1,14 @@
 import { env } from "@/env";
+import { getWaitlistCount } from "@/queries";
 import { Button } from "@coordinize/ui/components/button";
+import { cn } from "@coordinize/ui/lib/utils";
 import Link from "next/link";
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
-export default function Home() {
+export default async function Home() {
+  const count = await getWaitlistCount();
+
   return (
     <>
       <div className="-translate-x-1/2 -top-0 pointer-events-none absolute left-1/2 hidden h-[800px] w-[90%] max-w-[1600px] sm:block">
@@ -25,19 +29,32 @@ export default function Home() {
             and get things done—without the distractions of endless meetings.
           </p>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button variant={"default"} className="font-normal" asChild>
-            <Link href={`${APP_URL}/join-waitlist`}>Join private beta!</Link>
-          </Button>
-          <Button variant={"outline"} className="font-normal" asChild>
-            <Link
-              href="https://github.com/Coordinize/coordinize"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more
-            </Link>
-          </Button>
+        <div className="flex flex-col items-center justify-center gap-4">
+          <div className="flex gap-4">
+            <Button variant={"default"} className="font-normal" asChild>
+              <Link href={`${APP_URL}/join-waitlist`}>Join private beta!</Link>
+            </Button>
+            <Button variant={"outline"} className="font-normal" asChild>
+              <Link
+                href="https://github.com/Coordinize/coordinize"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn more
+              </Link>
+            </Button>
+          </div>
+          <p
+            className={cn(
+              "text-muted-foreground text-sm",
+              count < 10 && "hidden",
+            )}
+          >
+            <span className="font-semibold text-primary tabular-nums">
+              {count}
+            </span>{" "}
+            people have already joined the waitlist.
+          </p>
         </div>
       </div>
     </>

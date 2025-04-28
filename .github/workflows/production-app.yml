@@ -2,6 +2,13 @@ name: Production Deployment - app
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_APP }}
+
+# Add concurrency to prevent multiple production deployments
+concurrency:
+  group: "production-app"
+  cancel-in-progress: false
 
 on:
   push:
@@ -14,6 +21,7 @@ on:
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       # Checkout the code
       - uses: actions/checkout@v4
@@ -22,6 +30,10 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+
+      # Install Vercel CLI
+      - name: Install Vercel CLI
+        run: bun install --global vercel@latest
 
       # Install dependencies
       - name: Install Dependencies
@@ -39,6 +51,17 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      # Deploy to Vercel
+      # Pull Vercel Environment Information
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/app
+
+      # Build Project Artifacts
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/app
+      
+      # Deploy to Vercel Production
       - name: Deploy to Vercel
-        run: npx vercel deploy --prod --cwd=apps/app --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/app
