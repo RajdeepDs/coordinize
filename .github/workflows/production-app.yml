@@ -17,6 +17,8 @@ on:
     paths: 
       - 'apps/app/**'
       - 'packages/**'
+      - '*'
+      - '!apps/web/**'
 
 jobs:
   deploy-production:
@@ -47,21 +49,21 @@ jobs:
       - name: Apply Prisma Migrations
         run: |
           cd packages/database
-          npx prisma migrate deploy
+          bunx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       # Pull Vercel Environment Information
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: bunx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: apps/app
 
       # Build Project Artifacts
       - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: bunx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: apps/app
       
       # Deploy to Vercel Production
       - name: Deploy to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: bunx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: apps/app

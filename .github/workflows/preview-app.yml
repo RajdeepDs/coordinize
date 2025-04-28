@@ -15,6 +15,8 @@ on:
     paths: 
       - 'apps/app/**'
       - 'packages/**'
+      - '*'
+      - '!apps/web/**'
 
 jobs:
   deploy-preview:
@@ -42,15 +44,15 @@ jobs:
 
       # Pull Vercel Environment Information
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: bunx vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: apps/app
 
       # Build Project Artifacts
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: bunx vercel build --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: apps/app
 
       # Deploy to Vercel
       - name: Deploy to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: bunx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: apps/app
