@@ -23,6 +23,7 @@ model User {
   updatedAt              DateTime                 @updatedAt
   timezone               String?
   onboarded              Boolean                  @default(false)
+  defaultWorkspace       String? //slug of the user's default workspace
   Session                Session[]
   Account                Account[]
   Workspace              Workspace[]
@@ -30,6 +31,7 @@ model User {
   NotificationPreference NotificationPreference[]
 
   @@unique([email])
+  @@index(defaultWorkspace)
   @@map("user")
 }
 
