@@ -1,10 +1,8 @@
-// Import required dependencies
 import { betterFetch } from "@better-fetch/fetch";
 import { type NextRequest, NextResponse } from "next/server";
 import type { auth } from "../auth";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
 
-// Define Session type from auth inference
 type Session = typeof auth.$Infer.Session;
 
 /**
@@ -13,7 +11,6 @@ type Session = typeof auth.$Infer.Session;
  * @returns NextResponse object with appropriate routing/redirect
  */
 export async function authMiddleware(request: NextRequest) {
-  // Extract URL information from the request
   const { nextUrl } = request;
 
   // Determine route types based on pathname
@@ -21,7 +18,6 @@ export async function authMiddleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  // Get the session using betterFetch (server-side session fetch)
   const { data: session } = await betterFetch<Session>(
     "/api/auth/get-session",
     {
@@ -37,7 +33,7 @@ export async function authMiddleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Handle authentication routes (login, register, etc.)
+  // Handle authentication routes (private-beta, sign-up, etc.)
   if (isAuthRoute) {
     // If user is already authenticated, redirect to their default workspace
     if (session) {
@@ -64,10 +60,6 @@ export async function authMiddleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-/**
- * Configuration for the middleware
- * Defines URL patterns to match for middleware execution
- */
 export const config = {
   matcher: [
     // Match all routes except static assets, public routes, and specific paths
