@@ -56,14 +56,11 @@ jobs:
       # Pull Vercel Environment Information
       - name: Pull Vercel Environment Information
         run: bunx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: apps/app
 
       # Build Project Artifacts
       - name: Build Project Artifacts
         run: bunx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: apps/app
       
       # Deploy to Vercel Production
       - name: Deploy to Vercel
         run: bunx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: apps/app
