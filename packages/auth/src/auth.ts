@@ -8,6 +8,18 @@ export const auth = betterAuth({
   database: prismaAdapter(database, {
     provider: "postgresql",
   }),
+  user: {
+    additionalFields: {
+      onboarded: {
+        type: "boolean",
+        defaultValue: false,
+      },
+      defaultWorkspace: {
+        type: "string",
+        defaultValue: null,
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     autoSignIn: false,
@@ -15,7 +27,7 @@ export const auth = betterAuth({
   },
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
-      // Only allow to sign up if the user is on the early acces list
+      // Only allow to sign up if the user is on the early access list
       if (ctx.path.startsWith("/sign-up")) {
         const email = ctx.body.email.toLowerCase() as string;
 
