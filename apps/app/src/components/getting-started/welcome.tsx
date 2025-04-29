@@ -9,8 +9,8 @@ import { getCurrentUser } from "@/queries/cached-queries";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useUploadThing } from "@/utils/uploadthing";
 import type { User } from "@coordinize/database/db";
-import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
 import { Button } from "@coordinize/ui/button";
+import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import {
   Form,
   FormControl,
@@ -38,6 +38,7 @@ interface WelcomeProps {
 
 export function Welcome({ nextStep }: WelcomeProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const { setField } = useOnboardingStore();
 
@@ -72,6 +73,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
   if (!user) return null;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSubmitting(true);
     try {
       let profilePicUrl = values.profilePic;
 
@@ -87,6 +89,8 @@ export function Welcome({ nextStep }: WelcomeProps) {
       nextStep();
     } catch (error) {
       console.error("Error submitting form:", error);
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -100,7 +104,12 @@ export function Welcome({ nextStep }: WelcomeProps) {
             <FormItem>
               <FormLabel>Profile Picture</FormLabel>
               <FormControl>
-                <AvatarUploadField name="profilePic" size="sm" />
+                <AvatarUploader
+                  onChange={(file) =>
+                    form.setValue("profilePicFile", file || undefined)
+                  }
+                  previewUrl={form.getValues("profilePic")}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,9 +132,15 @@ export function Welcome({ nextStep }: WelcomeProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Next
-          <Icons.arrowRight />
+        <Button type="submit" className="w-full" disabled={submitting}>
+          {submitting ? (
+            <Icons.loader className="animate-spin" />
+          ) : (
+            <>
+              Next
+              <Icons.arrowRight />
+            </>
+          )}
         </Button>
       </form>
     </Form>

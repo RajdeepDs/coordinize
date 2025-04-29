@@ -1,6 +1,5 @@
 "use server";
 
-import { Prisma } from "@coordinize/database/db";
 import { redirect } from "next/navigation";
 import { authActionClient } from "./safe-action";
 import { onboardingSchema } from "./schema";
@@ -24,64 +23,55 @@ export const onboardingAction = authActionClient
       },
       ctx: { user, db },
     }) => {
-      try {
-        await db.$transaction(async (tx) => {
-          // Update user profile
-          await tx.user.update({
-            where: { id: user.id },
-            data: {
-              name: preferredName,
-              image: profilePicURL,
-              timezone,
-            },
-          });
-
-          // Create workspace
-          const workspace = await tx.workspace.create({
-            data: {
-              name: workspaceName,
-              slug: workspaceURL,
-              logo: workspaceLogoURL,
-              createdBy: user.id,
-            },
-          });
-
-          // Create workspace membership and preferences
-          await Promise.all([
-            tx.workspaceMember.create({
-              data: {
-                workspaceId: workspace.id,
-                userId: user.id,
-                role: "ADMIN",
-              },
-            }),
-            tx.notificationPreference.create({
-              data: {
-                emailNotifications,
-                pushNotifications,
-                userId: user.id,
-              },
-            }),
-          ]);
-          tx.user.update({
-            where: { id: user.id },
-            data: {
-              onboarded: true,
-            },
-          });
-
-          redirect(`/${workspace.slug}`);
+      await db.$transaction(async (tx) => {
+        // Update user profile
+        await tx.user.update({
+          where: { id: user.id },
+          data: {
+            name: preferredName,
+            image: profilePicURL,
+            timezone,
+          },
         });
-      } catch (error) {
-        console.error("Onboarding action failed:", error);
 
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === "P2002") {
-            throw new Error("Workspace URL already exists.");
-          }
-        }
+        // Create workspace
+        const workspace = await tx.workspace.create({
+          data: {
+            name: workspaceName,
+            slug: workspaceURL,
+            logo: workspaceLogoURL,
+            createdBy: user.id,
+          },
+        });
 
-        throw new Error("Failed to complete onboarding process");
-      }
+        // Create workspace membership and preferences
+        await Promise.all([
+          tx.workspaceMember.create({
+            data: {
+              workspaceId: workspace.id,
+              userId: user.id,
+              role: "ADMIN",
+            },
+          }),
+          tx.notificationPreference.create({
+            data: {
+              emailNotifications,
+              pushNotifications,
+              userId: user.id,
+            },
+          }),
+        ]);
+
+        // Mark user as onboarded
+        await tx.user.update({
+          where: { id: user.id },
+          data: {
+            onboarded: true,
+          },
+        });
+
+        // Redirect after successful onboarding
+        redirect(`/${workspaceURL}`);
+      });
     },
   );
