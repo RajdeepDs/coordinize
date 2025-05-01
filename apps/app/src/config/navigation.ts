@@ -2,7 +2,6 @@ export type NavItem = {
   title: string;
   href: string;
   icon: string;
-  requiresAdmin?: boolean;
 };
 
 export type SidebarSection = {
@@ -10,7 +9,7 @@ export type SidebarSection = {
   items: NavItem[];
 };
 
-export const settingsSidebar: SidebarSection[] = [
+export const settingsSidebarNav: SidebarSection[] = [
   {
     title: "Account",
     items: [
@@ -30,7 +29,7 @@ export const settingsSidebar: SidebarSection[] = [
         icon: "bellDot",
       },
       {
-        title: "Security",
+        title: "Security & Access",
         href: "/settings/security",
         icon: "sheildUser",
       },
@@ -43,25 +42,21 @@ export const settingsSidebar: SidebarSection[] = [
         title: "Workspace",
         href: "/settings/workspace",
         icon: "command",
-        requiresAdmin: true,
       },
       {
         title: "Teams",
         href: "/settings/teams",
         icon: "userSquare",
-        requiresAdmin: true,
       },
       {
         title: "Members",
         href: "/settings/members",
         icon: "users",
-        requiresAdmin: true,
       },
       {
         title: "Billing",
         href: "/settings/billing",
         icon: "creditCard",
-        requiresAdmin: true,
       },
     ],
   },
