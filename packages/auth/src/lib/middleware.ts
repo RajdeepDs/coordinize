@@ -1,22 +1,19 @@
 import { betterFetch } from "@better-fetch/fetch";
+import type { OnboardingStep } from "@coordinize/database/db"; // Make sure this import works
 import { type NextRequest, NextResponse } from "next/server";
 import type { auth } from "../auth";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
 
 type Session = typeof auth.$Infer.Session;
 
-/**
- * Middleware function to handle authentication and routing logic
- * @param request - The incoming Next.js request object
- * @returns NextResponse object with appropriate routing/redirect
- */
 export async function authMiddleware(request: NextRequest) {
   const { nextUrl } = request;
 
-  // Determine route types based on pathname
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const pathname = nextUrl.pathname;
+  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(pathname);
+  const isAuthRoute = authRoutes.includes(pathname);
+  const isOnboardingRoute = pathname.startsWith("/getting-started");
 
   const { data: session } = await betterFetch<Session>(
     "/api/auth/get-session",
@@ -28,35 +25,45 @@ export async function authMiddleware(request: NextRequest) {
     },
   );
 
-  // Allow API authentication routes to proceed without interference
-  if (isApiAuthRoute) {
-    return NextResponse.next();
-  }
+  // Skip all logic for auth APIs
+  if (isApiAuthRoute) return NextResponse.next();
 
-  // Handle authentication routes (private-beta, sign-up, etc.)
-  if (isAuthRoute) {
-    // If user is already authenticated, redirect to their default workspace
-    if (session) {
-      // Redirect to welcome page if user is not onboarded
-      if (!session.user.onboarded) {
-        return NextResponse.redirect(
-          new URL("/getting-started/welcome", nextUrl),
-        );
+  // ---------- USER IS LOGGED IN ----------
+  if (session) {
+    const { onboarded, onboardingStep, defaultWorkspace } = session.user;
+
+    if (!onboarded) {
+      const onboardingRouteMap: Record<OnboardingStep, string> = {
+        WELCOME: "welcome",
+        WORKSPACE_SETUP: "workspace-setup",
+        PREFERENCES: "preferences",
+      };
+
+      const currentStepPath = `/getting-started/${onboardingRouteMap[onboardingStep as OnboardingStep]}`;
+
+      if (!pathname.startsWith(currentStepPath)) {
+        return NextResponse.redirect(new URL(currentStepPath, nextUrl));
       }
-      const defaultWorkspace = session?.user.defaultWorkspace ?? "private-beta";
-      return NextResponse.redirect(new URL(`/${defaultWorkspace}`, nextUrl));
+
+      return NextResponse.next();
     }
 
-    // Allow unauthenticated users to access auth routes
+    // ✅ If user is onboarded and on an auth route → redirect to their default workspace
+    if (isAuthRoute || pathname === "/" || isOnboardingRoute) {
+      return NextResponse.redirect(
+        new URL(`/${defaultWorkspace || "private-beta"}`, nextUrl),
+      );
+    }
+
+    // Proceed normally otherwise
     return NextResponse.next();
   }
 
-  // Redirect unauthenticated users to private-beta page for protected routes
+  // ---------- 🕵️ USER NOT LOGGED IN ----------
   if (!session && !isPublicRoute) {
     return NextResponse.redirect(new URL("/private-beta", nextUrl));
   }
 
-  // Allow request to proceed for authenticated users or public routes
   return NextResponse.next();
 }
 
