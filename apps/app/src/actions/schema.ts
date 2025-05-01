@@ -15,3 +15,8 @@ export const onboardingSchema = z.object({
   pushNotifications: z.boolean(),
   timezone: z.string(),
 });
+
+export const welcomeStepSchema = z.object({
+  preferredName: z.string(),
+  profilePicURL: z.string().url().optional(),
+});
