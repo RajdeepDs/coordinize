@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -21,7 +22,6 @@ import {
 } from "@coordinize/ui/components/form";
 import { Input } from "@coordinize/ui/components/input";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { useAction } from "next-safe-action/hooks";
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),

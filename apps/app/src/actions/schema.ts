@@ -5,17 +5,6 @@ export const joinWaitlistSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
 });
 
-export const onboardingSchema = z.object({
-  preferredName: z.string(),
-  profilePicURL: z.string(),
-  workspaceName: z.string(),
-  workspaceURL: z.string(),
-  workspaceLogoURL: z.string(),
-  emailNotifications: z.boolean(),
-  pushNotifications: z.boolean(),
-  timezone: z.string(),
-});
-
 export const welcomeStepSchema = z.object({
   preferredName: z.string(),
   profilePicURL: z.string().url().optional(),
