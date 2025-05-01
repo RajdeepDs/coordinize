@@ -5,9 +5,8 @@ import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { onboardingAction } from "@/actions/onboarding-action";
+import { preferencesStepAction } from "@/actions/preferences-step-action";
 import TimezoneSelect from "@/components/ui/timezone-select";
-import { useOnboardingStore } from "@/store/onboarding-store";
 import { Button } from "@coordinize/ui/button";
 import { toast } from "@coordinize/ui/components/sonner";
 import {
@@ -28,19 +27,6 @@ const preferencesSchema = z.object({
 });
 
 export function Preferences() {
-  const {
-    reset: storeReset,
-    setField,
-    preferredName,
-    profilePic,
-    workspaceName,
-    workspaceURL,
-    workspaceLogo,
-    emailNotifications,
-    pushNotifications,
-    timezone,
-  } = useOnboardingStore();
-
   const form = useForm<z.infer<typeof preferencesSchema>>({
     resolver: zodResolver(preferencesSchema),
     defaultValues: {
@@ -50,9 +36,9 @@ export function Preferences() {
     },
   });
 
-  const { execute, isExecuting } = useAction(onboardingAction, {
+  const { execute, isExecuting } = useAction(preferencesStepAction, {
     onError: ({ error }) => {
-      toast.error(error.serverError as string);
+      console.error(error);
     },
     onSuccess: () => {
       toast.success("Welcome aboard!", {
@@ -61,24 +47,12 @@ export function Preferences() {
     },
     onSettled: () => {
       form.reset();
-      storeReset();
     },
   });
 
   const onSubmit = async (values: z.infer<typeof preferencesSchema>) => {
-    setField("emailNotifications", values.emailNotifications);
-    setField("pushNotifications", values.pushNotifications);
-    setField("timezone", values.timezone);
-
     execute({
-      preferredName,
-      profilePicURL: profilePic,
-      workspaceName,
-      workspaceURL,
-      workspaceLogoURL: workspaceLogo,
-      emailNotifications,
-      pushNotifications,
-      timezone,
+      ...values,
     });
   };
 

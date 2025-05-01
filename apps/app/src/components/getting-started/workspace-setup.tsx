@@ -2,13 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
+import { useAction } from "next-safe-action/hooks";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useOnboardingStore } from "@/store/onboarding-store";
+import { workspaceSetupStepAction } from "@/actions/workspace-setup-step-action";
 import { useUploadThing } from "@/utils/uploadthing";
-import { AvatarUploadField } from "@coordinize/ui/components/avatar-upload";
+import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import { Button } from "@coordinize/ui/components/button";
 import {
   Form,
@@ -36,8 +37,6 @@ interface WorkspaceSetupProps {
 }
 
 export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
-  const { setField } = useOnboardingStore();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,6 +56,18 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
     form.setValue("workspaceSlug", slug);
   }, [workspaceName, form]);
 
+  const { execute, isExecuting } = useAction(workspaceSetupStepAction, {
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onSettled: () => {
+      nextStep();
+    },
+  });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       let workspaceLogoUrl = values.workspaceLogo;
@@ -67,11 +78,11 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
         workspaceLogoUrl = uploaded?.[0]?.ufsUrl || "";
       }
 
-      setField("workspaceName", values.workspaceName);
-      setField("workspaceURL", values.workspaceSlug);
-      setField("workspaceLogo", workspaceLogoUrl);
-
-      nextStep();
+      execute({
+        workspaceName: values.workspaceName,
+        workspaceURL: values.workspaceSlug,
+        workspaceLogoURL: workspaceLogoUrl,
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -87,7 +98,12 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
             <FormItem>
               <FormLabel>Workspace logo</FormLabel>
               <FormControl>
-                <AvatarUploadField name="workspaceLogo" size="sm" />
+                <AvatarUploader
+                  onChange={(file) =>
+                    form.setValue("workspaceLogoFile", file || undefined)
+                  }
+                  previewUrl={form.getValues("workspaceLogo")}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -119,10 +135,15 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
             </FormItem>
           )}
         />
-
-        <Button type="submit" className="w-full">
-          Next
-          <Icons.arrowRight />
+        <Button type="submit" className="w-full" disabled={isExecuting}>
+          {isExecuting ? (
+            <Icons.loader className="animate-spin" />
+          ) : (
+            <>
+              Next
+              <Icons.arrowRight />
+            </>
+          )}
         </Button>
       </form>
     </Form>

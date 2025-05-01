@@ -1,12 +1,13 @@
 "use client";
 
+import { motion } from "motion/react";
+import { useParams, useRouter } from "next/navigation";
+
 import { Preferences } from "@/components/getting-started/preferences";
 import { Welcome } from "@/components/getting-started/welcome";
 import { WorkspaceSetup } from "@/components/getting-started/workspace-setup";
 import { OnboardingStepper } from "@/components/ui/onboarding-stepper";
 import { onboardingSteps } from "@/config/onboarding-steps";
-import { motion } from "motion/react";
-import { useParams, useRouter } from "next/navigation";
 
 const stepComponents = {
   welcome: Welcome,

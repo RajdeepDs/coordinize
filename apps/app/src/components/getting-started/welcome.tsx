@@ -1,16 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { welcomeStepAction } from "@/actions/welcome-step-action";
 import { getCurrentUser } from "@/queries/cached-queries";
-import { useOnboardingStore } from "@/store/onboarding-store";
 import { useUploadThing } from "@/utils/uploadthing";
 import type { User } from "@coordinize/database/db";
-import { AvatarUploadField } from "@coordinize/ui/avatar-upload";
 import { Button } from "@coordinize/ui/button";
+import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import {
   Form,
   FormControl,
@@ -38,8 +39,6 @@ interface WelcomeProps {
 
 export function Welcome({ nextStep }: WelcomeProps) {
   const [user, setUser] = useState<User | null>(null);
-
-  const { setField } = useOnboardingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,6 +68,18 @@ export function Welcome({ nextStep }: WelcomeProps) {
     fetchUser();
   }, []);
 
+  const { execute, isExecuting } = useAction(welcomeStepAction, {
+    onError: ({ error }) => {
+      console.error(error);
+    },
+    onSuccess: ({ data }) => {
+      console.log(data);
+    },
+    onSettled: () => {
+      nextStep();
+    },
+  });
+
   if (!user) return null;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -81,10 +92,10 @@ export function Welcome({ nextStep }: WelcomeProps) {
         profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? "";
       }
 
-      setField("preferredName", values.preferredName);
-      setField("profilePic", profilePicUrl);
-
-      nextStep();
+      execute({
+        preferredName: values.preferredName,
+        profilePicURL: values.profilePic,
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -100,7 +111,12 @@ export function Welcome({ nextStep }: WelcomeProps) {
             <FormItem>
               <FormLabel>Profile Picture</FormLabel>
               <FormControl>
-                <AvatarUploadField name="profilePic" size="sm" />
+                <AvatarUploader
+                  onChange={(file) =>
+                    form.setValue("profilePicFile", file || undefined)
+                  }
+                  previewUrl={form.getValues("profilePic")}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,9 +139,15 @@ export function Welcome({ nextStep }: WelcomeProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
-          Next
-          <Icons.arrowRight />
+        <Button type="submit" className="w-full" disabled={isExecuting}>
+          {isExecuting ? (
+            <Icons.loader className="animate-spin" />
+          ) : (
+            <>
+              Next
+              <Icons.arrowRight />
+            </>
+          )}
         </Button>
       </form>
     </Form>
