@@ -2,11 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
-import { useEffect, useState } from "react";
+import { useAction } from "next-safe-action/hooks";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useOnboardingStore } from "@/store/onboarding-store";
+import { workspaceSetupStepAction } from "@/actions/workspace-setup-step-action";
 import { useUploadThing } from "@/utils/uploadthing";
 import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import { Button } from "@coordinize/ui/components/button";
@@ -36,10 +37,6 @@ interface WorkspaceSetupProps {
 }
 
 export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
-  const [submitting, setSubmitting] = useState(false);
-
-  const { setField } = useOnboardingStore();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,8 +56,19 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
     form.setValue("workspaceSlug", slug);
   }, [workspaceName, form]);
 
+  const { execute, isExecuting } = useAction(workspaceSetupStepAction, {
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onSettled: () => {
+      nextStep();
+    },
+  });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setSubmitting(true);
     try {
       let workspaceLogoUrl = values.workspaceLogo;
 
@@ -70,15 +78,13 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
         workspaceLogoUrl = uploaded?.[0]?.ufsUrl || "";
       }
 
-      setField("workspaceName", values.workspaceName);
-      setField("workspaceURL", values.workspaceSlug);
-      setField("workspaceLogo", workspaceLogoUrl);
-
-      nextStep();
+      execute({
+        workspaceName: values.workspaceName,
+        workspaceURL: values.workspaceSlug,
+        workspaceLogoURL: workspaceLogoUrl,
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
-    } finally {
-      setSubmitting(false);
     }
   }
 
@@ -129,8 +135,8 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={submitting}>
-          {submitting ? (
+        <Button type="submit" className="w-full" disabled={isExecuting}>
+          {isExecuting ? (
             <Icons.loader className="animate-spin" />
           ) : (
             <>
