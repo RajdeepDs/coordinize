@@ -2,8 +2,8 @@ import { PreferredNameForm } from "@/components/forms/preferred-name-form";
 import { ProfilePic } from "@/components/forms/profile-pic";
 import { SettingsCard } from "@/components/settings/settings-card";
 import { ChangeEmailDialog } from "@/components/ui/change-email-dialog";
+import { ChangePasswordDialog } from "@/components/ui/change-password-dialog";
 import { getUser } from "@/queries/cached-queries";
-import { Button } from "@coordinize/ui/components/button";
 import { Label } from "@coordinize/ui/components/label";
 import { Separator } from "@coordinize/ui/components/separator";
 
@@ -36,9 +36,7 @@ export default async function ProfilePage() {
           title="Password"
           description={"Change your password to login to your account."}
         >
-          <Button variant={"outline"} size={"sm"} className="font-normal">
-            Change password
-          </Button>
+          <ChangePasswordDialog />
         </SettingsCard>
       </div>
     </div>
