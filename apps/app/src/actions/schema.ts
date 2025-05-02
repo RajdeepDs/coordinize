@@ -21,3 +21,8 @@ export const preferencesStepSchema = z.object({
   pushNotifications: z.boolean(),
   timezone: z.string(),
 });
+
+export const updateProfileSchema = z.object({
+  preferredName: z.string().min(1, { message: "Name is required." }).optional(),
+  image: z.string().url({ message: "Invalid image URL." }).optional(),
+});
