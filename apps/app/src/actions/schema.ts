@@ -24,5 +24,10 @@ export const preferencesStepSchema = z.object({
 
 export const updateProfileSchema = z.object({
   preferredName: z.string().min(1, { message: "Name is required." }).optional(),
-  image: z.string().url({ message: "Invalid image URL." }).optional(),
+  image: z
+    .string()
+    .refine((val) => !val || val.startsWith("https"), {
+      message: "Image must be empty or a valid URL",
+    })
+    .optional(),
 });

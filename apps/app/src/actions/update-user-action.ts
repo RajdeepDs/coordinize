@@ -15,7 +15,7 @@ export const updateProfileAction = authActionClient
     // Build update object dynamically
     const updateData: Record<string, string> = {};
     if (preferredName) updateData.name = preferredName;
-    if (image) updateData.image = image;
+    if (image !== undefined) updateData.image = image;
 
     // Update only if there's something to update
     if (Object.keys(updateData).length > 0) {

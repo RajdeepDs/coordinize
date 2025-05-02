@@ -32,7 +32,7 @@ export const getUser = cache(async () => {
     {
       tags: [`user_${userId}`],
       // 30 minutes
-      revalidate: 1800,
+      revalidate: 10,
     },
   )();
 });
