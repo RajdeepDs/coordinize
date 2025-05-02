@@ -22,6 +22,7 @@ export default async function ProfilePage() {
         <SettingsCard
           title="Preferred name"
           description="You can use a nickname or your real name—whatever feels right to you."
+          className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
         >
           <PreferredNameForm name={user.name} />
         </SettingsCard>
@@ -29,12 +30,17 @@ export default async function ProfilePage() {
       <Separator />
       <div className="flex flex-col gap-4">
         <Label className="text-muted-foreground">Account security</Label>
-        <SettingsCard title="Email" description={user.email}>
+        <SettingsCard
+          title="Email"
+          description={user.email}
+          className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
+        >
           <ChangeEmailDialog currentEmail={user.email} />
         </SettingsCard>
         <SettingsCard
           title="Password"
           description={"Change your password to login to your account."}
+          className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
         >
           <ChangePasswordDialog />
         </SettingsCard>

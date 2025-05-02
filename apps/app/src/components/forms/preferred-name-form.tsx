@@ -43,7 +43,7 @@ export function PreferredNameForm({ name }: PreferredNameFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full sm:w-auto">
         <FormField
           control={form.control}
           name="preferredName"

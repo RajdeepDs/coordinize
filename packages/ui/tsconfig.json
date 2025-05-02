@@ -6,6 +6,6 @@
       "@coordinize/ui/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../../apps/app/src/components/ui/interface-select.tsx"],
   "exclude": ["node_modules"]
 }

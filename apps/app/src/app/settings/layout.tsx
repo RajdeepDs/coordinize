@@ -21,7 +21,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <SidebarProvider>
       <SettingsSidebar nav={settingsNav} />
-      <SidebarInset className="px-60 py-14">{children}</SidebarInset>
+      <SidebarInset className="px-5 py-14 xl:px-60">{children}</SidebarInset>
     </SidebarProvider>
   );
 }
