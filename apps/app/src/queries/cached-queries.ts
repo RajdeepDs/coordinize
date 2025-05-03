@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { cache } from "react";
 
 import { auth } from "@coordinize/auth/auth";
-import { getUserQuery } from "./index";
+import { getUserQuery, getWorkspaceQuery } from "./index";
 
 export const getSession = cache(async () => {
   const res = await auth.api.getSession({
@@ -31,8 +31,7 @@ export const getUser = cache(async () => {
     ["user", userId],
     {
       tags: [`user_${userId}`],
-      // 30 minutes
-      revalidate: 10,
+      revalidate: 1800,
     },
   )();
 });
@@ -47,3 +46,22 @@ export async function getCurrentUser() {
   }
   return getUserQuery(userId);
 }
+
+export const getCurrentWorkspace = cache(async () => {
+  const user = await getUser();
+  if (!user) {
+    return null;
+  }
+
+  return unstable_cache(
+    async () => {
+      return getWorkspaceQuery(user.defaultWorkspace as string);
+    },
+    ["workspace", user.defaultWorkspace!],
+    {
+      tags: [`workspace_${user.defaultWorkspace}`],
+      // 30 minutes
+      revalidate: 1800,
+    },
+  )();
+});
