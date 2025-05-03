@@ -25,6 +25,7 @@
     "next-safe-action": "^7.10.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "ua-parser-js": "^2.0.3",
     "zod": "^3.24.2",
     "zustand": "^5.0.3"
   },

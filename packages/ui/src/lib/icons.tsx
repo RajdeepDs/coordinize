@@ -14,6 +14,7 @@ import {
   Loader2Icon,
   Lock,
   Mail,
+  Monitor,
   ShieldUser,
   UserCircle2,
   UserSquare2,
@@ -43,6 +44,7 @@ export const Icons = {
   calendar: Calendar,
   mail: Mail,
   lock: Lock,
+  monitor: Monitor,
   help: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"

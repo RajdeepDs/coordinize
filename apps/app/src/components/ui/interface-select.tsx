@@ -1,14 +1,13 @@
 "use client";
 
-import { CheckIcon, MinusIcon } from "lucide-react";
-import { useTheme } from "next-themes";
-import Image from "next/image";
-import { useId } from "react";
-
 import {
   RadioGroup,
   RadioGroupItem,
 } from "@coordinize/ui/components/radio-group";
+import { CheckIcon, MinusIcon } from "lucide-react";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const items = [
   { value: "light", label: "Light", image: "/ui-light.png" },
@@ -18,15 +17,24 @@ const items = [
 
 export default function InterfaceSelect() {
   const { setTheme, theme } = useTheme();
-  const id = useId();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <fieldset className="space-y-4">
       <RadioGroup className="flex gap-3" defaultValue={theme}>
         {items.map((item) => (
-          <label htmlFor={`${id}-${item.value}`} key={`${id}-${item.value}`}>
+          <label
+            htmlFor={`interface-select-${item.value}`}
+            key={`interface-select-${item.value}`}
+          >
             <RadioGroupItem
-              id={`${id}-${item.value}`}
+              id={`interface-select-${item.value}`}
               value={item.value}
               className="peer sr-only after:absolute after:inset-0"
               onClick={() => setTheme(item.value)}
