@@ -31,3 +31,20 @@ export const updateProfileSchema = z.object({
     })
     .optional(),
 });
+
+export const updateWorkspaceSchema = z.object({
+  workspaceName: z
+    .string()
+    .min(1, { message: "Workspace name is required." })
+    .optional(),
+  workspaceURL: z
+    .string()
+    .min(3, { message: "Workspace URL must be at least 3 characters." })
+    .optional(),
+  workspaceLogoURL: z
+    .string()
+    .refine((val) => !val || val.startsWith("https"), {
+      message: "Workspace logo URL must be empty or a valid URL",
+    })
+    .optional(),
+});
