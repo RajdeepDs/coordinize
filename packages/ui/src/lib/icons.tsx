@@ -7,6 +7,7 @@ import {
   ChevronLeft,
   ChevronRight,
   CircleAlert,
+  CircleXIcon,
   Command,
   CreditCard,
   Home,
@@ -15,6 +16,7 @@ import {
   Lock,
   Mail,
   Monitor,
+  Search,
   ShieldUser,
   UserCircle2,
   UserSquare2,
@@ -45,6 +47,8 @@ export const Icons = {
   mail: Mail,
   lock: Lock,
   monitor: Monitor,
+  search: Search,
+  circleX: CircleXIcon,
   help: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"
