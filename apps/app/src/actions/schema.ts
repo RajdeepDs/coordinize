@@ -48,3 +48,10 @@ export const updateWorkspaceSchema = z.object({
     })
     .optional(),
 });
+
+export const createNewTeamSchema = z.object({
+  teamName: z.string().min(1, "Team name is required"),
+  teamIdentifier: z
+    .string()
+    .min(3, "Team identifier must be at least 3 characters"),
+});

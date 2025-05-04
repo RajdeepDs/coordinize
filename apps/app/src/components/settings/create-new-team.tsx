@@ -1,10 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { createNewTeamAction } from "@/actions/create-new-team-action";
 import { SettingsCard } from "@/components/settings/settings-card";
 import { Button } from "@coordinize/ui/components/button";
 import {
@@ -14,6 +16,8 @@ import {
   FormItem,
 } from "@coordinize/ui/components/form";
 import { Input } from "@coordinize/ui/components/input";
+import { toast } from "@coordinize/ui/components/sonner";
+import { Icons } from "@coordinize/ui/lib/icons";
 
 const formSchema = z.object({
   teamName: z.string().min(1, "Team name is required"),
@@ -34,6 +38,7 @@ export function CreateNewTeamForm() {
       teamIdentifier: "",
     },
   });
+
   const teamName = form.watch("teamName");
 
   useEffect(() => {
@@ -41,8 +46,23 @@ export function CreateNewTeamForm() {
     form.setValue("teamIdentifier", generated);
   }, [teamName, form]);
 
+  const { execute, isExecuting } = useAction(createNewTeamAction, {
+    onSuccess: () => {
+      toast.success("Team created successfully.");
+    },
+    onError: () => {
+      toast.error("Something went wrong.");
+    },
+    onSettled: () => {
+      form.reset();
+    },
+  });
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    execute({
+      teamName: values.teamName,
+      teamIdentifier: values.teamIdentifier,
+    });
   }
 
   return (
@@ -62,6 +82,7 @@ export function CreateNewTeamForm() {
                   <Input
                     {...field}
                     type="text"
+                    required
                     className="w-full shadow-none md:w-64"
                     placeholder="e.g. Engineering"
                   />
@@ -84,6 +105,7 @@ export function CreateNewTeamForm() {
                   <Input
                     {...field}
                     type="text"
+                    required
                     className="w-full shadow-none md:w-64"
                     placeholder="e.g. ENG"
                   />
@@ -92,11 +114,18 @@ export function CreateNewTeamForm() {
             )}
           />
         </SettingsCard>
-        <div className="w-full">
-          <Button className="ml-auto flex font-normal" size={"sm"}>
-            Create team
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          className="ml-auto flex min-w-[120px] font-normal"
+          size="sm"
+          disabled={isExecuting}
+        >
+          {isExecuting ? (
+            <Icons.loader className="mx-auto animate-spin" />
+          ) : (
+            <>Create team</>
+          )}
+        </Button>
       </form>
     </Form>
   );
