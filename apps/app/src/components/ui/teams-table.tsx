@@ -41,6 +41,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDownIcon, ChevronUpIcon, EllipsisIcon } from "lucide-react";
+import Link from "next/link";
 
 interface TeamsTableProps {
   readonly data: Item[];
@@ -173,12 +174,17 @@ export function TeamsTable({ data }: TeamsTableProps) {
             )}
           </button>
         </div>
-        <Button className="ml-auto font-normal" variant="default" size={"sm"}>
-          Create team
+        <Button
+          className="ml-auto font-normal"
+          variant="default"
+          size={"sm"}
+          asChild
+        >
+          <Link href={"/settings/new-team"}>Create team</Link>
         </Button>
       </div>
       {/* Table */}
-      <div className="">
+      <div className="overflow-hidden bg-background">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
