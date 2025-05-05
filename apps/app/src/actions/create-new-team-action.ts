@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { authActionClient } from "./safe-action";
 import { createNewTeamSchema } from "./schema";
 
@@ -38,6 +40,7 @@ export const createNewTeamAction = authActionClient
         },
       });
 
-      // TODO: Add a redirect to the team page.
+      revalidatePath("/settings/teams");
+      redirect("/settings/teams");
     },
   );
