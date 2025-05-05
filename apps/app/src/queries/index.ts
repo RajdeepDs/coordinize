@@ -13,3 +13,11 @@ export async function getWorkspaceQuery(workspaceURL: string) {
     },
   });
 }
+
+export async function getTeamsQuery(workspaceId: string) {
+  return await database.team.findMany({
+    where: {
+      workspaceId: workspaceId,
+    },
+  });
+}
