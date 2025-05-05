@@ -10,6 +10,7 @@ import {
   CircleXIcon,
   Command,
   CreditCard,
+  Ellipsis,
   Home,
   Keyboard,
   Loader2Icon,
@@ -17,9 +18,11 @@ import {
   Mail,
   Monitor,
   Search,
+  Settings,
   ShieldUser,
   UserCircle2,
   UserSquare2,
+  Users,
   Users2,
   X,
 } from "lucide-react";
@@ -49,6 +52,9 @@ export const Icons = {
   monitor: Monitor,
   search: Search,
   circleX: CircleXIcon,
+  ellipsis: Ellipsis,
+  settings: Settings,
+  members: Users,
   help: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"
