@@ -1,5 +1,18 @@
 "use client";
 
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  type Row,
+  type SortingState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ChevronDownIcon, ChevronUpIcon, EllipsisIcon } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { formatDate } from "@/utils/format-date";
@@ -18,7 +31,6 @@ import {
   DropdownMenuTrigger,
 } from "@coordinize/ui/components/dropdown-menu";
 import { Input } from "@coordinize/ui/components/input";
-
 import {
   Table,
   TableBody,
@@ -29,19 +41,6 @@ import {
 } from "@coordinize/ui/components/table";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { cn } from "@coordinize/ui/lib/utils";
-import {
-  type ColumnDef,
-  type ColumnFiltersState,
-  type Row,
-  type SortingState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { ChevronDownIcon, ChevronUpIcon, EllipsisIcon } from "lucide-react";
-import Link from "next/link";
 
 interface TeamsTableProps {
   readonly data: Item[];
@@ -49,9 +48,9 @@ interface TeamsTableProps {
 
 type Item = {
   name: string;
-  teamId: string;
+  identifier: string;
   membersCount: number;
-  postsCount: number;
+  // postsCount: number;
   createdAt: string | number | Date;
 };
 
@@ -67,7 +66,7 @@ const columns: ColumnDef<Item>[] = [
           <div className="flex flex-1 items-center gap-2">
             <div className="text-sm">{row.getValue("name")}</div>
             <div className="hidden text-muted-foreground text-xs sm:flex">
-              {row.original.teamId}
+              {row.original.identifier}
             </div>
           </div>
         </div>
@@ -78,10 +77,10 @@ const columns: ColumnDef<Item>[] = [
     header: "Members",
     accessorKey: "membersCount",
   },
-  {
-    header: "Posts",
-    accessorKey: "postsCount",
-  },
+  // {
+  //   header: "Posts",
+  //   accessorKey: "postsCount",
+  // },
   {
     header: "Created",
     accessorKey: "createdAt",

@@ -66,22 +66,28 @@ export const getCurrentWorkspace = cache(async () => {
   )();
 });
 
-export const getTeams = cache(async () => {
+export const getTeams = async () => {
   const workspace = await getCurrentWorkspace();
 
   if (!workspace) {
     return null;
   }
 
+  const workspaceId = workspace.id;
+
   return unstable_cache(
     async () => {
-      return getTeamsQuery(workspace.id);
+      const teams = await getTeamsQuery(workspaceId);
+      const mappedTeams = teams.map(({ _count, ...team }) => ({
+        ...team,
+        membersCount: _count.members, // rename the _count.members field to membersCount
+      }));
+      return mappedTeams;
     },
-    ["teams", workspace.id],
+    ["teams", workspaceId],
     {
-      tags: [`teams_${workspace.id}`],
-      // 30 minutes
+      tags: [`teams_${workspaceId}`],
       revalidate: 1800,
     },
   )();
-});
+};

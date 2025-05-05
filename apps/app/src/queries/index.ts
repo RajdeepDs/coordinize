@@ -19,5 +19,12 @@ export async function getTeamsQuery(workspaceId: string) {
     where: {
       workspaceId: workspaceId,
     },
+    include: {
+      _count: {
+        select: {
+          members: true,
+        },
+      },
+    },
   });
 }
