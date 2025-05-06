@@ -11,7 +11,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 
 import { formatDateToMonthYear } from "@/utils/format-date";
 import { Button } from "@coordinize/ui/components/button";
@@ -32,6 +33,7 @@ interface MembersTableProps {
 }
 
 export type Item = {
+  imageSrc: string | null;
   name: string;
   email: string;
   status: string;
@@ -45,8 +47,16 @@ const columns: ColumnDef<Item>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center space-x-3">
-          {/* TODO: Show when the icons are ready */}
-          <div className="hidden size-5 rounded bg-muted-foreground/10" />
+          {row.original.imageSrc && (
+            <Image
+              src={row.original.imageSrc}
+              alt={`Profile picture of ${row.getValue("name")}`}
+              width={20}
+              height={20}
+              className="size-5 rounded-full"
+              priority
+            />
+          )}
           <div className="flex flex-1 items-center gap-2">
             <div className="text-sm">{row.getValue("name")}</div>
           </div>
@@ -75,7 +85,6 @@ const columns: ColumnDef<Item>[] = [
 export function MembersTable({ data }: MembersTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [hoveredRowId, setHoveredRowId] = useState<string | null>(null);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     {
@@ -83,22 +92,6 @@ export function MembersTable({ data }: MembersTableProps) {
       desc: false,
     },
   ]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        tableRef.current &&
-        !tableRef.current.contains(event.target as Node)
-      ) {
-        setHoveredRowId(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const table = useReactTable({
     data,
@@ -147,6 +140,7 @@ export function MembersTable({ data }: MembersTableProps) {
             )}
           </button>
         </div>
+        {/* TODO: Implement a dialog to invite members */}
         <Button className="ml-auto font-normal" variant="default" size={"sm"}>
           Invite
         </Button>
@@ -234,7 +228,6 @@ export function MembersTable({ data }: MembersTableProps) {
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     className="group"
-                    onMouseEnter={() => setHoveredRowId(row.id)}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
@@ -242,6 +235,8 @@ export function MembersTable({ data }: MembersTableProps) {
                         className={cn(
                           "text-muted-foreground last:py-0",
                           cell.column.id === "name" && "text-primary",
+                          cell.column.id === "status" &&
+                            "lowercase first-letter:uppercase",
                           cell.column.id === "joinedAt" &&
                             "hidden sm:table-cell",
                         )}
@@ -259,9 +254,9 @@ export function MembersTable({ data }: MembersTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-24 text-center text-muted-foreground"
                 >
-                  No results.
+                  No matching members.
                 </TableCell>
               </TableRow>
             )}

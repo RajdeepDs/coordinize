@@ -28,3 +28,14 @@ export async function getTeamsQuery(workspaceId: string) {
     },
   });
 }
+
+export async function getWorkspaceMembersQuery(workspaceId: string) {
+  return await database.workspaceMember.findMany({
+    where: {
+      workspaceId: workspaceId,
+    },
+    include: {
+      user: true,
+    },
+  });
+}

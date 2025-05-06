@@ -5,7 +5,12 @@ import { headers } from "next/headers";
 import { cache } from "react";
 
 import { auth } from "@coordinize/auth/auth";
-import { getTeamsQuery, getUserQuery, getWorkspaceQuery } from "./index";
+import {
+  getTeamsQuery,
+  getUserQuery,
+  getWorkspaceMembersQuery,
+  getWorkspaceQuery,
+} from "./index";
 
 export const getSession = cache(async () => {
   const res = await auth.api.getSession({
@@ -87,6 +92,28 @@ export const getTeams = async () => {
     ["teams", workspaceId],
     {
       tags: [`teams_${workspaceId}`],
+      revalidate: 1800,
+    },
+  )();
+};
+
+export const getWorkspaceMembers = async () => {
+  const workspace = await getCurrentWorkspace();
+
+  if (!workspace) {
+    return null;
+  }
+
+  const workspaceId = workspace.id;
+
+  return unstable_cache(
+    async () => {
+      const members = await getWorkspaceMembersQuery(workspaceId);
+      return members;
+    },
+    ["members", workspaceId],
+    {
+      tags: [`members_${workspaceId}`],
       revalidate: 1800,
     },
   )();
