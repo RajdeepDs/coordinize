@@ -1,45 +1,27 @@
-export interface TeamData {
+export interface MembersData {
   name: string;
-  teamId: string;
-  membersCount: number;
-  postsCount: number;
-  createdAt: Date;
+  email: string;
+  status: string;
+  joinedAt: Date;
 }
 
-export const dummyTeamData: TeamData[] = [
+export const dummyMembersData: MembersData[] = [
   {
-    name: "Engineering Team",
-    teamId: "ENG",
-    membersCount: 12,
-    postsCount: 156,
-    createdAt: new Date("2023-01-15"),
+    name: "John Doe",
+    email: "johndoe@example.com",
+    status: "Admin",
+    joinedAt: new Date("2023-01-01"),
   },
   {
-    name: "Marketing Squad",
-    teamId: "MKT",
-    membersCount: 8,
-    postsCount: 234,
-    createdAt: new Date("2023-03-22"),
+    name: "Jane Smith",
+    email: "janesmith@example.com",
+    status: "Member",
+    joinedAt: new Date("2023-02-15"),
   },
   {
-    name: "Design Studio",
-    teamId: "DES",
-    membersCount: 6,
-    postsCount: 89,
-    createdAt: new Date("2023-06-10"),
-  },
-  {
-    name: "Product Management",
-    teamId: "PM",
-    membersCount: 5,
-    postsCount: 178,
-    createdAt: new Date("2023-08-05"),
-  },
-  {
-    name: "Customer Support",
-    teamId: "CS",
-    membersCount: 15,
-    postsCount: 312,
-    createdAt: new Date("2023-11-30"),
+    name: "Bob Johnson",
+    email: "bobjohnson@example.com",
+    status: "Member",
+    joinedAt: new Date("2023-03-10"),
   },
 ];
