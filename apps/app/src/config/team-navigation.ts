@@ -4,16 +4,16 @@ export type NavItem = {
   href: string;
   icon: string;
 };
-export function getTeamNavigation(teamId: string): NavItem[] {
+export function getTeamNavigation(teamId: string, slug: string): NavItem[] {
   return [
     {
       label: "General",
-      href: `/settings/teams/${teamId}/general`,
+      href: `/${slug}/settings/teams/${teamId}/general`,
       icon: "settings",
     },
     {
       label: "Members",
-      href: `/settings/teams/${teamId}/members`,
+      href: `/${slug}/settings/teams/${teamId}/members`,
       icon: "members",
     },
   ];

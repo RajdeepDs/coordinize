@@ -64,6 +64,7 @@ export default function AvatarUploader({
               width={64}
               height={64}
               className="size-full object-cover"
+              fetchPriority="high"
             />
           ) : (
             <div aria-hidden="true">

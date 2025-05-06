@@ -10,14 +10,20 @@ import {
 
 interface SettingsLayoutProps {
   readonly children: ReactNode;
+  params: Promise<{ slug: string }>;
 }
 
 export const metadata: Metadata = {
   title: "Settings",
 };
 
-export default function SettingsLayout({ children }: SettingsLayoutProps) {
-  const settingsNav = settingsSidebarNav;
+export default async function SettingsLayout({
+  children,
+  params,
+}: SettingsLayoutProps) {
+  const { slug } = await params;
+
+  const settingsNav = settingsSidebarNav(slug);
   return (
     <SidebarProvider>
       <SettingsSidebar nav={settingsNav} />
