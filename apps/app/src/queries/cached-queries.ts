@@ -5,7 +5,12 @@ import { headers } from "next/headers";
 import { cache } from "react";
 
 import { auth } from "@coordinize/auth/auth";
-import { getUserQuery } from "./index";
+import {
+  getTeamsQuery,
+  getUserQuery,
+  getWorkspaceMembersQuery,
+  getWorkspaceQuery,
+} from "./index";
 
 export const getSession = cache(async () => {
   const res = await auth.api.getSession({
@@ -31,7 +36,6 @@ export const getUser = cache(async () => {
     ["user", userId],
     {
       tags: [`user_${userId}`],
-      // 30 minutes
       revalidate: 1800,
     },
   )();
@@ -47,3 +51,70 @@ export async function getCurrentUser() {
   }
   return getUserQuery(userId);
 }
+
+export const getCurrentWorkspace = cache(async () => {
+  const user = await getUser();
+  if (!user) {
+    return null;
+  }
+
+  return unstable_cache(
+    async () => {
+      return getWorkspaceQuery(user.defaultWorkspace as string);
+    },
+    ["workspace", user.defaultWorkspace!],
+    {
+      tags: [`workspace_${user.defaultWorkspace}`],
+      // 30 minutes
+      revalidate: 1800,
+    },
+  )();
+});
+
+export const getTeams = async () => {
+  const workspace = await getCurrentWorkspace();
+
+  if (!workspace) {
+    return null;
+  }
+
+  const workspaceId = workspace.id;
+
+  return unstable_cache(
+    async () => {
+      const teams = await getTeamsQuery(workspaceId);
+      const mappedTeams = teams.map(({ _count, ...team }) => ({
+        ...team,
+        membersCount: _count.members, // rename the _count.members field to membersCount
+      }));
+      return mappedTeams;
+    },
+    ["teams", workspaceId],
+    {
+      tags: [`teams_${workspaceId}`],
+      revalidate: 1800,
+    },
+  )();
+};
+
+export const getWorkspaceMembers = async () => {
+  const workspace = await getCurrentWorkspace();
+
+  if (!workspace) {
+    return null;
+  }
+
+  const workspaceId = workspace.id;
+
+  return unstable_cache(
+    async () => {
+      const members = await getWorkspaceMembersQuery(workspaceId);
+      return members;
+    },
+    ["members", workspaceId],
+    {
+      tags: [`members_${workspaceId}`],
+      revalidate: 1800,
+    },
+  )();
+};

@@ -37,6 +37,8 @@ model User {
   Workspace              Workspace[]
   WorkspaceMember        WorkspaceMember[]
   NotificationPreference NotificationPreference[]
+  Team                   Team[]
+  TeamMember             TeamMember[]
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -113,6 +115,7 @@ model Workspace {
 
   creator         User              @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   WorkspaceMember WorkspaceMember[]
+  Team            Team[]
 
   @@index([createdBy])
   @@map("workspace")
@@ -148,4 +151,39 @@ model NotificationPreference {
 
   @@index([userId])
   @@map("notificationPreference")
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  identifier  String
+  workspaceId String
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  creator   User         @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  members   TeamMember[]
+
+  @@unique([identifier])
+  @@index([workspaceId])
+  @@index([createdBy])
+  @@map("team")
+}
+
+model TeamMember {
+  id     String   @id @default(cuid())
+  teamId String
+  userId String
+  role   Role     @default(MEMBER)
+  joined DateTime @default(now())
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([teamId])
+  @@index([userId])
+  @@map("teamMember")
 }

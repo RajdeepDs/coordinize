@@ -42,8 +42,8 @@ export default function AvatarUploader({
   };
 
   return (
-    <div className="flex w-fit flex-col gap-2">
-      <div className="relative inline-flex">
+    <div className=" flex w-fit flex-col gap-2">
+      <div className="group relative inline-flex">
         <div
           // biome-ignore lint/a11y/useSemanticElements: <explanation>
           role="button"
@@ -64,6 +64,7 @@ export default function AvatarUploader({
               width={64}
               height={64}
               className="size-full object-cover"
+              fetchPriority="high"
             />
           ) : (
             <div aria-hidden="true">
@@ -77,7 +78,7 @@ export default function AvatarUploader({
             onClick={handleRemove}
             size="icon"
             type="button"
-            className="-top-1 -right-1 absolute size-6 rounded-full border-2 border-background shadow-none focus-visible:border-background"
+            className="-top-1 -right-1 absolute size-6 rounded-full border-2 border-background opacity-0 shadow-none transition-opacity duration-150 ease-in-out focus-visible:border-background group-hover:opacity-100"
             aria-label="Remove image"
           >
             <XIcon className="size-3.5" />

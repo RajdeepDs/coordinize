@@ -2,7 +2,6 @@ export type NavItem = {
   title: string;
   href: string;
   icon: string;
-  requiresAdmin?: boolean;
 };
 
 export type SidebarSection = {
@@ -10,28 +9,28 @@ export type SidebarSection = {
   items: NavItem[];
 };
 
-export const settingsSidebar: SidebarSection[] = [
+export const settingsSidebarNav = (slug: string): SidebarSection[] => [
   {
     title: "Account",
     items: [
       {
         title: "Preferences",
-        href: "/settings/preferences",
+        href: `/${slug}/settings/preferences`,
         icon: "home",
       },
       {
         title: "Profile",
-        href: "/settings/profile",
+        href: `/${slug}/settings/profile`,
         icon: "userCircle",
       },
+      // {
+      //   title: "Notifications",
+      //   href: "/settings/notifications",
+      //   icon: "bellDot",
+      // },
       {
-        title: "Notifications",
-        href: "/settings/notifications",
-        icon: "bellDot",
-      },
-      {
-        title: "Security",
-        href: "/settings/security",
+        title: "Security & Access",
+        href: `/${slug}/settings/security`,
         icon: "sheildUser",
       },
     ],
@@ -41,28 +40,24 @@ export const settingsSidebar: SidebarSection[] = [
     items: [
       {
         title: "Workspace",
-        href: "/settings/workspace",
+        href: `/${slug}/settings/workspace`,
         icon: "command",
-        requiresAdmin: true,
       },
       {
         title: "Teams",
-        href: "/settings/teams",
+        href: `/${slug}/settings/teams`,
         icon: "userSquare",
-        requiresAdmin: true,
       },
       {
         title: "Members",
-        href: "/settings/members",
+        href: `/${slug}/settings/members`,
         icon: "users",
-        requiresAdmin: true,
       },
-      {
-        title: "Billing",
-        href: "/settings/billing",
-        icon: "creditCard",
-        requiresAdmin: true,
-      },
+      // {
+      //   title: "Billing",
+      //   href: "/settings/billing",
+      //   icon: "creditCard",
+      // },
     ],
   },
 ];

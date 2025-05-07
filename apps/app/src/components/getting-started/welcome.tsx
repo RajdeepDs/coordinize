@@ -60,13 +60,14 @@ export function Welcome({ nextStep }: WelcomeProps) {
       if (userData) {
         form.reset({
           profilePic: userData.image ?? "",
+          profilePicFile: undefined,
           preferredName: userData.name,
         });
       }
     };
 
     fetchUser();
-  }, []);
+  }, [form]);
 
   const { execute, isExecuting } = useAction(welcomeStepAction, {
     onError: ({ error }) => {
@@ -94,7 +95,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
 
       execute({
         preferredName: values.preferredName,
-        profilePicURL: values.profilePic,
+        profilePicURL: profilePicUrl,
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -112,10 +113,13 @@ export function Welcome({ nextStep }: WelcomeProps) {
               <FormLabel>Profile Picture</FormLabel>
               <FormControl>
                 <AvatarUploader
-                  onChange={(file) =>
-                    form.setValue("profilePicFile", file || undefined)
-                  }
-                  previewUrl={form.getValues("profilePic")}
+                  onChange={(file) => {
+                    form.setValue("profilePicFile", file || undefined);
+                    if (!file) {
+                      form.setValue("profilePic", "");
+                    }
+                  }}
+                  previewUrl={form.getValues("profilePic") || ""}
                 />
               </FormControl>
               <FormMessage />

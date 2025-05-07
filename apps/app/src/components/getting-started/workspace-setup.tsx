@@ -99,10 +99,13 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
               <FormLabel>Workspace logo</FormLabel>
               <FormControl>
                 <AvatarUploader
-                  onChange={(file) =>
-                    form.setValue("workspaceLogoFile", file || undefined)
-                  }
-                  previewUrl={form.getValues("workspaceLogo")}
+                  onChange={(file) => {
+                    form.setValue("workspaceLogoFile", file || undefined);
+                    if (!file) {
+                      form.setValue("workspaceLogo", "");
+                    }
+                  }}
+                  previewUrl={form.getValues("workspaceLogo") || ""}
                 />
               </FormControl>
               <FormMessage />
