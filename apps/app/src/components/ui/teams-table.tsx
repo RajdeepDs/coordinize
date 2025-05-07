@@ -31,6 +31,7 @@ import { RowActions } from "./row-actions";
 
 interface TeamsTableProps {
   readonly data: Item[];
+  readonly slug: string;
 }
 
 export type Item = {
@@ -85,7 +86,7 @@ const columns: ColumnDef<Item>[] = [
   },
 ];
 
-export function TeamsTable({ data }: TeamsTableProps) {
+export function TeamsTable({ data, slug }: TeamsTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [hoveredRowId, setHoveredRowId] = useState<string | null>(null);
@@ -166,7 +167,7 @@ export function TeamsTable({ data }: TeamsTableProps) {
           size={"sm"}
           asChild
         >
-          <Link href={"/settings/new-team"}>Create team</Link>
+          <Link href={slug}>Create team</Link>
         </Button>
       </div>
       {/* Table */}

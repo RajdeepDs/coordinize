@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { SettingsSidebar } from "@/components/settings-sidebar";
@@ -9,7 +10,6 @@ import {
   SidebarTrigger,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
-import Link from "next/link";
 
 interface SettingsLayoutProps {
   readonly children: ReactNode;
