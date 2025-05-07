@@ -4,14 +4,14 @@ import { Label } from "@coordinize/ui/components/label";
 
 export default async function TeamsPage({
   params,
-}: { params: { slug: string } }) {
+}: { params: Promise<{ slug: string }> }) {
   const teams = await getTeams();
 
   if (!teams) {
     return <>Loading...</>;
   }
 
-  const slug = params.slug;
+  const { slug } = await params;
   const createTeamHref = `/${slug}/settings/new-team`;
 
   return (
