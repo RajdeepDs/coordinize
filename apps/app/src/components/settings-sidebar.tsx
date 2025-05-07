@@ -25,8 +25,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
 
 interface SettingsSidebarProps {
   readonly nav: SidebarSection[];
@@ -34,11 +36,12 @@ interface SettingsSidebarProps {
 
 export function SettingsSidebar({ nav }: SettingsSidebarProps) {
   const pathname = usePathname();
+  const { toggleSidebar, isMobile } = useSidebar();
   return (
     <Sidebar variant="inset" className="p-0">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem>
+          <SidebarMenuItem className={cn(isMobile && "hidden")}>
             <SidebarMenuButton className="text-sidebar-foreground/70" asChild>
               <Link href={"/"}>
                 <Icons.chevronLeft />
@@ -62,6 +65,9 @@ export function SettingsSidebar({ nav }: SettingsSidebarProps) {
                         asChild
                         isActive={pathname === item.href}
                         className="text-sidebar-foreground/70"
+                        onClick={() => {
+                          if (isMobile) toggleSidebar();
+                        }}
                       >
                         <Link href={item.href}>
                           <Icon />

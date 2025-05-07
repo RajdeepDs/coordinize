@@ -6,7 +6,10 @@ import { settingsSidebarNav } from "@/config/navigation";
 import {
   SidebarInset,
   SidebarProvider,
+  SidebarTrigger,
 } from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
+import Link from "next/link";
 
 interface SettingsLayoutProps {
   readonly children: ReactNode;
@@ -27,7 +30,16 @@ export default async function SettingsLayout({
   return (
     <SidebarProvider>
       <SettingsSidebar nav={settingsNav} />
-      <SidebarInset className="px-5 py-14 xl:px-60">{children}</SidebarInset>
+      <SidebarInset>
+        <header className="flex h-10 items-center gap-2 border-b px-4 sm:hidden">
+          <SidebarTrigger />
+          <Link href={"/"} className="flex items-center gap-2">
+            <Icons.chevronLeft className="size-5 text-muted-foreground" />
+            Settings
+          </Link>
+        </header>
+        <div className="px-5 py-14 xl:px-60">{children}</div>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
