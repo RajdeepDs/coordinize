@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -48,7 +49,7 @@ export const PrivateBeta = () => {
         },
         onSuccess: () => {
           setSubmitted(false);
-          form.reset();
+          redirect("/getting-started/welcome");
         },
         onError: () => {
           setSubmitted(false);

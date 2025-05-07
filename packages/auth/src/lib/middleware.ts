@@ -1,5 +1,5 @@
 import { betterFetch } from "@better-fetch/fetch";
-import type { OnboardingStep } from "@coordinize/database/db"; // Make sure this import works
+import type { OnboardingStep } from "@coordinize/database/db";
 import { type NextRequest, NextResponse } from "next/server";
 import type { auth } from "../auth";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
@@ -20,7 +20,7 @@ export async function authMiddleware(request: NextRequest) {
     {
       baseURL: request.nextUrl.origin,
       headers: {
-        cookie: request.headers.get("cookie") || "",
+        cookie: request.headers.get("cookie") || "", // Forward the cookies from the request
       },
     },
   );
@@ -28,7 +28,12 @@ export async function authMiddleware(request: NextRequest) {
   // Skip all logic for auth APIs
   if (isApiAuthRoute) return NextResponse.next();
 
-  // ---------- USER IS LOGGED IN ----------
+  // -------------- User Not Authenticated ----------------
+  if (!session && !isAuthRoute && !isPublicRoute) {
+    return NextResponse.redirect(new URL("/private-beta", nextUrl));
+  }
+
+  // -------------- User Authenticated ----------------
   if (session) {
     const { onboarded, onboardingStep, defaultWorkspace } = session.user;
 
@@ -59,19 +64,5 @@ export async function authMiddleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // ---------- 🕵️ USER NOT LOGGED IN ----------
-  if (!session && !isPublicRoute) {
-    return NextResponse.redirect(new URL("/private-beta", nextUrl));
-  }
-
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: [
-    // Match all routes except static assets, public routes, and specific paths
-    "/((?!_next|static|public|private-beta|auth/get-session|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    // Match API and tRPC routes except auth/get-session
-    "/(api|trpc)(?!/auth/get-session)(.*)",
-  ],
-};
