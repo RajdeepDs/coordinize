@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  Archive,
   ArrowRight,
   BellDot,
   BookOpen,
@@ -21,6 +22,7 @@ import {
   Search,
   Settings,
   ShieldUser,
+  SmilePlus,
   UserCircle2,
   UserSquare2,
   Users,
@@ -57,6 +59,8 @@ export const Icons = {
   ellipsis: Ellipsis,
   settings: Settings,
   members: Users,
+  emojiPlus: SmilePlus,
+  archive: Archive,
   help: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"
