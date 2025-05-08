@@ -23,12 +23,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
+  useSidebar,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { redirect, useParams } from "next/navigation";
 
 export function TeamSwitcher() {
   const params = useParams<{ slug: string }>();
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -106,7 +108,9 @@ export function TeamSwitcher() {
               <Icons.search />
             </Link>
           </Button>
-          <SidebarTrigger className="size-9 text-muted-foreground" />
+          {!isMobile && (
+            <SidebarTrigger className="size-9 text-muted-foreground" />
+          )}
         </div>
       </SidebarMenuItem>
     </SidebarMenu>
