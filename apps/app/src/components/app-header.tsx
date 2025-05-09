@@ -4,14 +4,17 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 import { pageTabs } from "@/config/page-tabs";
+import { Button } from "@coordinize/ui/components/button";
 import { Label } from "@coordinize/ui/components/label";
 import { Separator } from "@coordinize/ui/components/separator";
 import { SidebarTrigger } from "@coordinize/ui/components/sidebar";
 import { useSidebar } from "@coordinize/ui/components/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@coordinize/ui/components/tabs";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
 
 export function AppHeader() {
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
 
   const pathname = usePathname();
   const { slug } = useParams<{ slug: string }>();
@@ -34,19 +37,32 @@ export function AppHeader() {
     })) ?? [];
 
   return (
-    <header className="my-2 flex h-9 items-center">
+    <header className="my-2 flex h-9 items-center justify-between">
       <div className="flex h-full items-center gap-2">
-        {isMobile && (
-          <>
-            <SidebarTrigger className="h-9 text-muted-foreground" />
-            <Separator orientation="vertical" className="max-h-5" />
-          </>
-        )}
+        {isMobile ||
+          (state === "collapsed" && (
+            <>
+              <SidebarTrigger className="h-9 text-muted-foreground" />
+              <Separator orientation="vertical" className="max-h-5" />
+            </>
+          ))}
         <Label className="mx-2 font-normal">
           {currentPage?.page ?? "Home"}
         </Label>
+        {tabsWithSlug.length > 0 && <HeaderTabs tabs={tabsWithSlug} />}
       </div>
-      {tabsWithSlug.length > 0 && <HeaderTabs tabs={tabsWithSlug} />}
+      <div className="flex items-center gap-2">
+        <Button
+          variant={"ghost"}
+          size={"icon"}
+          className={cn("text-muted-foreground", isMobile ? "hidden" : "block")}
+        >
+          <Icons.bell />
+        </Button>
+        <Button variant={"ghost"} size={"icon"}>
+          <Icons.panelRight />
+        </Button>
+      </div>
     </header>
   );
 }
@@ -59,7 +75,7 @@ function HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
           <TabsTrigger
             key={tab.href}
             value={tab.href}
-            className="border-border text-muted-foreground data-[state=active]:bg-muted data-[state=active]:text-foreground data-[state=active]:shadow-none dark:text-muted-foreground"
+            className="border-border font-normal text-muted-foreground data-[state=active]:bg-muted data-[state=active]:font-medium data-[state=active]:text-foreground data-[state=active]:shadow-none dark:text-muted-foreground"
             asChild
           >
             <Link href={tab.href}>{tab.name}</Link>
