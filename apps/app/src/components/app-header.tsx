@@ -13,6 +13,14 @@ import { Tabs, TabsList, TabsTrigger } from "@coordinize/ui/components/tabs";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { cn } from "@coordinize/ui/lib/utils";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@coordinize/ui/components/select";
+
 export function AppHeader() {
   const { isMobile, state } = useSidebar();
 
@@ -39,27 +47,38 @@ export function AppHeader() {
   return (
     <header className="my-2 flex h-9 items-center justify-between">
       <div className="flex h-full items-center gap-2">
-        {isMobile ||
-          (state === "collapsed" && (
-            <>
-              <SidebarTrigger className="h-9 text-muted-foreground" />
-              <Separator orientation="vertical" className="max-h-5" />
-            </>
-          ))}
+        <div
+          className={cn(
+            "flex h-full items-center gap-2",
+            isMobile || state === "collapsed" ? "flex" : "hidden",
+          )}
+        >
+          <SidebarTrigger className="size-9 text-muted-foreground" />
+          <Separator orientation="vertical" className="max-h-5" />
+        </div>
+
         <Label className="mx-2 font-normal">
           {currentPage?.page ?? "Home"}
         </Label>
-        {tabsWithSlug.length > 0 && <HeaderTabs tabs={tabsWithSlug} />}
+        {isMobile ? (
+          <>{tabsWithSlug.length > 0 && <HeaderSelect tabs={tabsWithSlug} />}</>
+        ) : (
+          <>{tabsWithSlug.length > 0 && <HeaderTabs tabs={tabsWithSlug} />}</>
+        )}
       </div>
       <div className="flex items-center gap-2">
         <Button
           variant={"ghost"}
           size={"icon"}
-          className={cn("text-muted-foreground", isMobile ? "hidden" : "block")}
+          className={cn("text-muted-foreground")}
         >
           <Icons.bell />
         </Button>
-        <Button variant={"ghost"} size={"icon"}>
+        <Button
+          variant={"ghost"}
+          size={"icon"}
+          className="text-muted-foreground"
+        >
           <Icons.panelRight />
         </Button>
       </div>
@@ -83,5 +102,24 @@ function HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
         ))}
       </TabsList>
     </Tabs>
+  );
+}
+
+export default function HeaderSelect({
+  tabs,
+}: { tabs: { name: string; href: string }[] }) {
+  return (
+    <Select defaultValue={tabs.at(0)?.href}>
+      <SelectTrigger className="h-8">
+        <SelectValue placeholder="Select framework" />
+      </SelectTrigger>
+      <SelectContent>
+        {tabs.map((tab) => (
+          <SelectItem key={tab.href} value={tab.href}>
+            <Link href={tab.href}>{tab.name}</Link>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

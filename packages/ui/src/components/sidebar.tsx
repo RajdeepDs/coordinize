@@ -2,7 +2,6 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@coordinize/ui/components/button";
@@ -24,6 +23,7 @@ import {
 } from "@coordinize/ui/components/tooltip";
 import { useIsMobile } from "@coordinize/ui/hooks/use-mobile";
 import { cn } from "@coordinize/ui/lib/utils";
+import { Icons } from "../lib/icons";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -273,7 +273,7 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon />
+      <Icons.panelLeft />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
