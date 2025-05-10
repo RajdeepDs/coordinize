@@ -1,19 +1,13 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
-import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../init";
+import { createTRPCRouter } from "../init";
+import { teamRouter } from "./team";
+import { userRouter } from "./user";
+import { workspaceRouter } from "./workspace";
 
 export const appRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(
-      z.object({
-        text: z.string(),
-      }),
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
-    }),
+  user: userRouter,
+  workspace: workspaceRouter,
+  team: teamRouter,
 });
 
 // export type definition of API
