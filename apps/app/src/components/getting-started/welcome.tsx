@@ -1,13 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { welcomeStepAction } from "@/actions/welcome-step-action";
-import { getCurrentUser } from "@/queries/cached-queries";
+import { useTRPC } from "@/trpc/client";
 import { useUploadThing } from "@/utils/uploadthing";
 import type { User } from "@coordinize/database/db";
 import { Button } from "@coordinize/ui/button";
@@ -38,7 +37,9 @@ interface WelcomeProps {
 }
 
 export function Welcome({ nextStep }: WelcomeProps) {
+  const trpc = useTRPC();
   const [user, setUser] = useState<User | null>(null);
+  const [isExecuting, setIsExecuting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,39 +52,33 @@ export function Welcome({ nextStep }: WelcomeProps) {
 
   const { startUpload } = useUploadThing("imageUploader");
 
+  // Fetch user data using useQuery
+  const { data: userData, isFetched } = useSuspenseQuery(
+    trpc.user.me.queryOptions(),
+  );
+
+  // Use useEffect to handle user data and form reset
   useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await getCurrentUser();
-
+    if (userData && isFetched) {
       setUser(userData);
+      form.reset({
+        profilePic: userData.image ?? "",
+        profilePicFile: undefined,
+        preferredName: userData.name,
+      });
+    }
+  }, [userData, isFetched, form]);
 
-      if (userData) {
-        form.reset({
-          profilePic: userData.image ?? "",
-          profilePicFile: undefined,
-          preferredName: userData.name,
-        });
-      }
-    };
-
-    fetchUser();
-  }, [form]);
-
-  const { execute, isExecuting } = useAction(welcomeStepAction, {
-    onError: ({ error }) => {
-      console.error(error);
-    },
-    onSuccess: ({ data }) => {
-      console.log(data);
-    },
-    onSettled: () => {
-      nextStep();
-    },
-  });
-
-  if (!user) return null;
+  const { mutate } = useMutation(
+    trpc.onboarding.welcome.mutationOptions({
+      onSettled: () => {
+        nextStep();
+      },
+    }),
+  );
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsExecuting(true);
     try {
       let profilePicUrl = values.profilePic;
 
@@ -93,13 +88,14 @@ export function Welcome({ nextStep }: WelcomeProps) {
         profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? "";
       }
 
-      execute({
+      mutate({
         preferredName: values.preferredName,
         profilePicURL: profilePicUrl,
       });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
+    setIsExecuting(false);
   }
 
   return (
@@ -136,7 +132,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
                 <Input
                   {...field}
                   placeholder="Enter your name"
-                  className={user && "bg-muted"}
+                  className={user ? "bg-muted" : ""}
                 />
               </FormControl>
               <FormMessage />
