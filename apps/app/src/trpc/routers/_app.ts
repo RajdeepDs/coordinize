@@ -1,10 +1,12 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { createTRPCRouter } from "../init";
+import { authRouter } from "./auth";
 import { teamRouter } from "./team";
 import { userRouter } from "./user";
 import { workspaceRouter } from "./workspace";
 
 export const appRouter = createTRPCRouter({
+  auth: authRouter,
   user: userRouter,
   workspace: workspaceRouter,
   team: teamRouter,

@@ -1,4 +1,4 @@
-import { getWorkspaceMembersQuery, getWorkspaceQuery } from "@/queries";
+import { getWorkspaceMembersQuery, getWorkspaceQuery } from "@/lib/queries";
 import { createTRPCRouter, protectedProcedure } from "../init";
 
 export const workspaceRouter = createTRPCRouter({

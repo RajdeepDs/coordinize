@@ -1,12 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { joinWaitlistAction } from "@/actions/join-waitlist-action";
+import { useTRPC } from "@/trpc/client";
 import { Button } from "@coordinize/ui/button";
 import { toast } from "@coordinize/ui/components/sonner";
 import {
@@ -32,24 +32,36 @@ export const JoinWaitlist = () => {
     defaultValues: { name: "", email: "" },
   });
 
-  const { execute, status } = useAction(joinWaitlistAction, {
-    onError: ({ error }) => {
-      toast.warning(error.serverError as string);
-    },
-    onSuccess: () => {
-      setSubmitted(true);
-      toast.success("You're on the list.", {
-        description: "We'll let you know when we're ready!",
-      });
-    },
-    onSettled: () => {
+  const resetForm = () => {
+    setTimeout(() => {
       form.reset();
       setSubmitted(false);
-    },
-  });
+    }, 5000);
+  };
+
+  const trpc = useTRPC();
+
+  const { mutate, status } = useMutation(
+    trpc.auth.joinWaitlist.mutationOptions({
+      onSuccess: () => {
+        setSubmitted(true);
+        toast.success("You're on the list.", {
+          description: "We'll let you know when we're ready!",
+        });
+      },
+      onError: () => {
+        toast.error("Something went wrong.", {
+          description: "Please try again later.",
+        });
+      },
+      onSettled: () => {
+        resetForm();
+      },
+    }),
+  );
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    execute(values);
+    mutate(values);
   }
 
   return (
@@ -89,8 +101,8 @@ export const JoinWaitlist = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={status === "executing" || submitted}>
-          {status === "executing"
+        <Button type="submit" disabled={status === "pending" || submitted}>
+          {status === "pending"
             ? "Joining..."
             : submitted
               ? "Joined 🎉"

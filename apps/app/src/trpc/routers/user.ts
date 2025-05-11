@@ -1,4 +1,4 @@
-import { getUserQuery } from "@/queries";
+import { getUserQuery } from "@/lib/queries";
 import { createTRPCRouter, protectedProcedure } from "../init";
 
 export const userRouter = createTRPCRouter({
