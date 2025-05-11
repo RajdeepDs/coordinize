@@ -1,9 +1,12 @@
 import { MembersTable } from "@/components/ui/members-table";
-import { getWorkspaceMembers } from "@/queries/cached-queries";
+import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
 import { Label } from "@coordinize/ui/components/label";
 
 export default async function MembersPage() {
-  const members = await getWorkspaceMembers();
+  const queryClient = getQueryClient();
+  const members = await queryClient.fetchQuery(
+    trpc.workspace.members.queryOptions(),
+  );
 
   if (!members) {
     return <div>Loading...</div>;
@@ -20,11 +23,13 @@ export default async function MembersPage() {
   });
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4">
-        <Label className="text-muted-foreground">Members</Label>
-        <MembersTable data={data} />
+    <HydrateClient>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
+          <Label className="text-muted-foreground">Members</Label>
+          <MembersTable data={data} />
+        </div>
       </div>
-    </div>
+    </HydrateClient>
   );
 }
