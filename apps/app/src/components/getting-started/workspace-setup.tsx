@@ -2,12 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "@sindresorhus/slugify";
-import { useAction } from "next-safe-action/hooks";
-import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { workspaceSetupStepAction } from "@/actions/workspace-setup-step-action";
+import { useTRPC } from "@/trpc/client";
 import { useUploadThing } from "@/utils/uploadthing";
 import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import { Button } from "@coordinize/ui/components/button";
@@ -37,6 +37,9 @@ interface WorkspaceSetupProps {
 }
 
 export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
+  const trpc = useTRPC();
+  const [isExecuting, setIsExecuting] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,19 +59,16 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
     form.setValue("workspaceSlug", slug);
   }, [workspaceName, form]);
 
-  const { execute, isExecuting } = useAction(workspaceSetupStepAction, {
-    onError: (error) => {
-      console.error(error);
-    },
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onSettled: () => {
-      nextStep();
-    },
-  });
+  const { mutate } = useMutation(
+    trpc.onboarding.workspaceSetup.mutationOptions({
+      onSettled: () => {
+        nextStep();
+      },
+    }),
+  );
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsExecuting(true);
     try {
       let workspaceLogoUrl = values.workspaceLogo;
 
@@ -78,14 +78,15 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
         workspaceLogoUrl = uploaded?.[0]?.ufsUrl || "";
       }
 
-      execute({
+      mutate({
         workspaceName: values.workspaceName,
-        workspaceURL: values.workspaceSlug,
+        workspaceSlug: values.workspaceSlug,
         workspaceLogoURL: workspaceLogoUrl,
       });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
+    setIsExecuting(false);
   }
 
   return (

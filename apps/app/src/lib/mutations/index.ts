@@ -35,3 +35,36 @@ export async function welcomeStep(
     },
   });
 }
+
+export async function workspaceSetupStep(
+  db: PrismaClient,
+  workspaceName: string,
+  workspaceURL: string,
+  workspaceLogoURL: string | undefined,
+  userId: string,
+) {
+  const workspace = await db.workspace.create({
+    data: {
+      name: workspaceName,
+      slug: workspaceURL,
+      logo: workspaceLogoURL,
+      createdBy: userId,
+    },
+  });
+
+  await db.workspaceMember.create({
+    data: {
+      workspaceId: workspace.id,
+      userId,
+      role: "ADMIN",
+    },
+  });
+
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      defaultWorkspace: workspace.slug,
+      onboardingStep: OnboardingStep.PREFERENCES,
+    },
+  });
+}
