@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { welcomeStepAction } from "@/actions/welcome-step-action";
-import { getCurrentUser } from "@/queries/cached-queries";
+import { useTRPC } from "@/trpc/client";
 import { useUploadThing } from "@/utils/uploadthing";
 import type { User } from "@coordinize/database/db";
 import { Button } from "@coordinize/ui/button";
@@ -22,6 +22,7 @@ import {
 } from "@coordinize/ui/components/form";
 import { Input } from "@coordinize/ui/components/input";
 import { Icons } from "@coordinize/ui/lib/icons";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
@@ -38,6 +39,7 @@ interface WelcomeProps {
 }
 
 export function Welcome({ nextStep }: WelcomeProps) {
+  const trpc = useTRPC();
   const [user, setUser] = useState<User | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,23 +53,22 @@ export function Welcome({ nextStep }: WelcomeProps) {
 
   const { startUpload } = useUploadThing("imageUploader");
 
+  // Fetch user data using useQuery
+  const { data: userData, isFetched } = useSuspenseQuery(
+    trpc.user.me.queryOptions(),
+  );
+
+  // Use useEffect to handle user data and form reset
   useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await getCurrentUser();
-
+    if (userData && isFetched) {
       setUser(userData);
-
-      if (userData) {
-        form.reset({
-          profilePic: userData.image ?? "",
-          profilePicFile: undefined,
-          preferredName: userData.name,
-        });
-      }
-    };
-
-    fetchUser();
-  }, [form]);
+      form.reset({
+        profilePic: userData.image ?? "",
+        profilePicFile: undefined,
+        preferredName: userData.name,
+      });
+    }
+  }, [userData, isFetched, form]);
 
   const { execute, isExecuting } = useAction(welcomeStepAction, {
     onError: ({ error }) => {
@@ -80,8 +81,6 @@ export function Welcome({ nextStep }: WelcomeProps) {
       nextStep();
     },
   });
-
-  if (!user) return null;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -136,7 +135,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
                 <Input
                   {...field}
                   placeholder="Enter your name"
-                  className={user && "bg-muted"}
+                  className={user ? "bg-muted" : ""}
                 />
               </FormControl>
               <FormMessage />
