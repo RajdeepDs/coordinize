@@ -1,12 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { welcomeStepAction } from "@/actions/welcome-step-action";
 import { useTRPC } from "@/trpc/client";
 import { useUploadThing } from "@/utils/uploadthing";
 import type { User } from "@coordinize/database/db";
@@ -22,7 +21,6 @@ import {
 } from "@coordinize/ui/components/form";
 import { Input } from "@coordinize/ui/components/input";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { useSuspenseQuery } from "@tanstack/react-query";
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
@@ -41,6 +39,7 @@ interface WelcomeProps {
 export function Welcome({ nextStep }: WelcomeProps) {
   const trpc = useTRPC();
   const [user, setUser] = useState<User | null>(null);
+  const [isExecuting, setIsExecuting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,19 +69,16 @@ export function Welcome({ nextStep }: WelcomeProps) {
     }
   }, [userData, isFetched, form]);
 
-  const { execute, isExecuting } = useAction(welcomeStepAction, {
-    onError: ({ error }) => {
-      console.error(error);
-    },
-    onSuccess: ({ data }) => {
-      console.log(data);
-    },
-    onSettled: () => {
-      nextStep();
-    },
-  });
+  const { mutate } = useMutation(
+    trpc.onboarding.welcome.mutationOptions({
+      onSettled: () => {
+        nextStep();
+      },
+    }),
+  );
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsExecuting(true);
     try {
       let profilePicUrl = values.profilePic;
 
@@ -92,13 +88,14 @@ export function Welcome({ nextStep }: WelcomeProps) {
         profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? "";
       }
 
-      execute({
+      mutate({
         preferredName: values.preferredName,
         profilePicURL: profilePicUrl,
       });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
+    setIsExecuting(false);
   }
 
   return (

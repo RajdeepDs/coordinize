@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@coordinize/database/db";
+import { OnboardingStep, type PrismaClient } from "@coordinize/database/db";
 import { TRPCError } from "@trpc/server";
 
 export async function joinWaitlist(
@@ -17,5 +17,21 @@ export async function joinWaitlist(
 
   await db.earlyAccess.create({
     data: { name, email },
+  });
+}
+
+export async function welcomeStep(
+  db: PrismaClient,
+  preferredName: string,
+  profilePicURL: string | undefined,
+  userId: string,
+) {
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      name: preferredName,
+      image: profilePicURL,
+      onboardingStep: OnboardingStep.WORKSPACE_SETUP,
+    },
   });
 }
