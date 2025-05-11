@@ -18,3 +18,9 @@ export const workspaceSetupStepSchema = z.object({
   workspaceSlug: z.string(),
   workspaceLogoURL: z.string().url().or(z.string().length(0)),
 });
+
+export const preferencesStepSchema = z.object({
+  emailNotifications: z.boolean(),
+  pushNotifications: z.boolean(),
+  timezone: z.string().min(1, "Timezone is required"),
+});

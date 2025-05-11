@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { preferencesStepAction } from "@/actions/preferences-step-action";
 import TimezoneSelect from "@/components/ui/timezone-select";
+import { useTRPC } from "@/trpc/client";
 import { Button } from "@coordinize/ui/button";
 import { toast } from "@coordinize/ui/components/sonner";
 import {
@@ -27,6 +28,9 @@ const preferencesSchema = z.object({
 });
 
 export function Preferences() {
+  const trpc = useTRPC();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof preferencesSchema>>({
     resolver: zodResolver(preferencesSchema),
     defaultValues: {
@@ -36,22 +40,22 @@ export function Preferences() {
     },
   });
 
-  const { execute, isExecuting } = useAction(preferencesStepAction, {
-    onError: ({ error }) => {
-      console.error(error);
-    },
-    onSuccess: () => {
-      toast.success("Welcome aboard!", {
-        description: "Your workspace is all set up and ready to go.",
-      });
-    },
-    onSettled: () => {
-      form.reset();
-    },
-  });
+  const { mutate, isPending } = useMutation(
+    trpc.onboarding.preferences.mutationOptions({
+      onSuccess: ({ workspaceSlug }) => {
+        toast.success("Welcome aboard!", {
+          description: "Your workspace is all set up and ready to go.",
+        });
+        router.push(`/${workspaceSlug}`);
+      },
+      onSettled: () => {
+        form.reset();
+      },
+    }),
+  );
 
   const onSubmit = async (values: z.infer<typeof preferencesSchema>) => {
-    execute({
+    mutate({
       ...values,
     });
   };
@@ -105,8 +109,8 @@ export function Preferences() {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isExecuting}>
-          {isExecuting ? (
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? (
             <Icons.loader className="animate-spin" />
           ) : (
             "Get Started"

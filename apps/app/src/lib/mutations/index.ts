@@ -68,3 +68,29 @@ export async function workspaceSetupStep(
     },
   });
 }
+
+export async function preferencesStep(
+  db: PrismaClient,
+  emailNotifications: boolean,
+  pushNotifications: boolean,
+  timezone: string,
+  userId: string,
+) {
+  await db.notificationPreference.create({
+    data: {
+      emailNotifications,
+      pushNotifications,
+      userId: userId,
+    },
+  });
+
+  await db.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      timezone,
+      onboarded: true,
+    },
+  });
+}
