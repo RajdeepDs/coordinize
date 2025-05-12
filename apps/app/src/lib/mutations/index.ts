@@ -67,6 +67,8 @@ export async function workspaceSetupStep(
       onboardingStep: OnboardingStep.PREFERENCES,
     },
   });
+
+  return workspace;
 }
 
 export async function preferencesStep(
