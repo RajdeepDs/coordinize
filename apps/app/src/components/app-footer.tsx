@@ -15,14 +15,23 @@ import {
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
 
-export function AppFooter() {
+interface AppFooterProps {
+  user: {
+    name: string;
+    image: string | null;
+  };
+}
+
+export function AppFooter({ user }: AppFooterProps) {
   return (
     <SidebarMenu>
       <SidebarMenuItem className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <Avatar>
-            <AvatarImage />
-            <AvatarFallback className="select-none">C</AvatarFallback>
+          <Avatar className="size-6 border-2">
+            <AvatarImage src={user?.image ?? ""} alt="user-image" />
+            <AvatarFallback className="select-none">
+              {user.name.at(0)?.toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="focus-visible:ring-0">

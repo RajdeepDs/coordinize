@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 import { appSidebarNav } from "@/config/app-sidebar-navigation";
+import { useUserQuery } from "@/hooks/use-user";
 import {
   Collapsible,
   CollapsibleContent,
@@ -29,14 +30,21 @@ import { TeamSwitcher } from "./team-switcher";
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 
 export function AppSidebar({ ...props }: AppSidebarProps) {
+  const { data: user } = useUserQuery();
+
+  if (!user) {
+    return null;
+  }
+
   const { slug } = useParams<{ slug: string }>();
   const pathname = usePathname();
 
   const sidebarNav = appSidebarNav(slug);
+
   return (
     <Sidebar {...props} className="border-none">
       <SidebarHeader className="flex items-center">
-        <TeamSwitcher />
+        <TeamSwitcher email={user.email} />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -93,7 +101,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         </Collapsible>
       </SidebarContent>
       <SidebarFooter>
-        <AppFooter />
+        <AppFooter user={user} />
       </SidebarFooter>
     </Sidebar>
   );

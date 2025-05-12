@@ -1,8 +1,16 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { redirect, useParams } from "next/navigation";
 
+import { useTRPC } from "@/trpc/client";
 import { authClient } from "@coordinize/auth/auth-client";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@coordinize/ui/components/avatar";
 import { Button } from "@coordinize/ui/components/button";
 import {
   DropdownMenu,
@@ -26,9 +34,11 @@ import {
   useSidebar,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { redirect, useParams } from "next/navigation";
 
-export function TeamSwitcher() {
+export function TeamSwitcher({ email }: { email: string }) {
+  const trpc = useTRPC();
+  const { data: workspace } = useQuery(trpc.workspace.current.queryOptions());
+
   const params = useParams<{ slug: string }>();
   const { isMobile } = useSidebar();
 
@@ -38,10 +48,13 @@ export function TeamSwitcher() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="h-9">
             <SidebarMenuButton className="w-fit focus-visible:ring-0">
-              <div className="flex size-5 items-center justify-center rounded border bg-white">
-                A
-              </div>
-              <Label className="font-normal">Acme, Inc.</Label>
+              <Avatar className="size-5 rounded border">
+                <AvatarImage src={workspace?.logo ?? ""} alt="workspace-logo" />
+                <AvatarFallback className="select-none">
+                  {workspace?.name.at(0)?.toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <Label className="font-normal">{workspace?.name}</Label>
               <Icons.chevronUpDown className="text-muted-foreground" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -66,13 +79,19 @@ export function TeamSwitcher() {
                 <DropdownMenuSubContent className="w-[--radix-dropdown-menu-trigger-width] min-w-56 font-normal text-accent-foreground">
                   <DropdownMenuGroup>
                     <DropdownMenuLabel className="select-none py-1 font-normal text-muted-foreground text-sm">
-                      rajdeepds626@gmail.com
+                      {email}
                     </DropdownMenuLabel>
                     <DropdownMenuItem>
-                      <div className="flex size-5 items-center justify-center rounded border bg-white">
-                        A
-                      </div>
-                      <Label className="font-normal">Acme, Inc.</Label>
+                      <Avatar className="size-5 rounded border">
+                        <AvatarImage
+                          src={workspace?.logo ?? ""}
+                          alt="workspace-logo"
+                        />
+                        <AvatarFallback className="select-none">
+                          {workspace?.name.at(0)?.toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <Label className="font-normal">{workspace?.name}</Label>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
