@@ -1,4 +1,4 @@
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { cache } from "react";
 import superjson from "superjson";
 
@@ -32,14 +32,15 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
-  if (!session.user.defaultWorkspace) {
+  const cookieStore = await cookies();
+  const workspaceId = cookieStore.get("workspaceId")?.value;
+
+  if (!workspaceId) {
     throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: "Default workspace is missing",
+      code: "NOT_FOUND",
+      message: "WorkspaceId not found",
     });
   }
-
-  const workspaceId = session.user.defaultWorkspace;
 
   return opts.next({
     ctx: {

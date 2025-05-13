@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 import {
   preferencesStep,
   welcomeStep,
@@ -24,13 +26,21 @@ export const onboardingRouter = createTRPCRouter({
     .mutation(async ({ input, ctx: { db, session } }) => {
       const { workspaceName, workspaceSlug, workspaceLogoURL } = input;
 
-      await workspaceSetupStep(
+      const workspace = await workspaceSetupStep(
         db,
         workspaceName,
         workspaceSlug,
         workspaceLogoURL,
         session.user.id,
       );
+
+      const cookieStore = await cookies();
+      cookieStore.set({
+        name: "workspaceId",
+        value: workspace.id,
+        secure: true,
+        httpOnly: true,
+      });
     }),
 
   preferences: protectedProcedure
