@@ -31,6 +31,7 @@
     "motion": "^12.6.2",
     "next": "^15.2.4",
     "next-safe-action": "^7.10.4",
+    "novel": "^1.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "superjson": "^2.2.2",
