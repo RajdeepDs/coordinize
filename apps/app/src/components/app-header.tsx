@@ -13,6 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@coordinize/ui/components/tabs";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { cn } from "@coordinize/ui/lib/utils";
 
+import { useSlidingSidebarStore } from "@/store/sliding-sidebar";
 import {
   Select,
   SelectContent,
@@ -23,6 +24,7 @@ import {
 
 export function AppHeader() {
   const { isMobile, state } = useSidebar();
+  const { isOpen, setIsOpen } = useSlidingSidebarStore();
 
   const pathname = usePathname();
   const { slug } = useParams<{ slug: string }>();
@@ -77,7 +79,13 @@ export function AppHeader() {
         <Button
           variant={"ghost"}
           size={"icon"}
-          className="text-muted-foreground"
+          className={cn(
+            "text-muted-foreground",
+            isOpen && "bg-muted text-primary",
+          )}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
         >
           <Icons.panelRight />
         </Button>
