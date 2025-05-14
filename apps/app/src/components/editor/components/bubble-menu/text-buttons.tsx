@@ -8,7 +8,7 @@ import {
   UnderlineIcon,
 } from "lucide-react";
 import { EditorBubbleItem, useEditor } from "novel";
-import type { SelectorItem } from "./editor.node-selector";
+import type { SelectorItem } from "./node-selector";
 
 export const TextButtons = () => {
   const { editor } = useEditor();
@@ -54,10 +54,14 @@ export const TextButtons = () => {
             item.command(editor);
           }}
         >
-          <Button size="icon" className="rounded-none" variant="ghost">
+          <Button
+            size="icon"
+            className="rounded-none text-muted-foreground"
+            variant="ghost"
+          >
             <item.icon
               className={cn("h-4 w-4", {
-                "text-blue-500": item.isActive(editor),
+                "text-foreground": item.isActive(editor),
               })}
             />
           </Button>

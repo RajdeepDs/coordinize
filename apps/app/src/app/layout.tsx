@@ -1,5 +1,5 @@
 import "@coordinize/ui/globals.css";
-import "@/components/editor/prosemirror.css";
+import "@/components/editor/utils/prosemirror.css";
 
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";

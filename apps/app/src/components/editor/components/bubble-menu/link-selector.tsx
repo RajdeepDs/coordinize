@@ -43,18 +43,21 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
   return (
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="gap-2 rounded-none border-none">
+        <Button
+          variant="ghost"
+          className="gap-2 rounded-none border-none text-muted-foreground"
+        >
           <p className="text-base">↗</p>
           <p
             className={cn("underline decoration-stone-400 underline-offset-4", {
-              "text-blue-500": editor.isActive("link"),
+              "text-foreground": editor.isActive("link"),
             })}
           >
             Link
           </p>
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-60 p-0" sideOffset={10}>
+      <PopoverContent align="start" className="w-fit p-0" sideOffset={10}>
         <form
           onSubmit={(e) => {
             const target = e.currentTarget as HTMLFormElement;
@@ -77,7 +80,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
               size="icon"
               variant="outline"
               type="button"
-              className="flex h-8 items-center rounded-sm p-1 text-red-600 transition-all hover:bg-red-100 dark:hover:bg-red-800"
+              className="flex h-8 items-center rounded-sm p-1 text-red-600 transition-all hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-800"
               onClick={() => {
                 editor.chain().focus().unsetLink().run();
               }}
@@ -85,7 +88,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
               <Trash className="h-4 w-4" />
             </Button>
           ) : (
-            <Button size="icon" className="h-8">
+            <Button size="icon" className="h-8" variant={"ghost"}>
               <Check className="h-4 w-4" />
             </Button>
           )}

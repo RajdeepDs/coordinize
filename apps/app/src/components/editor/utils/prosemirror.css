@@ -4,14 +4,14 @@
 }
 
 /* Add placeholder styles */
-/* .ProseMirror p.is-editor-empty:first-child::before {
+.ProseMirror p.is-editor-empty:first-child::before {
   color: #616161;
   opacity: 0.5;
-  content: 'Start your asd here';
+  content: attr(data-placeholder);
   float: left;
   height: 0;
   pointer-events: none;
-} */
+}
 
 /* Custom image styles */
 
@@ -69,23 +69,24 @@ ul[data-type="taskList"] li > label {
 ul[data-type="taskList"] li > label input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
-  background-color: hsl(var(--background));
+  background-color: var(--background);
   cursor: pointer;
   width: 1.2em;
   height: 1.2em;
   position: relative;
   top: 5px;
-  border: 2px solid hsl(var(--border));
+  border: 2px solid var(--border);
+  border-radius: 6px;
   margin-right: 0.3rem;
   display: grid;
   place-content: center;
 
   &:hover {
-    background-color: hsl(var(--accent));
+    background-color: var(--accent);
   }
 
   &:active {
-    background-color: hsl(var(--accent));
+    background-color: var(--accent);
   }
 
   &::before {
@@ -222,4 +223,11 @@ mark[style] > strong {
 
 .ProseMirror ol {
   padding-left: 1.5rem;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid var(--border);
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-right: 0;
 }
