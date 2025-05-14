@@ -17,7 +17,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
       })}
     >
       <AppHeader />
-      <SidebarInset className="rounded border p-2">{children}</SidebarInset>
+      <SidebarInset className="rounded border">{children}</SidebarInset>
     </div>
   );
 }
