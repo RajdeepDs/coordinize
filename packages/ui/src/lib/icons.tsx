@@ -21,7 +21,9 @@ import {
   Loader2Icon,
   Lock,
   Mail,
+  Maximize2,
   Monitor,
+  Pen,
   Plus,
   Search,
   Settings,
@@ -71,6 +73,26 @@ export const Icons = {
   plus: Plus,
   inbox: Inbox,
   star: Star,
+  maximize: Maximize2,
+  pen: Pen,
+  megaphone: (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      width="14"
+      height="15"
+      viewBox="0 0 14 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M12.1641 9.83327C13.2686 9.83327 14.1641 8.93787 14.1641 7.83327C14.1641 6.72871 13.2686 5.83329 12.1641 5.83329M8.38362 12.6666C8.10909 13.4434 7.36822 13.9999 6.49742 13.9999C5.39285 13.9999 4.49742 13.1045 4.49742 11.9999V10.9999M4.49888 4.66662V10.9999M12.1641 4.1404V11.5262C12.1641 12.4238 11.2951 13.065 10.4374 12.8001L2.77074 10.433C2.2119 10.2605 1.83075 9.74393 1.83075 9.15907V6.50753C1.83075 5.92267 2.2119 5.40608 2.77074 5.23353L10.4374 2.86641C11.2951 2.6016 12.1641 3.24279 12.1641 4.1404Z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
   help: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"
