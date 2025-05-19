@@ -29,8 +29,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Please enter a name for your space.",
+  name: z.string().min(3, {
+    message: "Name must be at least 3 characters long.",
   }),
   about: z.string(),
 });

@@ -37,8 +37,8 @@ model User {
   Workspace              Workspace[]
   WorkspaceMember        WorkspaceMember[]
   NotificationPreference NotificationPreference[]
-  Team                   Team[]
-  TeamMember             TeamMember[]
+  Space                  Space[]
+  SpaceMember            SpaceMember[]
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -115,7 +115,7 @@ model Workspace {
 
   creator         User              @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   WorkspaceMember WorkspaceMember[]
-  Team            Team[]
+  Space           Space[]
 
   @@index([createdBy])
   @@map("workspace")
@@ -153,37 +153,38 @@ model NotificationPreference {
   @@map("notificationPreference")
 }
 
-model Team {
+model Space {
   id          String   @id @default(cuid())
   name        String
+  about       String?
   identifier  String
   workspaceId String
   createdBy   String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  workspace Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  creator   User         @relation(fields: [createdBy], references: [id], onDelete: Cascade)
-  members   TeamMember[]
+  workspace Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  creator   User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  members   SpaceMember[]
 
   @@unique([identifier])
   @@index([workspaceId])
   @@index([createdBy])
-  @@map("team")
+  @@map("space")
 }
 
-model TeamMember {
-  id     String   @id @default(cuid())
-  teamId String
-  userId String
-  role   Role     @default(MEMBER)
-  joined DateTime @default(now())
+model SpaceMember {
+  id      String   @id @default(cuid())
+  spaceId String
+  userId  String
+  role    Role     @default(MEMBER)
+  joined  DateTime @default(now())
 
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  space Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([teamId, userId])
-  @@index([teamId])
+  @@unique([spaceId, userId])
+  @@index([spaceId])
   @@index([userId])
-  @@map("teamMember")
+  @@map("spaceMember")
 }
