@@ -15,6 +15,7 @@ export default async function AppLayout({
   batchPrefetch([
     trpc.user.me.queryOptions(),
     trpc.workspace.current.queryOptions(),
+    trpc.space.getAll.queryOptions(),
   ]);
 
   return (
