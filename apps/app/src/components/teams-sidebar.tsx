@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { useSlidingSidebarStore } from "@/store/sliding-sidebar";
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,7 +20,6 @@ import {
   SidebarMenuItem,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { cn } from "@coordinize/ui/lib/utils";
 
 const onlineMembers = [
   {
@@ -35,7 +33,6 @@ const onlineMembers = [
 ];
 
 export function TeamsSidebar() {
-  const { isOpen } = useSlidingSidebarStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredMembers, setFilteredMembers] = useState(onlineMembers);
 
@@ -47,18 +44,17 @@ export function TeamsSidebar() {
   }, [searchQuery]);
 
   return (
-    <div
-      className={cn(
-        "absolute top-0 right-0 h-full overflow-hidden bg-white transition-all duration-300 ease-in-out",
-        isOpen ? "w-52" : "w-0",
-      )}
-    >
-      <div className="h-full w-52">
-        <Sidebar collapsible="none" className="w-full border-l" side="right">
-          <SidebarHeader>
+    <div className="hidden h-full xl:flex">
+      <div className="h-full w-56">
+        <Sidebar
+          collapsible="none"
+          className="w-full rounded border bg-background"
+          side="right"
+        >
+          <SidebarHeader className="p-0">
             <div className="relative">
               <Input
-                className="peer border-none px-0 ps-9 shadow-none focus-visible:ring-0"
+                className="peer border-none bg-transparent px-0 ps-9 shadow-none focus-visible:ring-0 dark:bg-transparent"
                 placeholder="Search people..."
                 type="text"
                 value={searchQuery}

@@ -6,6 +6,10 @@
       "@coordinize/ui/*": ["./src/*"]
     }
   },
-  "include": ["src", "../../apps/app/src/components/ui/interface-select.tsx"],
+  "include": [
+    "src",
+    "../../apps/app/src/components/ui/interface-select.tsx",
+    "../../apps/app/src/components/ui/comp-77.tsx"
+  ],
   "exclude": ["node_modules"]
 }

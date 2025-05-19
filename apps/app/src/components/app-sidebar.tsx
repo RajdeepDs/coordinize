@@ -22,6 +22,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { AppFooter } from "./app-footer";
@@ -55,8 +56,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                   variant={"outline"}
                   className="flex cursor-pointer justify-center border bg-background hover:bg-background"
                 >
-                  <Icons.plus />
-                  <span>New post</span>
+                  <span className="font-normal">New post</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {sidebarNav.map((nav) => {
@@ -103,6 +103,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
       <SidebarFooter>
         <AppFooter user={user} />
       </SidebarFooter>
+      <SidebarRail className="my-2 mr-1" />
     </Sidebar>
   );
 }
