@@ -1,27 +1,27 @@
-import { TeamsTable } from "@/components/ui/teams-table";
+import { SpacesTable } from "@/components/ui/spaces-table";
 import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
 import { Label } from "@coordinize/ui/components/label";
 
-export default async function TeamsPage({
+export default async function SpacesPage({
   params,
 }: { params: Promise<{ slug: string }> }) {
   const queryClient = getQueryClient();
 
-  const teams = await queryClient.fetchQuery(trpc.team.getAll.queryOptions());
+  const spaces = await queryClient.fetchQuery(trpc.space.getAll.queryOptions());
 
-  if (!teams) {
+  if (!spaces) {
     return <>Loading...</>;
   }
 
   const { slug } = await params;
-  const createTeamHref = `/${slug}/settings/new-team`;
+  const createTeamHref = `/${slug}/settings/new-space`;
 
   return (
     <HydrateClient>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
-          <Label className="text-muted-foreground">Teams</Label>
-          <TeamsTable data={teams} slug={createTeamHref} />
+          <Label className="text-muted-foreground">Spaces</Label>
+          <SpacesTable data={spaces} slug={createTeamHref} />
         </div>
       </div>
     </HydrateClient>

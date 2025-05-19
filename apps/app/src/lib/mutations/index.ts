@@ -96,3 +96,30 @@ export async function preferencesStep(
     },
   });
 }
+
+export async function createNewSpace(
+  db: PrismaClient,
+  name: string,
+  identifier: string,
+  about: string | undefined,
+  workspaceId: string,
+  userId: string,
+) {
+  const space = await db.space.create({
+    data: {
+      name,
+      identifier,
+      about,
+      workspaceId,
+      createdBy: userId,
+    },
+  });
+
+  await db.spaceMember.create({
+    data: {
+      spaceId: space.id,
+      userId: userId,
+      role: "ADMIN",
+    },
+  });
+}

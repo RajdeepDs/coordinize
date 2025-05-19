@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,7 +19,7 @@ import {
 import { Input } from "@coordinize/ui/components/input";
 import { toast } from "@coordinize/ui/components/sonner";
 import { Textarea } from "@coordinize/ui/components/textarea";
-import { redirect } from "next/navigation";
+import { Icons } from "@coordinize/ui/lib/icons";
 
 const formSchema = z.object({
   spaceName: z.string().min(3, "Space name must be at least 3 characters."),
@@ -34,6 +35,8 @@ function generateIdentifier(name: string) {
 
 export function CreateNewSpaceForm() {
   const trpc = useTRPC();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,11 +53,13 @@ export function CreateNewSpaceForm() {
     form.setValue("spaceIdentifier", generated);
   }, [spaceName, form]);
 
-  const { mutate } = useMutation(
+  const { mutate, isPending } = useMutation(
     trpc.space.create.mutationOptions({
-      onSuccess: () => {
+      onSuccess: ({ workspaceSlug }) => {
         toast.success("Space created successfully.");
-        redirect("/teams");
+        const spacesSettingsPath = `/${workspaceSlug}/settings/spaces`;
+
+        router.push(`${spacesSettingsPath}`);
       },
       onError: () => {
         toast.error("Something went wrong.");
@@ -148,14 +153,13 @@ export function CreateNewSpaceForm() {
           type="submit"
           className="ml-auto flex min-w-[120px] font-normal"
           size="sm"
-          // disabled={isExecuting}
+          disabled={isPending}
         >
-          {/* {isExecuting ? (
+          {isPending ? (
             <Icons.loader className="mx-auto animate-spin" />
           ) : (
             <>Create space</>
-          )} */}
-          Create space
+          )}
         </Button>
       </form>
     </Form>

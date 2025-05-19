@@ -1,19 +1,19 @@
-// Team Navigation - e.g. /settings/teams/[teamId]/[...path]
+// Space Navigation - e.g. /settings/space/[spaceId]/[...path]
 export type NavItem = {
   label: string;
   href: string;
   icon: string;
 };
-export function getTeamNavigation(teamId: string, slug: string): NavItem[] {
+export function getSpaceNavigation(spaceId: string, slug: string): NavItem[] {
   return [
     {
       label: "General",
-      href: `/${slug}/settings/teams/${teamId}/general`,
+      href: `/${slug}/settings/space/${spaceId}/general`,
       icon: "settings",
     },
     {
       label: "Members",
-      href: `/${slug}/settings/teams/${teamId}/members`,
+      href: `/${slug}/settings/space/${spaceId}/members`,
       icon: "members",
     },
   ];
