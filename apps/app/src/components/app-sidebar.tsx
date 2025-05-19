@@ -22,6 +22,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { AppFooter } from "./app-footer";
@@ -103,6 +104,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
       <SidebarFooter>
         <AppFooter user={user} />
       </SidebarFooter>
+      <SidebarRail className="my-2 mr-1" />
     </Sidebar>
   );
 }

@@ -6,7 +6,6 @@ import { useParams, usePathname } from "next/navigation";
 import { pageTabs } from "@/config/page-tabs";
 import { Button } from "@coordinize/ui/components/button";
 import { Label } from "@coordinize/ui/components/label";
-import { Separator } from "@coordinize/ui/components/separator";
 import { SidebarTrigger } from "@coordinize/ui/components/sidebar";
 import { useSidebar } from "@coordinize/ui/components/sidebar";
 import { Tabs, TabsList, TabsTrigger } from "@coordinize/ui/components/tabs";
@@ -44,32 +43,24 @@ export function AppHeader() {
     })) ?? [];
 
   return (
-    <header className="my-2 flex h-9 items-center justify-between">
+    <header className="flex items-center justify-between px-2 py-1">
       <div className="flex h-full items-center gap-2">
         <div
           className={cn(
-            "flex h-full items-center gap-2",
+            "flex h-full items-center",
             isMobile || state === "collapsed" ? "flex" : "hidden",
           )}
         >
-          <SidebarTrigger className="size-9 text-muted-foreground" />
-          <Separator orientation="vertical" className="max-h-5" />
+          <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
         </div>
 
-        <Label className="mx-2 font-normal">
-          {currentPage?.page ?? "Home"}
-        </Label>
-        {isMobile ? (
-          <>{tabsWithSlug.length > 0 && <HeaderSelect tabs={tabsWithSlug} />}</>
-        ) : (
-          <>{tabsWithSlug.length > 0 && <HeaderTabs tabs={tabsWithSlug} />}</>
-        )}
+        <Label className="font-normal">{currentPage?.page ?? "Home"}</Label>
       </div>
       <div className="flex items-center gap-2">
         <Button
           variant={"ghost"}
           size={"icon"}
-          className={cn("text-muted-foreground")}
+          className={cn("size-7 rounded-sm text-muted-foreground")}
         >
           <Icons.bell />
         </Button>
@@ -78,15 +69,16 @@ export function AppHeader() {
   );
 }
 
+// TODO: Implement HeaderTabs and HeaderSelect
 function HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
   return (
     <Tabs defaultValue={tabs[0]?.href ?? ""} className="items-center">
-      <TabsList className="gap-2 bg-transparent">
+      <TabsList className="h-7 gap-2 bg-transparent">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.href}
             value={tab.href}
-            className="border-border font-normal text-muted-foreground data-[state=active]:bg-muted data-[state=active]:font-medium data-[state=active]:text-foreground data-[state=active]:shadow-none dark:text-muted-foreground"
+            className="h-7 border-border font-normal text-muted-foreground data-[state=active]:bg-muted data-[state=active]:font-medium data-[state=active]:text-foreground data-[state=active]:shadow-none dark:text-muted-foreground"
             asChild
           >
             <Link href={tab.href}>{tab.name}</Link>
@@ -97,12 +89,10 @@ function HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
   );
 }
 
-export default function HeaderSelect({
-  tabs,
-}: { tabs: { name: string; href: string }[] }) {
+function HeaderSelect({ tabs }: { tabs: { name: string; href: string }[] }) {
   return (
     <Select defaultValue={tabs.at(0)?.href}>
-      <SelectTrigger className="h-8">
+      <SelectTrigger className="h-7">
         <SelectValue placeholder="Select framework" />
       </SelectTrigger>
       <SelectContent>
