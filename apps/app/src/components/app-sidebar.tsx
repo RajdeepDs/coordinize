@@ -27,6 +27,7 @@ import {
 import { Icons } from "@coordinize/ui/lib/icons";
 import { AppFooter } from "./app-footer";
 import { TeamSwitcher } from "./team-switcher";
+import { NewSpaceDialog } from "./ui/new-space-dialog";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 
@@ -94,6 +95,24 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                       <Icons.star className="text-muted-foreground" />
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+        <Collapsible defaultOpen className="group/collapsible">
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                Spaces
+                <Icons.ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                {/* List of spaces */}
+                <SidebarMenu>
+                  <NewSpaceDialog />
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
