@@ -18,10 +18,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { cn } from "@coordinize/ui/lib/utils";
 
 const onlineMembers = [
   {
@@ -35,7 +33,6 @@ const onlineMembers = [
 ];
 
 export function TeamsSidebar() {
-  const { isMobile } = useSidebar();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredMembers, setFilteredMembers] = useState(onlineMembers);
 
@@ -47,7 +44,7 @@ export function TeamsSidebar() {
   }, [searchQuery]);
 
   return (
-    <div className={cn("h-full", isMobile && "hidden")}>
+    <div className="hidden h-full xl:flex">
       <div className="h-full w-56">
         <Sidebar
           collapsible="none"
@@ -57,7 +54,7 @@ export function TeamsSidebar() {
           <SidebarHeader className="p-0">
             <div className="relative">
               <Input
-                className="peer border-none px-0 ps-9 shadow-none focus-visible:ring-0"
+                className="peer border-none bg-transparent px-0 ps-9 shadow-none focus-visible:ring-0 dark:bg-transparent"
                 placeholder="Search people..."
                 type="text"
                 value={searchQuery}

@@ -56,8 +56,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                   variant={"outline"}
                   className="flex cursor-pointer justify-center border bg-background hover:bg-background"
                 >
-                  <Icons.plus />
-                  <span>New post</span>
+                  <span className="font-normal">New post</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {sidebarNav.map((nav) => {
