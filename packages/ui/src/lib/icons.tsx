@@ -30,6 +30,7 @@ import {
   ShieldUser,
   SmilePlus,
   Star,
+  Tent,
   UserCircle2,
   UserSquare2,
   Users,
@@ -75,6 +76,7 @@ export const Icons = {
   star: Star,
   maximize: Maximize2,
   pen: Pen,
+  space: Tent,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"

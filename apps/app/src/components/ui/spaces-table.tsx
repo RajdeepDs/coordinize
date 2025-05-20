@@ -29,7 +29,7 @@ import { Icons } from "@coordinize/ui/lib/icons";
 import { cn } from "@coordinize/ui/lib/utils";
 import { RowActions } from "./row-actions";
 
-interface TeamsTableProps {
+interface SpacesTableProps {
   readonly data: Item[];
   readonly slug: string;
 }
@@ -86,7 +86,7 @@ const columns: ColumnDef<Item>[] = [
   },
 ];
 
-export function TeamsTable({ data, slug }: TeamsTableProps) {
+export function SpacesTable({ data, slug }: SpacesTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [hoveredRowId, setHoveredRowId] = useState<string | null>(null);
@@ -167,7 +167,7 @@ export function TeamsTable({ data, slug }: TeamsTableProps) {
           size={"sm"}
           asChild
         >
-          <Link href={slug}>Create team</Link>
+          <Link href={slug}>Create space</Link>
         </Button>
       </div>
       {/* Table */}

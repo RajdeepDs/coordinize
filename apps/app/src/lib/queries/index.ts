@@ -14,8 +14,8 @@ export async function getWorkspaceQuery(workspaceId: string) {
   });
 }
 
-export async function getTeamsQuery(workspaceId: string) {
-  return await database.team.findMany({
+export async function getSpacesQuery(workspaceId: string) {
+  return await database.space.findMany({
     where: {
       workspaceId: workspaceId,
     },

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 import { appSidebarNav } from "@/config/app-sidebar-navigation";
+import { useSpacesQuery } from "@/hooks/use-space";
 import { useUserQuery } from "@/hooks/use-user";
 import {
   Collapsible,
@@ -32,6 +33,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 
 export function AppSidebar({ ...props }: AppSidebarProps) {
   const { data: user } = useUserQuery();
+  const { data: spaces } = useSpacesQuery();
 
   if (!user) {
     return null;
@@ -92,6 +94,48 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                         Favorite your most important posts.
                       </Label>
                       <Icons.star className="text-muted-foreground" />
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+        <Collapsible defaultOpen className="group/collapsible">
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                Spaces
+                <Icons.ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {/* List of spaces */}
+                  {spaces?.map((space) => {
+                    return (
+                      <SidebarMenuItem key={space.id}>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={
+                            pathname === `/${slug}/spaces/${space.identifier}`
+                          }
+                        >
+                          <Link href={`/${slug}/spaces/${space.identifier}`}>
+                            <Icons.space />
+                            <span>{space.name}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link href={`/${slug}/settings/new-space`}>
+                        <Icons.plus />
+                        <span>New space</span>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>

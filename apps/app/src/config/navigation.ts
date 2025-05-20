@@ -44,9 +44,9 @@ export const settingsSidebarNav = (slug: string): SidebarSection[] => [
         icon: "command",
       },
       {
-        title: "Teams",
-        href: `/${slug}/settings/teams`,
-        icon: "userSquare",
+        title: "Spaces",
+        href: `/${slug}/settings/spaces`,
+        icon: "space",
       },
       {
         title: "Members",

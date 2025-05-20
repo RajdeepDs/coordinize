@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import { getTeamNavigation } from "@/config/team-navigation";
+import { getSpaceNavigation } from "@/config/team-navigation";
 import { Button } from "@coordinize/ui/components/button";
 import {
   DropdownMenu,
@@ -15,7 +15,7 @@ import { Icons } from "@coordinize/ui/lib/icons";
 export function RowActions({ identifier }: { identifier: string }) {
   const params = useParams<{ slug: string }>();
 
-  const options = getTeamNavigation(identifier, params.slug);
+  const options = getSpaceNavigation(identifier, params.slug);
 
   return (
     <DropdownMenu>
