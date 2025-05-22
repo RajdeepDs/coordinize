@@ -1,6 +1,7 @@
 "use client";
 
 import { useTRPC } from "@/trpc/client";
+import type { User } from "@coordinize/database/db";
 import {
   useMutation,
   useQueryClient,
@@ -19,17 +20,21 @@ export function useStatusEmoji() {
   return useMutation(
     trpc.user.updateStatusEmoji.mutationOptions({
       onMutate: async (newData) => {
-        // Cancel any outgoing refetches
+        // Cancel any outgoing refetch
         await queryClient.cancelQueries({ queryKey: trpc.user.me.queryKey() });
 
         // Fetch the previous value
         const previousData = queryClient.getQueryData(trpc.user.me.queryKey());
 
         // Optimistically update to the new value
-        queryClient.setQueryData(trpc.user.me.queryKey(), (old: any) => ({
-          ...old,
-          statusEmoji: newData.statusEmoji,
-        }));
+        queryClient.setQueryData(
+          trpc.user.me.queryKey(),
+          (old: User | null | undefined) =>
+            old && {
+              ...old,
+              statusEmoji: newData.statusEmoji,
+            },
+        );
 
         return { previousData };
       },
