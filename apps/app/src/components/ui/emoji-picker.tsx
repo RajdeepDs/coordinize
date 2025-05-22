@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { useStatusEmoji } from "@/hooks/use-user";
 import { Button } from "@coordinize/ui/components/button";
 import {
   EmojiPicker,
@@ -15,9 +16,23 @@ import {
 } from "@coordinize/ui/components/popover";
 import { Icons } from "@coordinize/ui/lib/icons";
 
-export function EmojiPickerPopover() {
+interface EmojiPickerPopoverProps {
+  statusEmoji: string | null;
+}
+
+export function EmojiPickerPopover({ statusEmoji }: EmojiPickerPopoverProps) {
+  const statusEmojiMutation = useStatusEmoji();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [emoji, setEmoji] = useState("");
+  const [emoji, setEmoji] = useState(statusEmoji);
+
+  function handleUpdate(emoji: string) {
+    setIsOpen(false);
+    setEmoji(emoji);
+    if (statusEmoji !== emoji) {
+      statusEmojiMutation.mutate({ statusEmoji: emoji });
+    }
+  }
 
   return (
     <Popover onOpenChange={setIsOpen} open={isOpen}>
@@ -34,8 +49,7 @@ export function EmojiPickerPopover() {
         <EmojiPicker
           className="h-[342px]"
           onEmojiSelect={({ emoji }) => {
-            setIsOpen(false);
-            setEmoji(emoji);
+            handleUpdate(emoji);
           }}
         >
           <EmojiPickerSearch />

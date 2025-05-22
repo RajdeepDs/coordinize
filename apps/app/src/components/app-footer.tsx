@@ -15,6 +15,7 @@ interface AppFooterProps {
   user: {
     name: string;
     image: string | null;
+    statusEmoji: string | null;
   };
 }
 
@@ -29,7 +30,7 @@ export function AppFooter({ user }: AppFooterProps) {
               {user.name.at(0)?.toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <EmojiPickerPopover />
+          <EmojiPickerPopover statusEmoji={user.statusEmoji || ""} />
         </div>
         <div>
           <Button
