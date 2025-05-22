@@ -6,7 +6,7 @@ import { HydrateClient, batchPrefetch, trpc } from "@/trpc/server";
 import { SidebarProvider } from "@coordinize/ui/components/sidebar";
 
 export const metadata: Metadata = {
-  title: "Home | Coordinize",
+  title: "Home",
 };
 
 export default async function AppLayout({

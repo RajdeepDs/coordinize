@@ -5,20 +5,17 @@ import {
 } from "@coordinize/ui/components/avatar";
 import { Button } from "@coordinize/ui/components/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@coordinize/ui/components/dropdown-menu";
-import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
+import { EmojiPickerPopover } from "./ui/emoji-picker";
 
 interface AppFooterProps {
   user: {
     name: string;
     image: string | null;
+    statusEmoji: string | null;
   };
 }
 
@@ -33,20 +30,7 @@ export function AppFooter({ user }: AppFooterProps) {
               {user.name.at(0)?.toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild className="focus-visible:ring-0">
-              <Button
-                variant={"ghost"}
-                size={"icon"}
-                className="text-muted-foreground"
-              >
-                <Icons.emojiPlus />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              Select Emoji
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <EmojiPickerPopover statusEmoji={user.statusEmoji || ""} />
         </div>
         <div>
           <Button

@@ -32,6 +32,7 @@ model User {
   onboardingStep         OnboardingStep           @default(WELCOME)
   onboarded              Boolean                  @default(false)
   defaultWorkspace       String? //slug of the user's default workspace
+  statusEmoji            String?
   Session                Session[]
   Account                Account[]
   Workspace              Workspace[]
