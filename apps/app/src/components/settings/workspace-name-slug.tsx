@@ -133,7 +133,7 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
                     <Input
                       {...field}
                       type="text"
-                      className={`peer ps-36 ${
+                      className={`peer min-w-87.5 ps-36 ${
                         form.getValues("workspaceSlug") ? "bg-muted" : ""
                       }`}
                       onBlur={() => handleFieldBlur("workspaceSlug")}
