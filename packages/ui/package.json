@@ -32,7 +32,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
-    "lucide-react": "^0.486.0",
+    "frimousse": "^0.2.0",
+    "lucide-react": "^0.511.0",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -85,6 +86,7 @@
     "./tabs": "./src/components/tabs.tsx",
     "./avatar": "./src/components/avatar.tsx",
     "./collapsible": "./src/components/collapsible.tsx",
-    "./textarea": "./src/components/textarea.tsx"
+    "./textarea": "./src/components/textarea.tsx",
+    "./emoji-picker": "./src/components/emoji-picker.tsx"
   }
 }
