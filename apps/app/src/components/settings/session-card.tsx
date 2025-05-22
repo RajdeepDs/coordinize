@@ -4,6 +4,7 @@ import { authClient } from "@coordinize/auth/auth-client";
 import type { Session } from "@coordinize/database/db";
 import { Button } from "@coordinize/ui/components/button";
 import { Icons } from "@coordinize/ui/lib/icons";
+import { formatDistanceToNow } from "date-fns";
 import { redirect } from "next/navigation";
 import { UAParser } from "ua-parser-js";
 
@@ -25,7 +26,7 @@ export function SessionCard({ session }: SessionCardProps) {
           <Icons.monitor className="size-4" />
         </Button>
         <div className="flex flex-col">
-          <h3 className="text-sm ">
+          <h3 className="text-sm">
             {browser} on {os}
           </h3>
           {session.isCurrent ? (
@@ -34,7 +35,12 @@ export function SessionCard({ session }: SessionCardProps) {
               Current session
             </p>
           ) : (
-            <p>Last active {new Date(session.updatedAt).toLocaleString()}</p>
+            <p className="text-muted-foreground text-sm">
+              Last active{" "}
+              {formatDistanceToNow(new Date(session.updatedAt), {
+                addSuffix: true,
+              })}
+            </p>
           )}
         </div>
       </div>
