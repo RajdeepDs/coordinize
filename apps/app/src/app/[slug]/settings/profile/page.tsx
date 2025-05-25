@@ -1,8 +1,8 @@
-import { PreferredNameForm } from "@/components/forms/preferred-name-form";
-import { ProfilePic } from "@/components/forms/profile-pic";
+import { ChangeEmailDialog } from "@/components/settings/profile/change-email-dialog";
+import { ChangePasswordDialog } from "@/components/settings/profile/change-password-dialog";
+import { PreferredNameForm } from "@/components/settings/profile/preferred-name-form";
+import { ProfilePic } from "@/components/settings/profile/profile-pic";
 import { SettingsCard } from "@/components/settings/settings-card";
-import { ChangeEmailDialog } from "@/components/ui/change-email-dialog";
-import { ChangePasswordDialog } from "@/components/ui/change-password-dialog";
 import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
 import { Label } from "@coordinize/ui/components/label";
 import { Separator } from "@coordinize/ui/components/separator";

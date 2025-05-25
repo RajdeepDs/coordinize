@@ -1,6 +1,6 @@
-import { ActivitySection } from "@/components/activity/activity-section";
-import { AppHeader } from "@/components/app-header";
-import { TeamsSidebar } from "@/components/teams-sidebar";
+import { ActivitySection } from "@/components/features/activity/activity-section";
+import { AppHeader } from "@/components/layout/app-header";
+import { TeamsSidebar } from "@/components/teams-sidebar/teams-sidebar";
 import { Label } from "@coordinize/ui/components/label";
 import { Separator } from "@coordinize/ui/components/separator";
 

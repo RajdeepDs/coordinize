@@ -19,6 +19,7 @@
     "db:generate": "turbo db:generate --filter=@coordinize/database",
     "db:migrate": "cd packages/database && bun db:migrate",
     "db:deploy": "turbo db:deploy --filter=@coordinize/database",
+    "db:studio": "turbo dev --filter=@coordinize/studio",
     "postinstall": "bun run db:generate"
   },
   "packageManager": "bun@1.1.38",

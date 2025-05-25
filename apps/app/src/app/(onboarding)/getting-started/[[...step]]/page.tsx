@@ -3,10 +3,10 @@
 import { motion } from "motion/react";
 import { useParams, useRouter } from "next/navigation";
 
-import { Preferences } from "@/components/getting-started/preferences";
-import { Welcome } from "@/components/getting-started/welcome";
-import { WorkspaceSetup } from "@/components/getting-started/workspace-setup";
-import { OnboardingStepper } from "@/components/ui/onboarding-stepper";
+import { OnboardingStepper } from "@/components/onboarding/onboarding-stepper";
+import { Preferences } from "@/components/onboarding/preferences-form";
+import { Welcome } from "@/components/onboarding/welcome-form";
+import { WorkspaceSetup } from "@/components/onboarding/workspace-setup-form";
 import { onboardingSteps } from "@/config/onboarding-steps";
 
 const stepComponents = {

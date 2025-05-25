@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const title = "Sign up";
 const SignUp = dynamic(() =>
-  import("@/components/auth/sign-up").then((mod) => mod.SignUp),
+  import("@/components/auth/sign-up-form").then((mod) => mod.SignUp),
 );
 
 export const metadata: Metadata = {

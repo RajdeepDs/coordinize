@@ -1,4 +1,4 @@
-import { MembersTable } from "@/components/ui/members-table";
+import { MembersTable } from "@/components/settings/members/members-table";
 import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
 import { Label } from "@coordinize/ui/components/label";
 

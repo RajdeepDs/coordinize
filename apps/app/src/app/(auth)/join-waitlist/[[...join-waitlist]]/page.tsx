@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout/header";
 import { WEB_URL } from "@/utils/lib";
 import { Button } from "@coordinize/ui/components/button";
 import { Icons } from "@coordinize/ui/lib/icons";
@@ -10,7 +10,9 @@ import { Icons } from "@coordinize/ui/lib/icons";
 const title = "Welcome to Coordinize";
 const description = "Join the waitlist to get early access of the coordinize.";
 const JoinWaitlist = dynamic(() =>
-  import("@/components/auth/join-waitlist").then((mod) => mod.JoinWaitlist),
+  import("@/components/auth/join-waitlist-form").then(
+    (mod) => mod.JoinWaitlist,
+  ),
 );
 
 export const metadata: Metadata = {

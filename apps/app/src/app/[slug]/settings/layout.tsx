@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { SettingsSidebar } from "@/components/settings-sidebar";
+import { SettingsSidebar } from "@/components/settings-sidebar/settings-sidebar";
 import { settingsSidebarNav } from "@/config/navigation";
 import {
   SidebarInset,
