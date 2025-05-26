@@ -1,0 +1,57 @@
+{
+  "name": "@coordinize/editor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@coordinize/regex": "workspace:*",
+    "@tiptap/core": "^2.12.0",
+    "@tiptap/extension-blockquote": "^2.12.0",
+    "@tiptap/extension-bold": "^2.12.0",
+    "@tiptap/extension-bullet-list": "^2.12.0",
+    "@tiptap/extension-code": "^2.12.0",
+    "@tiptap/extension-code-block": "^2.12.0",
+    "@tiptap/extension-document": "^2.12.0",
+    "@tiptap/extension-dropcursor": "^2.12.0",
+    "@tiptap/extension-hard-break": "^2.12.0",
+    "@tiptap/extension-heading": "^2.12.0",
+    "@tiptap/extension-history": "^2.12.0",
+    "@tiptap/extension-horizontal-rule": "^2.12.0",
+    "@tiptap/extension-italic": "^2.12.0",
+    "@tiptap/extension-link": "^2.12.0",
+    "@tiptap/extension-list-item": "^2.12.0",
+    "@tiptap/extension-list-keymap": "^2.12.0",
+    "@tiptap/extension-ordered-list": "^2.12.0",
+    "@tiptap/extension-paragraph": "^2.12.0",
+    "@tiptap/extension-placeholder": "^2.12.0",
+    "@tiptap/extension-strike": "^2.12.0",
+    "@tiptap/extension-task-item": "^2.12.0",
+    "@tiptap/extension-task-list": "^2.12.0",
+    "@tiptap/extension-text": "^2.12.0",
+    "@tiptap/extension-typography": "^2.12.0",
+    "@tiptap/extension-underline": "^2.12.0",
+    "@tiptap/pm": "^2.12.0",
+    "diff": "^8.0.2",
+    "linkifyjs": "^4.3.1",
+    "markdown-it": "^14.1.0",
+    "refractor": "^5.0.0",
+    "rfc6902": "^5.1.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@coordinize/tsconfig": "workspace:*",
+    "@types/diff": "^8.0.0",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.15.21",
+    "@types/uuid": "^10.0.0",
+    "jsdom": "^26.1.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "prosemirror-model": "^1.22.3"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

@@ -56,7 +56,10 @@
   "exports": {
     "./providers": "./src/providers/index.tsx",
     "./globals.css": "./src/styles/globals.css",
+    "./editor.css": "./src/styles/editor.css",
+    "./prose.css": "./src/styles/prose.css",
     "./cn": "./src/lib/utils.ts",
+    "./conditional-wrap": "./src/lib/conditional-wrap.tsx",
     "./icons": "./src/lib/icons.tsx",
     "./postcss": "./postcss.config.mjs",
     "./button": "./src/components/button.tsx",
