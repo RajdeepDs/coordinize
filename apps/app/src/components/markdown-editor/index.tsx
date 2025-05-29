@@ -198,7 +198,7 @@ const MarkdownEditor = forwardRef<MarkdownEditorRef, Props>((props, ref) => {
         // Do nothing, this can crash if the editor is not mounted and we try to focus it (e.g. when the editor HMR)
       }
     }
-  }, [hasMounted, editor]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [hasMounted, editor]);
 
   return (
     <>
