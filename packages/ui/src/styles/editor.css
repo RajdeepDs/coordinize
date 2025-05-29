@@ -7,7 +7,7 @@
 
 .ProseMirror {
   p.is-editor-empty:first-child:not(:has(post-search))::before {
-    @apply pointer-events-none float-left h-0 content-[attr(data-placeholder)];
+    @apply pointer-events-none float-left h-0 content-[attr(data-placeholder)] text-muted-foreground;
     content: attr(data-placeholder);
   }
 

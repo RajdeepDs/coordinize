@@ -1,0 +1,32 @@
+{
+  "name": "@coordinize/editor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "lint": "biome check .",
+    "format": "biome --write .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@coordinize/tsconfig": "workspace:*",
+    "@types/diff": "^8.0.0",
+    "@types/node": "^22.15.24",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@tiptap/extensions": "^3.0.0-beta.5",
+    "@tiptap/pm": "^3.0.0-beta.5",
+    "@tiptap/react": "^3.0.0-beta.5",
+    "@tiptap/starter-kit": "^3.0.0-beta.5",
+    "diff": "^8.0.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}
