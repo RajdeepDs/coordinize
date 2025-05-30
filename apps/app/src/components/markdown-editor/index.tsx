@@ -1,8 +1,7 @@
 "use client";
 
-import { getMarkdownExtensions } from "@coordinize/editor";
+import { markdownExtensions } from "@coordinize/editor";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { useMemo } from "react";
 
 import { cn } from "@coordinize/ui/lib/utils";
 
@@ -27,14 +26,6 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     containerClasses = "px-3 py-2.5",
   } = props;
 
-  const extensions = useMemo(() => {
-    return [
-      ...getMarkdownExtensions({
-        placeholder,
-      }),
-    ];
-  }, [placeholder]);
-
   const editor = useEditor(
     {
       immediatelyRender: false,
@@ -56,10 +47,10 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
       parseOptions: {
         preserveWhitespace: true,
       },
-      extensions,
+      extensions: [...markdownExtensions()],
       content,
     },
-    [extensions],
+    [],
   );
 
   return <EditorContent editor={editor} />;

@@ -1,6 +1,6 @@
-import { Placeholder } from "@tiptap/extensions/placeholder";
+import { Placeholder as placeholder } from "@tiptap/extensions/placeholder";
 
-export const placeholder = Placeholder.configure({
+export const Placeholder = placeholder.configure({
   placeholder: ({ node }) => {
     switch (node.type.name) {
       case "heading":

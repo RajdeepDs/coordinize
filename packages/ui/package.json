@@ -90,6 +90,7 @@
     "./avatar": "./src/components/avatar.tsx",
     "./collapsible": "./src/components/collapsible.tsx",
     "./textarea": "./src/components/textarea.tsx",
-    "./emoji-picker": "./src/components/emoji-picker.tsx"
+    "./emoji-picker": "./src/components/emoji-picker.tsx",
+    "./toolbar": "./src/components/toolbar.tsx"
   }
 }

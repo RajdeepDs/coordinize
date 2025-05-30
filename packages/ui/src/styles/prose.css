@@ -70,7 +70,7 @@
     }
 
     blockquote:not(:where([class~="not-prose"]) *) {
-      @apply text-secondary border-primary font-normal;
+      @apply text-primary border-primary font-normal;
     }
 
     blockquote p:first-of-type:not(:where([class~="not-prose"]) *) {

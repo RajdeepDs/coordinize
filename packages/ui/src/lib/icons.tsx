@@ -1,5 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  AlignHorizontalDistributeCenter,
+  AlignHorizontalDistributeEnd,
+  AlignHorizontalDistributeStart,
   Archive,
   ArrowRight,
   Bell,
@@ -105,6 +108,9 @@ export const Icons = {
   quote: Quote,
   code: Code,
   codeBlock: SquareCode,
+  alignHorizontalDistributeCenter: AlignHorizontalDistributeCenter,
+  alignHorizontalDistributeEnd: AlignHorizontalDistributeEnd,
+  alignHorizontalDistributeStart: AlignHorizontalDistributeStart,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"

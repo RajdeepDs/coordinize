@@ -1,2 +1,2 @@
 export * from "./extensions";
-export { getMarkdownExtensions } from "./markdown-extensions";
+export { markdownExtensions } from "./markdown-extensions";
