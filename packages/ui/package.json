@@ -58,6 +58,7 @@
     "./globals.css": "./src/styles/globals.css",
     "./editor.css": "./src/styles/editor.css",
     "./prose.css": "./src/styles/prose.css",
+    "./editor": "./src/styles/editor/index.css",
     "./cn": "./src/lib/utils.ts",
     "./conditional-wrap": "./src/lib/conditional-wrap.tsx",
     "./icons": "./src/lib/icons.tsx",
