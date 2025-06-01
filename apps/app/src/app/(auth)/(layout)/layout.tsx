@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout/header";
 import RollingCaptions from "@/components/rolling-captions";
 import { WEB_URL } from "@/utils/lib";
 import { Button } from "@coordinize/ui/components/button";

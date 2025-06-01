@@ -1,7 +1,7 @@
-import { WorkspaceLogo } from "@/components/forms/workspace-logo";
 import { SettingsCard } from "@/components/settings/settings-card";
-import { WorkspaceNameSlug } from "@/components/settings/workspace-name-slug";
-import DeleteWorkspaceDialog from "@/components/ui/delete-workspace-dialog";
+import DeleteWorkspaceDialog from "@/components/settings/workspace/delete-workspace-dialog";
+import { WorkspaceLogo } from "@/components/settings/workspace/workspace-logo";
+import { WorkspaceNameSlug } from "@/components/settings/workspace/workspace-name-slug";
 import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
 import { Label } from "@coordinize/ui/components/label";
 import { Separator } from "@coordinize/ui/components/separator";

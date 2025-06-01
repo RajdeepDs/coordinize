@@ -1,4 +1,4 @@
-import { OnboardingHeader } from "@/components/getting-started/onboarding-header";
+import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import type { Metadata } from "next";
 import { Suspense } from "react";

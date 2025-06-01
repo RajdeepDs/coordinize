@@ -2,7 +2,7 @@
 
 import { authClient } from "@coordinize/auth/auth-client";
 import { Button } from "@coordinize/ui/components/button";
-import { SettingsCard } from "./settings-card";
+import { SettingsCard } from "../settings-card";
 
 export function LogOutAllDevices() {
   return (

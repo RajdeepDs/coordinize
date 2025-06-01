@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 
-import { LogOutAllDevices } from "@/components/settings/log-out-all-devices";
-import { SessionCard } from "@/components/settings/session-card";
+import { LogOutAllDevices } from "@/components/settings/security/log-out-all-devices";
+import { SessionCard } from "@/components/settings/security/session-card";
 import { SettingsCard } from "@/components/settings/settings-card";
 import { auth } from "@coordinize/auth/auth";
 import { Label } from "@coordinize/ui/components/label";

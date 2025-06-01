@@ -1,0 +1,83 @@
+.ProseMirror {
+  code {
+    @apply bg-transparent px-1 text-primary rounded text-sm font-mono;
+
+    &::selection {
+      @apply bg-border;
+    }
+  }
+
+  p > code:not(:where([class~="not-prose"]) *) {
+    @apply text-primary bg-accent whitespace-pre-wrap rounded border px-1 py-px font-medium dark:border-neutral-700 dark:bg-neutral-800;
+
+    /* Hide tildes */
+    &:before,
+    &:after {
+      @apply hidden;
+    }
+  }
+
+  pre {
+    @apply bg-accent rounded my-6 p-4 border dark:bg-neutral-900 dark:border-neutral-800;
+
+    *::selection {
+      @apply bg-border;
+    }
+
+    code {
+      @apply bg-inherit text-inherit p-0 shadow-none;
+    }
+
+    .hljs-comment,
+    .hljs-quote {
+      @apply text-muted-foreground;
+    }
+
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-attribute,
+    .hljs-tag,
+    .hljs-name,
+    .hljs-regexp,
+    .hljs-link,
+    .hljs-name,
+    .hljs-selector-id,
+    .hljs-selector-class {
+      @apply text-sky-600;
+    }
+
+    .hljs-number,
+    .hljs-meta,
+    .hljs-built_in,
+    .hljs-builtin-name,
+    .hljs-literal,
+    .hljs-type,
+    .hljs-params {
+      @apply text-cyan-600;
+    }
+
+    .hljs-string,
+    .hljs-symbol,
+    .hljs-bullet {
+      @apply text-orange-800;
+    }
+
+    .hljs-title,
+    .hljs-section {
+      @apply text-yellow-600;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+      @apply text-blue-500;
+    }
+
+    .hljs-emphasis {
+      font-style: italic;
+    }
+
+    .hljs-strong {
+      font-weight: 700;
+    }
+  }
+}

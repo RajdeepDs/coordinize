@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { EmojiPickerPopover } from "./ui/emoji-picker";
+import { EmojiPickerPopover } from "../ui/emoji-picker";
 
 interface AppFooterProps {
   user: {

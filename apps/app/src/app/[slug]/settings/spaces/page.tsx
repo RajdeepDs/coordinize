@@ -1,4 +1,4 @@
-import { SpacesTable } from "@/components/ui/spaces-table";
+import { SpacesTable } from "@/components/settings/spaces/spaces-table";
 import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
 import { Label } from "@coordinize/ui/components/label";
 
