@@ -4,6 +4,7 @@ import { markdownExtensions } from "@coordinize/editor";
 import { EditorContent, useEditor } from "@tiptap/react";
 
 import { cn } from "@coordinize/ui/lib/utils";
+import { TextMenu } from "../menus/text-menu";
 
 interface MarkdownEditorProps {
   id?: string;
@@ -53,5 +54,10 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     [],
   );
 
-  return <EditorContent editor={editor} />;
+  return (
+    <>
+      <EditorContent editor={editor} />
+      <TextMenu editor={editor} />
+    </>
+  );
 }

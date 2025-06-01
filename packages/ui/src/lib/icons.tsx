@@ -22,6 +22,9 @@ import {
   CreditCard,
   Ellipsis,
   ExternalLink,
+  Heading1,
+  Heading2,
+  Heading3,
   Home,
   Inbox,
   Italic,
@@ -36,6 +39,7 @@ import {
   Maximize2,
   Monitor,
   Pen,
+  Pilcrow,
   Plus,
   Quote,
   Search,
@@ -111,6 +115,10 @@ export const Icons = {
   alignHorizontalDistributeCenter: AlignHorizontalDistributeCenter,
   alignHorizontalDistributeEnd: AlignHorizontalDistributeEnd,
   alignHorizontalDistributeStart: AlignHorizontalDistributeStart,
+  paragraph: Pilcrow,
+  h1: Heading1,
+  h2: Heading2,
+  h3: Heading3,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"

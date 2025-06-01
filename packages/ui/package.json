@@ -92,6 +92,7 @@
     "./collapsible": "./src/components/collapsible.tsx",
     "./textarea": "./src/components/textarea.tsx",
     "./emoji-picker": "./src/components/emoji-picker.tsx",
-    "./toolbar": "./src/components/toolbar.tsx"
+    "./toolbar": "./src/components/toolbar.tsx",
+    "./toggle": "./src/components/toggle.tsx"
   }
 }
