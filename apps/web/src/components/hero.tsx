@@ -1,11 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { env } from "@/env";
 import { getWaitlistCount } from "@/queries";
 import { Button } from "@coordinize/ui/components/button";
-
-import HeroImage from "../../public/hero.png";
+import { HeroScreenshot } from "./hero-screenshot";
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
@@ -59,17 +57,7 @@ export async function Hero() {
           {count} people have joined the waitlist
         </p>
       </div>
-      <div className="mt-20 mb-40 overflow-hidden border-b px-4">
-        <Image
-          alt="Screenshot of Coordinize home"
-          src={HeroImage}
-          className="-mb-[60px] lg:-mb-[100px] mx-auto mt-0 w-[220vw] max-w-7xl overflow-hidden rounded-md border drop-shadow-2xl md:relative md:w-full"
-          width={3424}
-          height={2024}
-          priority
-          quality={100}
-        />
-      </div>
+      <HeroScreenshot />
     </>
   );
 }
