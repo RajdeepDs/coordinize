@@ -1,5 +1,6 @@
-import { Header } from "@/components/header";
 import type { ReactNode } from "react";
+
+import { Header } from "@/components/header";
 
 type HomeLayoutProps = {
   readonly children: ReactNode;
@@ -9,7 +10,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="">{children}</main>
     </>
   );
 }
