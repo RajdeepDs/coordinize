@@ -18,6 +18,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Coordinize",
   description: "Modern communication platform for modern teams.",
+  twitter: {
+    card: "summary_large_image",
+    site: "@coordinize",
+    creator: "@coordinize",
+  },
+  openGraph: {
+    title: "Coordinize",
+    description: "Modern communication platform for modern teams.",
+  },
 };
 
 export default function RootLayout({

@@ -1,12 +1,10 @@
-import { PostSection } from "@/components/features/post";
 import { Hero } from "@/components/hero";
 
 export default function Home() {
   return (
     <>
-      <div className="">
+      <div className="mb-20">
         <Hero />
-        <PostSection />
       </div>
     </>
   );

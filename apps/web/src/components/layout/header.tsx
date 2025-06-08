@@ -36,7 +36,7 @@ export function Header() {
           <WordLogo />
         </Link>
 
-        <div className="hidden gap-2 sm:flex">
+        <div className="hidden gap-2">
           {Links.map((link) => (
             <Button
               key={link.href}
@@ -51,12 +51,12 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Link href={"/docs"}>
+          <Link href={"/docs"} className="hidden">
             <Button variant="ghost" size="sm">
               Docs
             </Button>
           </Link>
-          <Separator orientation="vertical" className="min-h-5" />
+          <Separator orientation="vertical" className="hidden min-h-5" />
           <Link href={`${APP_URL}/private-beta`}>
             <Button variant="default" size="sm">
               Sign in
