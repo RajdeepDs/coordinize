@@ -32,5 +32,8 @@
   "cSpell.words": ["Coordinize"],
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }

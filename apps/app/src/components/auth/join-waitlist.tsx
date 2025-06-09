@@ -106,7 +106,7 @@ export const JoinWaitlist = () => {
             ? "Joining..."
             : submitted
               ? "Joined 🎉"
-              : "Join Waitlist!"}
+              : "Join Waitlist"}
         </Button>
       </form>
     </Form>
