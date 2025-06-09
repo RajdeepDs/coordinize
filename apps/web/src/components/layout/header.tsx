@@ -31,7 +31,7 @@ const Links = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/50 backdrop-blur-lg">
-      <div className="flex h-(--header-height) items-center justify-between px-2">
+      <div className="flex h-(--header-height) items-center justify-between px-4">
         <Link href={"/"}>
           <WordLogo />
         </Link>

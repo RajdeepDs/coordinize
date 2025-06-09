@@ -24,10 +24,10 @@ export async function Hero() {
             </span>
           </h1>
 
-          <p className="font-semibold text-gray-900 text-xl sm:hidden">
+          <p className="font-semibold text-ui-gray-900 text-xl sm:hidden">
             Streamlined async communication for distributed teams worldwide.
           </p>
-          <p className="hidden max-w-xl font-medium text-gray-900 text-lg sm:block">
+          <p className="hidden max-w-xl font-medium text-lg text-ui-gray-900 sm:block">
             Work smarter with purpose-driven async communication for modern
             teams. Streamline discussions, and build with clarity using posts.
           </p>
