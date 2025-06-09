@@ -24,7 +24,7 @@
   "editor.formatOnSave": true,
   "emmet.showExpandedAbbreviation": "never",
   "prettier.enable": false,
-  "tailwindCSS.experimental.configFile": "",
+  "tailwindCSS.experimental.configFile": "packages/ui/src/styles/globals.css",
   "editor.quickSuggestions": {
     "strings": true
   },

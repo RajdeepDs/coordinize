@@ -8,14 +8,14 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@arcjet/next": "^1.0.0-beta.5",
-    "@nosecone/next": "^1.0.0-beta.5",
-    "@t3-oss/env-nextjs": "^0.12.0",
-    "zod": "^3.24.2"
+    "@arcjet/next": "^1.0.0-beta.8",
+    "@nosecone/next": "^1.0.0-beta.8",
+    "@t3-oss/env-nextjs": "^0.13.6",
+    "zod": "^3.25.56"
   },
   "devDependencies": {
     "@coordinize/tsconfig": "workspace:*",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "exports": {
     ".": "./src/index.ts",

@@ -16,22 +16,22 @@
     "db:deploy": "prisma migrate deploy"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.0",
-    "@prisma/adapter-neon": "^6.5.0",
-    "@prisma/client": "^6.5.0",
-    "@t3-oss/env-nextjs": "^0.12.0",
+    "@neondatabase/serverless": "^1.0.1",
+    "@prisma/adapter-neon": "^6.9.0",
+    "@prisma/client": "^6.9.0",
+    "@t3-oss/env-nextjs": "^0.13.6",
     "server-only": "^0.0.1",
-    "undici": "^7.6.0",
-    "ws": "^8.18.1",
-    "zod": "^3.24.2"
+    "undici": "^7.10.0",
+    "ws": "^8.18.2",
+    "zod": "^3.25.56"
   },
   "devDependencies": {
     "@coordinize/tsconfig": "workspace:*",
-    "@types/node": "^22.13.14",
-    "@types/ws": "^8.18.0",
+    "@types/node": "^22.15.30",
+    "@types/ws": "^8.18.1",
     "bufferutil": "^4.0.9",
-    "prisma": "^6.5.0",
-    "typescript": "^5.8.2"
+    "prisma": "^6.9.0",
+    "typescript": "^5.8.3"
   },
   "exports": {
     "./keys": "./keys.ts",
