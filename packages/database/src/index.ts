@@ -1,6 +1,6 @@
 import "server-only";
 
-import { Pool, neonConfig } from "@neondatabase/serverless";
+import { neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import ws from "ws";
 import { keys } from "../keys";
@@ -26,9 +26,7 @@ if (process.env.NODE_ENV === "development") {
 
 neonConfig.webSocketConstructor = ws;
 
-const pool = new Pool({ connectionString });
-
-const adapter = new PrismaNeon(pool);
+const adapter = new PrismaNeon({ connectionString });
 
 export const database = new PrismaClient({ adapter });
 

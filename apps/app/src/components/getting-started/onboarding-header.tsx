@@ -11,6 +11,7 @@ export function OnboardingHeader() {
     <Header>
       <Button
         size={"sm"}
+        variant={"ghost"}
         onClick={async () =>
           await authClient.signOut({
             fetchOptions: {

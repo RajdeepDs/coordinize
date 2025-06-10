@@ -1,10 +1,12 @@
 import { keys as auth } from "@coordinize/auth/keys";
 import { keys as database } from "@coordinize/database/keys";
+import { keys as ratelimit } from "@coordinize/rate-limit/keys";
+import { keys as storage } from "@coordinize/storage/keys";
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
-  extends: [auth(), database()],
+  extends: [auth(), database(), ratelimit(), storage()],
   server: {},
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1).url(),

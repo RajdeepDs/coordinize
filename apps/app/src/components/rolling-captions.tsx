@@ -15,7 +15,7 @@ export default function RollingCaptions({ captions }: { captions: string[] }) {
   }, [captions.length]);
 
   return (
-    <aside className="hidden items-center justify-center border-l bg-muted p-8 lg:flex">
+    <aside className="hidden items-center justify-center border-l bg-background p-8 lg:flex">
       <div className="relative flex h-[200px] w-full flex-col items-center justify-center overflow-hidden text-center">
         <AnimatePresence>
           <motion.h2
@@ -24,7 +24,7 @@ export default function RollingCaptions({ captions }: { captions: string[] }) {
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: -1, y: -50, filter: "blur(2px)" }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="absolute font-semibold text-2xl text-accent-foreground"
+            className="absolute font-semibold text-2xl text-foreground"
           >
             {captions[currentCaptionIndex]}
           </motion.h2>
