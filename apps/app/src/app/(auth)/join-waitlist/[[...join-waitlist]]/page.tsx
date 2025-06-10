@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 const title = "Welcome to Coordinize";
-const description = "Join the waitlist to get early access of Coordinize!";
+const description = "Join the waitlist to get early access to Coordinize!";
 const JoinWaitlist = dynamic(() =>
   import("@/components/auth/join-waitlist").then((mod) => mod.JoinWaitlist),
 );

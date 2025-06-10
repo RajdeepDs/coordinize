@@ -33,36 +33,31 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
   }
 
   const cookieStore = await cookies();
-  const workspaceId = cookieStore.get("workspaceId")?.value;
+  let workspaceId = cookieStore.get("workspaceId")?.value;
 
-  if (!workspaceId) {
-    if (!session.user.defaultWorkspace) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "WorkspaceId not found",
-      });
-    }
-
+  if (!workspaceId && session.user.defaultWorkspace) {
+    // Find workspace based on user's default workspace
     const workspace = await opts.ctx.db.workspace.findUnique({
-      where: {
-        slug: session.user.defaultWorkspace,
-      },
-      select: {
-        id: true,
-      },
+      where: { slug: session.user.defaultWorkspace },
+      select: { id: true },
     });
 
-    if (!workspace) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "Workspace not found",
+    if (workspace) {
+      workspaceId = workspace.id;
+      // Set workspace cookie for future requests
+      cookieStore.set({
+        name: "workspaceId",
+        value: workspace.id,
+        secure: true,
+        httpOnly: true,
       });
     }
-    cookieStore.set({
-      name: "workspaceId",
-      value: workspace.id,
-      secure: true,
-      httpOnly: true,
+  }
+
+  if (!workspaceId) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "WorkspaceId not found",
     });
   }
 
