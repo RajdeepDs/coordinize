@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function JoinWaitlistPage() {
   return (
-    <div className="mx-auto flex h-screen w-sm flex-col items-center justify-center gap-4 px-4">
+    <div className="mx-auto flex h-svh max-w-sm flex-col items-center justify-center gap-4 px-4">
       <Logo className="size-5" />
       <div className="flex flex-col items-center justify-center gap-1">
         <h1 className="font-semibold text-lg">{title}</h1>

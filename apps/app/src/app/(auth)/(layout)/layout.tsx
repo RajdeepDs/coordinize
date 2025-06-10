@@ -16,7 +16,7 @@ const captions: string[] = [
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
+    <div className="flex h-svh flex-col overflow-hidden">
       <main className="flex flex-1 lg:grid lg:grid-cols-3">
         <div className="w-full overflow-auto lg:col-span-2">{children}</div>
         <RollingCaptions captions={captions} />
