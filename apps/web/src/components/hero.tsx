@@ -7,8 +7,9 @@ import { HeroScreenshot } from "./hero-screenshot";
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
-export async function Hero() {
-  const count = await getWaitlistCount();
+export async function HeroSection() {
+  const count = await getWaitlistCount().catch(() => 0);
+
   return (
     <>
       <div className="mx-auto flex flex-col gap-6 px-4 pt-14 sm:container">
@@ -54,7 +55,8 @@ export async function Hero() {
         </div>
 
         <p className="text-center font-mono text-muted-foreground text-xs sm:text-start">
-          {count} people have joined the waitlist
+          {count} {count === 1 ? "person has" : "people have"} joined the
+          waitlist
         </p>
       </div>
       <HeroScreenshot />

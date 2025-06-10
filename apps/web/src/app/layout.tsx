@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://coordinize.tech"),
   title: "Coordinize",
   description: "Modern communication platform for modern teams.",
   twitter: {
@@ -26,6 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Coordinize",
     description: "Modern communication platform for modern teams.",
+    images: "/opengraph-image.png",
   },
 };
 

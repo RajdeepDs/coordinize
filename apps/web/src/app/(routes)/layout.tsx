@@ -10,7 +10,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <>
       <Header />
-      <main className="">{children}</main>
+      <main>{children}</main>
     </>
   );
 }

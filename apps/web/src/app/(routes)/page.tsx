@@ -1,11 +1,9 @@
-import { Hero } from "@/components/hero";
+import { HeroSection } from "@/components/hero";
 
 export default function Home() {
   return (
-    <>
-      <div className="mb-20">
-        <Hero />
-      </div>
-    </>
+    <div className="mb-20">
+      <HeroSection />
+    </div>
   );
 }
