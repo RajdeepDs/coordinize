@@ -10,6 +10,7 @@ import {
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { EmojiPickerPopover } from "./ui/emoji-picker";
+import { HelpInfo } from "./ui/help-info";
 
 interface AppFooterProps {
   user: {
@@ -41,13 +42,7 @@ export function AppFooter({ user }: AppFooterProps) {
           >
             <Icons.archive />
           </Button>
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            className="size-7 rounded-sm text-muted-foreground"
-          >
-            <Icons.help />
-          </Button>
+          <HelpInfo />
         </div>
       </SidebarMenuItem>
     </SidebarMenu>
