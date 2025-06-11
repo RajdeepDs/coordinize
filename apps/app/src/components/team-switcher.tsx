@@ -46,7 +46,7 @@ export function TeamSwitcher({ email }: { email: string }) {
     <SidebarMenu>
       <SidebarMenuItem className="flex items-center justify-between">
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="h-9">
+          <DropdownMenuTrigger asChild className="h-8">
             <SidebarMenuButton className="w-fit focus-visible:ring-0">
               <Avatar className="size-5 rounded border">
                 <AvatarImage src={workspace?.logo ?? ""} alt="workspace-logo" />
@@ -121,14 +121,14 @@ export function TeamSwitcher({ email }: { email: string }) {
           <Button
             variant={"ghost"}
             size={"icon"}
-            className="text-muted-foreground"
+            className="size-7 rounded-sm text-muted-foreground"
           >
             <Link href={"/search"}>
               <Icons.search />
             </Link>
           </Button>
           {!isMobile && (
-            <SidebarTrigger className="size-9 text-muted-foreground" />
+            <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
           )}
         </div>
       </SidebarMenuItem>

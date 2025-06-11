@@ -40,7 +40,7 @@ export function EmojiPickerPopover({ statusEmoji }: EmojiPickerPopoverProps) {
         <Button
           variant={"ghost"}
           size={"icon"}
-          className="text-muted-foreground"
+          className="size-7 rounded-sm text-muted-foreground"
         >
           {emoji ? emoji : <Icons.emojiPlus />}
         </Button>

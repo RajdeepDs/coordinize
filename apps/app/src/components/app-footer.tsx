@@ -32,11 +32,11 @@ export function AppFooter({ user }: AppFooterProps) {
           </Avatar>
           <EmojiPickerPopover statusEmoji={user.statusEmoji || ""} />
         </div>
-        <div>
+        <div className="flex items-center gap-1">
           <Button
             variant={"ghost"}
             size={"icon"}
-            className="text-muted-foreground"
+            className="size-7 rounded-sm text-muted-foreground"
             disabled
           >
             <Icons.archive />
@@ -44,7 +44,7 @@ export function AppFooter({ user }: AppFooterProps) {
           <Button
             variant={"ghost"}
             size={"icon"}
-            className="text-muted-foreground"
+            className="size-7 rounded-sm text-muted-foreground"
           >
             <Icons.help />
           </Button>
