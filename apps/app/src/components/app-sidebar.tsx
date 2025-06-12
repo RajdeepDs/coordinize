@@ -53,10 +53,10 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
+              <SidebarMenuItem className="mb-2">
                 <SidebarMenuButton
                   variant={"outline"}
-                  className="flex cursor-pointer justify-center border bg-background hover:bg-background"
+                  className="flex cursor-pointer justify-center border transition-colors duration-300 ease-in-out hover:border-ui-gray-500"
                 >
                   <span className="font-normal">New post</span>
                 </SidebarMenuButton>
