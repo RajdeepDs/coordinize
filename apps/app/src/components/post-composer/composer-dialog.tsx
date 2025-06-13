@@ -17,6 +17,8 @@ export function ComposerDialog() {
         <SidebarMenuButton
           variant={"outline"}
           className="flex cursor-pointer justify-center border transition-colors duration-300 ease-in-out hover:border-ui-gray-500"
+          tooltip="Create a new post"
+          tooltipShortcut="c"
         >
           <span className="font-normal">New post</span>
         </SidebarMenuButton>

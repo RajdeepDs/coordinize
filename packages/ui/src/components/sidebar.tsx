@@ -15,12 +15,7 @@ import {
   SheetTitle,
 } from "@coordinize/ui/components/sheet";
 import { Skeleton } from "@coordinize/ui/components/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@coordinize/ui/components/tooltip";
+import { Tooltip, TooltipProvider } from "@coordinize/ui/components/tooltip";
 import { useIsMobile } from "@coordinize/ui/hooks/use-mobile";
 import { cn } from "@coordinize/ui/lib/utils";
 import { Icons } from "../lib/icons";
@@ -501,12 +496,14 @@ function SidebarMenuButton({
   variant = "default",
   size = "default",
   tooltip,
+  tooltipShortcut,
   className,
   ...props
 }: React.ComponentProps<"button"> & {
   asChild?: boolean;
   isActive?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  tooltip?: string | React.ReactNode;
+  tooltipShortcut?: string;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : "button";
   const { isMobile, state } = useSidebar();
@@ -526,21 +523,15 @@ function SidebarMenuButton({
     return button;
   }
 
-  if (typeof tooltip === "string") {
-    tooltip = {
-      children: tooltip,
-    };
-  }
-
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent
-        side="right"
-        align="center"
-        hidden={state !== "collapsed" || isMobile}
-        {...tooltip}
-      />
+    <Tooltip
+      label={tooltip}
+      shortcut={tooltipShortcut}
+      side="right"
+      align="center"
+      hideWhenDetached={state !== "collapsed" || isMobile}
+    >
+      {button}
     </Tooltip>
   );
 }
