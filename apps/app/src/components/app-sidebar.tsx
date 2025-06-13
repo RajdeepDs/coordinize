@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
+import { ComposerDialog } from "@/components/post-composer/composer-dialog";
 import { appSidebarNav } from "@/config/app-sidebar-navigation";
 import { useSpacesQuery } from "@/hooks/use-space";
 import { useUserQuery } from "@/hooks/use-user";
@@ -54,12 +55,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem className="mb-2">
-                <SidebarMenuButton
-                  variant={"outline"}
-                  className="flex cursor-pointer justify-center border transition-colors duration-300 ease-in-out hover:border-ui-gray-500"
-                >
-                  <span className="font-normal">New post</span>
-                </SidebarMenuButton>
+                <ComposerDialog />
               </SidebarMenuItem>
               {sidebarNav.map((nav) => {
                 const Icon = Icons[nav.icon as keyof typeof Icons];
