@@ -7,11 +7,10 @@ export function GlobalsKeysProvider() {
   const router = useRouter();
   const params = useParams<{ slug: string }>();
 
-  // Get current slug from URL params
   const currentSlug = params?.slug;
 
   // Navigation shortcuts - only work when we have a valid slug
-  // Use sequence syntax: "g h" means press g, then h
+  // Use sequence syntax: "g>h" means press g, then h
   useGlobalHotkeys({
     keys: "g>h",
     callback: () => {
@@ -20,7 +19,7 @@ export function GlobalsKeysProvider() {
       }
     },
     options: {
-      enabled: !!currentSlug, // Only enable when slug is available
+      enabled: !!currentSlug,
     },
   });
 
