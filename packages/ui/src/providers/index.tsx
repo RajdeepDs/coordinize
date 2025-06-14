@@ -13,12 +13,12 @@ export const DesignSystemProvider = ({
   children,
   ...properties
 }: DesignSystemProviderProperties) => (
-  <ThemeProvider {...properties}>
-    <HotkeysProvider>
+  <HotkeysProvider>
+    <ThemeProvider {...properties}>
       <AuthProvider>
         <TooltipProvider>{children}</TooltipProvider>
       </AuthProvider>
-    </HotkeysProvider>
-    <Toaster />
-  </ThemeProvider>
+      <Toaster />
+    </ThemeProvider>
+  </HotkeysProvider>
 );
