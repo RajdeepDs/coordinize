@@ -15,12 +15,7 @@ import {
   SheetTitle,
 } from "@coordinize/ui/components/sheet";
 import { Skeleton } from "@coordinize/ui/components/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@coordinize/ui/components/tooltip";
+import { Tooltip, TooltipProvider } from "@coordinize/ui/components/tooltip";
 import { useIsMobile } from "@coordinize/ui/hooks/use-mobile";
 import { cn } from "@coordinize/ui/lib/utils";
 import { Icons } from "../lib/icons";
@@ -30,7 +25,7 @@ const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "15rem";
 const SIDEBAR_WIDTH_MOBILE = "15rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
-const SIDEBAR_KEYBOARD_SHORTCUT = "b";
+const SIDEBAR_KEYBOARD_SHORTCUT = "[";
 
 type SidebarContextProps = {
   state: "expanded" | "collapsed";
@@ -96,10 +91,7 @@ function SidebarProvider({
   // Adds a keyboard shortcut to toggle the sidebar.
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
-        (event.metaKey || event.ctrlKey)
-      ) {
+      if (event.key === SIDEBAR_KEYBOARD_SHORTCUT) {
         event.preventDefault();
         toggleSidebar();
       }
@@ -258,7 +250,7 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, state } = useSidebar();
 
   return (
     <Button
@@ -266,6 +258,10 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon"
+      tooltip={state === "collapsed" ? "Open sidebar" : "Close sidebar"}
+      tooltipShortcut={SIDEBAR_KEYBOARD_SHORTCUT}
+      tooltipAlign={state === "collapsed" ? "start" : "center"}
+      tooltipSide={state === "collapsed" ? "right" : "bottom"}
       className={cn("size-7", className)}
       onClick={(event) => {
         onClick?.(event);
@@ -501,12 +497,14 @@ function SidebarMenuButton({
   variant = "default",
   size = "default",
   tooltip,
+  tooltipShortcut,
   className,
   ...props
 }: React.ComponentProps<"button"> & {
   asChild?: boolean;
   isActive?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  tooltip?: string | React.ReactNode;
+  tooltipShortcut?: string;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : "button";
   const { isMobile, state } = useSidebar();
@@ -526,21 +524,15 @@ function SidebarMenuButton({
     return button;
   }
 
-  if (typeof tooltip === "string") {
-    tooltip = {
-      children: tooltip,
-    };
-  }
-
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent
-        side="right"
-        align="center"
-        hidden={state !== "collapsed" || isMobile}
-        {...tooltip}
-      />
+    <Tooltip
+      label={tooltip}
+      shortcut={tooltipShortcut}
+      side="right"
+      align="center"
+      hideWhenDetached={state !== "collapsed" || isMobile}
+    >
+      {button}
     </Tooltip>
   );
 }

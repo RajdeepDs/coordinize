@@ -255,8 +255,10 @@
         "lucide-react": "^0.513.0",
         "next-themes": "^0.4.6",
         "react": "^19.1.0",
+        "react-device-detect": "^2.2.3",
         "react-dom": "^19.1.0",
         "react-hook-form": "^7.57.0",
+        "react-hotkeys-hook": "^5.1.0",
         "sonner": "^2.0.5",
         "tailwind-merge": "^3.3.0",
         "tw-animate-css": "^1.3.4",
@@ -1730,11 +1732,15 @@
 
     "react-css-styled": ["react-css-styled@1.1.9", "", { "dependencies": { "css-styled": "~1.0.8", "framework-utils": "^1.1.0" } }, "sha512-M7fJZ3IWFaIHcZEkoFOnkjdiUFmwd8d+gTh2bpqMOcnxy/0Gsykw4dsL4QBiKsxcGow6tETUa4NAUcmJF+/nfw=="],
 
+    "react-device-detect": ["react-device-detect@2.2.3", "", { "dependencies": { "ua-parser-js": "^1.0.33" }, "peerDependencies": { "react": ">= 0.14.0", "react-dom": ">= 0.14.0" } }, "sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw=="],
+
     "react-dom": ["react-dom@19.1.0", "", { "dependencies": { "scheduler": "^0.26.0" }, "peerDependencies": { "react": "^19.1.0" } }, "sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g=="],
 
     "react-email": ["react-email@4.0.2", "", { "dependencies": { "@babel/parser": "7.24.5", "@babel/traverse": "7.25.6", "chalk": "4.1.2", "chokidar": "4.0.3", "commander": "11.1.0", "debounce": "2.0.0", "esbuild": "0.23.0", "glob": "10.3.4", "log-symbols": "4.1.0", "mime-types": "2.1.35", "next": "15.2.2", "normalize-path": "3.0.0", "ora": "5.4.1", "socket.io": "4.8.1" }, "bin": { "email": "dist/cli/index.js" } }, "sha512-6nJQ6lU6tnH9n+uQcfvwbsEhUcfw0fYmUkaYZi/rFBlmm80ZeP3A9yf2Rvn67mU3PwpAiftXswF8ctFHOoN2pA=="],
 
     "react-hook-form": ["react-hook-form@7.57.0", "", { "peerDependencies": { "react": "^16.8.0 || ^17 || ^18 || ^19" } }, "sha512-RbEks3+cbvTP84l/VXGUZ+JMrKOS8ykQCRYdm5aYsxnDquL0vspsyNhGRO7pcH6hsZqWlPOjLye7rJqdtdAmlg=="],
+
+    "react-hotkeys-hook": ["react-hotkeys-hook@5.1.0", "", { "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-GCNGXjBzV9buOS3REoQFmSmE4WTvBhYQ0YrAeeMZI83bhXg3dRWsLHXDutcVDdEjwJqJCxk5iewWYX5LtFUd7g=="],
 
     "react-markdown": ["react-markdown@9.1.0", "", { "dependencies": { "@types/hast": "^3.0.0", "@types/mdast": "^4.0.0", "devlop": "^1.0.0", "hast-util-to-jsx-runtime": "^2.0.0", "html-url-attributes": "^3.0.0", "mdast-util-to-hast": "^13.0.0", "remark-parse": "^11.0.0", "remark-rehype": "^11.0.0", "unified": "^11.0.0", "unist-util-visit": "^5.0.0", "vfile": "^6.0.0" }, "peerDependencies": { "@types/react": ">=18", "react": ">=18" } }, "sha512-xaijuJB0kzGiUdG7nc2MOMDUDBWPyGAjZtUrow9XxUeua8IqeP+VlIfAZ3bphpcLTnSZXz6z9jcVC/TCwbfgdw=="],
 
@@ -2127,6 +2133,8 @@
     "pg-types/postgres-array": ["postgres-array@3.0.3", "", {}, "sha512-u8CaN44IzisrzULVvqoJ2968j6XDsFGdc+Kw/6vHNhD6bfu2FHDOHNhgBYgsl6t7ib9KwUi8vKjTR5gowTIMbg=="],
 
     "prosemirror-trailing-node/escape-string-regexp": ["escape-string-regexp@4.0.0", "", {}, "sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA=="],
+
+    "react-device-detect/ua-parser-js": ["ua-parser-js@1.0.40", "", { "bin": { "ua-parser-js": "script/cli.js" } }, "sha512-z6PJ8Lml+v3ichVojCiB8toQJBuwR42ySM4ezjXIqXK3M0HczmKQ3LF4rhU55PfD99KEEXQG6yb7iOMyvYuHew=="],
 
     "react-email/next": ["next@15.2.2", "", { "dependencies": { "@next/env": "15.2.2", "@swc/counter": "0.1.3", "@swc/helpers": "0.5.15", "busboy": "1.6.0", "caniuse-lite": "^1.0.30001579", "postcss": "8.4.31", "styled-jsx": "5.1.6" }, "optionalDependencies": { "@next/swc-darwin-arm64": "15.2.2", "@next/swc-darwin-x64": "15.2.2", "@next/swc-linux-arm64-gnu": "15.2.2", "@next/swc-linux-arm64-musl": "15.2.2", "@next/swc-linux-x64-gnu": "15.2.2", "@next/swc-linux-x64-musl": "15.2.2", "@next/swc-win32-arm64-msvc": "15.2.2", "@next/swc-win32-x64-msvc": "15.2.2", "sharp": "^0.33.5" }, "peerDependencies": { "@opentelemetry/api": "^1.1.0", "@playwright/test": "^1.41.2", "babel-plugin-react-compiler": "*", "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", "sass": "^1.3.0" }, "optionalPeers": ["@opentelemetry/api", "@playwright/test", "babel-plugin-react-compiler", "sass"], "bin": { "next": "dist/bin/next" } }, "sha512-dgp8Kcx5XZRjMw2KNwBtUzhngRaURPioxoNIVl5BOyJbhi9CUgEtKDO7fx5wh8Z8vOVX1nYZ9meawJoRrlASYA=="],
 
