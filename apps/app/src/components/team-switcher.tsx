@@ -119,8 +119,10 @@ export function TeamSwitcher({ email }: { email: string }) {
         </DropdownMenu>
         <div className="flex items-center gap-1">
           <Button
-            variant={"ghost"}
+            asChild
             size={"icon"}
+            variant={"ghost"}
+            tooltip="Search workspace"
             className="size-7 rounded-sm text-muted-foreground"
           >
             <Link href={"/search"}>

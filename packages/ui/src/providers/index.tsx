@@ -1,5 +1,8 @@
+"use client";
+
 import { AuthProvider } from "@coordinize/auth/providers";
 import type { ThemeProviderProps } from "next-themes";
+import { HotkeysProvider } from "react-hotkeys-hook";
 import { Toaster } from "../components/sonner";
 import { TooltipProvider } from "../components/tooltip";
 import { ThemeProvider } from "./theme-provider";
@@ -11,9 +14,11 @@ export const DesignSystemProvider = ({
   ...properties
 }: DesignSystemProviderProperties) => (
   <ThemeProvider {...properties}>
-    <AuthProvider>
-      <TooltipProvider>{children}</TooltipProvider>
-    </AuthProvider>
+    <HotkeysProvider>
+      <AuthProvider>
+        <TooltipProvider>{children}</TooltipProvider>
+      </AuthProvider>
+    </HotkeysProvider>
     <Toaster />
   </ThemeProvider>
 );

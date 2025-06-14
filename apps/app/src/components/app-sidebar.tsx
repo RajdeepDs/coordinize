@@ -61,7 +61,12 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                 const Icon = Icons[nav.icon as keyof typeof Icons];
                 return (
                   <SidebarMenuItem key={nav.title}>
-                    <SidebarMenuButton isActive={pathname === nav.href} asChild>
+                    <SidebarMenuButton
+                      isActive={pathname === nav.href}
+                      asChild
+                      tooltip={nav.tooltip}
+                      tooltipShortcut={nav.tooltipShortcut}
+                    >
                       <Link href={nav.href}>
                         <Icon />
                         <span>{nav.title}</span>
@@ -127,7 +132,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                     );
                   })}
                   <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton asChild tooltip="Create a new space">
                       <Link href={`/${slug}/settings/new-space`}>
                         <Icons.plus />
                         <span>New space</span>

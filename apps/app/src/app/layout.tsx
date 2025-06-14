@@ -4,6 +4,7 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { GlobalsKeysProvider } from "@/components/globals-keys-provider";
 import { TRPCReactProvider } from "@/trpc/client";
 import { router } from "@/utils/upload";
 import { extractRouterConfig } from "@coordinize/storage";
@@ -43,6 +44,7 @@ export default function RootLayout({
         <StorageSSRPlugin routerConfig={extractRouterConfig(router)} />
         <TRPCReactProvider>
           <DesignSystemProvider>
+            <GlobalsKeysProvider />
             {children}
             <VercelAnalytics />
           </DesignSystemProvider>
