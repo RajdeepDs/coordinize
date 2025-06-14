@@ -15,6 +15,7 @@ import {
   Command,
   CreditCard,
   Ellipsis,
+  GripVertical,
   Home,
   Inbox,
   Keyboard,
@@ -77,6 +78,7 @@ export const Icons = {
   maximize: Maximize2,
   pen: Pen,
   space: Tent,
+  dragHandle: GripVertical,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"
