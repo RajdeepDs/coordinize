@@ -12,6 +12,70 @@ import { BubbleMenuSeparator } from "./bubble-menu-separator";
 interface EditorBubbleMenuProps {
   editor: Editor;
 }
+
+const blockConfig = {
+  heading1: {
+    icon: <Icons.heading1 />,
+    tooltip: "Heading 1",
+  },
+  heading2: {
+    icon: <Icons.heading2 />,
+    tooltip: "Heading 2",
+  },
+  heading3: {
+    icon: <Icons.heading3 />,
+    tooltip: "Heading 3",
+  },
+  paragraph: {
+    icon: <Icons.regularText />,
+    tooltip: "Regular text",
+  },
+} as const;
+
+function getBlockConfig(editor: Editor) {
+  if (editor.isActive("heading", { level: 1 })) return blockConfig.heading1;
+  if (editor.isActive("heading", { level: 2 })) return blockConfig.heading2;
+  if (editor.isActive("heading", { level: 3 })) return blockConfig.heading3;
+  return blockConfig.paragraph;
+}
+
+function blockIcon(editor: Editor) {
+  return getBlockConfig(editor).icon;
+}
+
+function blockTooltip(editor: Editor) {
+  return getBlockConfig(editor).tooltip;
+}
+
+const listConfig = {
+  orderedList: {
+    icon: <Icons.numberedList />,
+    tooltip: "Numbered list",
+  },
+  taskList: {
+    icon: <Icons.checkList />,
+    tooltip: "Task list",
+  },
+  bulletList: {
+    icon: <Icons.bulletList />,
+    tooltip: "Bullet list",
+  },
+} as const;
+
+function getListConfig(editor: Editor) {
+  if (editor.isActive("orderedList")) return listConfig.orderedList;
+  if (editor.isActive("taskList")) return listConfig.taskList;
+  return listConfig.bulletList;
+}
+
+function listIcon(editor: Editor) {
+  return getListConfig(editor).icon;
+}
+
+function listTooltip(editor: Editor) {
+  return getListConfig(editor).tooltip;
+}
+
 export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const states = useTextmenuStates(editor);
@@ -53,12 +117,12 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
     >
       <div
         ref={containerRef}
-        className="flex cursor-default items-center gap-1 rounded-md border bg-background p-1 text-foreground shadow"
+        className="shadow/5 flex cursor-default items-center gap-2 rounded-md border bg-background p-1 text-foreground"
       >
         <BubbleMenuDropdown
           items={blockOptions}
-          menuIcon={<Icons.regularText />}
-          tooltip="Regular text"
+          menuIcon={blockIcon(editor)}
+          tooltip={blockTooltip(editor)}
         />
 
         <BubbleMenuSeparator />
@@ -129,8 +193,8 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
 
         <BubbleMenuDropdown
           items={listOptions}
-          menuIcon={<Icons.bulletList />}
-          tooltip="List"
+          menuIcon={listIcon(editor)}
+          tooltip={listTooltip(editor)}
         />
       </div>
     </BubbleMenu>

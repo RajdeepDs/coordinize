@@ -37,9 +37,10 @@ export function BubbleMenuDropdown({
           <Button
             variant={"ghost"}
             size={"icon"}
-            className={cn("size-6 rounded")}
+            className={cn("size-min h-6 gap-0.5 rounded px-1")}
           >
             {menuIcon}
+            <Icons.chevronDown />
           </Button>
         </DropdownMenuTrigger>
       </Tooltip>
