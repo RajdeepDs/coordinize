@@ -10,11 +10,13 @@ export const useTextMenuLists = (editor: Editor) => {
         label: "List",
         icon: "bulletList",
         onClick: () => {
-          ctx.editor.commands.focus();
-          ctx.editor.commands.toggleList("bulletList", "listItem");
-          //   ctx.editor.chain().focus().toggleList("bulletList", "listItem").run();
+          ctx.editor
+            ?.chain()
+            .focus()
+            .toggleList("bulletList", "listItem")
+            .run();
         },
-        isActive: () => ctx.editor.isActive("bulletList"),
+        isActive: () => ctx.editor?.isActive("bulletList"),
       },
       {
         type: "item",
@@ -22,21 +24,21 @@ export const useTextMenuLists = (editor: Editor) => {
         icon: "numberedList",
         onClick: () => {
           ctx.editor
-            .chain()
+            ?.chain()
             .focus()
             .toggleList("orderedList", "listItem")
             .run();
         },
-        isActive: () => ctx.editor.isActive("orderedList"),
+        isActive: () => ctx.editor?.isActive("orderedList"),
       },
       {
         type: "item",
         label: "Checklist",
         icon: "checkList",
         onClick: () => {
-          ctx.editor.chain().focus().toggleList("taskList", "taskItem").run();
+          ctx.editor?.chain().focus().toggleList("taskList", "taskItem").run();
         },
-        isActive: () => ctx.editor.isActive("taskList"),
+        isActive: () => ctx.editor?.isActive("taskList"),
       },
     ],
   });

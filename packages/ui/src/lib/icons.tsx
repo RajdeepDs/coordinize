@@ -7,6 +7,7 @@ import {
   Bold,
   BookOpen,
   Calendar,
+  CaseSensitive,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -20,6 +21,9 @@ import {
   CreditCard,
   Ellipsis,
   GripVertical,
+  Heading1,
+  Heading2,
+  Heading3,
   Home,
   Inbox,
   Italic,
@@ -101,6 +105,10 @@ export const Icons = {
   numberedList: ListOrdered,
   checkList: ListTodo,
   check: Check,
+  regularText: CaseSensitive,
+  heading1: Heading1,
+  heading2: Heading2,
+  heading3: Heading3,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       width="14"

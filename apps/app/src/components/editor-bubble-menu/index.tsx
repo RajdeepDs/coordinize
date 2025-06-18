@@ -1,5 +1,4 @@
-"use client";
-
+import { useTextMenuBlocks } from "@/hooks/use-menu-block";
 import { useTextMenuLists } from "@/hooks/use-menu-lists";
 import { useTextmenuStates } from "@/hooks/use-menu-states";
 import { Icons } from "@coordinize/ui/lib/icons";
@@ -8,6 +7,7 @@ import { BubbleMenu } from "@tiptap/react/menus";
 import { useRef } from "react";
 import { BubbleMenuButton } from "./bubble-menu-button";
 import { BubbleMenuDropdown } from "./bubble-menu-dropdown";
+import { BubbleMenuSeparator } from "./bubble-menu-separator";
 
 interface EditorBubbleMenuProps {
   editor: Editor;
@@ -16,6 +16,7 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const states = useTextmenuStates(editor);
   const listOptions = useTextMenuLists(editor);
+  const blockOptions = useTextMenuBlocks(editor);
 
   if (!editor) {
     return null;
@@ -54,6 +55,14 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
         ref={containerRef}
         className="flex cursor-default items-center gap-1 rounded-md border bg-background p-1 text-foreground shadow"
       >
+        <BubbleMenuDropdown
+          items={blockOptions}
+          menuIcon={<Icons.regularText />}
+          tooltip="Regular text"
+        />
+
+        <BubbleMenuSeparator />
+
         <BubbleMenuButton
           icon={<Icons.bold />}
           tooltip="Bold"
