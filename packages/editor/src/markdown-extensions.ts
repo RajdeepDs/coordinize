@@ -21,6 +21,7 @@ import {
   TaskItem,
   TaskList,
   Typography,
+  Underline,
 } from "./extensions";
 
 export const markdownExtensions = () => [
@@ -34,6 +35,7 @@ export const markdownExtensions = () => [
   }),
   HorizontalRule,
   StarterKit,
+  Underline,
   Details.configure({
     persist: true,
     HTMLAttributes: {
