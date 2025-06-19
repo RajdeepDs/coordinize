@@ -31,9 +31,9 @@ export function BubbleMenuDropdown({
   tooltip,
 }: BubbleMenuDropdownProps) {
   return (
-    <DropdownMenu modal={true}>
+    <DropdownMenu>
       <Tooltip label={tooltip}>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger className="focus-visible:ring-0" asChild>
           <Button
             variant={"ghost"}
             size={"icon"}

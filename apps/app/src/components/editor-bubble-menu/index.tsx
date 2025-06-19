@@ -1,10 +1,11 @@
+import { type Editor, isNodeSelection } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
+import { useRef } from "react";
+
 import { useTextMenuBlocks } from "@/hooks/use-menu-block";
 import { useTextMenuLists } from "@/hooks/use-menu-lists";
 import { useTextmenuStates } from "@/hooks/use-menu-states";
 import { Icons } from "@coordinize/ui/lib/icons";
-import { type Editor, isTextSelection } from "@tiptap/react";
-import { BubbleMenu } from "@tiptap/react/menus";
-import { useRef } from "react";
 import { BubbleMenuButton } from "./bubble-menu-button";
 import { BubbleMenuDropdown } from "./bubble-menu-dropdown";
 import { BubbleMenuSeparator } from "./bubble-menu-separator";
@@ -94,26 +95,27 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
         flip: true,
         offset: 8,
       }}
-      shouldShow={({ editor, view, state, from, to }) => {
-        // Reworked from the default, because we only want the selection
-        // menu for text selections where a mark change will be visible.
-        // https://github.com/ueberdosis/tiptap/blob/063ced27ca55f331960b01ee6aea5623eee0ba49/packages/extension-bubble-menu/src/bubble-menu-plugin.ts#L43
-        if (!view.hasFocus()) {
+      shouldShow={({ editor, state }) => {
+        const { selection } = state;
+        const { empty } = selection;
+
+        if (
+          !editor.isEditable ||
+          editor.isActive("image") ||
+          empty ||
+          isNodeSelection(selection)
+        ) {
+          // don't show bubble menu if:
+          // - the editor is not editable
+          // - the selected node is an image
+          // - the selection is empty
+          // - the selection is a node selection (for drag handles)
           return false;
         }
-
-        const { doc, selection } = state;
-        const isText = isTextSelection(selection);
-
-        if (!isText) return false;
-        const isEmpty =
-          selection.empty || (isText && doc.textBetween(from, to).length === 0);
-
-        if (isEmpty) return false;
-        if (["codeBlock"].some((name) => editor.isActive(name))) return false;
         return true;
       }}
       pluginKey="bubbleMenuText"
+      updateDelay={0}
     >
       <div
         ref={containerRef}

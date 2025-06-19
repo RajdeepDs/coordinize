@@ -1,45 +1,46 @@
-import type { MenuITems } from "@/components/editor-bubble-menu/bubble-menu-dropdown";
 import { type Editor, useEditorState } from "@tiptap/react";
+import { useMemo } from "react";
 
 export const useTextMenuLists = (editor: Editor) => {
-  return useEditorState({
+  const state = useEditorState({
     editor,
-    selector: (ctx): MenuITems[] => [
+    selector: (ctx) => ({
+      bulletList: ctx.editor?.isActive("bulletList"),
+      orderedList: ctx.editor?.isActive("orderedList"),
+      taskList: ctx.editor?.isActive("taskList"),
+    }),
+  });
+
+  return useMemo(
+    () => [
       {
         type: "item",
         label: "List",
         icon: "bulletList",
         onClick: () => {
-          ctx.editor
-            ?.chain()
-            .focus()
-            .toggleList("bulletList", "listItem")
-            .run();
+          editor?.chain().focus().toggleList("bulletList", "listItem").run();
         },
-        isActive: () => ctx.editor?.isActive("bulletList"),
+        isActive: () => state.bulletList,
       },
       {
         type: "item",
         label: "Numbered list",
         icon: "numberedList",
         onClick: () => {
-          ctx.editor
-            ?.chain()
-            .focus()
-            .toggleList("orderedList", "listItem")
-            .run();
+          editor?.chain().focus().toggleList("orderedList", "listItem").run();
         },
-        isActive: () => ctx.editor?.isActive("orderedList"),
+        isActive: () => state.orderedList,
       },
       {
         type: "item",
         label: "Checklist",
         icon: "checkList",
         onClick: () => {
-          ctx.editor?.chain().focus().toggleList("taskList", "taskItem").run();
+          editor?.chain().focus().toggleList("taskList", "taskItem").run();
         },
-        isActive: () => ctx.editor?.isActive("taskList"),
+        isActive: () => state.taskList,
       },
     ],
-  });
+    [state, editor],
+  );
 };

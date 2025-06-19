@@ -1,46 +1,56 @@
-import type { MenuITems } from "@/components/editor-bubble-menu/bubble-menu-dropdown";
 import { type Editor, useEditorState } from "@tiptap/react";
+import { useMemo } from "react";
 
 export const useTextMenuBlocks = (editor: Editor) => {
-  return useEditorState({
+  const state = useEditorState({
     editor,
-    selector: (ctx): MenuITems[] => [
+    selector: (ctx) => ({
+      paragraph: ctx.editor?.isActive("paragraph"),
+      heading1: ctx.editor?.isActive("heading", { level: 1 }),
+      heading2: ctx.editor?.isActive("heading", { level: 2 }),
+      heading3: ctx.editor?.isActive("heading", { level: 3 }),
+    }),
+  });
+
+  return useMemo(
+    () => [
       {
         type: "item",
         label: "Regular text",
         icon: "regularText",
         onClick: () => {
-          ctx.editor.chain().setNode("paragraph").focus().run();
+          editor?.chain().setNode("paragraph").focus().run();
         },
-        isActive: () => ctx.editor?.isActive("paragraph"),
+        isActive: () => state.paragraph,
       },
       {
         type: "item",
         label: "Heading 1",
         icon: "heading1",
         onClick: () => {
-          ctx.editor.chain().setNode("heading", { level: 1 }).focus().run();
+          editor?.chain().setNode("heading", { level: 1 }).focus().run();
         },
-        isActive: () => ctx.editor?.isActive("heading", { level: 1 }),
+        isActive: () => state.heading1,
       },
       {
         type: "item",
         label: "Heading 2",
         icon: "heading2",
         onClick: () => {
-          ctx.editor.chain().setNode("heading", { level: 2 }).focus().run();
+          editor?.chain().setNode("heading", { level: 2 }).focus().run();
         },
-        isActive: () => ctx.editor?.isActive("heading", { level: 2 }),
+        isActive: () => state.heading2,
       },
       {
         type: "item",
         label: "Heading 3",
         icon: "heading3",
         onClick: () => {
-          ctx.editor.chain().setNode("heading", { level: 3 }).focus().run();
+          editor?.chain().setNode("heading", { level: 3 }).focus().run();
         },
-        isActive: () => ctx.editor?.isActive("heading", { level: 3 }),
+        isActive: () => state.heading3,
       },
     ],
-  });
+    [state, editor],
+  );
 };
