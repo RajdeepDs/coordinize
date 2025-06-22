@@ -22,7 +22,6 @@ export { Focus } from "@tiptap/extensions/focus";
 
 export { CodeBlock } from "./code-block";
 export { Document } from "./document";
-export { FontSize } from "./font-size";
 export { Heading } from "./heading";
 export { HorizontalRule } from "./horizontal-rule";
 export { Link } from "./link";

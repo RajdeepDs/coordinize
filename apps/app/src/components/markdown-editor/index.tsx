@@ -4,7 +4,7 @@ import "@coordinize/ui/editor";
 
 import { markdownExtensions } from "@coordinize/editor";
 import { cn } from "@coordinize/ui/lib/utils";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, type Extensions, useEditor } from "@tiptap/react";
 import { EditorBubbleMenu } from "../editor-bubble-menu";
 import { SlashCommand } from "../slash-command";
 
@@ -50,17 +50,21 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
       parseOptions: {
         preserveWhitespace: true,
       },
-      extensions: [...markdownExtensions()],
+      extensions: markdownExtensions() as Extensions,
       content,
     },
     [],
   );
 
+  if (!editor) {
+    return null;
+  }
+
   return (
     <>
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
-      <SlashCommand editor={editor} />
+      {!editor && <SlashCommand editor={editor} />}
     </>
   );
 }

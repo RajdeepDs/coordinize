@@ -9,7 +9,6 @@ import {
   Document,
   Dropcursor,
   Focus,
-  FontSize,
   Heading,
   Highlight,
   HorizontalRule,
@@ -46,7 +45,6 @@ export const markdownExtensions = () => [
   DetailsSummary,
   CodeBlock,
   TextStyle,
-  FontSize,
   HorizontalRule,
   Link.configure({
     openOnClick: false,
