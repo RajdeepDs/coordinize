@@ -58,6 +58,7 @@
   "exports": {
     "./providers": "./src/providers/index.tsx",
     "./globals.css": "./src/styles/globals.css",
+    "./editor": "./src/styles/editor/index.css",
     "./hooks": "./src/hooks/index.ts",
     "./cn": "./src/lib/utils.ts",
     "./icons": "./src/lib/icons.tsx",

@@ -76,7 +76,7 @@ export function KeyboardShortcut({
   return (
     <div
       className={cn(
-        "flex items-baseline justify-center gap-1 rounded border border-(--ui-gray-900) bg-transparent px-1.5 py-0.5 align-middle text-[10px] text-ui-gray-700 dark:border-border",
+        "flex items-baseline justify-center gap-1 rounded border border-(--ui-gray-600) bg-transparent px-1.5 py-0.5 align-middle text-[10px] text-ui-gray-700 dark:border-(ui-gray-200) dark:border-border",
         className,
       )}
     >
