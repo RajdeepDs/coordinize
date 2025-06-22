@@ -1,9 +1,3 @@
-export {
-  Details,
-  DetailsContent,
-  DetailsSummary,
-} from "@tiptap-pro/extension-details";
-export { FileHandler } from "@tiptap-pro/extension-file-handler";
 export { Highlight } from "@tiptap/extension-highlight";
 export {
   BulletList,

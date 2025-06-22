@@ -44,7 +44,12 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
             },
             containerClasses,
           ),
-          style: `min-height: ${minHeight}; max-height: ${maxHeight};`,
+          style: [
+            minHeight && `min-height: ${minHeight}`,
+            maxHeight && `max-height: ${maxHeight}`,
+          ]
+            .filter(Boolean)
+            .join("; "),
         },
       },
       parseOptions: {

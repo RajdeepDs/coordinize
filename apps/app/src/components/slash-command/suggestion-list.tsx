@@ -15,7 +15,6 @@ import {
   Suggestion,
   isMarkActiveInRange,
   isNodeActiveInRange,
-  isRemoteTransaction,
 } from "@coordinize/editor";
 
 // Context for sharing range reference between components
@@ -158,9 +157,7 @@ export function SuggestionRoot({
         if (!transaction.docChanged || !dismissedPositionsRef.current.length)
           return;
 
-        const mapping = isRemoteTransaction(transaction)
-          ? transaction.mapping
-          : transaction.mapping;
+        const mapping = transaction.mapping;
 
         dismissedPositionsRef.current = dismissedPositionsRef.current
           .map((pos) => mapping.map(pos))

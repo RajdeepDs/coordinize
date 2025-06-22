@@ -11,7 +11,7 @@ import { Tooltip } from "@coordinize/ui/components/tooltip";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { cn } from "@coordinize/ui/lib/utils";
 
-export interface MenuITems {
+export interface MenuItems {
   label: string;
   type: string;
   isActive: () => boolean;
@@ -20,7 +20,7 @@ export interface MenuITems {
 }
 
 interface BubbleMenuDropdownProps {
-  items: MenuITems[];
+  items: MenuItems[];
   menuIcon: React.ReactNode;
   tooltip?: string;
 }

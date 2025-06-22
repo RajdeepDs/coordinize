@@ -22,13 +22,7 @@
   h1,
   h2,
   h3 {
-    @apply font-semibold first:mt-0 last:mb-0;
-  }
-
-  h1,
-  h2,
-  h3 {
-    @apply mt-0 mb-2.5;
+    @apply font-semibold first:mt-0 last:mb-0 mt-0 mb-2.5;
   }
 
   a.link {

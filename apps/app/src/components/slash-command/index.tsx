@@ -85,7 +85,7 @@ const COMMANDS: CommandItemProps[] = [
     icon: <Icons.numberedList className="h-4 w-4" />,
     command: ({ editor, range }: CommandProps) => {
       editor
-        ?.chain()
+        .chain()
         .focus()
         .deleteRange(range)
         .toggleList("orderedList", "listItem")
@@ -98,7 +98,7 @@ const COMMANDS: CommandItemProps[] = [
     icon: <Icons.checkList className="h-4 w-4" />,
     command: ({ editor, range }: CommandProps) => {
       editor
-        ?.chain()
+        .chain()
         .focus()
         .deleteRange(range)
         .toggleList("taskList", "taskItem")

@@ -30,6 +30,8 @@
     @apply relative w-full max-w-2xl mx-auto;
 
     &:after {
+      content: "";
+      position: absolute;
       @apply border-t-black/40 dark:border-t-white/40 w-full -top-[1.5em] max-w-2xl mx-auto left-0 right-0;
     }
   }
