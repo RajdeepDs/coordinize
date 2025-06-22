@@ -6,6 +6,7 @@ import { markdownExtensions } from "@coordinize/editor";
 import { cn } from "@coordinize/ui/lib/utils";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorBubbleMenu } from "../editor-bubble-menu";
+import { SlashCommand } from "../slash-command";
 
 interface MarkdownEditorProps {
   id?: string;
@@ -59,6 +60,7 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     <>
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
+      <SlashCommand editor={editor} />
     </>
   );
 }

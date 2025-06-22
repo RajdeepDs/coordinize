@@ -1,5 +1,4 @@
-import { type Editor, isNodeSelection } from "@tiptap/react";
-import { BubbleMenu } from "@tiptap/react/menus";
+import { BubbleMenu, type Editor, isNodeSelection } from "@tiptap/react";
 import { useRef } from "react";
 
 import { useTextMenuBlocks } from "@/hooks/use-menu-block";
@@ -90,11 +89,6 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
   return (
     <BubbleMenu
       editor={editor}
-      options={{
-        placement: "bottom",
-        flip: true,
-        offset: 8,
-      }}
       shouldShow={({ editor, state }) => {
         const { selection } = state;
         const { empty } = selection;

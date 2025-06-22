@@ -29,3 +29,4 @@ export { Link } from "./link";
 export { Column, Columns } from "./multi-columns";
 export { Placeholder } from "./placeholder";
 export { StarterKit } from "./starter-kit";
+export * from "./suggestions";
