@@ -261,13 +261,13 @@ export function SuggestionRoot({
           align={align}
           onOpenAutoFocus={(e) => e.preventDefault()}
           className={cn(
-            "flex max-h-full w-[14rem] scroll-p-1 flex-col gap-0.5 overflow-y-auto overflow-x-hidden rounded-md border border-input bg-popover p-0 shadow-md outline-none focus:outline-none",
+            "flex max-h-full w-[14rem] scroll-p-1 flex-col gap-0.5 overflow-y-auto overflow-x-hidden rounded-lg border border-input bg-popover p-0 shadow-md outline-none focus:outline-none",
             contentClassName,
           )}
         >
           <Command
             ref={commandRef}
-            className="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground focus:outline-none"
+            className="flex h-full w-full flex-col overflow-hidden bg-popover text-popover-foreground focus:outline-none"
             shouldFilter={!onControlledQueryChange}
             loop
             filter={filter}
@@ -324,7 +324,7 @@ export function SuggestionItem({
       keywords={keywords}
       {...props}
       className={cn(
-        "relative flex cursor-default select-none items-center gap-3 rounded-md px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex cursor-default select-none items-center gap-3 rounded px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className,
       )}
       onSelect={() => {

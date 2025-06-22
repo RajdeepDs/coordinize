@@ -13,10 +13,10 @@ import { cn } from "@coordinize/ui/lib/utils";
 
 export interface MenuITems {
   label: string;
-  type: "item";
+  type: string;
   isActive: () => boolean;
   onClick: () => void;
-  icon: keyof typeof Icons;
+  icon: string;
 }
 
 interface BubbleMenuDropdownProps {
@@ -45,14 +45,19 @@ export function BubbleMenuDropdown({
         </DropdownMenuTrigger>
       </Tooltip>
       <DropdownMenuContent
-        sideOffset={8}
+        sideOffset={4}
+        align="start"
+        alignOffset={0}
         className={cn(
-          "focus:outline-none",
+          "z-[100] focus:outline-none",
           "w-[12rem] rounded-lg border bg-background p-1 text-primary shadow-md",
         )}
       >
         {items.map((item) => {
-          const Icon = Icons[item.icon];
+          // Get the icon component or use a generic component
+          const iconKey = item.icon as keyof typeof Icons;
+          const IconComponent =
+            Icons[iconKey] || (() => <div className="h-4 w-4" />);
 
           return (
             <DropdownMenuItem
@@ -61,7 +66,7 @@ export function BubbleMenuDropdown({
               className={cn("flex items-center justify-between")}
             >
               <div className="flex items-center gap-2">
-                <Icon />
+                <IconComponent />
                 <span>{item.label}</span>
               </div>
               {item.isActive() ? <Icons.check /> : null}

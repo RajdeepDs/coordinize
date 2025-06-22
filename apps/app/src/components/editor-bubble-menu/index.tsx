@@ -78,12 +78,18 @@ function listTooltip(editor: Editor) {
 
 export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<HTMLDivElement | null>(null);
   const states = useTextmenuStates(editor);
   const listOptions = useTextMenuLists(editor);
   const blockOptions = useTextMenuBlocks(editor);
 
   if (!editor) {
     return null;
+  }
+
+  // Use the editor's DOM element for better positioning reference
+  if (editor?.options?.element && !editorRef.current) {
+    editorRef.current = editor.options.element as HTMLDivElement;
   }
 
   return (
@@ -109,6 +115,24 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
         return true;
       }}
       pluginKey="bubbleMenuText"
+      tippyOptions={{
+        placement: "top",
+        offset: [0, 10],
+        zIndex: 99,
+        arrow: false,
+        animation: "shift-away",
+        moveTransition: "transform 0.2s ease-in-out",
+        popperOptions: {
+          modifiers: [
+            { name: "flip", enabled: true },
+            {
+              name: "preventOverflow",
+              enabled: true,
+              options: { padding: 16 },
+            },
+          ],
+        },
+      }}
       updateDelay={0}
     >
       <div

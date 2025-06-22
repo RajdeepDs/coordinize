@@ -2,8 +2,7 @@ import type { Editor, Range } from "@tiptap/core";
 import { PluginKey } from "@tiptap/pm/state";
 import type { ReactNode } from "react";
 
-import { SeparatorHorizontal as HorizontalRuleIcon } from "lucide-react";
-
+import { CommandSeparator } from "@coordinize/ui/components/command";
 import { KeyboardShortcut } from "@coordinize/ui/components/keyboard-shortcut";
 
 import { Icons } from "@coordinize/ui/lib/icons";
@@ -12,9 +11,10 @@ import { SuggestionItem, SuggestionRoot } from "./suggestion-list";
 interface CommandItemProps {
   title: string;
   searchTerms?: string[];
-  icon: ReactNode;
-  command: (props: CommandProps) => void;
+  icon?: ReactNode;
+  command?: (props: CommandProps) => void;
   kbd?: string;
+  type?: "command" | "separator";
 }
 
 interface CommandProps {
@@ -63,6 +63,10 @@ const COMMANDS: CommandItemProps[] = [
     },
   },
   {
+    type: "separator",
+    title: "Headings Separator",
+  },
+  {
     title: "Bullet List",
     searchTerms: ["unordered"],
     icon: <Icons.bulletList className="h-4 w-4" />,
@@ -102,6 +106,10 @@ const COMMANDS: CommandItemProps[] = [
     },
   },
   {
+    type: "separator",
+    title: "Lists Separator",
+  },
+  {
     title: "Quote",
     searchTerms: ["blockquote"],
     icon: <Icons.quote className="h-4 w-4" />,
@@ -120,13 +128,6 @@ const COMMANDS: CommandItemProps[] = [
         .toggleNode("codeBlock", "paragraph")
         .run(),
   },
-  {
-    title: "Divider",
-    searchTerms: ["divider", "separator", "horizontal", "rule"],
-    icon: <HorizontalRuleIcon className="h-4 w-4" />,
-    command: ({ editor, range }: CommandProps) =>
-      editor.chain().focus().deleteRange(range).setNode("horizontalRule").run(),
-  },
 ];
 
 interface SlashCommandProps {
@@ -139,6 +140,14 @@ export function SlashCommand({ editor }: SlashCommandProps) {
   return (
     <SuggestionRoot editor={editor} char="/" pluginKey={pluginKey}>
       {COMMANDS.map((item) => {
+        if (item.type === "separator") {
+          return (
+            <CommandSeparator
+              key={item.title}
+              className="my-1 h-px bg-border"
+            />
+          );
+        }
         return (
           <SuggestionItem
             editor={editor}
@@ -154,9 +163,7 @@ export function SlashCommand({ editor }: SlashCommandProps) {
             <div className="-ml-1 flex h-6 w-6 items-center justify-center text-muted-foreground">
               {item.icon}
             </div>
-            <span className="flex-1 pr-4 text-left font-medium text-sm">
-              {item.title}
-            </span>
+            <span className="flex-1 pr-4 text-left text-sm">{item.title}</span>
             {item.kbd && <KeyboardShortcut shortcut={item.kbd} />}
           </SuggestionItem>
         );
