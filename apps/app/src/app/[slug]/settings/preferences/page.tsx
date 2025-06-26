@@ -1,5 +1,5 @@
+import InterfaceSelect from "@/components/settings/preferences/interface-select";
 import { SettingsCard } from "@/components/settings/settings-card";
-import InterfaceSelect from "@/components/ui/interface-select";
 import { Label } from "@coordinize/ui/components/label";
 
 export default function PreferencesPage() {

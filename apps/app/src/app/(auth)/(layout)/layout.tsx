@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import RollingCaptions from "@/components/rolling-captions";
+import RollingCaptions from "@/components/layout/rolling-captions";
 
 type AuthLayoutProps = {
   readonly children: ReactNode;

@@ -1,5 +1,6 @@
-import { MembersTable } from "@/components/ui/members-table";
 import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
+
+import { MembersTable } from "@/components/settings/members/members-table";
 import { Label } from "@coordinize/ui/components/label";
 
 export default async function MembersPage() {

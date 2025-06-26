@@ -1,4 +1,4 @@
-import { Logo } from "@/components/logo";
+import { Logo } from "@/components/ui/logo";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 

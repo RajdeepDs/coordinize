@@ -1,4 +1,4 @@
-import { CreateNewSpaceForm } from "@/components/settings/create-new-space";
+import { CreateNewSpaceForm } from "@/components/settings/new-space/create-new-space";
 import { Label } from "@coordinize/ui/components/label";
 
 export default function NewSpacePage() {
