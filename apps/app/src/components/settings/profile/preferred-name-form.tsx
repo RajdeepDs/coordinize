@@ -1,19 +1,18 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFormState } from "react-hook-form";
-import { z } from "zod";
-
-import { updateProfileAction } from "@/actions/update-user-action";
-import { toast } from "@coordinize/ui/components/sonner";
-import { Form, FormControl, FormField, FormItem } from "@coordinize/ui/form";
-import { Input } from "@coordinize/ui/input";
-import { useAction } from "next-safe-action/hooks";
+import { toast } from '@coordinize/ui/components/sonner';
+import { Form, FormControl, FormField, FormItem } from '@coordinize/ui/form';
+import { Input } from '@coordinize/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAction } from 'next-safe-action/hooks';
+import { useForm, useFormState } from 'react-hook-form';
+import { z } from 'zod';
+import { updateProfileAction } from '@/actions/update-user-action';
 
 const formSchema = z.object({
   preferredName: z
     .string()
-    .min(3, { message: "Name must be at least 3 characters." }),
+    .min(3, { message: 'Name must be at least 3 characters.' }),
 });
 
 interface PreferredNameFormProps {
@@ -23,15 +22,15 @@ interface PreferredNameFormProps {
 export function PreferredNameForm({ name }: PreferredNameFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { preferredName: name ?? "" },
+    defaultValues: { preferredName: name ?? '' },
   });
 
   const { execute } = useAction(updateProfileAction, {
     onError: () => {
-      toast.error("Something went wrong.");
+      toast.error('Something went wrong.');
     },
     onSuccess: () => {
-      toast.success("Your preferred name has been updated.");
+      toast.success('Your preferred name has been updated.');
     },
   });
 
@@ -43,7 +42,7 @@ export function PreferredNameForm({ name }: PreferredNameFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full sm:w-auto">
+      <form className="w-full sm:w-auto" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="preferredName"
@@ -52,13 +51,12 @@ export function PreferredNameForm({ name }: PreferredNameFormProps) {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Enter your name"
-                  className={name && "bg-muted"}
+                  className={name && 'bg-muted'}
                   onBlur={async () => {
                     field.onBlur();
-                    const isValid = await form.trigger("preferredName");
+                    const isValid = await form.trigger('preferredName');
                     if (!isValid) {
-                      const error = form.getFieldState("preferredName").error;
+                      const error = form.getFieldState('preferredName').error;
                       if (error?.message) {
                         toast.error(error.message);
                       }
@@ -68,6 +66,7 @@ export function PreferredNameForm({ name }: PreferredNameFormProps) {
                       form.handleSubmit(onSubmit)();
                     }
                   }}
+                  placeholder="Enter your name"
                 />
               </FormControl>
             </FormItem>

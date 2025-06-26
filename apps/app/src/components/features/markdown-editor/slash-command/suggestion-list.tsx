@@ -1,21 +1,19 @@
-import type { Editor, Range } from "@tiptap/core";
-import { type EditorState, PluginKey } from "@tiptap/pm/state";
-import * as React from "react";
-import { v4 as uuid } from "uuid";
-
+import {
+  isMarkActiveInRange,
+  isNodeActiveInRange,
+  Suggestion,
+} from '@coordinize/editor';
 import {
   Popover,
   PopoverAnchor,
   PopoverContent,
-} from "@coordinize/ui/components/popover";
-import { cn } from "@coordinize/ui/lib/utils";
-import { Command } from "cmdk";
-
-import {
-  Suggestion,
-  isMarkActiveInRange,
-  isNodeActiveInRange,
-} from "@coordinize/editor";
+} from '@coordinize/ui/components/popover';
+import { cn } from '@coordinize/ui/lib/utils';
+import type { Editor, Range } from '@tiptap/core';
+import { type EditorState, PluginKey } from '@tiptap/pm/state';
+import { Command } from 'cmdk';
+import * as React from 'react';
+import { v4 as uuid } from 'uuid';
 
 // Context for sharing range reference between components
 const SuggestionRangeContext = React.createContext<
@@ -24,7 +22,7 @@ const SuggestionRangeContext = React.createContext<
 const useSuggestionRange = () => React.useContext(SuggestionRangeContext);
 
 // Context for sharing query information
-const SuggestionQueryContext = React.createContext<string>("");
+const SuggestionQueryContext = React.createContext<string>('');
 const SuggestionEmptyContext = React.createContext<boolean>(true);
 
 export const useSuggestionQuery = () =>
@@ -36,7 +34,7 @@ interface Measurable {
   getBoundingClientRect: () => DOMRect;
 }
 
-const DEFAULT_ALLOWED_PREFIXES = [" ", "("];
+const DEFAULT_ALLOWED_PREFIXES = [' ', '('];
 
 export interface SuggestionRootProps {
   children: React.ReactNode;
@@ -54,8 +52,8 @@ export interface SuggestionRootProps {
   }) => boolean;
   allowedPrefixes?: string[];
   allowSpaces?: boolean;
-  align?: "start" | "center" | "end";
-  side?: "top" | "right" | "bottom" | "left";
+  align?: 'start' | 'center' | 'end';
+  side?: 'top' | 'right' | 'bottom' | 'left';
   modal?: boolean;
   filter?: (value: string, search: string) => number;
   onControlledQueryChange?: (query: string) => void;
@@ -72,8 +70,8 @@ export function SuggestionRoot({
   allow,
   allowedPrefixes = DEFAULT_ALLOWED_PREFIXES,
   allowSpaces,
-  align = "start",
-  side = "bottom",
+  align = 'start',
+  side = 'bottom',
   modal = true,
   filter,
   onControlledQueryChange,
@@ -85,7 +83,7 @@ export function SuggestionRoot({
     getBoundingClientRect: () => new DOMRect(),
   });
   const rangeRef = React.useRef<Range | null>(null);
-  const [query, setQuery] = React.useState("");
+  const [query, setQuery] = React.useState('');
 
   const allowRef = React.useRef(allow);
   const openRef = React.useRef(open);
@@ -120,14 +118,14 @@ export function SuggestionRoot({
       dismissedPositionsRef.current.push(rangeRef.current.from);
     }
     setOpen(false);
-    updateRef.current("", null);
+    updateRef.current('', null);
   }
 
   React.useLayoutEffect(() => {
     if (!editor || editor.isDestroyed) return;
 
     function updateAnchorRect(node: Element | null) {
-      if (!node || !(node instanceof HTMLElement)) return;
+      if (!(node && node instanceof HTMLElement)) return;
 
       const bounds = node.getBoundingClientRect();
       virtualAnchorRef.current = {
@@ -145,16 +143,16 @@ export function SuggestionRoot({
       allow: (props) => {
         const propsAllow =
           !allowRef.current ||
-          (typeof allowRef.current === "function" && allowRef.current(props));
+          (typeof allowRef.current === 'function' && allowRef.current(props));
         return (
           propsAllow &&
           !dismissedPositionsRef.current.includes(props.range.from) &&
-          !isMarkActiveInRange(props.state, "code", props.range) &&
-          !isNodeActiveInRange(props.state, "codeBlock", props.range)
+          !isMarkActiveInRange(props.state, 'code', props.range) &&
+          !isNodeActiveInRange(props.state, 'codeBlock', props.range)
         );
       },
       apply: ({ transaction, state }) => {
-        if (!transaction.docChanged || !dismissedPositionsRef.current.length)
+        if (!(transaction.docChanged && dismissedPositionsRef.current.length))
           return;
 
         const mapping = transaction.mapping;
@@ -181,16 +179,16 @@ export function SuggestionRoot({
           onKeyDown: ({ event }) => {
             if (!openRef.current) return false;
 
-            if (event.key === "Escape") {
+            if (event.key === 'Escape') {
               close();
               event.preventDefault();
               event.stopPropagation();
               return true;
             }
 
-            if (event.key === "Enter" || event.key === "Tab") {
+            if (event.key === 'Enter' || event.key === 'Tab') {
               const selectedItem = document.querySelector(
-                '[cmdk-item][data-selected="true"]',
+                '[cmdk-item][data-selected="true"]'
               ) as HTMLElement;
               if (selectedItem) {
                 selectedItem.click();
@@ -204,11 +202,11 @@ export function SuggestionRoot({
               return true;
             }
 
-            if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
               if (commandRef.current) {
                 commandRef.current.focus();
 
-                const syntheticEvent = new KeyboardEvent("keydown", {
+                const syntheticEvent = new KeyboardEvent('keydown', {
                   key: event.key,
                   code: event.code,
                   keyCode: event.keyCode,
@@ -242,39 +240,39 @@ export function SuggestionRoot({
 
   return (
     <Popover
-      open={open}
+      modal={modal}
       onOpenChange={(open) => {
         setOpen(open);
         if (!open) {
           close();
         }
       }}
-      modal={modal}
+      open={open}
     >
       <PopoverAnchor virtualRef={virtualAnchorRef} />
       {open && (
         <PopoverContent
-          side={side}
           align={align}
-          onOpenAutoFocus={(e) => e.preventDefault()}
           className={cn(
-            "flex max-h-full w-[14rem] scroll-p-1 flex-col gap-0.5 overflow-y-auto overflow-x-hidden rounded-lg border border-input bg-popover p-0 shadow-md outline-none focus:outline-none",
-            contentClassName,
+            'flex max-h-full w-[14rem] scroll-p-1 flex-col gap-0.5 overflow-y-auto overflow-x-hidden rounded-lg border border-input bg-popover p-0 shadow-md outline-none focus:outline-none',
+            contentClassName
           )}
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          side={side}
         >
           <Command
-            ref={commandRef}
             className="flex h-full w-full flex-col overflow-hidden bg-popover text-popover-foreground focus:outline-none"
-            shouldFilter={!onControlledQueryChange}
-            loop
             filter={filter}
+            loop
+            ref={commandRef}
+            shouldFilter={!onControlledQueryChange}
             tabIndex={0}
           >
-            <Command.Input value={query} className="hidden" />
+            <Command.Input className="hidden" value={query} />
             <Command.List
               className={cn(
-                "flex flex-col overflow-y-auto overflow-x-hidden p-1 outline-none focus:outline-none",
-                listClassName,
+                'flex flex-col overflow-y-auto overflow-x-hidden p-1 outline-none focus:outline-none',
+                listClassName
               )}
             >
               <SuggestionQueryContext.Provider value={query}>
@@ -297,7 +295,7 @@ export function SuggestionRoot({
 
 export interface SuggestionItemProps
   extends React.PropsWithChildren,
-    Omit<React.ComponentPropsWithoutRef<typeof Command.Item>, "onSelect"> {
+    Omit<React.ComponentPropsWithoutRef<typeof Command.Item>, 'onSelect'> {
   editor: Editor;
   onSelect: (props: { editor: Editor; range: Range }) => void;
   value?: string;
@@ -317,12 +315,12 @@ export function SuggestionItem({
 
   return (
     <Command.Item
-      value={value}
       keywords={keywords}
+      value={value}
       {...props}
       className={cn(
-        "relative flex cursor-default select-none items-center gap-3 rounded px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-        className,
+        'relative flex cursor-default select-none items-center gap-3 rounded px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+        className
       )}
       onSelect={() => {
         if (!range.current) return;
@@ -369,7 +367,7 @@ export function Suggestions<T>({
   onSelect,
   filterSuggestions = (query, all) =>
     all.filter((item) =>
-      JSON.stringify(item).toLowerCase().includes(query.toLowerCase()),
+      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
     ),
   allow,
   startOfLine,
@@ -385,30 +383,30 @@ export function Suggestions<T>({
 
   return (
     <SuggestionRoot
-      editor={editor}
-      pluginKey={pluginKey}
-      char={char}
-      contentClassName={contentClassName}
-      listClassName={listClassName}
-      startOfLine={startOfLine}
       allow={allow}
       allowedPrefixes={allowedPrefixes}
       allowSpaces={allowSpaces}
+      char={char}
+      contentClassName={contentClassName}
+      editor={editor}
+      listClassName={listClassName}
       modal={modal}
       onControlledQueryChange={() => {}}
+      pluginKey={pluginKey}
+      startOfLine={startOfLine}
     >
       {filtered.length === 0 ? (
         <Command.Empty>{emptyContent ?? <div>No results</div>}</Command.Empty>
       ) : (
         filtered.map((item) => (
           <SuggestionItem
-            key={getKey(item)}
             editor={editor}
+            key={getKey(item)}
             onSelect={({ editor, range }) => {
               onSelect(item, range, editor);
             }}
           >
-            {renderSuggestion(item, false)}{" "}
+            {renderSuggestion(item, false)}{' '}
           </SuggestionItem>
         ))
       )}

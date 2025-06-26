@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from 'react';
 
 export type ImageBlockWidthProps = {
   onChange: (value: number) => void;
@@ -19,18 +19,18 @@ export const ImageBlockWidth = memo(
         onChange(nextValue);
         setCurrentValue(nextValue);
       },
-      [onChange],
+      [onChange]
     );
 
     return (
       <div className="flex items-center gap-2">
         <input
           className="h-2 appearance-none rounded border-0 bg-neutral-200 fill-neutral-300"
-          type="range"
-          min="25"
           max="100"
-          step="25"
+          min="25"
           onChange={handleChange}
+          step="25"
+          type="range"
           value={currentValue}
         />
         <span className="select-none font-semibold text-neutral-500 text-xs">
@@ -38,7 +38,7 @@ export const ImageBlockWidth = memo(
         </span>
       </div>
     );
-  },
+  }
 );
 
-ImageBlockWidth.displayName = "ImageBlockWidth";
+ImageBlockWidth.displayName = 'ImageBlockWidth';

@@ -1,12 +1,12 @@
-import { type Editor, type Range, escapeForRegEx } from "@tiptap/core";
-import type { ResolvedPos } from "@tiptap/pm/model";
+import { type Editor, escapeForRegEx, type Range } from '@tiptap/core';
+import type { ResolvedPos } from '@tiptap/pm/model';
 import {
   type EditorState,
   Plugin,
   PluginKey,
   type Transaction,
-} from "@tiptap/pm/state";
-import { Decoration, DecorationSet, type EditorView } from "@tiptap/pm/view";
+} from '@tiptap/pm/state';
+import { Decoration, DecorationSet, type EditorView } from '@tiptap/pm/view';
 
 export interface Trigger {
   char: string;
@@ -27,10 +27,10 @@ export function defaultFindSuggestionMatch(config: Trigger): SuggestionMatch {
 
   const escapedChar = escapeForRegEx(char);
   const suffix = new RegExp(`\\s${escapedChar}$`);
-  const prefix = startOfLine ? "^" : "";
+  const prefix = startOfLine ? '^' : '';
   const regexp = allowSpaces
-    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, "gm")
-    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, "gm");
+    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
+    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm');
 
   const text = $position.nodeBefore?.isText && $position.nodeBefore.text;
 
@@ -49,10 +49,10 @@ export function defaultFindSuggestionMatch(config: Trigger): SuggestionMatch {
   // is a space or the start of the line
   const matchPrefix = match.input.slice(
     Math.max(0, match.index - 1),
-    match.index,
+    match.index
   );
   const matchPrefixIsAllowed = new RegExp(
-    `^[${allowedPrefixes?.join("")}\0]?$`,
+    `^[${allowedPrefixes?.join('')}\0]?$`
   ).test(matchPrefix);
 
   if (allowedPrefixes !== null && !matchPrefixIsAllowed) {
@@ -66,14 +66,14 @@ export function defaultFindSuggestionMatch(config: Trigger): SuggestionMatch {
   // Edge case handling; if spaces are allowed and we're directly in between
   // two triggers
   if (allowSpaces && suffix.test(text.slice(to - 1, to + 1))) {
-    match[0] += " ";
+    match[0] += ' ';
     to += 1;
   }
 
   const query = match[0].slice(char.length);
 
   // if the query is just a space, then don't return a suggestion
-  if (query === " ") {
+  if (query === ' ') {
     return null;
   }
 
@@ -254,7 +254,7 @@ export interface SuggestionKeyDownProps {
   range: Range;
 }
 
-export const SuggestionPluginKey = new PluginKey("suggestion");
+export const SuggestionPluginKey = new PluginKey('suggestion');
 
 /**
  * This utility allows you to create suggestions.
@@ -263,12 +263,12 @@ export const SuggestionPluginKey = new PluginKey("suggestion");
 export function Suggestion<I = any, TSelected = any>({
   pluginKey = SuggestionPluginKey,
   editor,
-  char = "@",
+  char = '@',
   allowSpaces = false,
-  allowedPrefixes = [" "],
+  allowedPrefixes = [' '],
   startOfLine = false,
-  decorationTag = "span",
-  decorationClass = "suggestion",
+  decorationTag = 'span',
+  decorationClass = 'suggestion',
   command = () => null,
   items = () => [],
   render = () => ({}),
@@ -288,7 +288,7 @@ export function Suggestion<I = any, TSelected = any>({
           const prev = this.key?.getState(prevState);
           const next = this.key?.getState(view.state);
 
-          if (!prev || !next) {
+          if (!(prev && next)) {
             return;
           }
 
@@ -297,20 +297,20 @@ export function Suggestion<I = any, TSelected = any>({
             prev.active && next.active && prev.range.from !== next.range.from;
           const started = !prev.active && next.active;
           const stopped = prev.active && !next.active;
-          const changed = !started && !stopped && prev.query !== next.query;
+          const changed = !(started || stopped) && prev.query !== next.query;
 
           const handleStart = started || (moved && changed);
           const handleChange = changed || moved;
           const handleExit = stopped || (moved && changed);
 
           // Cancel when suggestion isn't active
-          if (!handleStart && !handleChange && !handleExit) {
+          if (!(handleStart || handleChange || handleExit)) {
             return;
           }
 
           const state = handleExit && !handleStart ? prev : next;
           const decorationNode = view.dom.querySelector(
-            `[data-decoration-id="${state.decorationId}"]`,
+            `[data-decoration-id="${state.decorationId}"]`
           );
 
           props = {
@@ -336,7 +336,7 @@ export function Suggestion<I = any, TSelected = any>({
                   if (!state) return null;
                   const { decorationId } = state;
                   const currentDecorationNode = view.dom.querySelector(
-                    `[data-decoration-id="${decorationId}"]`,
+                    `[data-decoration-id="${decorationId}"]`
                   );
                   return currentDecorationNode?.getBoundingClientRect() || null;
                 }
@@ -438,7 +438,7 @@ export function Suggestion<I = any, TSelected = any>({
             startOfLine,
             $position: selection.$from,
           });
-          const decorationId = `id_${Math.floor(Math.random() * 0xffffffff)}`;
+          const decorationId = `id_${Math.floor(Math.random() * 0xff_ff_ff_ff)}`;
 
           // If we found a match, update the current state to show it
           if (
@@ -485,7 +485,7 @@ export function Suggestion<I = any, TSelected = any>({
           return false;
         }
 
-        return renderer?.onKeyDown?.({ view, event, range }) || false;
+        return renderer?.onKeyDown?.({ view, event, range });
       },
 
       // Setup decorator on the currently active suggestion.
@@ -500,7 +500,7 @@ export function Suggestion<I = any, TSelected = any>({
           Decoration.inline(range.from, range.to, {
             nodeName: decorationTag,
             class: decorationClass,
-            "data-decoration-id": decorationId,
+            'data-decoration-id': decorationId,
           }),
         ]);
       },

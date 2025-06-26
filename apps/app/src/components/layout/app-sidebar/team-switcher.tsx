@@ -1,17 +1,12 @@
-"use client";
+'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { redirect, useParams } from "next/navigation";
-
-import { useTRPC } from "@/trpc/client";
-import { authClient } from "@coordinize/auth/auth-client";
+import { authClient } from '@coordinize/auth/auth-client';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@coordinize/ui/components/avatar";
-import { Button } from "@coordinize/ui/components/button";
+} from '@coordinize/ui/components/avatar';
+import { Button } from '@coordinize/ui/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,16 +19,20 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@coordinize/ui/components/dropdown-menu";
-import { Label } from "@coordinize/ui/components/label";
+} from '@coordinize/ui/components/dropdown-menu';
+import { Label } from '@coordinize/ui/components/label';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
   useSidebar,
-} from "@coordinize/ui/components/sidebar";
-import { Icons } from "@coordinize/ui/lib/icons";
+} from '@coordinize/ui/components/sidebar';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+import { redirect, useParams } from 'next/navigation';
+import { useTRPC } from '@/trpc/client';
 
 export function TeamSwitcher({ email }: { email: string }) {
   const trpc = useTRPC();
@@ -49,7 +48,7 @@ export function TeamSwitcher({ email }: { email: string }) {
           <DropdownMenuTrigger asChild className="h-8">
             <SidebarMenuButton className="w-fit focus-visible:ring-0">
               <Avatar className="size-5 rounded border">
-                <AvatarImage src={workspace?.logo ?? ""} alt="workspace-logo" />
+                <AvatarImage alt="workspace-logo" src={workspace?.logo ?? ''} />
                 <AvatarFallback className="select-none">
                   {workspace?.name.at(0)?.toUpperCase()}
                 </AvatarFallback>
@@ -84,8 +83,8 @@ export function TeamSwitcher({ email }: { email: string }) {
                     <DropdownMenuItem>
                       <Avatar className="size-5 rounded border">
                         <AvatarImage
-                          src={workspace?.logo ?? ""}
                           alt="workspace-logo"
+                          src={workspace?.logo ?? ''}
                         />
                         <AvatarFallback className="select-none">
                           {workspace?.name.at(0)?.toUpperCase()}
@@ -107,7 +106,7 @@ export function TeamSwitcher({ email }: { email: string }) {
                 authClient.signOut({
                   fetchOptions: {
                     onSuccess: () => {
-                      redirect("/private-beta");
+                      redirect('/private-beta');
                     },
                   },
                 })
@@ -120,12 +119,12 @@ export function TeamSwitcher({ email }: { email: string }) {
         <div className="flex items-center gap-1">
           <Button
             asChild
-            size={"icon"}
-            variant={"ghost"}
-            tooltip="Search workspace"
             className="size-7 rounded-sm text-muted-foreground"
+            size={'icon'}
+            tooltip="Search workspace"
+            variant={'ghost'}
           >
-            <Link href={"/search"}>
+            <Link href={'/search'}>
               <Icons.search />
             </Link>
           </Button>

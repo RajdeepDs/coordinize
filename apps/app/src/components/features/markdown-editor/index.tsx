@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import "@coordinize/ui/editor";
+import '@coordinize/ui/editor';
 
-import { EditorBubbleMenu } from "@/components/features/markdown-editor/editor-bubble-menu";
-import { SlashCommand } from "@/components/features/markdown-editor/slash-command";
-import { markdownExtensions } from "@coordinize/editor";
-import { cn } from "@coordinize/ui/lib/utils";
-import { EditorContent, type Extensions, useEditor } from "@tiptap/react";
+import { markdownExtensions } from '@coordinize/editor';
+import { cn } from '@coordinize/ui/lib/utils';
+import { EditorContent, type Extensions, useEditor } from '@tiptap/react';
+import { EditorBubbleMenu } from '@/components/features/markdown-editor/editor-bubble-menu';
+import { SlashCommand } from '@/components/features/markdown-editor/slash-command';
 
 interface MarkdownEditorProps {
   id?: string;
@@ -14,19 +14,19 @@ interface MarkdownEditorProps {
   content?: string;
   minHeight?: string;
   maxHeight?: string;
-  textSize?: "sm" | "base";
+  textSize?: 'sm' | 'base';
   containerClasses?: string;
 }
 
 export function MarkdownEditor(props: MarkdownEditorProps) {
   const {
-    id = "",
+    id = '',
     placeholder,
     content,
     maxHeight,
     minHeight,
     textSize,
-    containerClasses = "px-3 py-2.5",
+    containerClasses = 'px-3 py-2.5',
   } = props;
 
   const editor = useEditor(
@@ -36,20 +36,20 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
       autofocus: false,
       editorProps: {
         attributes: {
-          id: id,
+          id,
           class: cn(
-            "prose editing w-full max-w-full select-auto overflow-hidden focus:outline-none",
+            'prose editing w-full max-w-full select-auto overflow-hidden focus:outline-none',
             {
-              "text-sm": textSize === "sm",
+              'text-sm': textSize === 'sm',
             },
-            containerClasses,
+            containerClasses
           ),
           style: [
             minHeight && `min-height: ${minHeight}`,
             maxHeight && `max-height: ${maxHeight}`,
           ]
             .filter(Boolean)
-            .join("; "),
+            .join('; '),
         },
       },
       parseOptions: {
@@ -58,7 +58,7 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
       extensions: markdownExtensions() as Extensions,
       content,
     },
-    [],
+    []
   );
 
   if (!editor) {

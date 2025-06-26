@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useTRPC } from "@/trpc/client";
-import type { User } from "@coordinize/database/db";
+import type { User } from '@coordinize/database/db';
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
+import { useTRPC } from '@/trpc/client';
 
 export function useUserQuery() {
   const trpc = useTRPC();
@@ -33,7 +33,7 @@ export function useStatusEmoji() {
             old && {
               ...old,
               statusEmoji: newData.statusEmoji,
-            },
+            }
         );
 
         return { previousData };
@@ -42,7 +42,7 @@ export function useStatusEmoji() {
         // Rollback on error
         queryClient.setQueryData(
           trpc.user.me.queryKey(),
-          context?.previousData,
+          context?.previousData
         );
       },
       onSettled: () => {
@@ -51,6 +51,6 @@ export function useStatusEmoji() {
           queryKey: trpc.user.me.queryKey(),
         });
       },
-    }),
+    })
   );
 }

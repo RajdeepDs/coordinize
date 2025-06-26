@@ -1,13 +1,11 @@
-"use client";
-
-import { useEffect, useState } from "react";
+'use client';
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@coordinize/ui/components/collapsible";
-import { Input } from "@coordinize/ui/components/input";
+} from '@coordinize/ui/components/collapsible';
+import { Input } from '@coordinize/ui/components/input';
 import {
   Sidebar,
   SidebarContent,
@@ -18,27 +16,28 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@coordinize/ui/components/sidebar";
-import { Icons } from "@coordinize/ui/lib/icons";
+} from '@coordinize/ui/components/sidebar';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { useEffect, useState } from 'react';
 
 const onlineMembers = [
   {
     id: 1,
-    name: "John Doe",
+    name: 'John Doe',
   },
   {
     id: 2,
-    name: "Steven Tey",
+    name: 'Steven Tey',
   },
 ];
 
 export function TeamsSidebar() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredMembers, setFilteredMembers] = useState(onlineMembers);
 
   useEffect(() => {
     const filtered = onlineMembers.filter((member) =>
-      member.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      member.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredMembers(filtered);
   }, [searchQuery]);
@@ -47,26 +46,26 @@ export function TeamsSidebar() {
     <div className="hidden h-full xl:flex">
       <div className="h-full w-56">
         <Sidebar
-          collapsible="none"
           className="w-full rounded border bg-background"
+          collapsible="none"
           side="right"
         >
           <SidebarHeader className="p-0">
             <div className="relative">
               <Input
                 className="peer border-none bg-transparent px-0 ps-9 shadow-none focus-visible:ring-0 dark:bg-transparent"
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search people..."
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-2 text-muted-foreground/80 peer-disabled:opacity-50">
-                <Icons.search size={16} aria-hidden="true" />
+                <Icons.search aria-hidden="true" size={16} />
               </div>
             </div>
           </SidebarHeader>
           <SidebarContent>
-            <Collapsible defaultOpen className="group/collapsible">
+            <Collapsible className="group/collapsible" defaultOpen>
               <SidebarGroup>
                 <div className="flex items-center justify-between">
                   <SidebarGroupLabel>
@@ -75,11 +74,11 @@ export function TeamsSidebar() {
                   <div className="flex items-center gap-1">
                     {/* Add members button */}
                     <button
-                      type="button"
                       className="flex size-6 items-center justify-center rounded text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                       onClick={() => {
-                        console.log("Plus button clicked");
+                        console.log('Plus button clicked');
                       }}
+                      type="button"
                     >
                       <Icons.plus className="h-4 w-4" />
                       <span className="sr-only">Add member</span>

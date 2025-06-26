@@ -1,4 +1,4 @@
-import { MarkdownEditor } from "@/components/features/markdown-editor";
+import { MarkdownEditor } from '@/components/features/markdown-editor';
 
 export default function EditorPage() {
   return (

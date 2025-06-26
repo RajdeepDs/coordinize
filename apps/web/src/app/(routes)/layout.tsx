@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
-import { Header } from "@/components/layout/header";
+import { Header } from '@/components/layout/header';
 
 type HomeLayoutProps = {
   readonly children: ReactNode;

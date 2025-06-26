@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { CircleUserRoundIcon, XIcon } from "lucide-react";
-import { useEffect } from "react";
+import { CircleUserRoundIcon, XIcon } from 'lucide-react';
+import { useEffect } from 'react';
 
-import { useFileUpload } from "../hooks/use-file-upload";
-import { Button } from "./button";
+import { useFileUpload } from '../hooks/use-file-upload';
+import { Button } from './button';
 
 interface AvatarUploaderProps {
   onChange: (file: File | null) => void;
@@ -26,7 +26,7 @@ export default function AvatarUploader({
       handleDragOver,
       handleDrop,
     },
-  ] = useFileUpload({ accept: "image/*" });
+  ] = useFileUpload({ accept: 'image/*' });
 
   useEffect(() => {
     if (files[0]?.file) {
@@ -46,25 +46,25 @@ export default function AvatarUploader({
       <div className="group relative inline-flex">
         <div
           // biome-ignore lint/a11y/useSemanticElements: <explanation>
-          role="button"
-          tabIndex={0}
+          aria-label={showPreview ? 'Change image' : 'Upload image'}
           className="relative flex size-16 items-center justify-center overflow-hidden rounded-lg border border-input border-dashed transition-colors hover:bg-accent/50 has-disabled:pointer-events-none has-[input:focus]:border-ring has-[img]:border-none has-disabled:opacity-50 has-[input:focus]:ring-[3px] has-[input:focus]:ring-ring/50 data-[dragging=true]:bg-accent/50"
+          data-dragging={isDragging || undefined}
           onClick={openFileDialog}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          data-dragging={isDragging || undefined}
-          aria-label={showPreview ? "Change image" : "Upload image"}
+          role="button"
+          tabIndex={0}
         >
           {showPreview ? (
             <img
-              src={showPreview}
               alt="Avatar preview"
-              width={64}
-              height={64}
               className="size-full object-cover"
               fetchPriority="high"
+              height={64}
+              src={showPreview}
+              width={64}
             />
           ) : (
             <div aria-hidden="true">
@@ -75,11 +75,11 @@ export default function AvatarUploader({
 
         {showPreview && (
           <Button
+            aria-label="Remove image"
+            className="-top-1 -right-1 absolute size-6 rounded-full border-2 border-background opacity-0 shadow-none transition-opacity duration-150 ease-in-out focus-visible:border-background group-hover:opacity-100"
             onClick={handleRemove}
             size="icon"
             type="button"
-            className="-top-1 -right-1 absolute size-6 rounded-full border-2 border-background opacity-0 shadow-none transition-opacity duration-150 ease-in-out focus-visible:border-background group-hover:opacity-100"
-            aria-label="Remove image"
           >
             <XIcon className="size-3.5" />
           </Button>
@@ -87,8 +87,8 @@ export default function AvatarUploader({
 
         <input
           {...getInputProps()}
-          className="sr-only"
           aria-label="Upload profile picture"
+          className="sr-only"
         />
       </div>
     </div>

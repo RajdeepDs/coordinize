@@ -1,7 +1,7 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { WordLogo } from "@/components/ui/word-logo";
-import { WEB_URL } from "@/utils/lib";
+import { WordLogo } from '@/components/ui/word-logo';
+import { WEB_URL } from '@/utils/lib';
 
 interface HeaderProps {
   readonly children?: React.ReactNode;

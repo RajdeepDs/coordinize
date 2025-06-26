@@ -1,12 +1,11 @@
-import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
-
-import { ChangeEmailDialog } from "@/components/settings/profile/change-email-dialog";
-import { ChangePasswordDialog } from "@/components/settings/profile/change-password-dialog";
-import { PreferredNameForm } from "@/components/settings/profile/preferred-name-form";
-import { ProfilePic } from "@/components/settings/profile/profile-pic";
-import { SettingsCard } from "@/components/settings/settings-card";
-import { Label } from "@coordinize/ui/components/label";
-import { Separator } from "@coordinize/ui/components/separator";
+import { Label } from '@coordinize/ui/components/label';
+import { Separator } from '@coordinize/ui/components/separator';
+import { ChangeEmailDialog } from '@/components/settings/profile/change-email-dialog';
+import { ChangePasswordDialog } from '@/components/settings/profile/change-password-dialog';
+import { PreferredNameForm } from '@/components/settings/profile/preferred-name-form';
+import { ProfilePic } from '@/components/settings/profile/profile-pic';
+import { SettingsCard } from '@/components/settings/settings-card';
+import { getQueryClient, HydrateClient, trpc } from '@/trpc/server';
 
 export default async function ProfilePage() {
   const queryClient = getQueryClient();
@@ -22,15 +21,15 @@ export default async function ProfilePage() {
         <div className="flex flex-col gap-4">
           <Label className="text-muted-foreground">General</Label>
           <SettingsCard
-            title="Profile picture"
             className="flex-col items-start"
+            title="Profile picture"
           >
             {user && <ProfilePic user={user} />}
           </SettingsCard>
           <SettingsCard
-            title="Preferred name"
-            description="You can use a nickname or your real name—whatever feels right to you."
             className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
+            description="You can use a nickname or your real name—whatever feels right to you."
+            title="Preferred name"
           >
             <PreferredNameForm name={user.name} />
           </SettingsCard>
@@ -39,16 +38,16 @@ export default async function ProfilePage() {
         <div className="flex flex-col gap-4">
           <Label className="text-muted-foreground">Account security</Label>
           <SettingsCard
-            title="Email"
-            description={user.email}
             className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
+            description={user.email}
+            title="Email"
           >
             <ChangeEmailDialog currentEmail={user.email} />
           </SettingsCard>
           <SettingsCard
-            title="Password"
-            description={"Change your password to login to your account."}
             className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
+            description={'Change your password to login to your account.'}
+            title="Password"
           >
             <ChangePasswordDialog />
           </SettingsCard>

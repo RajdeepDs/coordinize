@@ -1,4 +1,4 @@
-import { StarterKit as starterKit } from "@tiptap/starter-kit";
+import { StarterKit as starterKit } from '@tiptap/starter-kit';
 
 export const StarterKit = starterKit.configure({
   document: false,

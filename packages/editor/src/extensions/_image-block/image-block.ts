@@ -1,10 +1,10 @@
-import { type Range, mergeAttributes } from "@tiptap/core";
-import { ReactNodeViewRenderer } from "@tiptap/react";
+import { mergeAttributes, type Range } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
 
-import { Image } from "../_image";
-import { ImageBlockView } from "./components/image-block-view";
+import { Image } from '../_image';
+import { ImageBlockView } from './components/image-block-view';
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     imageBlock: {
       setImageBlock: (attributes: { src: string }) => ReturnType;
@@ -12,16 +12,16 @@ declare module "@tiptap/core" {
         src: string;
         pos: number | Range;
       }) => ReturnType;
-      setImageBlockAlign: (align: "left" | "center" | "right") => ReturnType;
+      setImageBlockAlign: (align: 'left' | 'center' | 'right') => ReturnType;
       setImageBlockWidth: (width: number) => ReturnType;
     };
   }
 }
 
 export const ImageBlock = Image.extend({
-  name: "imageBlock",
+  name: 'imageBlock',
 
-  group: "block",
+  group: 'block',
 
   defining: true,
 
@@ -32,29 +32,29 @@ export const ImageBlock = Image.extend({
   addAttributes() {
     return {
       src: {
-        default: "",
-        parseHTML: (element) => element.getAttribute("src"),
+        default: '',
+        parseHTML: (element) => element.getAttribute('src'),
         renderHTML: (attributes) => ({
           src: attributes.src,
         }),
       },
       width: {
-        default: "100%",
-        parseHTML: (element) => element.getAttribute("data-width"),
+        default: '100%',
+        parseHTML: (element) => element.getAttribute('data-width'),
         renderHTML: (attributes) => ({
-          "data-width": attributes.width,
+          'data-width': attributes.width,
         }),
       },
       align: {
-        default: "center",
-        parseHTML: (element) => element.getAttribute("data-align"),
+        default: 'center',
+        parseHTML: (element) => element.getAttribute('data-align'),
         renderHTML: (attributes) => ({
-          "data-align": attributes.align,
+          'data-align': attributes.align,
         }),
       },
       alt: {
         default: undefined,
-        parseHTML: (element) => element.getAttribute("alt"),
+        parseHTML: (element) => element.getAttribute('alt'),
         renderHTML: (attributes) => ({
           alt: attributes.alt,
         }),
@@ -72,7 +72,7 @@ export const ImageBlock = Image.extend({
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "img",
+      'img',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
     ];
   },
@@ -83,7 +83,7 @@ export const ImageBlock = Image.extend({
         (attrs) =>
         ({ commands }) => {
           return commands.insertContent({
-            type: "imageBlock",
+            type: 'imageBlock',
             attrs: { src: attrs.src },
           });
         },
@@ -92,7 +92,7 @@ export const ImageBlock = Image.extend({
         (attrs) =>
         ({ commands }) => {
           return commands.insertContentAt(attrs.pos, {
-            type: "imageBlock",
+            type: 'imageBlock',
             attrs: { src: attrs.src },
           });
         },
@@ -100,12 +100,12 @@ export const ImageBlock = Image.extend({
       setImageBlockAlign:
         (align) =>
         ({ commands }) =>
-          commands.updateAttributes("imageBlock", { align }),
+          commands.updateAttributes('imageBlock', { align }),
 
       setImageBlockWidth:
         (width) =>
         ({ commands }) =>
-          commands.updateAttributes("imageBlock", {
+          commands.updateAttributes('imageBlock', {
             width: `${Math.max(0, Math.min(100, width))}%`,
           }),
     };

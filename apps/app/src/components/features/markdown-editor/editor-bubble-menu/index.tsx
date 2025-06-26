@@ -1,13 +1,12 @@
-import { BubbleMenu, type Editor, isNodeSelection } from "@tiptap/react";
-import { useRef } from "react";
-
-import { useTextMenuBlocks } from "@/hooks/use-menu-block";
-import { useTextMenuLists } from "@/hooks/use-menu-lists";
-import { useTextmenuStates } from "@/hooks/use-menu-states";
-import { Icons } from "@coordinize/ui/lib/icons";
-import { BubbleMenuButton } from "./bubble-menu-button";
-import { BubbleMenuDropdown } from "./bubble-menu-dropdown";
-import { BubbleMenuSeparator } from "./bubble-menu-separator";
+import { Icons } from '@coordinize/ui/lib/icons';
+import { BubbleMenu, type Editor, isNodeSelection } from '@tiptap/react';
+import { useRef } from 'react';
+import { useTextMenuBlocks } from '@/hooks/use-menu-block';
+import { useTextMenuLists } from '@/hooks/use-menu-lists';
+import { useTextmenuStates } from '@/hooks/use-menu-states';
+import { BubbleMenuButton } from './bubble-menu-button';
+import { BubbleMenuDropdown } from './bubble-menu-dropdown';
+import { BubbleMenuSeparator } from './bubble-menu-separator';
 
 interface EditorBubbleMenuProps {
   editor: Editor;
@@ -16,26 +15,26 @@ interface EditorBubbleMenuProps {
 const blockConfig = {
   heading1: {
     icon: <Icons.heading1 />,
-    tooltip: "Heading 1",
+    tooltip: 'Heading 1',
   },
   heading2: {
     icon: <Icons.heading2 />,
-    tooltip: "Heading 2",
+    tooltip: 'Heading 2',
   },
   heading3: {
     icon: <Icons.heading3 />,
-    tooltip: "Heading 3",
+    tooltip: 'Heading 3',
   },
   paragraph: {
     icon: <Icons.regularText />,
-    tooltip: "Regular text",
+    tooltip: 'Regular text',
   },
 } as const;
 
 function getBlockConfig(editor: Editor) {
-  if (editor.isActive("heading", { level: 1 })) return blockConfig.heading1;
-  if (editor.isActive("heading", { level: 2 })) return blockConfig.heading2;
-  if (editor.isActive("heading", { level: 3 })) return blockConfig.heading3;
+  if (editor.isActive('heading', { level: 1 })) return blockConfig.heading1;
+  if (editor.isActive('heading', { level: 2 })) return blockConfig.heading2;
+  if (editor.isActive('heading', { level: 3 })) return blockConfig.heading3;
   return blockConfig.paragraph;
 }
 
@@ -50,21 +49,21 @@ function blockTooltip(editor: Editor) {
 const listConfig = {
   orderedList: {
     icon: <Icons.numberedList />,
-    tooltip: "Numbered list",
+    tooltip: 'Numbered list',
   },
   taskList: {
     icon: <Icons.checkList />,
-    tooltip: "Task list",
+    tooltip: 'Task list',
   },
   bulletList: {
     icon: <Icons.bulletList />,
-    tooltip: "Bullet list",
+    tooltip: 'Bullet list',
   },
 } as const;
 
 function getListConfig(editor: Editor) {
-  if (editor.isActive("orderedList")) return listConfig.orderedList;
-  if (editor.isActive("taskList")) return listConfig.taskList;
+  if (editor.isActive('orderedList')) return listConfig.orderedList;
+  if (editor.isActive('taskList')) return listConfig.taskList;
   return listConfig.bulletList;
 }
 
@@ -95,13 +94,14 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
   return (
     <BubbleMenu
       editor={editor}
+      pluginKey="bubbleMenuText"
       shouldShow={({ editor, state }) => {
         const { selection } = state;
         const { empty } = selection;
 
         if (
           !editor.isEditable ||
-          editor.isActive("image") ||
+          editor.isActive('image') ||
           empty ||
           isNodeSelection(selection)
         ) {
@@ -114,19 +114,18 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
         }
         return true;
       }}
-      pluginKey="bubbleMenuText"
       tippyOptions={{
-        placement: "top",
+        placement: 'top',
         offset: [0, 10],
         zIndex: 99,
         arrow: false,
-        animation: "shift-away",
-        moveTransition: "transform 0.2s ease-in-out",
+        animation: 'shift-away',
+        moveTransition: 'transform 0.2s ease-in-out',
         popperOptions: {
           modifiers: [
-            { name: "flip", enabled: true },
+            { name: 'flip', enabled: true },
             {
-              name: "preventOverflow",
+              name: 'preventOverflow',
               enabled: true,
               options: { padding: 16 },
             },
@@ -136,8 +135,8 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
       updateDelay={0}
     >
       <div
-        ref={containerRef}
         className="shadow/5 flex cursor-default items-center gap-2 rounded-md border bg-background p-1 text-foreground"
+        ref={containerRef}
       >
         <BubbleMenuDropdown
           items={blockOptions}
@@ -149,66 +148,66 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
 
         <BubbleMenuButton
           icon={<Icons.bold />}
+          isActive={states.isBold}
+          onClick={() => {
+            editor.chain().focus().toggleMark('bold').run();
+          }}
           tooltip="Bold"
           tooltipShortcut="mod+b"
-          onClick={() => {
-            editor.chain().focus().toggleMark("bold").run();
-          }}
-          isActive={states.isBold}
         />
         <BubbleMenuButton
           icon={<Icons.italic />}
+          isActive={states.isItalic}
+          onClick={() => {
+            editor.chain().focus().toggleMark('italic').run();
+          }}
           tooltip="Italic"
           tooltipShortcut="mod+i"
-          onClick={() => {
-            editor.chain().focus().toggleMark("italic").run();
-          }}
-          isActive={states.isItalic}
         />
         <BubbleMenuButton
           icon={<Icons.underline />}
+          isActive={states.isUnderline}
+          onClick={() => {
+            editor.chain().focus().toggleMark('underline').run();
+          }}
           tooltip="Underline"
           tooltipShortcut="mod+u"
-          onClick={() => {
-            editor.chain().focus().toggleMark("underline").run();
-          }}
-          isActive={states.isUnderline}
         />
         <BubbleMenuButton
           icon={<Icons.strike />}
+          isActive={states.isStrike}
+          onClick={() => {
+            editor.chain().focus().toggleMark('strike').run();
+          }}
           tooltip="Strikethrough"
           tooltipShortcut="mod+shift+s"
-          onClick={() => {
-            editor.chain().focus().toggleMark("strike").run();
-          }}
-          isActive={states.isStrike}
         />
         <BubbleMenuButton
           icon={<Icons.quote />}
+          isActive={states.isQuote}
+          onClick={() => {
+            editor.chain().focus().toggleWrap('blockquote').run();
+          }}
           tooltip="Quote"
           tooltipShortcut="mod+shift+b"
-          onClick={() => {
-            editor.chain().focus().toggleWrap("blockquote").run();
-          }}
-          isActive={states.isQuote}
         />
         <BubbleMenuButton
           icon={<Icons.inlineCode />}
+          isActive={states.isInlineCode}
+          onClick={() => {
+            editor.chain().focus().toggleMark('code').run();
+          }}
           tooltip="Inline code"
           tooltipShortcut="mod+e"
-          onClick={() => {
-            editor.chain().focus().toggleMark("code").run();
-          }}
-          isActive={states.isInlineCode}
         />
         <BubbleMenuButton
           icon={<Icons.codeBlock />}
+          isActive={states.isCodeBlock}
+          onClick={() => {
+            editor.chain().focus().toggleNode('codeBlock', 'paragraph').run();
+          }}
           tooltip="Code block"
           tooltipShortcut="mod+alt+c"
-          onClick={() => {
-            editor.chain().focus().toggleNode("codeBlock", "paragraph").run();
-          }}
-          isActive={states.isCodeBlock}
         />
 
         <BubbleMenuDropdown

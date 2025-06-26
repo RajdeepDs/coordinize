@@ -3,14 +3,14 @@ export const helpNav = [
     index: 1,
     items: [
       {
-        title: "Onboarding",
-        href: "/onboarding",
-        icon: "circleAlert",
+        title: 'Onboarding',
+        href: '/onboarding',
+        icon: 'circleAlert',
       },
       {
-        title: "Documentations",
-        href: "/docs",
-        icon: "bookOpen",
+        title: 'Documentations',
+        href: '/docs',
+        icon: 'bookOpen',
       },
     ],
   },
@@ -18,8 +18,8 @@ export const helpNav = [
     index: 2,
     items: [
       {
-        title: "Shortcuts",
-        icon: "keyboard",
+        title: 'Shortcuts',
+        icon: 'keyboard',
       },
     ],
   },
@@ -27,9 +27,9 @@ export const helpNav = [
     index: 3,
     items: [
       {
-        title: "Changelog",
-        href: "/changelog",
-        icon: "calendar",
+        title: 'Changelog',
+        href: '/changelog',
+        icon: 'calendar',
       },
     ],
   },

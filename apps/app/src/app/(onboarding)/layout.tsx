@@ -1,20 +1,18 @@
-import { OnboardingHeader } from "@/components/onboarding/onboarding-header";
-import { HydrateClient, prefetch, trpc } from "@/trpc/server";
-import type { Metadata } from "next";
-import { Suspense } from "react";
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
+import { OnboardingHeader } from '@/components/onboarding/onboarding-header';
+import { HydrateClient, prefetch, trpc } from '@/trpc/server';
 
 interface OnboardingLayoutProps {
   readonly children: React.ReactNode;
 }
 
 export const metadata: Metadata = {
-  title: "Getting started | Coordinize",
-  description: "Getting started with Coordinize.",
+  title: 'Getting started | Coordinize',
+  description: 'Getting started with Coordinize.',
 };
 
-export default async function OnboardingLayout({
-  children,
-}: OnboardingLayoutProps) {
+export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
   prefetch(trpc.user.me.queryOptions());
 
   return (

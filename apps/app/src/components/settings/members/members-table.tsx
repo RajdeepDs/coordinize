@@ -1,22 +1,7 @@
-"use client";
+'use client';
 
-import {
-  type ColumnDef,
-  type ColumnFiltersState,
-  type SortingState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import Image from "next/image";
-import { useRef, useState } from "react";
-
-import { formatDateToMonthYear } from "@/utils/format-date";
-import { Button } from "@coordinize/ui/components/button";
-import { Input } from "@coordinize/ui/components/input";
+import { Button } from '@coordinize/ui/components/button';
+import { Input } from '@coordinize/ui/components/input';
 import {
   Table,
   TableBody,
@@ -24,9 +9,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@coordinize/ui/components/table";
-import { Icons } from "@coordinize/ui/lib/icons";
-import { cn } from "@coordinize/ui/lib/utils";
+} from '@coordinize/ui/components/table';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { cn } from '@coordinize/ui/lib/utils';
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+} from '@tanstack/react-table';
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
+import { formatDateToMonthYear } from '@/utils/format-date';
 
 interface MembersTableProps {
   readonly data: Item[];
@@ -42,41 +41,41 @@ export type Item = {
 
 const columns: ColumnDef<Item>[] = [
   {
-    header: "Name",
-    accessorKey: "name",
+    header: 'Name',
+    accessorKey: 'name',
     cell: ({ row }) => {
       return (
         <div className="flex items-center space-x-3">
           {row.original.imageSrc && (
             <Image
-              src={row.original.imageSrc}
-              alt={`Profile picture of ${row.getValue("name")}`}
-              width={20}
-              height={20}
+              alt={`Profile picture of ${row.getValue('name')}`}
               className="size-5 rounded-full"
+              height={20}
               priority
+              src={row.original.imageSrc}
+              width={20}
             />
           )}
           <div className="flex flex-1 items-center gap-2">
-            <div className="text-sm">{row.getValue("name")}</div>
+            <div className="text-sm">{row.getValue('name')}</div>
           </div>
         </div>
       );
     },
   },
   {
-    header: "Email",
-    accessorKey: "email",
+    header: 'Email',
+    accessorKey: 'email',
   },
   {
-    header: "Status",
-    accessorKey: "status",
+    header: 'Status',
+    accessorKey: 'status',
   },
   {
-    header: "Joined",
-    accessorKey: "joinedAt",
+    header: 'Joined',
+    accessorKey: 'joinedAt',
     cell: ({ row }) => {
-      const date = formatDateToMonthYear(row?.getValue("joinedAt"));
+      const date = formatDateToMonthYear(row?.getValue('joinedAt'));
       return date;
     },
   },
@@ -88,7 +87,7 @@ export function MembersTable({ data }: MembersTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: "name",
+      id: 'name',
       desc: false,
     },
   ]);
@@ -113,35 +112,35 @@ export function MembersTable({ data }: MembersTableProps) {
       <div className="flex items-center">
         <div className="relative">
           <Input
-            type="text"
-            placeholder="Filter by name..."
             className="peer ps-8 pe-9 shadow-none"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              table.getColumn('name')?.setFilterValue(event.target.value)
             }
+            placeholder="Filter by name..."
+            type="text"
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           />
           <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-            <Icons.search size={16} aria-hidden="true" />
+            <Icons.search aria-hidden="true" size={16} />
           </div>
           <button
-            type="button"
-            className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Clear filter"
+            className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => {
-              table.getColumn("name")?.setFilterValue("");
+              table.getColumn('name')?.setFilterValue('');
               if (inputRef.current) {
                 inputRef.current.focus();
               }
             }}
+            type="button"
           >
-            {Boolean(table.getColumn("name")?.getFilterValue()) && (
-              <Icons.circleX size={16} aria-hidden="true" />
+            {Boolean(table.getColumn('name')?.getFilterValue()) && (
+              <Icons.circleX aria-hidden="true" size={16} />
             )}
           </button>
         </div>
         {/* TODO: Implement a dialog to invite members */}
-        <Button className="ml-auto font-normal" variant="default" size={"sm"}>
+        <Button className="ml-auto font-normal" size={'sm'} variant="default">
           Invite
         </Button>
       </div>
@@ -150,28 +149,28 @@ export function MembersTable({ data }: MembersTableProps) {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="">
+              <TableRow className="" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      key={header.id}
                       className={cn(
-                        "font-normal text-muted-foreground text-sm",
-                        header.column.id === "name" && "w-full flex-1",
-                        header.column.id === "joinedAt" &&
-                          "hidden sm:table-cell",
+                        'font-normal text-muted-foreground text-sm',
+                        header.column.id === 'name' && 'w-full flex-1',
+                        header.column.id === 'joinedAt' &&
+                          'hidden sm:table-cell'
                       )}
+                      key={header.id}
                     >
                       {header.isPlaceholder ? null : header.column.getCanSort() ? (
                         <div
                           className={cn(
-                            "group flex h-full cursor-pointer select-none items-center justify-between gap-2",
+                            'group flex h-full cursor-pointer select-none items-center justify-between gap-2'
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
                             if (
                               header.column.getCanSort() &&
-                              (e.key === "Enter" || e.key === " ")
+                              (e.key === 'Enter' || e.key === ' ')
                             ) {
                               e.preventDefault();
                               header.column.getToggleSortingHandler()?.(e);
@@ -181,29 +180,29 @@ export function MembersTable({ data }: MembersTableProps) {
                         >
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                           <span className="flex h-4 w-4 items-center justify-center">
                             {{
                               asc: (
                                 <ChevronUpIcon
+                                  aria-hidden="true"
                                   className="opacity-100 transition-opacity group-hover:opacity-100"
                                   size={16}
-                                  aria-hidden="true"
                                 />
                               ),
                               desc: (
                                 <ChevronDownIcon
+                                  aria-hidden="true"
                                   className="opacity-100 transition-opacity group-hover:opacity-100"
                                   size={16}
-                                  aria-hidden="true"
                                 />
                               ),
                             }[header.column.getIsSorted() as string] ?? (
                               <ChevronUpIcon
+                                aria-hidden="true"
                                 className="opacity-0 transition-opacity group-hover:opacity-60"
                                 size={16}
-                                aria-hidden="true"
                               />
                             )}
                           </span>
@@ -211,7 +210,7 @@ export function MembersTable({ data }: MembersTableProps) {
                       ) : (
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )
                       )}
                     </TableHead>
@@ -225,25 +224,25 @@ export function MembersTable({ data }: MembersTableProps) {
               table.getRowModel().rows.map((row) => {
                 return (
                   <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
                     className="group"
+                    data-state={row.getIsSelected() && 'selected'}
+                    key={row.id}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
-                        key={cell.id}
                         className={cn(
-                          "text-muted-foreground last:py-0",
-                          cell.column.id === "name" && "text-primary",
-                          cell.column.id === "status" &&
-                            "lowercase first-letter:uppercase",
-                          cell.column.id === "joinedAt" &&
-                            "hidden sm:table-cell",
+                          'text-muted-foreground last:py-0',
+                          cell.column.id === 'name' && 'text-primary',
+                          cell.column.id === 'status' &&
+                            'lowercase first-letter:uppercase',
+                          cell.column.id === 'joinedAt' &&
+                            'hidden sm:table-cell'
                         )}
+                        key={cell.id}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext(),
+                          cell.getContext()
                         )}
                       </TableCell>
                     ))}
@@ -253,8 +252,8 @@ export function MembersTable({ data }: MembersTableProps) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center text-muted-foreground"
+                  colSpan={columns.length}
                 >
                   No matching members.
                 </TableCell>

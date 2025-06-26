@@ -1,16 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { useTRPC } from "@/trpc/client";
-import { useUploadThing } from "@/utils/uploadthing";
-import type { User } from "@coordinize/database/db";
-import { Button } from "@coordinize/ui/button";
-import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
+import type { User } from '@coordinize/database/db';
+import { Button } from '@coordinize/ui/button';
+import AvatarUploader from '@coordinize/ui/components/avatar-uploader';
 import {
   Form,
   FormControl,
@@ -18,9 +10,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@coordinize/ui/components/form";
-import { Input } from "@coordinize/ui/components/input";
-import { Icons } from "@coordinize/ui/lib/icons";
+} from '@coordinize/ui/components/form';
+import { Input } from '@coordinize/ui/components/input';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { useTRPC } from '@/trpc/client';
+import { useUploadThing } from '@/utils/uploadthing';
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
@@ -28,7 +27,7 @@ const formSchema = z.object({
     .custom<File>((val) => val instanceof File || val === null)
     .optional(),
   preferredName: z.string().min(1, {
-    message: "Preferred name is required",
+    message: 'Preferred name is required',
   }),
 });
 
@@ -44,17 +43,17 @@ export function Welcome({ nextStep }: WelcomeProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      profilePic: "",
-      preferredName: "",
+      profilePic: '',
+      preferredName: '',
       profilePicFile: undefined,
     },
   });
 
-  const { startUpload } = useUploadThing("imageUploader");
+  const { startUpload } = useUploadThing('imageUploader');
 
   // Fetch user data using useQuery
   const { data: userData, isFetched } = useSuspenseQuery(
-    trpc.user.me.queryOptions(),
+    trpc.user.me.queryOptions()
   );
 
   // Use useEffect to handle user data and form reset
@@ -62,7 +61,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
     if (userData && isFetched) {
       setUser(userData);
       form.reset({
-        profilePic: userData.image ?? "",
+        profilePic: userData.image ?? '',
         profilePicFile: undefined,
         preferredName: userData.name,
       });
@@ -74,7 +73,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
       onSettled: () => {
         nextStep();
       },
-    }),
+    })
   );
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -85,7 +84,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
       // If a file is uploaded, upload it and get the URL
       if (values.profilePicFile instanceof File) {
         const uploaded = await startUpload([values.profilePicFile]);
-        profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? "";
+        profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? '';
       }
 
       mutate({
@@ -93,14 +92,14 @@ export function Welcome({ nextStep }: WelcomeProps) {
         profilePicURL: profilePicUrl,
       });
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error('Error submitting form:', error);
     }
     setIsExecuting(false);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="profilePic"
@@ -110,12 +109,12 @@ export function Welcome({ nextStep }: WelcomeProps) {
               <FormControl>
                 <AvatarUploader
                   onChange={(file) => {
-                    form.setValue("profilePicFile", file || undefined);
+                    form.setValue('profilePicFile', file || undefined);
                     if (!file) {
-                      form.setValue("profilePic", "");
+                      form.setValue('profilePic', '');
                     }
                   }}
-                  previewUrl={form.getValues("profilePic") || ""}
+                  previewUrl={form.getValues('profilePic') || ''}
                 />
               </FormControl>
               <FormMessage />
@@ -131,15 +130,15 @@ export function Welcome({ nextStep }: WelcomeProps) {
               <FormControl>
                 <Input
                   {...field}
+                  className={user ? 'bg-muted' : ''}
                   placeholder="Enter your name"
-                  className={user ? "bg-muted" : ""}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isExecuting}>
+        <Button className="w-full" disabled={isExecuting} type="submit">
           {isExecuting ? (
             <Icons.loader className="animate-spin" />
           ) : (

@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export type OnboardingFormFields = {
   preferredName: string;
@@ -15,20 +15,20 @@ export type OnboardingFormFields = {
 type OnboardingState = OnboardingFormFields & {
   setField: <K extends keyof OnboardingFormFields>(
     key: K,
-    value: OnboardingFormFields[K],
+    value: OnboardingFormFields[K]
   ) => void;
   reset: () => void;
 };
 
 const initialState: OnboardingFormFields = {
-  preferredName: "",
-  profilePic: "",
-  workspaceName: "",
-  workspaceURL: "",
-  workspaceLogo: "",
+  preferredName: '',
+  profilePic: '',
+  workspaceName: '',
+  workspaceURL: '',
+  workspaceLogo: '',
   emailNotifications: true,
   pushNotifications: false,
-  timezone: "",
+  timezone: '',
 };
 
 export const useOnboardingStore = create<OnboardingState>()(
@@ -39,7 +39,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       reset: () => set(() => ({ ...initialState })),
     }),
     {
-      name: "onboarding-storage",
-    },
-  ),
+      name: 'onboarding-storage',
+    }
+  )
 );

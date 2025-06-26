@@ -1,23 +1,21 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
-
-import { pageTabs } from "@/config/page-tabs";
-import { Button } from "@coordinize/ui/components/button";
-import { Label } from "@coordinize/ui/components/label";
-import { SidebarTrigger, useSidebar } from "@coordinize/ui/components/sidebar";
-import { Tabs, TabsList, TabsTrigger } from "@coordinize/ui/components/tabs";
-import { Icons } from "@coordinize/ui/lib/icons";
-import { cn } from "@coordinize/ui/lib/utils";
-
+import { Button } from '@coordinize/ui/components/button';
+import { Label } from '@coordinize/ui/components/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@coordinize/ui/components/select";
+} from '@coordinize/ui/components/select';
+import { SidebarTrigger, useSidebar } from '@coordinize/ui/components/sidebar';
+import { Tabs, TabsList, TabsTrigger } from '@coordinize/ui/components/tabs';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { cn } from '@coordinize/ui/lib/utils';
+import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+import { pageTabs } from '@/config/page-tabs';
 
 export function AppHeader() {
   const { isMobile, state } = useSidebar();
@@ -27,7 +25,7 @@ export function AppHeader() {
   // Find the current page's tabs and label
   const currentPage = pageTabs.find((tab) => {
     switch (tab.page) {
-      case "Home":
+      case 'Home':
         return pathname === `/${slug}`;
       default:
         return false;
@@ -35,10 +33,10 @@ export function AppHeader() {
   });
 
   // If there are tabs, replace :slug with actual slug
-  const tabsWithSlug =
+  const _tabsWithSlug =
     currentPage?.tabs?.map((tab) => ({
       ...tab,
-      href: tab.href.replace(":slug", slug as string),
+      href: tab.href.replace(':slug', slug as string),
     })) ?? [];
 
   return (
@@ -46,20 +44,20 @@ export function AppHeader() {
       <div className="flex h-full items-center gap-2">
         <div
           className={cn(
-            "flex h-full items-center",
-            isMobile || state === "collapsed" ? "flex" : "hidden",
+            'flex h-full items-center',
+            isMobile || state === 'collapsed' ? 'flex' : 'hidden'
           )}
         >
           <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
         </div>
 
-        <Label className="font-normal">{currentPage?.page ?? "Home"}</Label>
+        <Label className="font-normal">{currentPage?.page ?? 'Home'}</Label>
       </div>
       <div className="flex items-center gap-2">
         <Button
-          variant={"ghost"}
-          size={"icon"}
-          className={cn("size-7 rounded-sm text-muted-foreground")}
+          className={cn('size-7 rounded-sm text-muted-foreground')}
+          size={'icon'}
+          variant={'ghost'}
         >
           <Icons.bell />
         </Button>
@@ -71,14 +69,14 @@ export function AppHeader() {
 // TODO: Implement HeaderTabs and HeaderSelect
 function HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
   return (
-    <Tabs defaultValue={tabs[0]?.href ?? ""} className="items-center">
+    <Tabs className="items-center" defaultValue={tabs[0]?.href ?? ''}>
       <TabsList className="h-7 gap-2 bg-transparent">
         {tabs.map((tab) => (
           <TabsTrigger
+            asChild
+            className="h-7 border-border font-normal text-muted-foreground data-[state=active]:bg-muted data-[state=active]:font-medium data-[state=active]:text-foreground data-[state=active]:shadow-none dark:text-muted-foreground"
             key={tab.href}
             value={tab.href}
-            className="h-7 border-border font-normal text-muted-foreground data-[state=active]:bg-muted data-[state=active]:font-medium data-[state=active]:text-foreground data-[state=active]:shadow-none dark:text-muted-foreground"
-            asChild
           >
             <Link href={tab.href}>{tab.name}</Link>
           </TabsTrigger>

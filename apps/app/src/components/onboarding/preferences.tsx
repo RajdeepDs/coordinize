@@ -1,15 +1,7 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import TimezoneSelect from "@/components/ui/timezone-select";
-import { useTRPC } from "@/trpc/client";
-import { Button } from "@coordinize/ui/button";
-import { toast } from "@coordinize/ui/components/sonner";
+import { Button } from '@coordinize/ui/button';
+import { toast } from '@coordinize/ui/components/sonner';
 import {
   Form,
   FormControl,
@@ -17,9 +9,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@coordinize/ui/form";
-import { Icons } from "@coordinize/ui/lib/icons";
-import { Switch } from "@coordinize/ui/switch";
+} from '@coordinize/ui/form';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { Switch } from '@coordinize/ui/switch';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import TimezoneSelect from '@/components/ui/timezone-select';
+import { useTRPC } from '@/trpc/client';
 
 const preferencesSchema = z.object({
   emailNotifications: z.boolean(),
@@ -43,15 +42,15 @@ export function Preferences() {
   const { mutate, isPending } = useMutation(
     trpc.onboarding.preferences.mutationOptions({
       onSuccess: ({ workspaceSlug }) => {
-        toast.success("Welcome aboard!", {
-          description: "Your workspace is all set up and ready to go.",
+        toast.success('Welcome aboard!', {
+          description: 'Your workspace is all set up and ready to go.',
         });
         router.push(`/${workspaceSlug}`);
       },
       onSettled: () => {
         form.reset();
       },
-    }),
+    })
   );
 
   const onSubmit = async (values: z.infer<typeof preferencesSchema>) => {
@@ -62,7 +61,7 @@ export function Preferences() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="emailNotifications"
@@ -71,8 +70,8 @@ export function Preferences() {
               <FormLabel>Email Notifications</FormLabel>
               <FormControl>
                 <Switch
-                  id="emailNotifications"
                   checked={field.value}
+                  id="emailNotifications"
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
@@ -87,8 +86,8 @@ export function Preferences() {
               <FormLabel>Push Notifications</FormLabel>
               <FormControl>
                 <Switch
-                  id="pushNotifications"
                   checked={field.value}
+                  id="pushNotifications"
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
@@ -102,18 +101,18 @@ export function Preferences() {
             <FormItem>
               <FormLabel>Timezone</FormLabel>
               <FormControl>
-                <TimezoneSelect value={field.value} onChange={field.onChange} />
+                <TimezoneSelect onChange={field.onChange} value={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button className="w-full" disabled={isPending} type="submit">
           {isPending ? (
             <Icons.loader className="animate-spin" />
           ) : (
-            "Get Started"
+            'Get Started'
           )}
         </Button>
       </form>

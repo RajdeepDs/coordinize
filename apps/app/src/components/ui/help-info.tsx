@@ -1,7 +1,4 @@
-import { Fragment } from "react";
-
-import { helpNav } from "@/config/help-nav";
-import { Button } from "@coordinize/ui/components/button";
+import { Button } from '@coordinize/ui/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +6,14 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@coordinize/ui/components/dropdown-menu";
+} from '@coordinize/ui/components/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuItem,
-} from "@coordinize/ui/components/sidebar";
-import { Icons } from "@coordinize/ui/lib/icons";
+} from '@coordinize/ui/components/sidebar';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { Fragment } from 'react';
+import { helpNav } from '@/config/help-nav';
 
 export function HelpInfo() {
   return (
@@ -23,14 +22,14 @@ export function HelpInfo() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="w-fit focus-visible:ring-0">
             <Button
-              variant={"ghost"}
-              size={"icon"}
               className="size-7 rounded-sm text-muted-foreground"
+              size={'icon'}
+              variant={'ghost'}
             >
               <Icons.help />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side="top" align="start">
+          <DropdownMenuContent align="start" side="top">
             {helpNav.map((block) => (
               <Fragment key={block.index}>
                 <DropdownMenuGroup>

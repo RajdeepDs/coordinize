@@ -1,12 +1,12 @@
-import { HydrateClient, getQueryClient, trpc } from "@/trpc/server";
+import { Label } from '@coordinize/ui/components/label';
 
-import { MembersTable } from "@/components/settings/members/members-table";
-import { Label } from "@coordinize/ui/components/label";
+import { MembersTable } from '@/components/settings/members/members-table';
+import { getQueryClient, HydrateClient, trpc } from '@/trpc/server';
 
 export default async function MembersPage() {
   const queryClient = getQueryClient();
   const members = await queryClient.fetchQuery(
-    trpc.workspace.members.queryOptions(),
+    trpc.workspace.members.queryOptions()
   );
 
   if (!members) {

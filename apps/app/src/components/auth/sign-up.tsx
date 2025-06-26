@@ -1,13 +1,7 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { authClient } from "@coordinize/auth/auth-client";
-import { Button } from "@coordinize/ui/components/button";
+import { authClient } from '@coordinize/auth/auth-client';
+import { Button } from '@coordinize/ui/components/button';
 import {
   Form,
   FormControl,
@@ -15,23 +9,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@coordinize/ui/components/form";
-import { Input } from "@coordinize/ui/components/input";
-import { toast } from "@coordinize/ui/components/sonner";
-import { Icons } from "@coordinize/ui/lib/icons";
+} from '@coordinize/ui/components/form';
+import { Input } from '@coordinize/ui/components/input';
+import { toast } from '@coordinize/ui/components/sonner';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const formSchema = z
   .object({
-    name: z.string().min(3, { message: "Name must be at least 3 characters." }),
-    email: z.string().email({ message: "Invalid email address." }),
+    name: z.string().min(3, { message: 'Name must be at least 3 characters.' }),
+    email: z.string().email({ message: 'Invalid email address.' }),
     password: z
       .string()
-      .min(8, { message: "Password must be at least 8 characters." }),
+      .min(8, { message: 'Password must be at least 8 characters.' }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords must match.",
-    path: ["confirmPassword"],
+    message: 'Passwords must match.',
+    path: ['confirmPassword'],
   });
 
 export const SignUp = () => {
@@ -40,10 +39,10 @@ export const SignUp = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
     },
   });
 
@@ -61,13 +60,13 @@ export const SignUp = () => {
         onSuccess: () => {
           setSubmitted(false);
           form.reset();
-          redirect("/private-beta");
+          redirect('/private-beta');
         },
         onError: () => {
           setSubmitted(false);
           form.reset();
         },
-      },
+      }
     );
 
     if (error) {
@@ -77,7 +76,7 @@ export const SignUp = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -85,7 +84,7 @@ export const SignUp = () => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input type="name" placeholder="John Doe" {...field} />
+                <Input placeholder="John Doe" type="name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,8 +98,8 @@ export const SignUp = () => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  type="email"
                   placeholder="johndoe@example.com"
+                  type="email"
                   {...field}
                 />
               </FormControl>
@@ -116,8 +115,8 @@ export const SignUp = () => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
-                  type="password"
                   placeholder="Enter password"
+                  type="password"
                   {...field}
                 />
               </FormControl>
@@ -133,8 +132,8 @@ export const SignUp = () => {
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
                 <Input
-                  type="password"
                   placeholder="Confirm your password"
+                  type="password"
                   {...field}
                 />
               </FormControl>
@@ -142,11 +141,11 @@ export const SignUp = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={submitted}>
+        <Button className="w-full" disabled={submitted} type="submit">
           {submitted ? (
             <Icons.loader className="size-4 animate-spin" />
           ) : (
-            <>Sign up</>
+            'Sign up'
           )}
         </Button>
       </form>

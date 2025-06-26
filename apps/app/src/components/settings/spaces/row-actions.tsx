@@ -1,16 +1,15 @@
-import Link from "next/link";
-import { useParams } from "next/navigation";
-
-import { getSpaceNavigation } from "@/config/team-navigation";
-import { Button } from "@coordinize/ui/components/button";
+import { Button } from '@coordinize/ui/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@coordinize/ui/components/dropdown-menu";
-import { Icons } from "@coordinize/ui/lib/icons";
+} from '@coordinize/ui/components/dropdown-menu';
+import { Icons } from '@coordinize/ui/lib/icons';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { getSpaceNavigation } from '@/config/team-navigation';
 
 export function RowActions({ identifier }: { identifier: string }) {
   const params = useParams<{ slug: string }>();
@@ -22,12 +21,12 @@ export function RowActions({ identifier }: { identifier: string }) {
       <DropdownMenuTrigger asChild>
         <div className="flex justify-end">
           <Button
+            aria-label="Edit item"
+            className="shadow-none"
             size="icon"
             variant="ghost"
-            className="shadow-none"
-            aria-label="Edit item"
           >
-            <Icons.ellipsis size={16} aria-hidden="true" />
+            <Icons.ellipsis aria-hidden="true" size={16} />
           </Button>
         </div>
       </DropdownMenuTrigger>
@@ -38,11 +37,11 @@ export function RowActions({ identifier }: { identifier: string }) {
             return (
               <DropdownMenuItem
                 asChild
-                key={option.label}
                 className="cursor-pointer"
+                key={option.label}
               >
                 <Link href={option.href}>
-                  <Icon size={16} aria-hidden="true" />
+                  <Icon aria-hidden="true" size={16} />
                   <span>{option.label}</span>
                 </Link>
               </DropdownMenuItem>

@@ -1,18 +1,17 @@
-"use client";
+'use client';
 
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import type * as React from "react";
-import { useState } from "react";
-
-import { cn } from "@coordinize/ui/lib/utils";
-import { KeyboardShortcut } from "./keyboard-shortcut";
+import { cn } from '@coordinize/ui/lib/utils';
+import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import type * as React from 'react';
+import { useState } from 'react';
+import { KeyboardShortcut } from './keyboard-shortcut';
 
 interface TooltipProps {
   label?: string | React.ReactNode;
   shortcut?: string;
   children: React.ReactNode;
-  side?: "top" | "right" | "bottom" | "left";
-  align?: "start" | "center" | "end";
+  side?: 'top' | 'right' | 'bottom' | 'left';
+  align?: 'start' | 'center' | 'end';
   asChild?: boolean;
   disableHoverableContent?: boolean;
   hideWhenDetached?: boolean;
@@ -24,8 +23,8 @@ interface TooltipProps {
 function Tooltip({
   label,
   children,
-  side = "top",
-  align = "center",
+  side = 'top',
+  align = 'center',
   asChild = true,
   shortcut,
   disableHoverableContent = false,
@@ -41,13 +40,13 @@ function Tooltip({
     <TooltipPrimitive.Root
       data-slot="tooltip"
       disableHoverableContent={disableHoverableContent}
-      open={open}
       onOpenChange={setOpen}
+      open={open}
       {...props}
     >
       <TooltipPrimitive.Trigger
-        data-slot="tooltip-trigger"
         asChild={asChild}
+        data-slot="tooltip-trigger"
         onFocus={(e) => {
           if (hideOnKeyboardFocus) {
             e.preventDefault();
@@ -59,20 +58,20 @@ function Tooltip({
       {(label || shortcut) && (
         <TooltipPrimitive.Portal>
           <TooltipPrimitive.Content
-            data-slot="tooltip-content"
-            side={side}
             align={align}
-            sideOffset={sideOffset}
             alignOffset={alignOffset}
-            hideWhenDetached={hideWhenDetached}
             className={cn(
-              "fade-in-0 zoom-in-95 data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 flex h-8 w-fit origin-(--radix-tooltip-content-transform-origin) animate-in flex-row items-center gap-2 text-balance rounded-md border bg-primary px-3 py-1 text-primary-foreground text-xs data-[state=closed]:animate-out dark:bg-ui-gray-100 dark:text-foreground",
+              'fade-in-0 zoom-in-95 data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 flex h-8 w-fit origin-(--radix-tooltip-content-transform-origin) animate-in flex-row items-center gap-2 text-balance rounded-md border bg-primary px-3 py-1 text-primary-foreground text-xs data-[state=closed]:animate-out dark:bg-ui-gray-100 dark:text-foreground',
               {
-                "px-2": !shortcut,
-                "px-1.5": !!shortcut && !!label,
-                "px-1": !!shortcut && !label,
-              },
+                'px-2': !shortcut,
+                'px-1.5': !!shortcut && !!label,
+                'px-1': !!shortcut && !label,
+              }
             )}
+            data-slot="tooltip-content"
+            hideWhenDetached={hideWhenDetached}
+            side={side}
+            sideOffset={sideOffset}
           >
             {label}
             {shortcut && <KeyboardShortcut shortcut={shortcut} />}

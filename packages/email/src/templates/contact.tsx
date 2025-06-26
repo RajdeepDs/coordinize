@@ -8,7 +8,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
+} from '@react-email/components';
 
 type ContactTemplateProps = {
   readonly name: string;
@@ -47,9 +47,9 @@ export const ContactTemplate = ({
 
 const ExampleContactEmail = () => (
   <ContactTemplate
-    name="Jane Smith"
     email="jane@example.com"
     message="Hello, how do I get started?"
+    name="Jane Smith"
   />
 );
 

@@ -1,13 +1,13 @@
-import type { DependencyList } from "react";
+import type { DependencyList } from 'react';
 
 import {
   type HotkeyCallback,
   type Keys,
   type Options,
   useHotkeys,
-} from "react-hotkeys-hook";
+} from 'react-hotkeys-hook';
 
-import { useIsTopLayer } from "./use-is-top-layer";
+import { useIsTopLayer } from './use-is-top-layer';
 
 export interface LayeredHotkeysProps {
   keys: Keys;
@@ -45,10 +45,10 @@ export function useLayeredHotkeys({
       // https://github.com/radix-ui/primitives/issues/1299
       if (
         skipEscapeWhenDisabled &&
-        keyboardEvent.key === "Escape" &&
+        keyboardEvent.key === 'Escape' &&
         keyboardEvent.target &&
         keyboardEvent.target instanceof HTMLElement &&
-        keyboardEvent.target.closest("[disable-escape-layered-hotkeys]")
+        keyboardEvent.target.closest('[disable-escape-layered-hotkeys]')
       ) {
         return;
       }
@@ -61,6 +61,6 @@ export function useLayeredHotkeys({
       // regardless of the enabled option passed into this hook
       enabled: isTopLayer ? options.enabled : false,
     },
-    dependencies,
+    dependencies
   );
 }

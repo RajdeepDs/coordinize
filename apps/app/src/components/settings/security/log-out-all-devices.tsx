@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { SettingsCard } from "@/components/settings/settings-card";
-import { authClient } from "@coordinize/auth/auth-client";
-import { Button } from "@coordinize/ui/components/button";
+import { authClient } from '@coordinize/auth/auth-client';
+import { Button } from '@coordinize/ui/components/button';
+import { SettingsCard } from '@/components/settings/settings-card';
 
 export function LogOutAllDevices() {
   return (
     <SettingsCard
-      title="Log out of all devices"
-      description="Log out of all other active sessions on other devices besides this one."
       className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
+      description="Log out of all other active sessions on other devices besides this one."
+      title="Log out of all devices"
     >
       <Button
-        variant={"outline"}
-        size={"sm"}
         className="cursor-pointer font-normal"
         onClick={async () => {
           await authClient.revokeOtherSessions();
         }}
+        size={'sm'}
+        variant={'outline'}
       >
-        Log out of all devices{" "}
+        Log out of all devices{' '}
       </Button>
     </SettingsCard>
   );

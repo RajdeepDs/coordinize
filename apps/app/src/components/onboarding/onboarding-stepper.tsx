@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { onboardingSteps } from "@/config/onboarding-steps";
 import {
   Stepper,
   StepperIndicator,
   StepperItem,
   StepperTrigger,
-} from "@coordinize/ui/components/stepper";
-import { useParams, useRouter } from "next/navigation";
+} from '@coordinize/ui/components/stepper';
+import { useParams, useRouter } from 'next/navigation';
+import { onboardingSteps } from '@/config/onboarding-steps';
 
 export function OnboardingStepper() {
   const router = useRouter();
   const { step } = useParams();
-  const currentStepId = (step?.[0] as string) || "welcome";
+  const currentStepId = (step?.[0] as string) || 'welcome';
 
   const currentStepIndex =
     onboardingSteps.findIndex((s) => s.id === currentStepId) + 1;
@@ -22,15 +22,26 @@ export function OnboardingStepper() {
       <p className="select-none text-start text-muted-foreground text-sm">
         Step {currentStepIndex} of {onboardingSteps.length}
       </p>
-      <Stepper value={currentStepIndex} defaultValue={1} className="gap-2">
-        {onboardingSteps.map((step, index) => (
-          <StepperItem key={step.id} step={index + 1} className="flex-1">
+      <Stepper className="gap-2" defaultValue={1} value={currentStepIndex}>
+        {onboardingSteps.map((onboardingStep, idx) => (
+          <StepperItem
+            className="flex-1"
+            key={onboardingStep.id}
+            step={idx + 1}
+          >
             <StepperTrigger
-              onClick={() => router.push(`/getting-started/${step.id}`)}
               className="w-full flex-col items-start gap-2 rounded"
+              onClick={() =>
+                router.push(`/getting-started/${onboardingStep.id}`)
+              }
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  router.push(`/getting-started/${onboardingStep.id}`);
+                }
+              }}
             >
               <StepperIndicator asChild className="h-1 w-full bg-border">
-                <span className="sr-only">{step.id}</span>
+                <span className="sr-only">{onboardingStep.id}</span>
               </StepperIndicator>
             </StepperTrigger>
           </StepperItem>

@@ -1,3 +1,6 @@
 {
-  "extends": "@coordinize/tsconfig/base.json"
+  "extends": "@coordinize/tsconfig/base.json",
+  "compilerOptions": {
+    "strictNullChecks": true
+  }
 }

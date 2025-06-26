@@ -1,10 +1,6 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Button } from "@coordinize/ui/components/button";
+import { Button } from '@coordinize/ui/components/button';
 import {
   Dialog,
   DialogContent,
@@ -12,16 +8,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@coordinize/ui/components/dialog";
+} from '@coordinize/ui/components/dialog';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@coordinize/ui/components/form";
-import { Input } from "@coordinize/ui/components/input";
-import { Icons } from "@coordinize/ui/lib/icons";
+} from '@coordinize/ui/components/form';
+import { Input } from '@coordinize/ui/components/input';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const formSchema = (currentEmail: string) =>
   z.object({
@@ -29,7 +28,7 @@ const formSchema = (currentEmail: string) =>
       .string()
       .email()
       .refine((val) => val !== currentEmail, {
-        message: "Please enter a different email address.",
+        message: 'Please enter a different email address.',
       }),
   });
 
@@ -37,7 +36,7 @@ export function ChangeEmailDialog({ currentEmail }: { currentEmail: string }) {
   const form = useForm<z.infer<ReturnType<typeof formSchema>>>({
     resolver: zodResolver(formSchema(currentEmail)),
     defaultValues: {
-      email: "",
+      email: '',
     },
   });
 
@@ -48,20 +47,20 @@ export function ChangeEmailDialog({ currentEmail }: { currentEmail: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"} size={"sm"} className="font-normal">
+        <Button className="font-normal" size={'sm'} variant={'outline'}>
           Change email
         </Button>
       </DialogTrigger>
       <DialogContent className="w-96">
         <div className="mb-2 flex flex-col items-center gap-2">
           <div
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border"
             aria-hidden="true"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full border"
           >
             <Icons.mail
-              size={20}
               aria-hidden="true"
               className="text-muted-foreground"
+              size={20}
             />
           </div>
           <DialogHeader>
@@ -84,16 +83,16 @@ export function ChangeEmailDialog({ currentEmail }: { currentEmail: string }) {
                     <div className="relative">
                       <FormControl>
                         <Input
-                          id="dialog-subscribe"
+                          aria-label="Email"
                           className="peer ps-9"
+                          id="dialog-subscribe"
                           placeholder="email@example.com"
                           type="email"
-                          aria-label="Email"
                           {...field}
                         />
                       </FormControl>
                       <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                        <Icons.mail size={16} aria-hidden="true" />
+                        <Icons.mail aria-hidden="true" size={16} />
                       </div>
                     </div>
                     <FormMessage />
@@ -101,7 +100,7 @@ export function ChangeEmailDialog({ currentEmail }: { currentEmail: string }) {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button className="w-full" type="submit">
               Update email
             </Button>
           </form>

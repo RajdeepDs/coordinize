@@ -1,32 +1,31 @@
-"use client";
+'use client';
 
-import { useMemo } from "react";
-import { isMacOs, isMobile } from "react-device-detect";
-
-import { cn } from "@coordinize/ui/lib/utils";
+import { cn } from '@coordinize/ui/lib/utils';
+import { useMemo } from 'react';
+import { isMacOs, isMobile } from 'react-device-detect';
 
 function getShortcutKeySymbol(key: string) {
   switch (key) {
-    case "mod":
-    case "meta":
+    case 'mod':
+    case 'meta':
       if (isMacOs) {
-        return { text: "⌘", emoji: true };
+        return { text: '⌘', emoji: true };
       }
-      return { text: "Ctrl" };
-    case "alt":
+      return { text: 'Ctrl' };
+    case 'alt':
       if (isMacOs) {
-        return { text: "⌥", emoji: true };
+        return { text: '⌥', emoji: true };
       }
-      return { text: "Alt" };
-    case "shift":
-      return { text: "⇧", emoji: true };
-    case "comma":
-      return { text: "," };
-    case "return":
-    case "enter":
-      return { text: "Enter" };
-    case "backspace":
-      return { text: "⌫", emoji: true };
+      return { text: 'Alt' };
+    case 'shift':
+      return { text: '⇧', emoji: true };
+    case 'comma':
+      return { text: ',' };
+    case 'return':
+    case 'enter':
+      return { text: 'Enter' };
+    case 'backspace':
+      return { text: '⌫', emoji: true };
     default:
       return { text: key.trim().toUpperCase() };
   }
@@ -44,11 +43,11 @@ export function KeyboardShortcut({
   const components = useMemo(() => {
     let parts: string[];
 
-    if (typeof shortcut === "string") {
-      if (shortcut !== "+") {
-        parts = shortcut.split("+");
+    if (typeof shortcut === 'string') {
+      if (shortcut !== '+') {
+        parts = shortcut.split('+');
       } else {
-        parts = ["+"];
+        parts = ['+'];
       }
     } else {
       parts = shortcut;
@@ -59,11 +58,11 @@ export function KeyboardShortcut({
 
       return (
         <span
-          key={key}
-          className={cn("font-semibold text-xs", {
-            "font-[emoji]": emoji,
-            "font-mono": !emoji,
+          className={cn('font-semibold text-xs', {
+            'font-[emoji]': emoji,
+            'font-mono': !emoji,
           })}
+          key={key}
         >
           {text}
         </span>
@@ -76,8 +75,8 @@ export function KeyboardShortcut({
   return (
     <div
       className={cn(
-        "flex items-baseline justify-center gap-1 rounded border border-(--ui-gray-600) bg-transparent px-1.5 py-0.5 align-middle text-[10px] text-ui-gray-700 dark:border-(ui-gray-200) dark:border-border",
-        className,
+        'flex items-baseline justify-center gap-1 rounded border border-(--ui-gray-600) bg-transparent px-1.5 py-0.5 align-middle text-[10px] text-ui-gray-700 dark:border-(ui-gray-200) dark:border-border',
+        className
       )}
     >
       {components}

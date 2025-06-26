@@ -1,13 +1,13 @@
-import { type NodeRange, type Range, getNodeType } from "@tiptap/core";
-import type { NodeType } from "@tiptap/pm/model";
-import type { EditorState } from "@tiptap/pm/state";
+import { getNodeType, type NodeRange, type Range } from '@tiptap/core';
+import type { NodeType } from '@tiptap/pm/model';
+import type { EditorState } from '@tiptap/pm/state';
 
 export function isNodeActiveInRange(
   state: EditorState,
   typeOrName: NodeType | string | null,
-  range: Range,
+  range: Range
 ): boolean {
-  if (typeof typeOrName === "string" && !state.schema.nodes[typeOrName]) {
+  if (typeof typeOrName === 'string' && !state.schema.nodes[typeOrName]) {
     return false;
   }
 
@@ -46,7 +46,7 @@ export function isNodeActiveInRange(
 
   const finalRange = matchedNodeRanges.reduce(
     (sum, nodeRange) => sum + nodeRange.to - nodeRange.from,
-    0,
+    0
   );
 
   return finalRange >= selectionRange;

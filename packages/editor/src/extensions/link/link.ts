@@ -1,7 +1,7 @@
-import { mergeAttributes } from "@tiptap/core";
-import TiptapLink from "@tiptap/extension-link";
-import { Plugin } from "@tiptap/pm/state";
-import type { EditorView } from "@tiptap/pm/view";
+import { mergeAttributes } from '@tiptap/core';
+import TiptapLink from '@tiptap/extension-link';
+import { Plugin } from '@tiptap/pm/state';
+import type { EditorView } from '@tiptap/pm/view';
 
 export const Link = TiptapLink.extend({
   inclusive: false,
@@ -14,9 +14,9 @@ export const Link = TiptapLink.extend({
           // check if link starts with javascript:
           if (
             element
-              .getAttribute("href")
+              .getAttribute('href')
               ?.toLowerCase()
-              .startsWith("javascript:")
+              .startsWith('javascript:')
           ) {
             return false;
           }
@@ -28,22 +28,22 @@ export const Link = TiptapLink.extend({
   },
 
   renderHTML({ HTMLAttributes }) {
-    if (HTMLAttributes.href?.toLowerCase().startsWith("javascript:")) {
+    if (HTMLAttributes.href?.toLowerCase().startsWith('javascript:')) {
       return [
-        "a",
+        'a',
         mergeAttributes(
           this.options.HTMLAttributes,
-          { ...HTMLAttributes, href: "" },
-          { class: "link" },
+          { ...HTMLAttributes, href: '' },
+          { class: 'link' }
         ),
         0,
       ];
     }
 
     return [
-      "a",
+      'a',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        class: "link",
+        class: 'link',
       }),
       0,
     ];
@@ -59,7 +59,7 @@ export const Link = TiptapLink.extend({
           handleKeyDown: (view: EditorView, event: KeyboardEvent) => {
             const { selection } = editor.state;
 
-            if (event.key === "Escape" && selection.empty !== true) {
+            if (event.key === 'Escape' && selection.empty !== true) {
               editor.commands.focus(selection.to, { scrollIntoView: false });
             }
 

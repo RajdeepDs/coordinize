@@ -1,10 +1,5 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-import { HelpInfo } from "@/components/ui/help-info";
-import type { SidebarSection } from "@/config/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -17,9 +12,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@coordinize/ui/components/sidebar";
-import { Icons } from "@coordinize/ui/lib/icons";
-import { cn } from "@coordinize/ui/lib/utils";
+} from '@coordinize/ui/components/sidebar';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { cn } from '@coordinize/ui/lib/utils';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { HelpInfo } from '@/components/ui/help-info';
+import type { SidebarSection } from '@/config/navigation';
 
 interface SettingsSidebarProps {
   readonly nav: SidebarSection[];
@@ -29,12 +28,12 @@ export function SettingsSidebar({ nav }: SettingsSidebarProps) {
   const pathname = usePathname();
   const { toggleSidebar, isMobile } = useSidebar();
   return (
-    <Sidebar variant="inset" className="p-0">
+    <Sidebar className="p-0" variant="inset">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className={cn(isMobile && "hidden")}>
-            <SidebarMenuButton className="text-sidebar-foreground/70" asChild>
-              <Link href={"/"}>
+          <SidebarMenuItem className={cn(isMobile && 'hidden')}>
+            <SidebarMenuButton asChild className="text-sidebar-foreground/70">
+              <Link href={'/'}>
                 <Icons.chevronLeft />
                 Back to app
               </Link>
@@ -54,10 +53,12 @@ export function SettingsSidebar({ nav }: SettingsSidebarProps) {
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
                         asChild
-                        isActive={pathname === item.href}
                         className="text-sidebar-foreground/70"
+                        isActive={pathname === item.href}
                         onClick={() => {
-                          if (isMobile) toggleSidebar();
+                          if (isMobile) {
+                            toggleSidebar();
+                          }
                         }}
                       >
                         <Link href={item.href}>

@@ -1,23 +1,7 @@
-"use client";
+'use client';
 
-import {
-  type ColumnDef,
-  type ColumnFiltersState,
-  type SortingState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-
-import { RowActions } from "@/components/settings/spaces/row-actions";
-import { formatDate } from "@/utils/format-date";
-import { Button } from "@coordinize/ui/components/button";
-import { Input } from "@coordinize/ui/components/input";
+import { Button } from '@coordinize/ui/components/button';
+import { Input } from '@coordinize/ui/components/input';
 import {
   Table,
   TableBody,
@@ -25,9 +9,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@coordinize/ui/components/table";
-import { Icons } from "@coordinize/ui/lib/icons";
-import { cn } from "@coordinize/ui/lib/utils";
+} from '@coordinize/ui/components/table';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { cn } from '@coordinize/ui/lib/utils';
+import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+} from '@tanstack/react-table';
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import { RowActions } from '@/components/settings/spaces/row-actions';
+import { formatDate } from '@/utils/format-date';
 
 interface SpacesTableProps {
   readonly data: Item[];
@@ -44,15 +43,15 @@ export type Item = {
 
 const columns: ColumnDef<Item>[] = [
   {
-    header: "Name",
-    accessorKey: "name",
+    header: 'Name',
+    accessorKey: 'name',
     cell: ({ row }) => {
       return (
         <div className="flex items-center space-x-3">
           {/* TODO: Show when the icons are ready */}
           <div className="hidden size-5 rounded bg-muted-foreground/10" />
           <div className="flex flex-1 items-center gap-2">
-            <div className="text-sm">{row.getValue("name")}</div>
+            <div className="text-sm">{row.getValue('name')}</div>
             <div className="hidden text-muted-foreground text-xs sm:flex">
               {row.original.identifier}
             </div>
@@ -62,23 +61,23 @@ const columns: ColumnDef<Item>[] = [
     },
   },
   {
-    header: "Members",
-    accessorKey: "membersCount",
+    header: 'Members',
+    accessorKey: 'membersCount',
   },
   // {
   //   header: "Posts",
   //   accessorKey: "postsCount",
   // },
   {
-    header: "Created",
-    accessorKey: "createdAt",
+    header: 'Created',
+    accessorKey: 'createdAt',
     cell: ({ row }) => {
-      const date = formatDate(row?.getValue("createdAt"));
+      const date = formatDate(row?.getValue('createdAt'));
       return date;
     },
   },
   {
-    id: "actions",
+    id: 'actions',
     header: () => <span className="sr-only">Actions</span>,
     cell: ({ row }) => <RowActions identifier={row.original.identifier} />,
     size: 60,
@@ -93,7 +92,7 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: "name",
+      id: 'name',
       desc: false,
     },
   ]);
@@ -108,9 +107,9 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -134,38 +133,38 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
       <div className="flex items-center">
         <div className="relative">
           <Input
-            type="text"
-            placeholder="Filter by name..."
             className="peer ps-8 pe-9 shadow-none"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              table.getColumn('name')?.setFilterValue(event.target.value)
             }
+            placeholder="Filter by name..."
+            type="text"
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           />
           <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-            <Icons.search size={16} aria-hidden="true" />
+            <Icons.search aria-hidden="true" size={16} />
           </div>
           <button
-            type="button"
-            className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Clear filter"
+            className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => {
-              table.getColumn("name")?.setFilterValue("");
+              table.getColumn('name')?.setFilterValue('');
               if (inputRef.current) {
                 inputRef.current.focus();
               }
             }}
+            type="button"
           >
-            {Boolean(table.getColumn("name")?.getFilterValue()) && (
-              <Icons.circleX size={16} aria-hidden="true" />
+            {Boolean(table.getColumn('name')?.getFilterValue()) && (
+              <Icons.circleX aria-hidden="true" size={16} />
             )}
           </button>
         </div>
         <Button
-          className="ml-auto font-normal"
-          variant="default"
-          size={"sm"}
           asChild
+          className="ml-auto font-normal"
+          size={'sm'}
+          variant="default"
         >
           <Link href={slug}>Create space</Link>
         </Button>
@@ -175,28 +174,28 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="">
+              <TableRow className="" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      key={header.id}
                       className={cn(
-                        "font-normal text-muted-foreground text-sm",
-                        header.column.id === "name" && "w-full flex-1",
-                        header.column.id === "createdAt" &&
-                          "hidden sm:table-cell",
+                        'font-normal text-muted-foreground text-sm',
+                        header.column.id === 'name' && 'w-full flex-1',
+                        header.column.id === 'createdAt' &&
+                          'hidden sm:table-cell'
                       )}
+                      key={header.id}
                     >
                       {header.isPlaceholder ? null : header.column.getCanSort() ? (
                         <div
                           className={cn(
-                            "group flex h-full cursor-pointer select-none items-center justify-between gap-2",
+                            'group flex h-full cursor-pointer select-none items-center justify-between gap-2'
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
                             if (
                               header.column.getCanSort() &&
-                              (e.key === "Enter" || e.key === " ")
+                              (e.key === 'Enter' || e.key === ' ')
                             ) {
                               e.preventDefault();
                               header.column.getToggleSortingHandler()?.(e);
@@ -206,29 +205,29 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
                         >
                           {flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                           <span className="flex h-4 w-4 items-center justify-center">
                             {{
                               asc: (
                                 <ChevronUpIcon
+                                  aria-hidden="true"
                                   className="opacity-100 transition-opacity group-hover:opacity-100"
                                   size={16}
-                                  aria-hidden="true"
                                 />
                               ),
                               desc: (
                                 <ChevronDownIcon
+                                  aria-hidden="true"
                                   className="opacity-100 transition-opacity group-hover:opacity-100"
                                   size={16}
-                                  aria-hidden="true"
                                 />
                               ),
                             }[header.column.getIsSorted() as string] ?? (
                               <ChevronUpIcon
+                                aria-hidden="true"
                                 className="opacity-0 transition-opacity group-hover:opacity-60"
                                 size={16}
-                                aria-hidden="true"
                               />
                             )}
                           </span>
@@ -236,7 +235,7 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
                       ) : (
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )
                       )}
                     </TableHead>
@@ -250,28 +249,28 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
               table.getRowModel().rows.map((row) => {
                 return (
                   <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
                     className="group"
+                    data-state={row.getIsSelected() && 'selected'}
+                    key={row.id}
                     onMouseEnter={() => setHoveredRowId(row.id)}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
-                        key={cell.id}
                         className={cn(
-                          "text-muted-foreground last:py-0",
-                          cell.column.id === "name" && "text-primary",
-                          cell.column.id === "createdAt" &&
-                            "hidden sm:table-cell",
-                          cell.column.id === "actions" &&
+                          'text-muted-foreground last:py-0',
+                          cell.column.id === 'name' && 'text-primary',
+                          cell.column.id === 'createdAt' &&
+                            'hidden sm:table-cell',
+                          cell.column.id === 'actions' &&
                             (hoveredRowId === row.id
-                              ? "text-muted-foreground opacity-100"
-                              : "text-muted-foreground opacity-0 group-hover:opacity-100"),
+                              ? 'text-muted-foreground opacity-100'
+                              : 'text-muted-foreground opacity-0 group-hover:opacity-100')
                         )}
+                        key={cell.id}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext(),
+                          cell.getContext()
                         )}
                       </TableCell>
                     ))}
@@ -281,8 +280,8 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
                   className="h-24 text-center"
+                  colSpan={columns.length}
                 >
                   No results.
                 </TableCell>

@@ -1,6 +1,6 @@
-import { getUserQuery } from "@/lib/queries";
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "../init";
+import { z } from 'zod';
+import { getUserQuery } from '@/lib/queries';
+import { createTRPCRouter, protectedProcedure } from '../init';
 
 export const userRouter = createTRPCRouter({
   me: protectedProcedure.query(async ({ ctx: { db, session } }) => {
@@ -10,7 +10,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         statusEmoji: z.string(),
-      }),
+      })
     )
     .mutation(async ({ input, ctx: { db, session } }) => {
       const { statusEmoji } = input;
@@ -20,7 +20,7 @@ export const userRouter = createTRPCRouter({
           id: session.user.id,
         },
         data: {
-          statusEmoji: statusEmoji,
+          statusEmoji,
         },
       });
 

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useGlobalHotkeys } from "@coordinize/ui/hooks";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useGlobalHotkeys } from '@coordinize/ui/hooks';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export function GlobalsKeysProvider() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export function GlobalsKeysProvider() {
   // Navigation shortcuts - only work when we have a valid slug
   // Use sequence syntax: "g>h" means press g, then h
   useGlobalHotkeys({
-    keys: "g>h",
+    keys: 'g>h',
     callback: () => {
       if (currentSlug) {
         router.push(`/${currentSlug}`);
@@ -28,7 +28,7 @@ export function GlobalsKeysProvider() {
   });
 
   useGlobalHotkeys({
-    keys: "g>i",
+    keys: 'g>i',
     callback: () => {
       if (currentSlug) {
         router.push(`/${currentSlug}/inbox`);

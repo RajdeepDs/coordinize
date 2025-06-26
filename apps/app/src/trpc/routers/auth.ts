@@ -1,6 +1,6 @@
-import { joinWaitlist } from "@/lib/mutations";
-import { joinWaitlistSchema } from "@/lib/schemas";
-import { createTRPCRouter, publicProcedure } from "../init";
+import { joinWaitlist } from '@/lib/mutations';
+import { joinWaitlistSchema } from '@/lib/schemas';
+import { createTRPCRouter, publicProcedure } from '../init';
 
 export const authRouter = createTRPCRouter({
   joinWaitlist: publicProcedure

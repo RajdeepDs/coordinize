@@ -1,10 +1,9 @@
-import { cookies, headers } from "next/headers";
-import { cache } from "react";
-import superjson from "superjson";
-
-import { auth } from "@coordinize/auth/auth";
-import { database as db } from "@coordinize/database/db";
-import { TRPCError, initTRPC } from "@trpc/server";
+import { auth } from '@coordinize/auth/auth';
+import { database as db } from '@coordinize/database/db';
+import { initTRPC, TRPCError } from '@trpc/server';
+import { cookies, headers } from 'next/headers';
+import { cache } from 'react';
+import superjson from 'superjson';
 
 export const createTRPCContext = cache(async () => {
   const session = await auth.api.getSession({
@@ -29,11 +28,11 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
   const { session } = opts.ctx;
 
   if (!session) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   const cookieStore = await cookies();
-  let workspaceId = cookieStore.get("workspaceId")?.value;
+  let workspaceId = cookieStore.get('workspaceId')?.value;
 
   if (!workspaceId && session.user.defaultWorkspace) {
     // Find workspace based on user's default workspace
@@ -46,7 +45,7 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
       workspaceId = workspace.id;
       // Set workspace cookie for future requests
       cookieStore.set({
-        name: "workspaceId",
+        name: 'workspaceId',
         value: workspace.id,
         secure: true,
         httpOnly: true,
@@ -56,8 +55,8 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
 
   if (!workspaceId) {
     throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "WorkspaceId not found",
+      code: 'NOT_FOUND',
+      message: 'WorkspaceId not found',
     });
   }
 

@@ -1,18 +1,11 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useParams, usePathname } from "next/navigation";
-
-import { ComposerDialog } from "@/components/features/post-composer/composer-dialog";
-import { appSidebarNav } from "@/config/app-sidebar-navigation";
-import { useSpacesQuery } from "@/hooks/use-space";
-import { useUserQuery } from "@/hooks/use-user";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@coordinize/ui/components/collapsible";
-import { Label } from "@coordinize/ui/components/label";
+} from '@coordinize/ui/components/collapsible';
+import { Label } from '@coordinize/ui/components/label';
 import {
   Sidebar,
   SidebarContent,
@@ -25,23 +18,28 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@coordinize/ui/components/sidebar";
-import { Icons } from "@coordinize/ui/lib/icons";
-import { AppFooter } from "./app-footer";
-import { TeamSwitcher } from "./team-switcher";
+} from '@coordinize/ui/components/sidebar';
+import { Icons } from '@coordinize/ui/lib/icons';
+import Link from 'next/link';
+import { useParams, usePathname } from 'next/navigation';
+import { ComposerDialog } from '@/components/features/post-composer/composer-dialog';
+import { appSidebarNav } from '@/config/app-sidebar-navigation';
+import { useSpacesQuery } from '@/hooks/use-space';
+import { useUserQuery } from '@/hooks/use-user';
+import { AppFooter } from './app-footer';
+import { TeamSwitcher } from './team-switcher';
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 
 export function AppSidebar({ ...props }: AppSidebarProps) {
   const { data: user } = useUserQuery();
   const { data: spaces } = useSpacesQuery();
+  const { slug } = useParams<{ slug: string }>();
+  const pathname = usePathname();
 
   if (!user) {
     return null;
   }
-
-  const { slug } = useParams<{ slug: string }>();
-  const pathname = usePathname();
 
   const sidebarNav = appSidebarNav(slug);
 
@@ -62,8 +60,8 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                 return (
                   <SidebarMenuItem key={nav.title}>
                     <SidebarMenuButton
-                      isActive={pathname === nav.href}
                       asChild
+                      isActive={pathname === nav.href}
                       tooltip={nav.tooltip}
                       tooltipShortcut={nav.tooltipShortcut}
                     >
@@ -78,7 +76,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <Collapsible defaultOpen className="group/collapsible">
+        <Collapsible className="group/collapsible" defaultOpen>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>
@@ -102,7 +100,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
-        <Collapsible defaultOpen className="group/collapsible">
+        <Collapsible className="group/collapsible" defaultOpen>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>

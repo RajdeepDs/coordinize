@@ -1,8 +1,8 @@
-import { ActivitySection } from "@/components/features/activity/activity-section";
-import { AppHeader } from "@/components/layout/app-header";
-import { TeamsSidebar } from "@/components/layout/teams-sidebar/teams-sidebar";
-import { Label } from "@coordinize/ui/components/label";
-import { Separator } from "@coordinize/ui/components/separator";
+import { Label } from '@coordinize/ui/components/label';
+import { Separator } from '@coordinize/ui/components/separator';
+import { ActivitySection } from '@/components/features/activity/activity-section';
+import { AppHeader } from '@/components/layout/app-header';
+import { TeamsSidebar } from '@/components/layout/teams-sidebar/teams-sidebar';
 
 export default function Home() {
   return (
