@@ -1,1 +1,17 @@
-npx ultracite format
+#!/bin/bash
+echo "Running pre-commit checks..."
+ 
+# Check for linting errors
+if ! npx ultracite lint; then
+  echo "Linting errors found. Please fix them before committing."
+  exit 1
+fi
+ 
+# Check for formatting issues
+if ! npx ultracite format; then
+  echo "Formatting issues found. Please format your code before committing."
+  exit 1
+fi
+ 
+echo "Pre-commit checks passed."
+exit 0

@@ -23,7 +23,8 @@
     "db:generate": "turbo db:generate --filter=@coordinize/database",
     "db:migrate": "cd packages/database && bun db:migrate",
     "db:deploy": "turbo db:deploy --filter=@coordinize/database",
-    "postinstall": "bun run db:generate"
+    "postinstall": "bun run db:generate",
+    "prepare": "husky"
   },
   "packageManager": "bun@1.1.38",
   "resolutions": {
