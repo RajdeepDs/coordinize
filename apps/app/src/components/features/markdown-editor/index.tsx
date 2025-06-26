@@ -2,11 +2,11 @@
 
 import "@coordinize/ui/editor";
 
+import { EditorBubbleMenu } from "@/components/features/markdown-editor/editor-bubble-menu";
+import { SlashCommand } from "@/components/features/markdown-editor/slash-command";
 import { markdownExtensions } from "@coordinize/editor";
 import { cn } from "@coordinize/ui/lib/utils";
 import { EditorContent, type Extensions, useEditor } from "@tiptap/react";
-import { EditorBubbleMenu } from "../editor-bubble-menu";
-import { SlashCommand } from "../slash-command";
 
 interface MarkdownEditorProps {
   id?: string;

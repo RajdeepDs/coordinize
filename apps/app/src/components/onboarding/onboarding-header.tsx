@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-import { Header } from "@/components/header";
+import { Header } from "@/components/ui/header";
 import { authClient } from "@coordinize/auth/auth-client";
 import { Button } from "@coordinize/ui/components/button";
 

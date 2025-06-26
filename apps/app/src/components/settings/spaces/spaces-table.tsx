@@ -14,6 +14,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import { RowActions } from "@/components/settings/spaces/row-actions";
 import { formatDate } from "@/utils/format-date";
 import { Button } from "@coordinize/ui/components/button";
 import { Input } from "@coordinize/ui/components/input";
@@ -27,7 +28,6 @@ import {
 } from "@coordinize/ui/components/table";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { cn } from "@coordinize/ui/lib/utils";
-import { RowActions } from "./row-actions";
 
 interface SpacesTableProps {
   readonly data: Item[];

@@ -1,6 +1,7 @@
+import type { ReactNode } from "react";
+
 import { Label } from "@coordinize/ui/components/label";
 import { cn } from "@coordinize/ui/lib/utils";
-import type { ReactNode } from "react";
 
 interface SettingsCardProps {
   readonly children?: ReactNode;

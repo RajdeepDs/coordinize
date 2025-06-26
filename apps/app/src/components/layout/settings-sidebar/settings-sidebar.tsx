@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { HelpInfo } from "@/components/ui/help-info";
 import type { SidebarSection } from "@/config/navigation";
 import {
   Sidebar,
@@ -19,7 +20,6 @@ import {
 } from "@coordinize/ui/components/sidebar";
 import { Icons } from "@coordinize/ui/lib/icons";
 import { cn } from "@coordinize/ui/lib/utils";
-import { HelpInfo } from "./ui/help-info";
 
 interface SettingsSidebarProps {
   readonly nav: SidebarSection[];
