@@ -1,13 +1,7 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { authClient } from "@coordinize/auth/auth-client";
-import { Button } from "@coordinize/ui/components/button";
+import { authClient } from '@coordinize/auth/auth-client';
+import { Button } from '@coordinize/ui/components/button';
 import {
   Form,
   FormControl,
@@ -15,29 +9,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@coordinize/ui/components/form";
-import { Input } from "@coordinize/ui/components/input";
-import { toast } from "@coordinize/ui/components/sonner";
-import { Icons } from "@coordinize/ui/lib/icons";
-
-const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters." }),
-});
+} from '@coordinize/ui/components/form';
+import { Input } from '@coordinize/ui/components/input';
+import { toast } from '@coordinize/ui/components/sonner';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import type z from 'zod/v4';
+import { privateBetaSchema } from '@/lib/schemas';
 
 export const PrivateBeta = () => {
   const [submitted, setSubmitted] = useState(false);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof privateBetaSchema>>({
+    resolver: zodResolver(privateBetaSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof privateBetaSchema>) {
     const { error } = await authClient.signIn.email(
       {
         email: values.email,
@@ -49,13 +42,13 @@ export const PrivateBeta = () => {
         },
         onSuccess: () => {
           setSubmitted(false);
-          redirect("/getting-started/welcome");
+          redirect('/getting-started/welcome');
         },
         onError: () => {
           setSubmitted(false);
           form.reset();
         },
-      },
+      }
     );
 
     if (error) {
@@ -64,7 +57,7 @@ export const PrivateBeta = () => {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="email"
@@ -73,8 +66,8 @@ export const PrivateBeta = () => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  type="email"
                   placeholder="johndoe@example.com"
+                  type="email"
                   {...field}
                 />
               </FormControl>
@@ -90,8 +83,8 @@ export const PrivateBeta = () => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
-                  type="password"
                   placeholder="Enter your password"
+                  type="password"
                   {...field}
                 />
               </FormControl>
@@ -99,11 +92,11 @@ export const PrivateBeta = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={submitted}>
+        <Button className="w-full" disabled={submitted} type="submit">
           {submitted ? (
             <Icons.loader className="size-4 animate-spin" />
           ) : (
-            <>Sign in</>
+            'Sign in'
           )}
         </Button>
       </form>

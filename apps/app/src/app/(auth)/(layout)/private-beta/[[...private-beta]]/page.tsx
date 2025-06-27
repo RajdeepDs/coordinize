@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
-const title = "Private Beta";
-const description = "New users will be invited soon.";
+const title = 'Private Beta';
+const description = 'New users will be invited soon.';
 const PrivateBeta = dynamic(() =>
-  import("@/components/auth/private-beta").then((mod) => mod.PrivateBeta),
+  import('@/components/auth/private-beta').then((mod) => mod.PrivateBeta)
 );
 
 export const metadata: Metadata = {

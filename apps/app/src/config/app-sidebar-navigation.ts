@@ -8,17 +8,17 @@ export type NavItem = {
 
 export const appSidebarNav = (slug: string): NavItem[] => [
   {
-    title: "Home",
+    title: 'Home',
     href: `/${slug}`,
-    icon: "home",
-    tooltip: "Go to Home",
-    tooltipShortcut: "g+h",
+    icon: 'home',
+    tooltip: 'Go to Home',
+    tooltipShortcut: 'g+h',
   },
   {
-    title: "Inbox",
+    title: 'Inbox',
     href: `/${slug}/inbox`,
-    icon: "inbox",
-    tooltip: "Go to Inbox",
-    tooltipShortcut: "g+i",
+    icon: 'inbox',
+    tooltip: 'Go to Inbox',
+    tooltipShortcut: 'g+i',
   },
 ];

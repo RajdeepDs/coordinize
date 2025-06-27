@@ -1,7 +1,7 @@
-import { createNewSpace } from "@/lib/mutations";
-import { getSpacesQuery } from "@/lib/queries";
-import { createSpaceSchema } from "@/lib/schemas";
-import { createTRPCRouter, protectedProcedure } from "../init";
+import { createNewSpace } from '@/lib/mutations';
+import { getSpacesQuery } from '@/lib/queries';
+import { createSpaceSchema } from '@/lib/schemas';
+import { createTRPCRouter, protectedProcedure } from '../init';
 
 export const spaceRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx: { workspaceId } }) => {
@@ -22,7 +22,7 @@ export const spaceRouter = createTRPCRouter({
         identifier,
         about,
         workspaceId,
-        session.user.id,
+        session.user.id
       );
 
       return {

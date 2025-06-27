@@ -1,11 +1,11 @@
-import type { DependencyList } from "react";
+import type { DependencyList } from 'react';
 // eslint-disable-next-line no-restricted-imports
 import {
   type HotkeyCallback,
   type Keys,
   type Options,
   useHotkeys,
-} from "react-hotkeys-hook";
+} from 'react-hotkeys-hook';
 
 export interface GlobalHotkeysProps {
   keys: Keys;
@@ -41,6 +41,6 @@ export function useGlobalHotkeys({
       // Global hotkeys are always enabled (unless explicitly disabled via options)
       enabled: options.enabled !== false,
     },
-    dependencies,
+    dependencies
   );
 }

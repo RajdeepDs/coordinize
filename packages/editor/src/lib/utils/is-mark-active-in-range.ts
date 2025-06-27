@@ -1,13 +1,13 @@
-import { type MarkRange, type Range, getMarkType } from "@tiptap/core";
-import type { MarkType } from "@tiptap/pm/model";
-import type { EditorState } from "@tiptap/pm/state";
+import { getMarkType, type MarkRange, type Range } from '@tiptap/core';
+import type { MarkType } from '@tiptap/pm/model';
+import type { EditorState } from '@tiptap/pm/state';
 
 export function isMarkActiveInRange(
   state: EditorState,
   typeOrName: MarkType | string | null,
-  range: Range,
+  range: Range
 ): boolean {
-  if (typeof typeOrName === "string" && !state.schema.marks[typeOrName]) {
+  if (typeof typeOrName === 'string' && !state.schema.marks[typeOrName]) {
     return false;
   }
 
@@ -22,7 +22,7 @@ export function isMarkActiveInRange(
         }
 
         return type.name === mark.type.name;
-      },
+      }
     );
   }
 
@@ -30,7 +30,7 @@ export function isMarkActiveInRange(
   const markRanges: MarkRange[] = [];
 
   state.doc.nodesBetween(from, to, (node, pos) => {
-    if (!node.isText && !node.marks.length) {
+    if (!(node.isText || node.marks.length)) {
       return;
     }
 
@@ -45,7 +45,7 @@ export function isMarkActiveInRange(
         mark,
         from: relativeFrom,
         to: relativeTo,
-      })),
+      }))
     );
   });
 

@@ -1,17 +1,14 @@
-import type { Metadata } from "next";
-
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarLayout } from "@/components/sidebar-layout";
-import { HydrateClient, batchPrefetch, trpc } from "@/trpc/server";
-import { SidebarProvider } from "@coordinize/ui/components/sidebar";
+import { SidebarProvider } from '@coordinize/ui/components/sidebar';
+import type { Metadata } from 'next';
+import { AppSidebar } from '@/components/layout/app-sidebar/app-sidebar';
+import { SidebarLayout } from '@/components/layout/app-sidebar/sidebar-layout';
+import { batchPrefetch, HydrateClient, trpc } from '@/trpc/server';
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: 'Home',
 };
 
-export default async function AppLayout({
-  children,
-}: { children: React.ReactNode }) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   batchPrefetch([
     trpc.user.me.queryOptions(),
     trpc.workspace.current.queryOptions(),

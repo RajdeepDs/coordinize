@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { revalidatePath } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { updateWorkspaceSchema } from "./schema";
+import { revalidatePath } from 'next/cache';
+import { authActionClient } from './safe-action';
+import { updateWorkspaceSchema } from './schema';
 
 export const updateWorkspaceAction = authActionClient
   .metadata({
-    name: "update-workspace",
+    name: 'update-workspace',
   })
   .schema(updateWorkspaceSchema)
   .action(async ({ parsedInput, ctx: { user, db } }) => {
@@ -15,8 +15,8 @@ export const updateWorkspaceAction = authActionClient
     const workspaceSlug = user.defaultWorkspace;
 
     if (!workspaceSlug) {
-      console.error("Missing default workspace Slug for user:", user.id);
-      throw new Error("Workspace not found");
+      console.error('Missing default workspace Slug for user:', user.id);
+      throw new Error('Workspace not found');
     }
 
     // Build update object dynamically
@@ -46,6 +46,6 @@ export const updateWorkspaceAction = authActionClient
         });
       }
 
-      revalidatePath("/settings/workspace");
+      revalidatePath('/settings/workspace');
     }
   });

@@ -1,6 +1,5 @@
-import type { NextRequest } from "next/server";
-
-import { authMiddleware } from "@coordinize/auth/middleware";
+import { authMiddleware } from '@coordinize/auth/middleware';
+import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const authResponse = await authMiddleware(request);
@@ -9,6 +8,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };

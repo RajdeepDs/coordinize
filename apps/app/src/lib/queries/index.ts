@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { database } from "@coordinize/database/db";
+import { database } from '@coordinize/database/db';
 
 export async function getUserQuery(userId: string) {
   return await database.user.findUnique({ where: { id: userId } });
@@ -17,7 +17,7 @@ export async function getWorkspaceQuery(workspaceId: string) {
 export async function getSpacesQuery(workspaceId: string) {
   return await database.space.findMany({
     where: {
-      workspaceId: workspaceId,
+      workspaceId,
     },
     include: {
       _count: {
@@ -32,7 +32,7 @@ export async function getSpacesQuery(workspaceId: string) {
 export async function getWorkspaceMembersQuery(workspaceId: string) {
   return await database.workspaceMember.findMany({
     where: {
-      workspaceId: workspaceId,
+      workspaceId,
     },
     include: {
       user: true,

@@ -1,4 +1,4 @@
-import { Label } from "@coordinize/ui/components/label";
+import { Label } from '@coordinize/ui/components/label';
 
 export default function NotificationsPage() {
   return (

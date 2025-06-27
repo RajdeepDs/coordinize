@@ -1,16 +1,16 @@
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
 import {
   preferencesStep,
   welcomeStep,
   workspaceSetupStep,
-} from "@/lib/mutations";
+} from '@/lib/mutations';
 import {
   preferencesStepSchema,
   welcomeStepSchema,
   workspaceSetupStepSchema,
-} from "@/lib/schemas";
-import { createTRPCRouter, protectedProcedure } from "../init";
+} from '@/lib/schemas';
+import { createTRPCRouter, protectedProcedure } from '../init';
 
 export const onboardingRouter = createTRPCRouter({
   welcome: protectedProcedure
@@ -31,12 +31,12 @@ export const onboardingRouter = createTRPCRouter({
         workspaceName,
         workspaceSlug,
         workspaceLogoURL,
-        session.user.id,
+        session.user.id
       );
 
       const cookieStore = await cookies();
       cookieStore.set({
-        name: "workspaceId",
+        name: 'workspaceId',
         value: workspace.id,
         secure: true,
         httpOnly: true,
@@ -53,7 +53,7 @@ export const onboardingRouter = createTRPCRouter({
         emailNotifications,
         pushNotifications,
         timezone,
-        session.user.id,
+        session.user.id
       );
 
       return {

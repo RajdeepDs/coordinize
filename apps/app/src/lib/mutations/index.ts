@@ -1,17 +1,17 @@
-import { OnboardingStep, type PrismaClient } from "@coordinize/database/db";
-import { TRPCError } from "@trpc/server";
+import { OnboardingStep, type PrismaClient } from '@coordinize/database/db';
+import { TRPCError } from '@trpc/server';
 
 export async function joinWaitlist(
   db: PrismaClient,
   name: string,
-  email: string,
+  email: string
 ) {
   const existing = await db.earlyAccess.findUnique({ where: { email } });
 
   if (existing) {
     throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: "Email already exists.",
+      code: 'BAD_REQUEST',
+      message: 'Email already exists.',
     });
   }
 
@@ -24,7 +24,7 @@ export async function welcomeStep(
   db: PrismaClient,
   preferredName: string,
   profilePicURL: string | undefined,
-  userId: string,
+  userId: string
 ) {
   await db.user.update({
     where: { id: userId },
@@ -41,7 +41,7 @@ export async function workspaceSetupStep(
   workspaceName: string,
   workspaceURL: string,
   workspaceLogoURL: string | undefined,
-  userId: string,
+  userId: string
 ) {
   const workspace = await db.workspace.create({
     data: {
@@ -56,7 +56,7 @@ export async function workspaceSetupStep(
     data: {
       workspaceId: workspace.id,
       userId,
-      role: "ADMIN",
+      role: 'ADMIN',
     },
   });
 
@@ -76,13 +76,13 @@ export async function preferencesStep(
   emailNotifications: boolean,
   pushNotifications: boolean,
   timezone: string,
-  userId: string,
+  userId: string
 ) {
   await db.notificationPreference.create({
     data: {
       emailNotifications,
       pushNotifications,
-      userId: userId,
+      userId,
     },
   });
 
@@ -103,7 +103,7 @@ export async function createNewSpace(
   identifier: string,
   about: string | undefined,
   workspaceId: string,
-  userId: string,
+  userId: string
 ) {
   const space = await db.space.create({
     data: {
@@ -118,8 +118,8 @@ export async function createNewSpace(
   await db.spaceMember.create({
     data: {
       spaceId: space.id,
-      userId: userId,
-      role: "ADMIN",
+      userId,
+      role: 'ADMIN',
     },
   });
 }

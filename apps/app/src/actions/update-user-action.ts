@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { updateProfileSchema } from "./schema";
+import { revalidateTag } from 'next/cache';
+import { authActionClient } from './safe-action';
+import { updateProfileSchema } from './schema';
 
 export const updateProfileAction = authActionClient
   .metadata({
-    name: "update-profile",
+    name: 'update-profile',
   })
   .schema(updateProfileSchema)
   .action(async ({ parsedInput, ctx: { user, db } }) => {

@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "sideEffects": false,
-  "files": ["postcss.config.mjs", "globals.css"],
+  "files": [
+    "postcss.config.mjs",
+    "globals.css"
+  ],
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "lint": "biome check .",

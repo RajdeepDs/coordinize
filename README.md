@@ -35,7 +35,6 @@ Coordinize is built using modern and reliable technologies:
 - UploadThing (Storage)
 - Vercel (Website)
 - Upstash (redis)
-- BaseHub CMS (Documentation)
 
 ### Services
 

@@ -7,14 +7,14 @@ export type NavItem = {
 export function getSpaceNavigation(spaceId: string, slug: string): NavItem[] {
   return [
     {
-      label: "General",
+      label: 'General',
       href: `/${slug}/settings/space/${spaceId}/general`,
-      icon: "settings",
+      icon: 'settings',
     },
     {
-      label: "Members",
+      label: 'Members',
       href: `/${slug}/settings/space/${spaceId}/members`,
-      icon: "members",
+      icon: 'members',
     },
   ];
 }

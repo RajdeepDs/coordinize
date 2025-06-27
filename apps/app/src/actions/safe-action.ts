@@ -1,16 +1,15 @@
+import { auth } from '@coordinize/auth/auth';
+import { database } from '@coordinize/database/db';
+import { createRateLimiter, slidingWindow } from '@coordinize/rate-limit';
+import { headers } from 'next/headers';
 import {
-  DEFAULT_SERVER_ERROR_MESSAGE,
   createSafeActionClient,
-} from "next-safe-action";
-import { headers } from "next/headers";
-import { z } from "zod";
-
-import { auth } from "@coordinize/auth/auth";
-import { database } from "@coordinize/database/db";
-import { createRateLimiter, slidingWindow } from "@coordinize/rate-limit";
+  DEFAULT_SERVER_ERROR_MESSAGE,
+} from 'next-safe-action';
+import { z } from 'zod';
 
 const rateLimiter = createRateLimiter({
-  limiter: slidingWindow(10, "10s"),
+  limiter: slidingWindow(10, '10s'),
 });
 
 export const actionClient = createSafeActionClient({
@@ -26,11 +25,11 @@ export const actionClient = createSafeActionClient({
 export const actionClientWithMeta = createSafeActionClient({
   handleServerError(e) {
     if (e instanceof Error) {
-      if (e.message === "Too many requests") {
-        return "Rate limit exceeded. Please try again later.";
+      if (e.message === 'Too many requests') {
+        return 'Rate limit exceeded. Please try again later.';
       }
-      if (e.message === "Unauthorized") {
-        return "You must be logged in to perform this action.";
+      if (e.message === 'Unauthorized') {
+        return 'You must be logged in to perform this action.';
       }
       return e.message;
     }
@@ -49,10 +48,10 @@ export const authActionClient = actionClientWithMeta
   .use(async ({ next, clientInput, metadata }) => {
     const result = await next({ ctx: {} });
 
-    if (process.env.NODE_ENV === "development") {
-      console.log("Input ->", clientInput);
-      console.log("Result ->", result.data);
-      console.log("Metadata ->", metadata);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Input ->', clientInput);
+      console.log('Result ->', result.data);
+      console.log('Metadata ->', metadata);
 
       return result;
     }
@@ -60,14 +59,14 @@ export const authActionClient = actionClientWithMeta
     return result;
   })
   .use(async ({ next, metadata }) => {
-    const ip = (await headers()).get("x-forwarded-for");
+    const ip = (await headers()).get('x-forwarded-for');
 
     const { success, remaining } = await rateLimiter.limit(
-      `${ip}-${metadata.name}`,
+      `${ip}-${metadata.name}`
     );
 
     if (!success) {
-      throw new Error("Too many requests");
+      throw new Error('Too many requests');
     }
 
     return next({
@@ -84,7 +83,7 @@ export const authActionClient = actionClientWithMeta
     });
 
     if (!session) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
     return next({

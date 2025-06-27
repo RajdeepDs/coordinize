@@ -1,39 +1,21 @@
 {
-  "[javascript]": {
+  "editor.defaultFormatter": "biomejs.biome",
+  "[javascript][typescript][javascriptreact][typescriptreact][json][jsonc][css][graphql]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "emmet.showExpandedAbbreviation": "never",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "[jsonc]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit",
-    "source.organizeImports.biome": "explicit",
-    "source.removeUnusedImports": "always"
-  },
-  "editor.defaultFormatter": "biomejs.biome",
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "emmet.showExpandedAbbreviation": "never",
-  "prettier.enable": false,
-  "tailwindCSS.experimental.configFile": "packages/ui/src/styles/globals.css",
-  "editor.quickSuggestions": {
-    "strings": true
-  },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["Coordinize"],
-  "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma"
-  },
-  "[css]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  }
+  "tailwindCSS.experimental.configFile": "packages/ui/src/styles/globals.css"
 }

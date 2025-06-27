@@ -1,7 +1,11 @@
 {
   "name": "coordinize",
   "private": true,
-  "workspaces": ["apps/*", "packages/*", "packages/email/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "packages/email/*"
+  ],
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
@@ -19,16 +23,25 @@
     "db:generate": "turbo db:generate --filter=@coordinize/database",
     "db:migrate": "cd packages/database && bun db:migrate",
     "db:deploy": "turbo db:deploy --filter=@coordinize/database",
-    "postinstall": "bun run db:generate"
+    "postinstall": "bun run db:generate",
+    "prepare": "husky"
   },
   "packageManager": "bun@1.1.38",
   "resolutions": {
     "jackspeak": "2.1.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.5",
     "@manypkg/cli": "^0.23.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "turbo": "2.3.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "ultracite": "5.0.23"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "npx ultracite format"
+    ]
   }
 }

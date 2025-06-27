@@ -1,17 +1,17 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
-import RollingCaptions from "@/components/rolling-captions";
+import RollingCaptions from '@/components/layout/rolling-captions';
 
 type AuthLayoutProps = {
   readonly children: ReactNode;
 };
 
 const captions: string[] = [
-  "Effortless collaboration, on your time.",
-  "Less noise, more clarity.",
-  "Collaboration without the chaos.",
-  "Stay in sync, asynchronously.",
-  "Global teams, one streamlined space.",
+  'Effortless collaboration, on your time.',
+  'Less noise, more clarity.',
+  'Collaboration without the chaos.',
+  'Stay in sync, asynchronously.',
+  'Global teams, one streamlined space.',
 ] as const;
 
 export default function AuthLayout({ children }: AuthLayoutProps) {

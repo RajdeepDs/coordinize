@@ -1,10 +1,9 @@
-import Link from "next/link";
-
-import { env } from "@/env";
-import { getWaitlistCount } from "@/queries";
-import { Button } from "@coordinize/ui/components/button";
-import * as motion from "motion/react-client";
-import { HeroScreenshot } from "./hero-screenshot";
+import { Button } from '@coordinize/ui/components/button';
+import * as motion from 'motion/react-client';
+import Link from 'next/link';
+import { env } from '@/env';
+import { getWaitlistCount } from '@/queries';
+import { HeroScreenshot } from './hero-screenshot';
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
@@ -15,16 +14,16 @@ export async function HeroSection() {
     <>
       <div>
         <motion.div
+          animate={{
+            opacity: 1,
+            filter: 'blur(0px)',
+            y: 0,
+          }}
           className="mx-auto flex flex-col gap-6 px-4 pt-14 sm:container"
           initial={{
             opacity: 0,
-            filter: "blur(6px)",
+            filter: 'blur(6px)',
             y: 24,
-          }}
-          animate={{
-            opacity: 1,
-            filter: "blur(0px)",
-            y: 0,
           }}
           transition={{
             ease: [0.25, 0.46, 0.45, 0.94],
@@ -33,9 +32,9 @@ export async function HeroSection() {
           }}
         >
           <motion.div
+            animate={{ opacity: 1, y: 0 }}
             className="flex w-full flex-col items-center gap-2 text-center sm:items-start sm:text-start"
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{
               delay: 0.1,
               duration: 0.6,
@@ -63,28 +62,28 @@ export async function HeroSection() {
           </motion.div>
 
           <motion.div
+            animate={{ opacity: 1, y: 0 }}
             className="flex items-center justify-center gap-2 sm:justify-start"
             initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
             transition={{
               delay: 0.3,
               duration: 0.5,
               ease: [0.25, 0.46, 0.45, 0.94],
             }}
           >
-            <Button variant="default" size="sm" asChild>
+            <Button asChild size="sm" variant="default">
               <Link href={`${APP_URL}/join-waitlist`}>Join the waitlist</Link>
             </Button>
             <Button
-              className="hidden sm:inline-flex"
-              variant="ghost"
-              size="sm"
               asChild
+              className="hidden sm:inline-flex"
+              size="sm"
+              variant="ghost"
             >
               <Link
-                href={"https://github.com/RajdeepDs/coordinize"}
-                target="_blank"
+                href={'https://github.com/RajdeepDs/coordinize'}
                 rel="noopener noreferrer"
+                target="_blank"
               >
                 Star on GitHub
               </Link>
@@ -92,9 +91,9 @@ export async function HeroSection() {
           </motion.div>
 
           <motion.div
+            animate={{ opacity: 1, scale: 1 }}
             className="relative mx-auto flex w-fit flex-row items-center gap-2 sm:mx-0"
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
             transition={{
               delay: 0.5,
               duration: 0.4,
@@ -104,7 +103,7 @@ export async function HeroSection() {
             <div className="size-2 rounded-full bg-ui-green-700" />
             <div className="absolute inset-x-0 size-2 rounded-full bg-green-600 blur-xs sm:left-0 dark:bg-green-400" />
             <span className="font-normal text-sm text-ui-green-900 sm:text-start">
-              {count} {count === 1 ? "person has" : "people have"} joined the
+              {count} {count === 1 ? 'person has' : 'people have'} joined the
               waitlist
             </span>
           </motion.div>
@@ -112,17 +111,17 @@ export async function HeroSection() {
       </div>
 
       <motion.div
-        initial={{
-          opacity: 0,
-          y: 32,
-          filter: "blur(6px)",
-          scale: 0.98,
-        }}
         animate={{
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
+          filter: 'blur(0px)',
           scale: 1,
+        }}
+        initial={{
+          opacity: 0,
+          y: 32,
+          filter: 'blur(6px)',
+          scale: 0.98,
         }}
         transition={{
           duration: 1,

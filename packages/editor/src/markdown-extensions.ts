@@ -1,4 +1,4 @@
-import { TextStyle } from "@tiptap/extension-text-style";
+import { TextStyle } from '@tiptap/extension-text-style';
 import {
   CodeBlock,
   Column,
@@ -18,7 +18,7 @@ import {
   TaskList,
   Typography,
   Underline,
-} from "./extensions";
+} from './extensions';
 
 export const markdownExtensions = () => [
   Document,
@@ -46,7 +46,7 @@ export const markdownExtensions = () => [
   Focus,
   Dropcursor.configure({
     width: 2,
-    class: "ProseMirror-dropcursor border-black",
+    class: 'ProseMirror-dropcursor border-black',
   }),
   Column,
   Columns,
