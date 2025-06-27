@@ -1,4 +1,4 @@
-import { type Editor, escapeForRegEx, type Range } from '@tiptap/core';
+import { escapeForRegEx, type Range } from '@tiptap/core';
 import type { ResolvedPos } from '@tiptap/pm/model';
 import {
   type EditorState,
@@ -7,6 +7,7 @@ import {
   type Transaction,
 } from '@tiptap/pm/state';
 import { Decoration, DecorationSet, type EditorView } from '@tiptap/pm/view';
+import type { Editor } from '@tiptap/react';
 
 export interface Trigger {
   char: string;
