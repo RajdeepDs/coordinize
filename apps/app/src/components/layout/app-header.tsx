@@ -67,7 +67,7 @@ export function AppHeader() {
 }
 
 // TODO: Implement HeaderTabs and HeaderSelect
-function HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
+function _HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
   return (
     <Tabs className="items-center" defaultValue={tabs[0]?.href ?? ''}>
       <TabsList className="h-7 gap-2 bg-transparent">
@@ -86,7 +86,7 @@ function HeaderTabs({ tabs }: { tabs: { name: string; href: string }[] }) {
   );
 }
 
-function HeaderSelect({ tabs }: { tabs: { name: string; href: string }[] }) {
+function _HeaderSelect({ tabs }: { tabs: { name: string; href: string }[] }) {
   return (
     <Select defaultValue={tabs.at(0)?.href}>
       <SelectTrigger className="h-7">

@@ -151,9 +151,9 @@ export function SlashCommand({ editor }: SlashCommandProps) {
             editor={editor}
             key={item.title}
             keywords={item.searchTerms}
-            onSelect={({ editor, range }) => {
+            onSelect={({ editor: editorInstance, range }) => {
               if (item.command instanceof Function) {
-                item.command({ editor, range });
+                item.command({ editor: editorInstance, range });
               }
             }}
             value={item.title}

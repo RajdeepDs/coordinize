@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 import TimezoneSelect from '@/components/ui/timezone-select';
 import { useTRPC } from '@/trpc/client';
 
@@ -53,7 +53,7 @@ export function Preferences() {
     })
   );
 
-  const onSubmit = async (values: z.infer<typeof preferencesSchema>) => {
+  const onSubmit = (values: z.infer<typeof preferencesSchema>) => {
     mutate({
       ...values,
     });

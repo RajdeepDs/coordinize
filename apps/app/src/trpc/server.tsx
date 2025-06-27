@@ -37,14 +37,14 @@ export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   const queryClient = getQueryClient();
 
   if (queryOptions.queryKey[1]?.type === 'infinite') {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    void queryClient.prefetchInfiniteQuery(queryOptions as any);
+    // biome-ignore lint/suspicious/noExplicitAny: "InfiniteQueryOptions" is not typed correctly in TRPC
+    queryClient.prefetchInfiniteQuery(queryOptions as any);
   } else {
-    void queryClient.prefetchQuery(queryOptions);
+    queryClient.prefetchQuery(queryOptions);
   }
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: "InfiniteQueryOptions" is not typed correctly in TRPC
 export function batchPrefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   queryOptionsArray: T[]
 ) {
@@ -52,10 +52,10 @@ export function batchPrefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
 
   for (const queryOptions of queryOptionsArray) {
     if (queryOptions.queryKey[1]?.type === 'infinite') {
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      void queryClient.prefetchInfiniteQuery(queryOptions as any);
+      // biome-ignore lint/suspicious/noExplicitAny: "InfiniteQueryOptions" is not typed correctly in TRPC
+      queryClient.prefetchInfiniteQuery(queryOptions as any);
     } else {
-      void queryClient.prefetchQuery(queryOptions);
+      queryClient.prefetchQuery(queryOptions);
     }
   }
 }

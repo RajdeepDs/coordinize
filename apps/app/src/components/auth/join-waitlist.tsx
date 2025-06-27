@@ -15,19 +15,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import type z from 'zod/v4';
+import { joinWaitlistSchema } from '@/lib/schemas';
 import { useTRPC } from '@/trpc/client';
-
-const formSchema = z.object({
-  name: z.string().min(3, { message: 'Name must be at least 3 characters.' }),
-  email: z.string().email({ message: 'Invalid email address.' }),
-});
 
 export const JoinWaitlist = () => {
   const [submitted, setSubmitted] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof joinWaitlistSchema>>({
+    resolver: zodResolver(joinWaitlistSchema),
     defaultValues: { name: '', email: '' },
   });
 
@@ -59,7 +55,7 @@ export const JoinWaitlist = () => {
     })
   );
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof joinWaitlistSchema>) {
     mutate(values);
   }
 

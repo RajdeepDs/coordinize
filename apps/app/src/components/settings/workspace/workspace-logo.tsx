@@ -59,7 +59,9 @@ export function WorkspaceLogo({ workspace }: { workspace: Workspace }) {
 
   const onSubmit = useCallback(
     async (values: z.infer<typeof formSchema>) => {
-      if (isSubmitting.current || hasSubmitted.current) return;
+      if (isSubmitting.current || hasSubmitted.current) {
+        return;
+      }
 
       isSubmitting.current = true;
       hasSubmitted.current = true;
@@ -96,7 +98,9 @@ export function WorkspaceLogo({ workspace }: { workspace: Workspace }) {
         return;
       }
 
-      if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
       debounceTimeout.current = setTimeout(() => {
         form.handleSubmit(onSubmit)();
       }, 400);

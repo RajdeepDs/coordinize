@@ -32,9 +32,15 @@ const blockConfig = {
 } as const;
 
 function getBlockConfig(editor: Editor) {
-  if (editor.isActive('heading', { level: 1 })) return blockConfig.heading1;
-  if (editor.isActive('heading', { level: 2 })) return blockConfig.heading2;
-  if (editor.isActive('heading', { level: 3 })) return blockConfig.heading3;
+  if (editor.isActive('heading', { level: 1 })) {
+    return blockConfig.heading1;
+  }
+  if (editor.isActive('heading', { level: 2 })) {
+    return blockConfig.heading2;
+  }
+  if (editor.isActive('heading', { level: 3 })) {
+    return blockConfig.heading3;
+  }
   return blockConfig.paragraph;
 }
 
@@ -62,8 +68,12 @@ const listConfig = {
 } as const;
 
 function getListConfig(editor: Editor) {
-  if (editor.isActive('orderedList')) return listConfig.orderedList;
-  if (editor.isActive('taskList')) return listConfig.taskList;
+  if (editor.isActive('orderedList')) {
+    return listConfig.orderedList;
+  }
+  if (editor.isActive('taskList')) {
+    return listConfig.taskList;
+  }
   return listConfig.bulletList;
 }
 
@@ -95,13 +105,13 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
     <BubbleMenu
       editor={editor}
       pluginKey="bubbleMenuText"
-      shouldShow={({ editor, state }) => {
+      shouldShow={({ editor: editorInstance, state }) => {
         const { selection } = state;
         const { empty } = selection;
 
         if (
-          !editor.isEditable ||
-          editor.isActive('image') ||
+          !editorInstance.isEditable ||
+          editorInstance.isActive('image') ||
           empty ||
           isNodeSelection(selection)
         ) {

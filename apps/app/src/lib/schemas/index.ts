@@ -1,13 +1,32 @@
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 export const joinWaitlistSchema = z.object({
-  name: z.string().min(3, { message: 'Name must be at least 3 characters.' }),
-  email: z.string().email({ message: 'Invalid email address.' }),
+  name: z.string().min(3, 'Name must be at least 3 characters.'),
+  email: z.email('Invalid email address.'),
 });
+
+export const privateBetaSchema = z.object({
+  email: z.email('Invalid email address.'),
+  password: z.string().min(8, 'Password must be at least 8 characters.'),
+});
+
+export const signUpSchema = z
+  .object({
+    name: z.string().min(3, 'Name must be at least 3 characters.'),
+    email: z.email('Invalid email address.'),
+    password: z.string().min(8, 'Password must be at least 8 characters.'),
+    confirmPassword: z
+      .string()
+      .min(8, 'Confirm Password must be at least 8 characters.'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords must match.',
+    path: ['confirmPassword'],
+  });
 
 export const welcomeStepSchema = z.object({
   preferredName: z.string(),
-  profilePicURL: z.string().url().optional(),
+  profilePicURL: z.url().optional(),
 });
 
 export const workspaceSetupStepSchema = z.object({
@@ -16,7 +35,7 @@ export const workspaceSetupStepSchema = z.object({
     .min(3, 'Workspace name must be at least 3 characters.')
     .max(32, 'Workspace name must be less than 32 characters.'),
   workspaceSlug: z.string(),
-  workspaceLogoURL: z.string().url().or(z.string().length(0)),
+  workspaceLogoURL: z.url().or(z.string().length(0)),
 });
 
 export const preferencesStepSchema = z.object({

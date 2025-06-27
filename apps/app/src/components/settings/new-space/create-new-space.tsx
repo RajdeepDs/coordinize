@@ -16,17 +16,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import type { z } from 'zod/v4';
 import { SettingsCard } from '@/components/settings/settings-card';
+import { createSpaceSchema } from '@/lib/schemas';
 import { useTRPC } from '@/trpc/client';
-
-const formSchema = z.object({
-  spaceName: z.string().min(3, 'Space name must be at least 3 characters.'),
-  spaceIdentifier: z
-    .string()
-    .min(3, 'Space identifier must be at least 3 characters'),
-  about: z.string(),
-});
 
 function generateIdentifier(name: string) {
   return name.toUpperCase().slice(0, 3);
@@ -36,20 +29,20 @@ export function CreateNewSpaceForm() {
   const trpc = useTRPC();
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof createSpaceSchema>>({
+    resolver: zodResolver(createSpaceSchema),
     defaultValues: {
-      spaceName: '',
-      spaceIdentifier: '',
+      name: '',
+      identifier: '',
       about: '',
     },
   });
 
-  const spaceName = form.watch('spaceName');
+  const spaceName = form.watch('name');
 
   useEffect(() => {
     const generated = generateIdentifier(spaceName || '');
-    form.setValue('spaceIdentifier', generated);
+    form.setValue('identifier', generated);
   }, [spaceName, form]);
 
   const { mutate, isPending } = useMutation(
@@ -69,10 +62,10 @@ export function CreateNewSpaceForm() {
     })
   );
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof createSpaceSchema>) {
     mutate({
-      name: values.spaceName,
-      identifier: values.spaceIdentifier,
+      name: values.name,
+      identifier: values.identifier,
       about: values.about,
     });
   }
@@ -88,7 +81,7 @@ export function CreateNewSpaceForm() {
         >
           <FormField
             control={form.control}
-            name="spaceName"
+            name="name"
             render={({ field }) => (
               <FormItem className="w-full md:w-96">
                 <FormControl>
@@ -111,7 +104,7 @@ export function CreateNewSpaceForm() {
         >
           <FormField
             control={form.control}
-            name="spaceIdentifier"
+            name="identifier"
             render={({ field }) => (
               <FormItem className="w-full md:w-96">
                 <FormControl>
@@ -157,7 +150,7 @@ export function CreateNewSpaceForm() {
           {isPending ? (
             <Icons.loader className="mx-auto animate-spin" />
           ) : (
-            <>Create space</>
+            'Create space'
           )}
         </Button>
       </form>

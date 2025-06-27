@@ -53,7 +53,8 @@ export default function TimezoneSelect({
           value: timezone,
           label: `(${modifiedOffset}) ${timezone.replace(/_/g, ' ')}`,
           numericOffset: Number.parseInt(
-            offset.replace('GMT', '').replace('+', '') || '0'
+            offset.replace('GMT', '').replace('+', '') || '0',
+            10
           ),
         };
       })
@@ -61,7 +62,9 @@ export default function TimezoneSelect({
   }, [timezones]);
 
   // Wait until timezones are loaded before rendering the UI
-  if (timezones.length === 0) return null;
+  if (timezones.length === 0) {
+    return null;
+  }
 
   return (
     <div className="*:not-first:mt-2">

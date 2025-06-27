@@ -17,27 +17,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const formSchema = z
-  .object({
-    name: z.string().min(3, { message: 'Name must be at least 3 characters.' }),
-    email: z.string().email({ message: 'Invalid email address.' }),
-    password: z
-      .string()
-      .min(8, { message: 'Password must be at least 8 characters.' }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords must match.',
-    path: ['confirmPassword'],
-  });
+import type { z } from 'zod/v4';
+import { signUpSchema } from '@/lib/schemas';
 
 export const SignUp = () => {
   const [submitted, setSubmitted] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -46,7 +33,7 @@ export const SignUp = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
     const { error } = await authClient.signUp.email(
       {
         name: values.name,

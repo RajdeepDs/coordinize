@@ -17,11 +17,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 import { useTRPC } from '@/trpc/client';
 import { useUploadThing } from '@/utils/uploadthing';
 
-const formSchema = z.object({
+const welcomeSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
   profilePicFile: z
     .custom<File>((val) => val instanceof File || val === null)
@@ -40,8 +40,8 @@ export function Welcome({ nextStep }: WelcomeProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isExecuting, setIsExecuting] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof welcomeSchema>>({
+    resolver: zodResolver(welcomeSchema),
     defaultValues: {
       profilePic: '',
       preferredName: '',
@@ -76,7 +76,7 @@ export function Welcome({ nextStep }: WelcomeProps) {
     })
   );
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof welcomeSchema>) {
     setIsExecuting(true);
     try {
       let profilePicUrl = values.profilePic;
@@ -92,7 +92,9 @@ export function Welcome({ nextStep }: WelcomeProps) {
         profilePicURL: profilePicUrl,
       });
     } catch (error) {
-      console.error('Error submitting form:', error);
+      return error instanceof Error
+        ? error.message
+        : 'An unexpected error occurred while uploading your profile picture.';
     }
     setIsExecuting(false);
   }

@@ -17,17 +17,17 @@ import slugify from '@sindresorhus/slugify';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 import { useTRPC } from '@/trpc/client';
 import { useUploadThing } from '@/utils/uploadthing';
 
-const formSchema = z.object({
+const workspaceSetupSchema = z.object({
   workspaceName: z
     .string()
     .min(3, 'Workspace name must be at least 3 characters')
     .max(32, 'Workspace name must be less than 32 characters'),
   workspaceSlug: z.string(),
-  workspaceLogo: z.string().url().or(z.string().length(0)),
+  workspaceLogo: z.url().or(z.string().length(0)),
   workspaceLogoFile: z.any().optional(),
 });
 
@@ -39,8 +39,8 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
   const trpc = useTRPC();
   const [isExecuting, setIsExecuting] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof workspaceSetupSchema>>({
+    resolver: zodResolver(workspaceSetupSchema),
     defaultValues: {
       workspaceName: '',
       workspaceSlug: '',
@@ -66,7 +66,7 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
     })
   );
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof workspaceSetupSchema>) {
     setIsExecuting(true);
     try {
       let workspaceLogoUrl = values.workspaceLogo;
@@ -83,7 +83,9 @@ export function WorkspaceSetup({ nextStep }: WorkspaceSetupProps) {
         workspaceLogoURL: workspaceLogoUrl,
       });
     } catch (error) {
-      console.error('Error submitting form:', error);
+      return error instanceof Error
+        ? error.message
+        : 'An unexpected error occurred while uploading your workspace logo.';
     }
     setIsExecuting(false);
   }

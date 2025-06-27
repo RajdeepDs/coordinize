@@ -105,7 +105,9 @@ export function SuggestionRoot({
   const isCharAtPos = (state: EditorState, pos: number) => {
     const from = pos;
     const to = pos + char.length;
-    if (from < 0 || to > state.doc.content.size) return false;
+    if (from < 0 || to > state.doc.content.size) {
+      return false;
+    }
     return state.doc.textBetween(from, to) === char;
   };
 
@@ -122,10 +124,14 @@ export function SuggestionRoot({
   }
 
   React.useLayoutEffect(() => {
-    if (!editor || editor.isDestroyed) return;
+    if (!editor || editor.isDestroyed) {
+      return;
+    }
 
     function updateAnchorRect(node: Element | null) {
-      if (!(node && node instanceof HTMLElement)) return;
+      if (!(node && node instanceof HTMLElement)) {
+        return;
+      }
 
       const bounds = node.getBoundingClientRect();
       virtualAnchorRef.current = {
@@ -152,8 +158,9 @@ export function SuggestionRoot({
         );
       },
       apply: ({ transaction, state }) => {
-        if (!(transaction.docChanged && dismissedPositionsRef.current.length))
+        if (!(transaction.docChanged && dismissedPositionsRef.current.length)) {
           return;
+        }
 
         const mapping = transaction.mapping;
 
@@ -177,7 +184,9 @@ export function SuggestionRoot({
           },
           onExit: close,
           onKeyDown: ({ event }) => {
-            if (!openRef.current) return false;
+            if (!openRef.current) {
+              return false;
+            }
 
             if (event.key === 'Escape') {
               close();
@@ -323,7 +332,9 @@ export function SuggestionItem({
         className
       )}
       onSelect={() => {
-        if (!range.current) return;
+        if (!range.current) {
+          return;
+        }
         onSelect({ editor, range: range.current });
       }}
     >
@@ -391,7 +402,6 @@ export function Suggestions<T>({
       editor={editor}
       listClassName={listClassName}
       modal={modal}
-      onControlledQueryChange={() => {}}
       pluginKey={pluginKey}
       startOfLine={startOfLine}
     >
@@ -402,8 +412,8 @@ export function Suggestions<T>({
           <SuggestionItem
             editor={editor}
             key={getKey(item)}
-            onSelect={({ editor, range }) => {
-              onSelect(item, range, editor);
+            onSelect={({ editor: editorInstance, range }) => {
+              onSelect(item, range, editorInstance);
             }}
           >
             {renderSuggestion(item, false)}{' '}

@@ -20,16 +20,16 @@ import { Input } from '@coordinize/ui/components/input';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 const formSchema = (currentEmail: string) =>
   z.object({
     email: z
-      .string()
       .email()
-      .refine((val) => val !== currentEmail, {
-        message: 'Please enter a different email address.',
-      }),
+      .refine(
+        (val) => val !== currentEmail,
+        'Please enter a different email address.'
+      ),
   });
 
 export function ChangeEmailDialog({ currentEmail }: { currentEmail: string }) {

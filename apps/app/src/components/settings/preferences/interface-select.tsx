@@ -23,7 +23,9 @@ export default function InterfaceSelect() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <fieldset className="space-y-4">

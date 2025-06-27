@@ -1,4 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
-  "extends": ["ultracite"]
+  "extends": ["ultracite"],
+  "files": {
+    "includes": [
+      "**",
+      "!**/packages/ui/src/components/**",
+      "!**/packages/ui/src/styles/**",
+      "!**/packages/ui/src/lib/**",
+      "!**/packages/ui/src/hooks/**"
+    ]
+  }
 }

@@ -25,11 +25,11 @@ export function EmojiPickerPopover({ statusEmoji }: EmojiPickerPopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [emoji, setEmoji] = useState(statusEmoji);
 
-  function handleUpdate(emoji: string) {
+  function handleUpdate(newEmoji: string) {
     setIsOpen(false);
-    setEmoji(emoji);
-    if (statusEmoji !== emoji) {
-      statusEmojiMutation.mutate({ statusEmoji: emoji });
+    setEmoji(newEmoji);
+    if (statusEmoji !== newEmoji) {
+      statusEmojiMutation.mutate({ statusEmoji: newEmoji });
     }
   }
 
@@ -47,8 +47,8 @@ export function EmojiPickerPopover({ statusEmoji }: EmojiPickerPopoverProps) {
       <PopoverContent align="start" className="w-fit p-0">
         <EmojiPicker
           className="h-[342px]"
-          onEmojiSelect={({ emoji }) => {
-            handleUpdate(emoji);
+          onEmojiSelect={({ emoji: selectedEmoji }) => {
+            handleUpdate(selectedEmoji);
           }}
         >
           <EmojiPickerSearch />

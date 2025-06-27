@@ -19,6 +19,7 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
+  type Header,
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -80,6 +81,66 @@ const columns: ColumnDef<Item>[] = [
     },
   },
 ];
+
+const renderSortIcon = (sortDirection: string | false) => {
+  if (sortDirection === 'asc') {
+    return (
+      <ChevronUpIcon
+        aria-hidden="true"
+        className="opacity-100 transition-opacity group-hover:opacity-100"
+        size={16}
+      />
+    );
+  }
+
+  if (sortDirection === 'desc') {
+    return (
+      <ChevronDownIcon
+        aria-hidden="true"
+        className="opacity-100 transition-opacity group-hover:opacity-100"
+        size={16}
+      />
+    );
+  }
+
+  return (
+    <ChevronUpIcon
+      aria-hidden="true"
+      className="opacity-0 transition-opacity group-hover:opacity-60"
+      size={16}
+    />
+  );
+};
+
+const renderHeaderContent = (header: Header<Item, unknown>) => {
+  if (!header.column.getCanSort()) {
+    return flexRender(header.column.columnDef.header, header.getContext());
+  }
+
+  return (
+    <button
+      className={cn(
+        'group flex h-full w-full cursor-pointer select-none items-center justify-between gap-2 border-0 bg-transparent p-0 text-left'
+      )}
+      onClick={header.column.getToggleSortingHandler()}
+      onKeyDown={(e) => {
+        if (
+          header.column.getCanSort() &&
+          (e.key === 'Enter' || e.key === ' ')
+        ) {
+          e.preventDefault();
+          header.column.getToggleSortingHandler()?.(e);
+        }
+      }}
+      type="button"
+    >
+      {flexRender(header.column.columnDef.header, header.getContext())}
+      <span className="flex h-4 w-4 items-center justify-center">
+        {renderSortIcon(header.column.getIsSorted())}
+      </span>
+    </button>
+  );
+};
 
 export function MembersTable({ data }: MembersTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
@@ -161,58 +222,9 @@ export function MembersTable({ data }: MembersTableProps) {
                       )}
                       key={header.id}
                     >
-                      {header.isPlaceholder ? null : header.column.getCanSort() ? (
-                        <div
-                          className={cn(
-                            'group flex h-full cursor-pointer select-none items-center justify-between gap-2'
-                          )}
-                          onClick={header.column.getToggleSortingHandler()}
-                          onKeyDown={(e) => {
-                            if (
-                              header.column.getCanSort() &&
-                              (e.key === 'Enter' || e.key === ' ')
-                            ) {
-                              e.preventDefault();
-                              header.column.getToggleSortingHandler()?.(e);
-                            }
-                          }}
-                          tabIndex={header.column.getCanSort() ? 0 : undefined}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          <span className="flex h-4 w-4 items-center justify-center">
-                            {{
-                              asc: (
-                                <ChevronUpIcon
-                                  aria-hidden="true"
-                                  className="opacity-100 transition-opacity group-hover:opacity-100"
-                                  size={16}
-                                />
-                              ),
-                              desc: (
-                                <ChevronDownIcon
-                                  aria-hidden="true"
-                                  className="opacity-100 transition-opacity group-hover:opacity-100"
-                                  size={16}
-                                />
-                              ),
-                            }[header.column.getIsSorted() as string] ?? (
-                              <ChevronUpIcon
-                                aria-hidden="true"
-                                className="opacity-0 transition-opacity group-hover:opacity-60"
-                                size={16}
-                              />
-                            )}
-                          </span>
-                        </div>
-                      ) : (
-                        flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )
-                      )}
+                      {header.isPlaceholder
+                        ? null
+                        : renderHeaderContent(header)}
                     </TableHead>
                   );
                 })}

@@ -17,26 +17,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const formSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }),
-  password: z
-    .string()
-    .min(8, { message: 'Password must be at least 8 characters.' }),
-});
+import type z from 'zod/v4';
+import { privateBetaSchema } from '@/lib/schemas';
 
 export const PrivateBeta = () => {
   const [submitted, setSubmitted] = useState(false);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof privateBetaSchema>>({
+    resolver: zodResolver(privateBetaSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof privateBetaSchema>) {
     const { error } = await authClient.signIn.email(
       {
         email: values.email,

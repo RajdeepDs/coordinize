@@ -58,12 +58,15 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
     },
   });
 
-  const onSubmit = useCallback((values: z.infer<typeof formSchema>) => {
-    execute({
-      workspaceName: values.workspaceName,
-      workspaceURL: values.workspaceSlug,
-    });
-  }, []);
+  const onSubmit = useCallback(
+    (values: z.infer<typeof formSchema>) => {
+      execute({
+        workspaceName: values.workspaceName,
+        workspaceURL: values.workspaceSlug,
+      });
+    },
+    [execute]
+  );
 
   const handleFieldBlur = useCallback(
     async (fieldName: keyof z.infer<typeof formSchema>) => {
