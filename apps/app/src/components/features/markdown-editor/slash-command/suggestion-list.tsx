@@ -9,8 +9,9 @@ import {
   PopoverContent,
 } from '@coordinize/ui/components/popover';
 import { cn } from '@coordinize/ui/lib/utils';
-import type { Editor, Range } from '@tiptap/core';
+import type { Range } from '@tiptap/core';
 import { type EditorState, PluginKey } from '@tiptap/pm/state';
+import type { Editor } from '@tiptap/react';
 import { Command } from 'cmdk';
 import * as React from 'react';
 import { v4 as uuid } from 'uuid';

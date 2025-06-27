@@ -69,7 +69,7 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     <>
       <EditorContent editor={editor} />
       <EditorBubbleMenu editor={editor} />
-      {!editor && <SlashCommand editor={editor} />}
+      {editor && <SlashCommand editor={editor} />}
     </>
   );
 }

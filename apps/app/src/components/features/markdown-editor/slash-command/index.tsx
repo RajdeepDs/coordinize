@@ -1,8 +1,9 @@
 import { CommandSeparator } from '@coordinize/ui/components/command';
 import { KeyboardShortcut } from '@coordinize/ui/components/keyboard-shortcut';
 import { Icons } from '@coordinize/ui/lib/icons';
-import type { Editor, Range } from '@tiptap/core';
+import type { Range } from '@tiptap/core';
 import { PluginKey } from '@tiptap/pm/state';
+import type { Editor } from '@tiptap/react';
 import type { ReactNode } from 'react';
 import { SuggestionItem, SuggestionRoot } from './suggestion-list';
 
