@@ -1,6 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
   "extends": ["ultracite"],
+  "linter": {
+    "rules": {
+      "performance": {
+        "noNamespaceImport": "off"
+      }
+    }
+  },
   "files": {
     "includes": [
       "**",
