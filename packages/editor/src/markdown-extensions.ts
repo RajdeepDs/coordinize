@@ -20,7 +20,11 @@ import {
   Underline,
 } from './extensions';
 
-export const markdownExtensions = () => [
+export const markdownExtensions = ({
+  placeholder,
+}: {
+  placeholder?: string;
+}) => [
   Document,
   TaskList,
   TaskItem.configure({
@@ -42,7 +46,9 @@ export const markdownExtensions = () => [
   Subscript,
   Superscript,
   Typography,
-  Placeholder,
+  Placeholder.configure({
+    placeholder,
+  }),
   Focus,
   Dropcursor.configure({
     width: 2,

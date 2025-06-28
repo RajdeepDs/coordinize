@@ -9,6 +9,11 @@
 .ProseMirror {
   @apply caret-black dark:caret-white outline-0;
 
+  p.is-editor-empty:first-child::before {
+    @apply text-muted-foreground pointer-events-none float-left h-0 content-[attr(data-placeholder)];
+    content: attr(data-placeholder);
+  }
+
   .selection {
     @apply inline;
   }

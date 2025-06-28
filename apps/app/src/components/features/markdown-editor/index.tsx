@@ -55,7 +55,9 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
       parseOptions: {
         preserveWhitespace: true,
       },
-      extensions: markdownExtensions() as Extensions,
+      extensions: markdownExtensions({
+        placeholder,
+      }) as Extensions,
       content,
     },
     []
