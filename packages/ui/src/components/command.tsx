@@ -53,20 +53,28 @@ function CommandDialog({
 }
 
 function CommandInput({
+  containerClasses,
   className,
+  showIcon,
+  placeholder,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+}: React.ComponentProps<typeof CommandPrimitive.Input> & {
+  containerClasses?: string,
+  showIcon?: boolean,
+  placeholder?: string
+}) {
   return (
     <div
-      className="flex items-center border-input border-b px-5"
+      className={cn("flex items-center border-b px-5", containerClasses)}
       cmdk-input-wrapper=""
     >
-      <SearchIcon className="me-3 text-muted-foreground/80" size={20} />
+      {showIcon && <SearchIcon className="me-3 text-muted-foreground/80" size={20} />}
       <CommandPrimitive.Input
         className={cn(
           'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
+        placeholder={placeholder ?? ""}
         data-slot="command-input-wrapper"
         {...props}
       />
@@ -135,7 +143,7 @@ function CommandItem({
   return (
     <CommandPrimitive.Item
       className={cn(
-        'relative flex cursor-default select-none items-center gap-3 rounded-md px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+        'relative flex cursor-default select-none items-center gap-3 h-8 rounded-md px-2 py-1.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected=true]:bg-ui-gray-100 data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
         className
       )}
       data-slot="command-item"

@@ -107,7 +107,7 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
                     <Input
                       {...field}
                       className={`peer min-w-87.5 ${
-                        form.getValues('workspaceName') ? 'bg-muted' : ''
+                        form.getValues('workspaceName') ? 'bg-input' : ''
                       }`}
                       onBlur={() => handleFieldBlur('workspaceName')}
                       placeholder="Enter your workspace name"
@@ -135,7 +135,7 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
                     <Input
                       {...field}
                       className={`peer min-w-87.5 ps-36 ${
-                        form.getValues('workspaceSlug') ? 'bg-muted' : ''
+                        form.getValues('workspaceSlug') ? 'bg-input' : ''
                       }`}
                       onBlur={() => handleFieldBlur('workspaceSlug')}
                       type="text"

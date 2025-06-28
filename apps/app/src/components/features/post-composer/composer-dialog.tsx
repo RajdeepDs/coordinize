@@ -13,9 +13,15 @@ import { SidebarMenuButton } from '@coordinize/ui/components/sidebar';
 import { LayeredHotkeys } from '@coordinize/ui/layered-hotkeys';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { useState } from 'react';
-import { MarkdownEditor } from '../markdown-editor';
+import { MarkdownEditor } from '@/components/features/markdown-editor';
+import { PostComposerSpacesPicker } from '@/components/features/post-composer/post-composer-spaces-picker';
+import { useSpacesQuery } from '@/hooks/use-space';
+import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
 
 export function ComposerDialog() {
+  const { data: spaces } = useSpacesQuery();
+  const { data: workspace } = useCurrentWorkspaceQuery();
+
   const [open, setOpen] = useState(false);
 
   const handleCreatePost = () => {
@@ -43,12 +49,10 @@ export function ComposerDialog() {
         </DialogTrigger>
         <DialogContent className="top-[10%] flex max-h-[32rem] min-h-[16rem] translate-y-0 flex-col gap-3 p-3 shadow-xl/5 lg:max-w-3xl [&>button:last-child]:top-3.5">
           <DialogTitle className="sr-only">Compose post</DialogTitle>
-          <div className="flex items-start gap-2 text-sm">
-            <p>Engineering</p>
-            <span className="flex items-center gap-1 text-muted-foreground">
-              ENG <Icons.chevronDown size={16} />
-            </span>
-          </div>
+          <PostComposerSpacesPicker
+            spaces={spaces}
+            workspaceSlug={workspace?.slug ?? ''}
+          />
           <div className="flex flex-col gap-1 overflow-hidden">
             <Input
               className="border-none px-0 font-medium text-accent-foreground focus-visible:ring-0 md:text-base"
@@ -56,7 +60,7 @@ export function ComposerDialog() {
             />
             <div className="min-h-0 flex-1 overflow-y-auto">
               <MarkdownEditor
-                containerClasses="px-0 h-full overflow-y-scroll"
+                containerClasses="px-0 h-full"
                 placeholder="Write something about it..."
               />
             </div>
