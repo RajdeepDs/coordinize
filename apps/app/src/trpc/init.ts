@@ -32,26 +32,7 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
   }
 
   const cookieStore = await cookies();
-  let workspaceId = cookieStore.get('workspaceId')?.value;
-
-  if (!workspaceId && session.user.defaultWorkspace) {
-    // Find workspace based on user's default workspace
-    const workspace = await opts.ctx.db.workspace.findUnique({
-      where: { slug: session.user.defaultWorkspace },
-      select: { id: true },
-    });
-
-    if (workspace) {
-      workspaceId = workspace.id;
-      // Set workspace cookie for future requests
-      cookieStore.set({
-        name: 'workspaceId',
-        value: workspace.id,
-        secure: true,
-        httpOnly: true,
-      });
-    }
-  }
+  const workspaceId = cookieStore.get('workspaceId')?.value;
 
   if (!workspaceId) {
     throw new TRPCError({

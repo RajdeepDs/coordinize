@@ -44,6 +44,48 @@ export const auth = betterAuth({
         }
       }
     }),
+    after: createAuthMiddleware(async (ctx) => {
+      // If the user is signing in, set the workspaceId cookie if the user has a default workspace
+      if (ctx.path.startsWith('/sign-in')) {
+        const user = ctx.context.newSession?.user;
+
+        if (!user) {
+          return;
+        }
+
+        const isOnboarded = user.onboarded ?? false;
+        const defaultWorkspaceSlug = user.defaultWorkspace;
+
+        if (!(isOnboarded && defaultWorkspaceSlug)) {
+          return;
+        }
+
+        try {
+          const workspace = await database.workspace.findUnique({
+            where: { slug: defaultWorkspaceSlug },
+            select: { id: true },
+          });
+
+          if (!workspace?.id) {
+            throw new APIError('NOT_FOUND', {
+              message: `Default workspace '${defaultWorkspaceSlug}' not found`,
+            });
+          }
+
+          // Set the workspaceId cookie for future requests
+          ctx.setCookie('workspaceId', workspace.id, {
+            secure: true,
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 30,
+            path: '/',
+          });
+        } catch {
+          throw new APIError('INTERNAL_SERVER_ERROR', {
+            message: 'Failed to set workspaceId cookie',
+          });
+        }
+      }
+    }),
   },
   plugins: [nextCookies()],
 });
