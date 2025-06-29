@@ -2,6 +2,7 @@ import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { createTRPCRouter } from '../init';
 import { authRouter } from './auth';
 import { onboardingRouter } from './onboarding';
+import { postRouter } from './post';
 import { spaceRouter } from './space';
 import { userRouter } from './user';
 import { workspaceRouter } from './workspace';
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   workspace: workspaceRouter,
   space: spaceRouter,
+  post: postRouter,
 });
 
 // export type definition of API

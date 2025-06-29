@@ -3,6 +3,7 @@ import { DialogFooter } from '@coordinize/ui/components/dialog';
 import { Input } from '@coordinize/ui/components/input';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { forwardRef, useImperativeHandle } from 'react';
 import {
   Controller,
@@ -19,6 +20,7 @@ import {
   postDefaultValues,
   postSchema,
 } from '@/lib/schemas/post';
+import { useTRPC } from '@/trpc/client';
 
 export interface InlineComposerRef {
   isDirty: boolean;
@@ -43,11 +45,12 @@ export const PostComposerFormProvider = forwardRef<
 });
 
 export function PostComposerForm() {
+  const trpc = useTRPC();
   const { data: spaces } = useSpacesQuery();
   const { data: workspace } = useCurrentWorkspaceQuery();
 
   const methods = useFormContext<PostSchema>();
-  const { control, handleSubmit, watch, formState } = methods;
+  const { control, handleSubmit, watch } = methods;
 
   const formValues = watch();
   const isFormValid =
@@ -55,7 +58,20 @@ export function PostComposerForm() {
     formValues.description?.trim() &&
     formValues.space_id;
 
+  const { mutate, status } = useMutation(
+    trpc.post.create.mutationOptions({
+      onSuccess: () => {
+        console.log('Post created successfully');
+      },
+    })
+  );
+
   const onSubmit = (data: PostSchema) => {
+    mutate({
+      title: data.title,
+      description: data.description,
+      space_id: data.space_id,
+    });
     methods.reset();
   };
 
@@ -110,7 +126,7 @@ export function PostComposerForm() {
             Save as draft
           </Button>
           <Button
-            disabled={!isFormValid || formState.isSubmitting}
+            disabled={!isFormValid || status === 'pending'}
             onClick={handleSubmit(onSubmit)}
             size="sm"
             type="submit"
