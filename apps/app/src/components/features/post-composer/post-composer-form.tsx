@@ -95,7 +95,7 @@ export function PostComposerForm() {
       </div>
       <DialogFooter className="mt-auto flex w-full flex-row items-end justify-between sm:justify-between">
         <div>
-          <Button size="icon" variant="ghost">
+          <Button disabled size="icon" variant="ghost">
             <Icons.emojiPlus />
           </Button>
         </div>
@@ -105,7 +105,6 @@ export function PostComposerForm() {
               !(formValues.title?.trim() || formValues.description?.trim())
             }
             size="sm"
-            type="button"
             variant="ghost"
           >
             Save as draft
@@ -114,9 +113,9 @@ export function PostComposerForm() {
             disabled={!isFormValid || formState.isSubmitting}
             onClick={handleSubmit(onSubmit)}
             size="sm"
-            type="button"
+            type="submit"
           >
-            {formState.isSubmitting ? 'Creating...' : 'Create post'}
+            Create post
           </Button>
         </div>
       </DialogFooter>
