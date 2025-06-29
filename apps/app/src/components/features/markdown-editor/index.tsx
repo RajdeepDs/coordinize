@@ -4,9 +4,16 @@ import '@coordinize/ui/editor';
 
 import { markdownExtensions } from '@coordinize/editor';
 import { cn } from '@coordinize/ui/lib/utils';
-import { EditorContent, type Extensions, useEditor } from '@tiptap/react';
+import {
+  type Editor,
+  EditorContent,
+  type Extensions,
+  useEditor,
+} from '@tiptap/react';
+import { useDebouncedCallback } from 'use-debounce';
 import { EditorBubbleMenu } from '@/components/features/markdown-editor/editor-bubble-menu';
 import { SlashCommand } from '@/components/features/markdown-editor/slash-command';
+import { EMPTY_HTML } from '@/utils/markdown';
 
 interface MarkdownEditorProps {
   id?: string;
@@ -16,6 +23,11 @@ interface MarkdownEditorProps {
   maxHeight?: string;
   textSize?: 'sm' | 'base';
   containerClasses?: string;
+  onChangeDebounced?: (html: string) => void;
+  onChangeDebounceMs?: number;
+  onEmptyDidChange?: (isEmpty: boolean) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 export function MarkdownEditor(props: MarkdownEditorProps) {
@@ -27,7 +39,17 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     minHeight,
     textSize,
     containerClasses = 'px-3 py-2.5',
+    onChangeDebounced,
+    onChangeDebounceMs = 300,
+    onEmptyDidChange,
   } = props;
+
+  const onChangeDebouncedInner = useDebouncedCallback(
+    (editorInstance: Editor) => {
+      onChangeDebounced?.(editorInstance.getHTML());
+    },
+    onChangeDebounceMs
+  );
 
   const editor = useEditor(
     {
@@ -59,6 +81,13 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
         placeholder,
       }) as Extensions,
       content,
+      onUpdate: ({ editor: editorInstance }) => {
+        const htmlContent = editorInstance.getHTML();
+
+        onEmptyDidChange?.(htmlContent === EMPTY_HTML);
+
+        onChangeDebouncedInner(editorInstance as Editor);
+      },
     },
     []
   );
@@ -69,7 +98,11 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
 
   return (
     <>
-      <EditorContent editor={editor} />
+      <EditorContent
+        editor={editor}
+        onBlur={props.onBlur}
+        onFocus={props.onFocus}
+      />
       <EditorBubbleMenu editor={editor} />
       {editor && <SlashCommand editor={editor} />}
     </>

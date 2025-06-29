@@ -22,7 +22,7 @@ import {
 import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
-import { ComposerDialog } from '@/components/features/post-composer/composer-dialog';
+import { PostComposerDialog } from '@/components/features/post-composer/post-composer-dialog';
 import { appSidebarNav } from '@/config/app-sidebar-navigation';
 import { useSpacesQuery } from '@/hooks/use-space';
 import { useUserQuery } from '@/hooks/use-user';
@@ -53,7 +53,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem className="mb-2">
-                <ComposerDialog />
+                <PostComposerDialog />
               </SidebarMenuItem>
               {sidebarNav.map((nav) => {
                 const Icon = Icons[nav.icon as keyof typeof Icons];

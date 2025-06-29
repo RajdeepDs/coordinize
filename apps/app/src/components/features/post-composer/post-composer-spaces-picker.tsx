@@ -20,7 +20,9 @@ import {
 import { Tooltip } from '@coordinize/ui/components/tooltip';
 import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import type { PostSchema } from '@/lib/schemas/post';
 
 interface PostComposerSpacesPickerProps {
   spaces: readonly Space[];
@@ -31,8 +33,18 @@ export function PostComposerSpacesPicker({
   spaces,
   workspaceSlug,
 }: PostComposerSpacesPickerProps) {
+  const methods = useFormContext<PostSchema>();
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>(spaces[0]?.identifier ?? '');
+  const spaceId = methods.watch('space_id');
+
+  const selectedSpaceId = spaceId || spaces[0]?.id;
+  const selectedSpace = spaces.find((space) => space.id === selectedSpaceId);
+
+  useEffect(() => {
+    if (!spaceId && spaces[0]?.id) {
+      methods.setValue('space_id', spaces[0].id);
+    }
+  }, [spaceId, spaces, methods]);
 
   if (spaces.length === 1) {
     return (
@@ -44,6 +56,7 @@ export function PostComposerSpacesPicker({
       </div>
     );
   }
+
   return (
     <>
       <LayeredHotkeys
@@ -61,12 +74,9 @@ export function PostComposerSpacesPicker({
         >
           <PopoverTrigger asChild className="cursor-pointer outline-none">
             <div className="flex w-fit items-start gap-2 text-sm">
-              <p>
-                {spaces.find((space) => space.identifier === value)?.name ??
-                  'Select space'}
-              </p>
+              <p>{selectedSpace?.name ?? 'Select space'}</p>
               <span className="flex items-center gap-1 text-muted-foreground">
-                {value || '--'}
+                {selectedSpace?.identifier || '--'}
                 <Icons.chevronDown size={16} />
               </span>
             </div>
@@ -89,15 +99,15 @@ export function PostComposerSpacesPicker({
                   <CommandItem
                     className="cursor-pointer"
                     key={space.identifier}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue);
+                    onSelect={() => {
+                      methods.setValue('space_id', space.id); // Update form field
                       setOpen(false);
                     }}
                     value={space.identifier}
                   >
                     <Icons.space className="text-muted-foreground" size={16} />
                     {space.name}
-                    {value === space.identifier && (
+                    {selectedSpaceId === space.id && (
                       <Icons.check
                         className="ml-auto text-muted-foreground"
                         size={16}
