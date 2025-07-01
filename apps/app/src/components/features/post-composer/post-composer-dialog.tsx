@@ -9,12 +9,19 @@ import {
 } from '@coordinize/ui/components/dialog';
 import { SidebarMenuButton } from '@coordinize/ui/components/sidebar';
 import { LayeredHotkeys } from '@coordinize/ui/layered-hotkeys';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
+import { useLocalStoragePost } from '@/hooks/use-local-storage-post';
+import { useSpacesQuery } from '@/hooks/use-space';
+import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
+import type { PostSchema } from '@/lib/schemas/post';
+import { useTRPC } from '@/trpc/client';
+import { PostComposerActions } from './post-composer-actions';
+import { PostComposerForm } from './post-composer-form';
 import {
-  type InlineComposerRef,
-  PostComposerForm,
   PostComposerFormProvider,
-} from './post-composer-form';
+  type PostComposerFormRef,
+} from './post-composer-form-provider';
 import { UnsavedChangesDialog } from './unsaved-changes-dialog';
 
 export function PostComposerDialog() {
@@ -22,7 +29,38 @@ export function PostComposerDialog() {
   const [isClose, _] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
-  const formRef = useRef<InlineComposerRef>(null);
+  const formRef = useRef<PostComposerFormRef>(null);
+  // const methods = useFormContext<PostSchema>();
+  // const { getValues } = methods;
+
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+  const { data: spaces } = useSpacesQuery();
+  const { data: workspace } = useCurrentWorkspaceQuery();
+  const { clearLocalStorage } = useLocalStoragePost();
+
+  const { mutate: createPost, status: isSubmitting } = useMutation(
+    trpc.post.create.mutationOptions({
+      onSuccess: () => {
+        clearLocalStorage();
+        formRef.current?.reset();
+        setOpen(false);
+      },
+    })
+  );
+
+  const { mutate: createDraft, status: isDraftSaving } = useMutation(
+    trpc.post.createDraft.mutationOptions({
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getDrafts.queryKey(),
+        });
+        clearLocalStorage();
+        formRef.current?.reset();
+        setOpen(false);
+      },
+    })
+  );
 
   const handleCreatePost = () => {
     setOpen(true);
@@ -53,12 +91,34 @@ export function PostComposerDialog() {
   };
 
   const handleSaveAsDraft = () => {
+    const currentValues = formRef.current?.getValues();
+    if (currentValues) {
+      createDraft({
+        title: currentValues.title,
+        description: currentValues.description,
+        space_id: currentValues.space_id,
+      });
+    }
     formRef.current?.clearLocalStorage();
     formRef.current?.reset();
-    // Add the logic to save the post as a draft here
-
     setShowUnsavedDialog(false);
     setOpen(false);
+  };
+
+  const handleSubmitPost = (data: PostSchema) => {
+    createPost({
+      title: data.title,
+      description: data.description,
+      space_id: data.space_id,
+    });
+  };
+
+  const handleSaveDraft = (data: PostSchema) => {
+    createDraft({
+      title: data.title,
+      description: data.description,
+      space_id: data.space_id,
+    });
   };
 
   return (
@@ -89,7 +149,16 @@ export function PostComposerDialog() {
             <DialogDescription className="sr-only">
               Dialog to create a new post.
             </DialogDescription>
-            <PostComposerForm onSuccess={() => setOpen(false)} />
+            <PostComposerForm
+              spaces={spaces}
+              workspaceSlug={workspace?.slug ?? ''}
+            />
+            <PostComposerActions
+              isDraftSaving={isDraftSaving === 'pending'}
+              isSubmitting={isSubmitting === 'pending'}
+              onSaveDraft={handleSaveDraft}
+              onSubmit={handleSubmitPost}
+            />
           </DialogContent>
         </Dialog>
       </PostComposerFormProvider>
