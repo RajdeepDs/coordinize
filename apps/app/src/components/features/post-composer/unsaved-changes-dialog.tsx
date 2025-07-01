@@ -28,23 +28,34 @@ export function UnsavedChangesDialog({
 }: UnsavedChangesDialogProps) {
   return (
     <AlertDialog onOpenChange={onOpenChange} open={open}>
-      <AlertDialogContent>
+      <AlertDialogContent className="top-[35%] sm:max-w-[32rem]">
         <AlertDialogHeader>
-          <AlertDialogTitle>Save your drafts?</AlertDialogTitle>
+          <AlertDialogTitle className="font-normal text-base">
+            Save your drafts?
+          </AlertDialogTitle>
           <AlertDialogDescription>
             You can finish this post later from your drafts.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex w-full sm:justify-between">
           <AlertDialogCancel
-            className={cn(buttonVariants({ variant: 'outline' }))}
+            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
             onClick={onDiscard}
           >
             Discard
           </AlertDialogCancel>
           <div className="flex gap-2 ">
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onSaveAsDraft}>Save</AlertDialogAction>
+            <AlertDialogCancel
+              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className={cn(buttonVariants({ size: 'sm' }))}
+              onClick={onSaveAsDraft}
+            >
+              Save
+            </AlertDialogAction>
           </div>
         </AlertDialogFooter>
       </AlertDialogContent>
