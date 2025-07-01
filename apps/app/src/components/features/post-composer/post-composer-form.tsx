@@ -61,7 +61,17 @@ export function PostComposerForm() {
   const { mutate, status } = useMutation(
     trpc.post.create.mutationOptions({
       onSuccess: () => {
-        console.log('Post created successfully');
+        // Post created successfully - could add toast notification here
+        methods.reset();
+      },
+    })
+  );
+
+  const { mutate: mutateDraft, status: draftStatus } = useMutation(
+    trpc.post.createDraft.mutationOptions({
+      onSuccess: () => {
+        // Draft saved successfully - could add toast notification here
+        methods.reset();
       },
     })
   );
@@ -72,8 +82,21 @@ export function PostComposerForm() {
       description: data.description,
       space_id: data.space_id,
     });
-    methods.reset();
   };
+
+  const onSaveDraft = () => {
+    const currentValues = methods.getValues();
+    mutateDraft({
+      title: currentValues.title,
+      description: currentValues.description,
+      space_id: currentValues.space_id,
+    });
+  };
+
+  const canSaveDraft =
+    (formValues.title?.trim() || formValues.description?.trim()) &&
+    formValues.space_id &&
+    draftStatus !== 'pending';
 
   return (
     <>
@@ -117,9 +140,8 @@ export function PostComposerForm() {
         </div>
         <div className="flex items-center gap-2">
           <Button
-            disabled={
-              !(formValues.title?.trim() || formValues.description?.trim())
-            }
+            disabled={!canSaveDraft}
+            onClick={onSaveDraft}
             size="sm"
             variant="ghost"
           >

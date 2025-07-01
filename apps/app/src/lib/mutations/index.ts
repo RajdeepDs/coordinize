@@ -137,7 +137,27 @@ export async function createNewPost(
       content: description,
       authorId: userId,
       spaceId: space_id,
+      status: 'PUBLISHED',
       publishedAt: new Date(),
+    },
+  });
+}
+
+export async function createDraftPost(
+  db: PrismaClient,
+  title: string,
+  description: string,
+  space_id: string,
+  userId: string
+) {
+  await db.post.create({
+    data: {
+      title: title || 'Untitled',
+      content: description,
+      authorId: userId,
+      spaceId: space_id,
+      status: 'DRAFT',
+      publishedAt: null,
     },
   });
 }

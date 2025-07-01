@@ -193,18 +193,24 @@ model SpaceMember {
   @@map("spaceMember")
 }
 
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
 model Post {
-  id             String    @id @default(cuid())
+  id             String     @id @default(cuid())
   title          String
   content        String?
   authorId       String
   spaceId        String
+  status         PostStatus @default(PUBLISHED)
   publishedAt    DateTime?
   resolvedAt     DateTime?
   resolvedById   String?
-  lastActivityAt DateTime  @default(now())
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  lastActivityAt DateTime   @default(now())
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 
   author     User  @relation(fields: [authorId], references: [id], onDelete: Cascade)
   space      Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)

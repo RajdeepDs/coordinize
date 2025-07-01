@@ -7,7 +7,14 @@ export const postSchema = z.object({
   space_id: z.string().min(1, 'Space is required.'),
 });
 
+export const draftPostSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  space_id: z.string().min(1, 'Space is required.'),
+});
+
 export type PostSchema = z.infer<typeof postSchema>;
+export type DraftPostSchema = z.infer<typeof draftPostSchema>;
 
 export const postDefaultValues: PostSchema = {
   title: '',
