@@ -40,7 +40,7 @@ model User {
   NotificationPreference NotificationPreference[]
   Space                  Space[]
   SpaceMember            SpaceMember[]
-  Post                   Post[]
+  Post                   Post[]                   @relation("AuthoredPosts")
   ResolvedPost           Post[]                   @relation("ResolvedBy")
 
   @@unique([email])
@@ -212,7 +212,7 @@ model Post {
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 
-  author     User  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author     User  @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
   space      Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)
   resolvedBy User? @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
 

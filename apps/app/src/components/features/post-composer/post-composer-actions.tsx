@@ -56,7 +56,6 @@ export function PostComposerActions({
           disabled={!isFormValid || isSubmitting}
           onClick={handleSubmit(onSubmit)}
           size="sm"
-          type="submit"
         >
           Create post
         </Button>

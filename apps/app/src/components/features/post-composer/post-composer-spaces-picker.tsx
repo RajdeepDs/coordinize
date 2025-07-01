@@ -46,6 +46,10 @@ export function PostComposerSpacesPicker({
     }
   }, [spaceId, spaces, methods]);
 
+  if (!spaces || spaces.length === 0) {
+    return null;
+  }
+
   if (spaces.length === 1) {
     return (
       <div className="flex items-start gap-2 text-sm">

@@ -128,7 +128,7 @@ export async function createNewPost(
   db: PrismaClient,
   title: string,
   description: string,
-  space_id: string,
+  spaceId: string,
   userId: string
 ) {
   await db.post.create({
@@ -136,7 +136,7 @@ export async function createNewPost(
       title,
       content: description,
       authorId: userId,
-      spaceId: space_id,
+      spaceId,
       status: 'PUBLISHED',
       publishedAt: new Date(),
     },
@@ -147,7 +147,7 @@ export async function createDraftPost(
   db: PrismaClient,
   title: string,
   description: string,
-  space_id: string,
+  spaceId: string,
   userId: string
 ) {
   await db.post.create({
@@ -155,7 +155,7 @@ export async function createDraftPost(
       title: title || 'Untitled',
       content: description,
       authorId: userId,
-      spaceId: space_id,
+      spaceId,
       status: 'DRAFT',
       publishedAt: null,
     },
