@@ -9,6 +9,7 @@ import {
 } from '@coordinize/ui/components/dialog';
 import { SidebarMenuButton } from '@coordinize/ui/components/sidebar';
 import { LayeredHotkeys } from '@coordinize/ui/layered-hotkeys';
+import { cn } from '@coordinize/ui/lib/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { useLocalStoragePost } from '@/hooks/use-local-storage-post';
@@ -30,14 +31,12 @@ export function PostComposerDialog() {
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
   const formRef = useRef<PostComposerFormRef>(null);
-  // const methods = useFormContext<PostSchema>();
-  // const { getValues } = methods;
 
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const { data: spaces } = useSpacesQuery();
   const { data: workspace } = useCurrentWorkspaceQuery();
-  const { clearLocalStorage } = useLocalStoragePost();
+  const { clearLocalStorage, hasStoredPost } = useLocalStoragePost();
 
   const { mutate: createPost, status: isSubmitting } = useMutation(
     trpc.post.create.mutationOptions({
@@ -133,12 +132,17 @@ export function PostComposerDialog() {
         <Dialog onOpenChange={handleOpenChange} open={open}>
           <DialogTrigger asChild>
             <SidebarMenuButton
-              className="flex cursor-pointer justify-center border transition-colors duration-300 ease-in-out hover:border-ui-gray-500"
+              className={cn(
+                'relative flex cursor-pointer justify-center overflow-visible border transition-colors duration-300 ease-in-out hover:border-ui-gray-500'
+              )}
               tooltip="Create a new post"
               tooltipShortcut="c"
               variant={'outline'}
             >
               <span className="font-normal">New post</span>
+              {hasStoredPost && (
+                <span className="-right-1 -top-1 absolute h-2 w-2 rounded-full bg-ui-blue-800" />
+              )}
             </SidebarMenuButton>
           </DialogTrigger>
           <DialogContent

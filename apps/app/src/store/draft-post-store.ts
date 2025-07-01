@@ -3,6 +3,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { type PostSchema, postDefaultValues } from '@/lib/schemas/post';
+import { EMPTY_HTML } from '@/utils/markdown';
 
 export interface DraftPostData {
   title: string;
@@ -41,7 +42,9 @@ export const useDraftPostStore = create<DraftPostStore>()(
         };
 
         const hasContent = !!(
-          draftData.title.trim() || draftData.description.trim()
+          draftData.title.trim() ||
+          (draftData.description.trim() &&
+            draftData.description.trim() !== EMPTY_HTML)
         );
 
         set({
@@ -82,7 +85,9 @@ export const useDraftPostStore = create<DraftPostStore>()(
       checkHasContent: () => {
         const { draftPost } = get();
         const hasContent = !!(
-          draftPost.title.trim() || draftPost.description.trim()
+          draftPost.title.trim() ||
+          (draftPost.description.trim() &&
+            draftPost.description.trim() !== EMPTY_HTML)
         );
         set({ hasContent });
         return hasContent;
