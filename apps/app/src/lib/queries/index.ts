@@ -39,3 +39,15 @@ export async function getWorkspaceMembersQuery(workspaceId: string) {
     },
   });
 }
+
+export async function getDraftPostsQuery(userId: string) {
+  return await database.post.findMany({
+    where: {
+      authorId: userId,
+      status: 'DRAFT',
+    },
+    orderBy: {
+      updatedAt: 'desc',
+    },
+  });
+}

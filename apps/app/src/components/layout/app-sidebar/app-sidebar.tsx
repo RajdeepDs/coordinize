@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { PostComposerDialog } from '@/components/features/post-composer/post-composer-dialog';
 import { appSidebarNav } from '@/config/app-sidebar-navigation';
+import { useDraftPostsQuery } from '@/hooks/use-draft-posts';
 import { useSpacesQuery } from '@/hooks/use-space';
 import { useUserQuery } from '@/hooks/use-user';
 import { AppFooter } from './app-footer';
@@ -34,6 +35,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 export function AppSidebar({ ...props }: AppSidebarProps) {
   const { data: user } = useUserQuery();
   const { data: spaces } = useSpacesQuery();
+  const { data: draftPosts } = useDraftPostsQuery();
   const { slug } = useParams<{ slug: string }>();
   const pathname = usePathname();
 
@@ -42,6 +44,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   }
 
   const sidebarNav = appSidebarNav(slug);
+  const hasDrafts = draftPosts && draftPosts.length > 0;
 
   return (
     <Sidebar {...props} className="border-none">
@@ -56,9 +59,22 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                 <PostComposerDialog />
               </SidebarMenuItem>
               {sidebarNav.map((nav) => {
+                if (nav.conditional && nav.title === 'Draft' && !hasDrafts) {
+                  return null;
+                }
+
                 const Icon = Icons[nav.icon as keyof typeof Icons];
+                const isDraftItem = nav.conditional && nav.title === 'Draft';
+
                 return (
-                  <SidebarMenuItem key={nav.title}>
+                  <SidebarMenuItem
+                    className={
+                      isDraftItem
+                        ? 'slide-in-from-bottom-2 fade-in animate-in duration-300 ease-out'
+                        : ''
+                    }
+                    key={nav.title}
+                  >
                     <SidebarMenuButton
                       asChild
                       isActive={pathname === nav.href}

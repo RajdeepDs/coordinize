@@ -3,7 +3,7 @@ import { DialogFooter } from '@coordinize/ui/components/dialog';
 import { Input } from '@coordinize/ui/components/input';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { forwardRef, useImperativeHandle } from 'react';
 import {
   Controller,
@@ -46,6 +46,7 @@ export const PostComposerFormProvider = forwardRef<
 
 export function PostComposerForm() {
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   const { data: spaces } = useSpacesQuery();
   const { data: workspace } = useCurrentWorkspaceQuery();
 
@@ -61,7 +62,7 @@ export function PostComposerForm() {
   const { mutate, status } = useMutation(
     trpc.post.create.mutationOptions({
       onSuccess: () => {
-        // Post created successfully - could add toast notification here
+        // Post created successfully
         methods.reset();
       },
     })
@@ -69,8 +70,11 @@ export function PostComposerForm() {
 
   const { mutate: mutateDraft, status: draftStatus } = useMutation(
     trpc.post.createDraft.mutationOptions({
-      onSuccess: () => {
-        // Draft saved successfully - could add toast notification here
+      onSettled: () => {
+        // Draft saved successfully
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getDrafts.queryKey(),
+        });
         methods.reset();
       },
     })

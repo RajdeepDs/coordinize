@@ -20,6 +20,7 @@ import {
   Command,
   CreditCard,
   Ellipsis,
+  FilePenLine,
   GripVertical,
   Heading1,
   Heading2,
@@ -109,6 +110,7 @@ export const Icons = {
   heading1: Heading1,
   heading2: Heading2,
   heading3: Heading3,
+  draft: FilePenLine,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"
