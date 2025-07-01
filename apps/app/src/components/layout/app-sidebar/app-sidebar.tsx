@@ -15,6 +15,7 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
@@ -59,12 +60,12 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                 <PostComposerDialog />
               </SidebarMenuItem>
               {sidebarNav.map((nav) => {
-                if (nav.conditional && nav.title === 'Draft' && !hasDrafts) {
+                if (nav.conditional && nav.title === 'Drafts' && !hasDrafts) {
                   return null;
                 }
 
                 const Icon = Icons[nav.icon as keyof typeof Icons];
-                const isDraftItem = nav.conditional && nav.title === 'Draft';
+                const isDraftItem = nav.conditional && nav.title === 'Drafts';
 
                 return (
                   <SidebarMenuItem
@@ -86,6 +87,11 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                         <span>{nav.title}</span>
                       </Link>
                     </SidebarMenuButton>
+                    {isDraftItem && hasDrafts && (
+                      <SidebarMenuBadge className="text-muted-foreground">
+                        {draftPosts?.length}
+                      </SidebarMenuBadge>
+                    )}
                   </SidebarMenuItem>
                 );
               })}

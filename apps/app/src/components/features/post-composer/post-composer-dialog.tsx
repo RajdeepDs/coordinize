@@ -43,7 +43,7 @@ export function PostComposerDialog() {
           </DialogTrigger>
           <DialogContent className="top-[10%] flex max-h-[32rem] min-h-[16rem] translate-y-0 flex-col gap-3 p-3 shadow-xl/5 lg:max-w-3xl [&>button:last-child]:top-3.5">
             <DialogTitle className="sr-only">Compose post</DialogTitle>
-            <PostComposerForm />
+            <PostComposerForm onSuccess={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
       </PostComposerFormProvider>

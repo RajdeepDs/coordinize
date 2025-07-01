@@ -44,7 +44,11 @@ export const PostComposerFormProvider = forwardRef<
   return <FormProvider {...methods}>{children}</FormProvider>;
 });
 
-export function PostComposerForm() {
+interface PostComposerFormProps {
+  onSuccess?: () => void;
+}
+
+export function PostComposerForm({ onSuccess }: PostComposerFormProps) {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const { data: spaces } = useSpacesQuery();
@@ -86,6 +90,7 @@ export function PostComposerForm() {
       description: data.description,
       space_id: data.space_id,
     });
+    onSuccess?.();
   };
 
   const onSaveDraft = () => {
@@ -95,6 +100,7 @@ export function PostComposerForm() {
       description: currentValues.description,
       space_id: currentValues.space_id,
     });
+    onSuccess?.();
   };
 
   const canSaveDraft =
