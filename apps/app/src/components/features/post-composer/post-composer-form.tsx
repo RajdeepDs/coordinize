@@ -25,6 +25,7 @@ import { useTRPC } from '@/trpc/client';
 
 export interface InlineComposerRef {
   isDirty: boolean;
+  reset: () => void;
   clearLocalStorage: () => void;
 }
 
@@ -51,8 +52,8 @@ export const PostComposerFormProvider = forwardRef<
   // Auto-save to localStorage when form values change
   useEffect(() => {
     const subscription = methods.watch((value) => {
-      // Only save if there's actual content
       const hasContent = value.title?.trim() || value.description?.trim();
+
       if (hasContent) {
         saveToLocalStorage(value as PostSchema);
       }
@@ -60,7 +61,6 @@ export const PostComposerFormProvider = forwardRef<
     return () => subscription.unsubscribe();
   }, [methods, saveToLocalStorage]);
 
-  // Clear localStorage when form is reset (after successful submission)
   useEffect(() => {
     const originalReset = methods.reset;
     methods.reset = (...args) => {
@@ -74,8 +74,12 @@ export const PostComposerFormProvider = forwardRef<
     () => ({
       isDirty,
       clearLocalStorage,
+      reset: () => {
+        methods.reset();
+        clearLocalStorage();
+      },
     }),
-    [isDirty, clearLocalStorage]
+    [isDirty, clearLocalStorage, methods.reset]
   );
 
   return <FormProvider {...methods}>{children}</FormProvider>;
@@ -175,6 +179,7 @@ export function PostComposerForm({ onSuccess }: PostComposerFormProps) {
               <MarkdownEditor
                 {...field}
                 containerClasses="px-0 h-full"
+                content={field.value || ''}
                 onChangeDebounced={field.onChange}
                 placeholder="Write something about it..."
               />

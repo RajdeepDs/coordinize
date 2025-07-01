@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from '@coordinize/ui/components/dialog';
@@ -46,11 +47,16 @@ export function PostComposerDialog() {
 
   const handleDiscard = () => {
     formRef.current?.clearLocalStorage();
+    formRef.current?.reset();
     setShowUnsavedDialog(false);
     setOpen(false);
   };
 
   const handleSaveAsDraft = () => {
+    formRef.current?.clearLocalStorage();
+    formRef.current?.reset();
+    // Add the logic to save the post as a draft here
+
     setShowUnsavedDialog(false);
     setOpen(false);
   };
@@ -80,6 +86,9 @@ export function PostComposerDialog() {
             onClose={handleDialogClose}
           >
             <DialogTitle className="sr-only">Compose post</DialogTitle>
+            <DialogDescription className="sr-only">
+              Dialog to create a new post.
+            </DialogDescription>
             <PostComposerForm onSuccess={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
