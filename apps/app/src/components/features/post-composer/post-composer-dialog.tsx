@@ -8,17 +8,51 @@ import {
 } from '@coordinize/ui/components/dialog';
 import { SidebarMenuButton } from '@coordinize/ui/components/sidebar';
 import { LayeredHotkeys } from '@coordinize/ui/layered-hotkeys';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
+  type InlineComposerRef,
   PostComposerForm,
   PostComposerFormProvider,
 } from './post-composer-form';
+import { UnsavedChangesDialog } from './unsaved-changes-dialog';
 
 export function PostComposerDialog() {
   const [open, setOpen] = useState(false);
+  const [isClose, _] = useState(false);
+  const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
+
+  const formRef = useRef<InlineComposerRef>(null);
 
   const handleCreatePost = () => {
     setOpen(true);
+  };
+
+  const handleDialogClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (formRef.current?.isDirty) {
+      setShowUnsavedDialog(true);
+      return;
+    }
+    setOpen(false);
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!newOpen && formRef.current?.isDirty && isClose === true) {
+      setShowUnsavedDialog(true);
+      return;
+    }
+    setOpen(newOpen);
+  };
+
+  const handleDiscard = () => {
+    formRef.current?.clearLocalStorage();
+    setShowUnsavedDialog(false);
+    setOpen(false);
+  };
+
+  const handleSaveAsDraft = () => {
+    setShowUnsavedDialog(false);
+    setOpen(false);
   };
 
   return (
@@ -29,8 +63,8 @@ export function PostComposerDialog() {
         options={{ preventDefault: true }}
       />
 
-      <PostComposerFormProvider>
-        <Dialog onOpenChange={setOpen} open={open}>
+      <PostComposerFormProvider ref={formRef}>
+        <Dialog onOpenChange={handleOpenChange} open={open}>
           <DialogTrigger asChild>
             <SidebarMenuButton
               className="flex cursor-pointer justify-center border transition-colors duration-300 ease-in-out hover:border-ui-gray-500"
@@ -41,12 +75,22 @@ export function PostComposerDialog() {
               <span className="font-normal">New post</span>
             </SidebarMenuButton>
           </DialogTrigger>
-          <DialogContent className="top-[10%] flex max-h-[32rem] min-h-[16rem] translate-y-0 flex-col gap-3 p-3 shadow-xl/5 lg:max-w-3xl [&>button:last-child]:top-3.5">
+          <DialogContent
+            className="top-[10%] flex max-h-[32rem] min-h-[16rem] translate-y-0 flex-col gap-3 p-3 shadow-xl/5 lg:max-w-3xl [&>button:last-child]:top-3.5"
+            onClose={handleDialogClose}
+          >
             <DialogTitle className="sr-only">Compose post</DialogTitle>
             <PostComposerForm onSuccess={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
       </PostComposerFormProvider>
+
+      <UnsavedChangesDialog
+        onDiscard={handleDiscard}
+        onOpenChange={setShowUnsavedDialog}
+        onSaveAsDraft={handleSaveAsDraft}
+        open={showUnsavedDialog}
+      />
     </>
   );
 }

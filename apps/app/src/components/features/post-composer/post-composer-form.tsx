@@ -4,7 +4,7 @@ import { Input } from '@coordinize/ui/components/input';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useEffect, useImperativeHandle } from 'react';
 import {
   Controller,
   FormProvider,
@@ -13,6 +13,7 @@ import {
 } from 'react-hook-form';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
 import { PostComposerSpacesPicker } from '@/components/features/post-composer/post-composer-spaces-picker';
+import { useLocalStoragePost } from '@/hooks/use-local-storage-post';
 import { useSpacesQuery } from '@/hooks/use-space';
 import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
 import {
@@ -24,22 +25,58 @@ import { useTRPC } from '@/trpc/client';
 
 export interface InlineComposerRef {
   isDirty: boolean;
+  clearLocalStorage: () => void;
 }
 
 export const PostComposerFormProvider = forwardRef<
   InlineComposerRef,
   React.PropsWithChildren
 >(function InlineComposer({ children }, ref) {
-  const defaultValues = postDefaultValues;
+  const { loadFromLocalStorage, saveToLocalStorage, clearLocalStorage } =
+    useLocalStoragePost();
+
+  // Try to load from localStorage, fallback to default values
+  const getInitialValues = (): PostSchema => {
+    const savedData = loadFromLocalStorage();
+    return savedData || postDefaultValues;
+  };
 
   const methods = useForm<PostSchema>({
     resolver: zodResolver(postSchema),
-    defaultValues,
+    defaultValues: getInitialValues(),
   });
 
   const isDirty = methods.formState.isDirty;
 
-  useImperativeHandle(ref, () => ({ isDirty }), [isDirty]);
+  // Auto-save to localStorage when form values change
+  useEffect(() => {
+    const subscription = methods.watch((value) => {
+      // Only save if there's actual content
+      const hasContent = value.title?.trim() || value.description?.trim();
+      if (hasContent) {
+        saveToLocalStorage(value as PostSchema);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [methods, saveToLocalStorage]);
+
+  // Clear localStorage when form is reset (after successful submission)
+  useEffect(() => {
+    const originalReset = methods.reset;
+    methods.reset = (...args) => {
+      clearLocalStorage();
+      return originalReset(...args);
+    };
+  }, [methods, clearLocalStorage]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      isDirty,
+      clearLocalStorage,
+    }),
+    [isDirty, clearLocalStorage]
+  );
 
   return <FormProvider {...methods}>{children}</FormProvider>;
 });
@@ -53,6 +90,7 @@ export function PostComposerForm({ onSuccess }: PostComposerFormProps) {
   const queryClient = useQueryClient();
   const { data: spaces } = useSpacesQuery();
   const { data: workspace } = useCurrentWorkspaceQuery();
+  const { clearLocalStorage } = useLocalStoragePost();
 
   const methods = useFormContext<PostSchema>();
   const { control, handleSubmit, watch } = methods;
@@ -67,6 +105,7 @@ export function PostComposerForm({ onSuccess }: PostComposerFormProps) {
     trpc.post.create.mutationOptions({
       onSuccess: () => {
         // Post created successfully
+        clearLocalStorage();
         methods.reset();
       },
     })
@@ -79,6 +118,7 @@ export function PostComposerForm({ onSuccess }: PostComposerFormProps) {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getDrafts.queryKey(),
         });
+        clearLocalStorage();
         methods.reset();
       },
     })
