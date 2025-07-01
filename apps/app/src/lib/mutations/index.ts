@@ -123,3 +123,41 @@ export async function createNewSpace(
     },
   });
 }
+
+export async function createNewPost(
+  db: PrismaClient,
+  title: string,
+  description: string,
+  spaceId: string,
+  userId: string
+) {
+  await db.post.create({
+    data: {
+      title,
+      content: description,
+      authorId: userId,
+      spaceId,
+      status: 'PUBLISHED',
+      publishedAt: new Date(),
+    },
+  });
+}
+
+export async function createDraftPost(
+  db: PrismaClient,
+  title: string,
+  description: string,
+  spaceId: string,
+  userId: string
+) {
+  await db.post.create({
+    data: {
+      title: title || 'Untitled',
+      content: description,
+      authorId: userId,
+      spaceId,
+      status: 'DRAFT',
+      publishedAt: null,
+    },
+  });
+}

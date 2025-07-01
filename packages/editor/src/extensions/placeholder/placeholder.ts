@@ -1,6 +1,7 @@
 import { Placeholder as placeholder } from '@tiptap/extensions/placeholder';
 
 export const Placeholder = placeholder.configure({
+  emptyEditorClass: 'is-editor-empty',
   placeholder: ({ node }) => {
     switch (node.type.name) {
       case 'heading':

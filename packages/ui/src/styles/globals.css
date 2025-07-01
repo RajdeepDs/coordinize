@@ -244,7 +244,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--ui-gray-400);
-  --color-input: var(--ui-gray-400);
+  --color-input: var(--ui-gray-100);
   --color-ring: var(--ui-gray-500);
 
   --color-sidebar: var(--color-background-200);

@@ -4,6 +4,7 @@ export type NavItem = {
   icon: string;
   tooltip?: string;
   tooltipShortcut?: string;
+  conditional?: boolean;
 };
 
 export const appSidebarNav = (slug: string): NavItem[] => [
@@ -20,5 +21,13 @@ export const appSidebarNav = (slug: string): NavItem[] => [
     icon: 'inbox',
     tooltip: 'Go to Inbox',
     tooltipShortcut: 'g+i',
+  },
+  {
+    title: 'Drafts',
+    href: `/${slug}/drafts`,
+    icon: 'draft',
+    tooltip: 'Go to Drafts',
+    tooltipShortcut: 'g+d',
+    conditional: true,
   },
 ];

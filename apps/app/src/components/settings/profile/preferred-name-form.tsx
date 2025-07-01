@@ -51,7 +51,7 @@ export function PreferredNameForm({ name }: PreferredNameFormProps) {
               <FormControl>
                 <Input
                   {...field}
-                  className={name && 'bg-muted'}
+                  className={name && 'bg-input'}
                   onBlur={async () => {
                     field.onBlur();
                     const isValid = await form.trigger('preferredName');

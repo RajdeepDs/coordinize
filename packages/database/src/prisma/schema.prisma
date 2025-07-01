@@ -40,6 +40,8 @@ model User {
   NotificationPreference NotificationPreference[]
   Space                  Space[]
   SpaceMember            SpaceMember[]
+  Post                   Post[]                   @relation("AuthoredPosts")
+  ResolvedPost           Post[]                   @relation("ResolvedBy")
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -167,8 +169,9 @@ model Space {
   workspace Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   creator   User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   members   SpaceMember[]
+  Post      Post[]
 
-  @@unique([identifier])
+  @@unique([identifier, workspaceId])
   @@index([workspaceId])
   @@index([createdBy])
   @@map("space")
@@ -188,4 +191,33 @@ model SpaceMember {
   @@index([spaceId])
   @@index([userId])
   @@map("spaceMember")
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Post {
+  id             String     @id @default(cuid())
+  title          String
+  content        String?
+  authorId       String
+  spaceId        String
+  status         PostStatus @default(PUBLISHED)
+  publishedAt    DateTime?
+  resolvedAt     DateTime?
+  resolvedById   String?
+  lastActivityAt DateTime   @default(now())
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  author     User  @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
+  space      Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  resolvedBy User? @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
+
+  @@index([authorId])
+  @@index([spaceId])
+  @@index([resolvedById])
+  @@map("post")
 }

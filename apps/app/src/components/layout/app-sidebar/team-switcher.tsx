@@ -29,15 +29,12 @@ import {
   useSidebar,
 } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
-import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { redirect, useParams } from 'next/navigation';
-import { useTRPC } from '@/trpc/client';
+import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
 
 export function TeamSwitcher({ email }: { email: string }) {
-  const trpc = useTRPC();
-  const { data: workspace } = useQuery(trpc.workspace.current.queryOptions());
-
+  const { data: workspace } = useCurrentWorkspaceQuery();
   const params = useParams<{ slug: string }>();
   const { isMobile } = useSidebar();
 
