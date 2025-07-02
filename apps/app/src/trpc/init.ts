@@ -24,6 +24,20 @@ export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const publicProcedure = t.procedure;
 
+export const authenticatedProcedure = t.procedure.use((opts) => {
+  const { session } = opts.ctx;
+
+  if (!session) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  return opts.next({
+    ctx: {
+      session,
+    },
+  });
+});
+
 export const protectedProcedure = t.procedure.use(async (opts) => {
   const { session } = opts.ctx;
 

@@ -10,10 +10,10 @@ import {
   welcomeStepSchema,
   workspaceSetupStepSchema,
 } from '@/lib/schemas';
-import { createTRPCRouter, protectedProcedure } from '../init';
+import { authenticatedProcedure, createTRPCRouter } from '../init';
 
 export const onboardingRouter = createTRPCRouter({
-  welcome: protectedProcedure
+  welcome: authenticatedProcedure
     .input(welcomeStepSchema)
     .mutation(async ({ input, ctx: { db, session } }) => {
       const { preferredName, profilePicURL } = input;
@@ -21,7 +21,7 @@ export const onboardingRouter = createTRPCRouter({
       await welcomeStep(db, preferredName, profilePicURL, session.user.id);
     }),
 
-  workspaceSetup: protectedProcedure
+  workspaceSetup: authenticatedProcedure
     .input(workspaceSetupStepSchema)
     .mutation(async ({ input, ctx: { db, session } }) => {
       const { workspaceName, workspaceSlug, workspaceLogoURL } = input;
@@ -43,7 +43,7 @@ export const onboardingRouter = createTRPCRouter({
       });
     }),
 
-  preferences: protectedProcedure
+  preferences: authenticatedProcedure
     .input(preferencesStepSchema)
     .mutation(async ({ input, ctx: { db, session } }) => {
       const { emailNotifications, pushNotifications, timezone } = input;
