@@ -1,9 +1,13 @@
 import { z } from 'zod';
 import { getUserQuery } from '@/lib/queries';
-import { createTRPCRouter, protectedProcedure } from '../init';
+import {
+  authenticatedProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+} from '../init';
 
 export const userRouter = createTRPCRouter({
-  me: protectedProcedure.query(async ({ ctx: { session } }) => {
+  me: authenticatedProcedure.query(async ({ ctx: { session } }) => {
     return await getUserQuery(session.user.id);
   }),
   updateStatusEmoji: protectedProcedure
