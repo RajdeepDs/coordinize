@@ -129,7 +129,8 @@ export async function createNewPost(
   title: string,
   description: string,
   spaceId: string,
-  userId: string
+  userId: string,
+  workspaceId: string
 ) {
   await db.post.create({
     data: {
@@ -137,6 +138,7 @@ export async function createNewPost(
       content: description,
       authorId: userId,
       spaceId,
+      workspaceId,
       status: 'PUBLISHED',
       publishedAt: new Date(),
     },
@@ -148,7 +150,8 @@ export async function createDraftPost(
   title: string,
   description: string,
   spaceId: string,
-  userId: string
+  userId: string,
+  workspaceId: string
 ) {
   await db.post.create({
     data: {
@@ -156,6 +159,7 @@ export async function createDraftPost(
       content: description,
       authorId: userId,
       spaceId,
+      workspaceId,
       status: 'DRAFT',
       publishedAt: null,
     },

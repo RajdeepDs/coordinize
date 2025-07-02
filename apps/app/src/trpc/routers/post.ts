@@ -10,15 +10,22 @@ export const postRouter = createTRPCRouter({
   }),
   create: protectedProcedure
     .input(postSchema)
-    .mutation(async ({ input, ctx: { db, session } }) => {
+    .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
       const { title, description, space_id } = input;
 
-      await createNewPost(db, title, description, space_id, session.user.id);
+      await createNewPost(
+        db,
+        title,
+        description,
+        space_id,
+        session.user.id,
+        workspaceId
+      );
     }),
 
   createDraft: protectedProcedure
     .input(draftPostSchema)
-    .mutation(async ({ input, ctx: { db, session } }) => {
+    .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
       const { title, description, space_id } = input;
 
       await createDraftPost(
@@ -26,7 +33,8 @@ export const postRouter = createTRPCRouter({
         title || '',
         description || '',
         space_id,
-        session.user.id
+        session.user.id,
+        workspaceId
       );
     }),
 });
