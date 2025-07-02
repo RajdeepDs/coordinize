@@ -1,9 +1,19 @@
 import { createDraftPost, createNewPost } from '@/lib/mutations';
-import { getDraftPostsQuery } from '@/lib/queries';
+import { getDraftPostsQuery, getPublishedPostsQuery } from '@/lib/queries';
 import { draftPostSchema, postSchema } from '@/lib/schemas/post';
 import { createTRPCRouter, protectedProcedure } from '../init';
 
 export const postRouter = createTRPCRouter({
+  getAllPublished: protectedProcedure.query(
+    async ({ ctx: { session, workspaceId } }) => {
+      const publishedPosts = await getPublishedPostsQuery(
+        session.user.id,
+        workspaceId
+      );
+
+      return publishedPosts;
+    }
+  ),
   getDrafts: protectedProcedure.query(async ({ ctx: { session } }) => {
     const draftPosts = await getDraftPostsQuery(session.user.id);
     return draftPosts;
