@@ -1,12 +1,18 @@
-import type { Post } from '@coordinize/database/db';
-import { Label } from '@coordinize/ui/components/label';
-import { Separator } from '@coordinize/ui/components/separator';
-import { isThisWeek, isToday, isYesterday } from 'date-fns';
+import type { Post, Space, User } from '@coordinize/database/db';
+import { isToday, isYesterday } from 'date-fns';
 import type { Metadata } from 'next';
 import { ActivitySection } from '@/components/features/activity/activity-section';
+import { PostItem } from '@/components/features/activity/post-item';
 import { AppHeader } from '@/components/layout/app-header';
 import { TeamsSidebar } from '@/components/layout/teams-sidebar/teams-sidebar';
+import { DaySeparator } from '@/components/ui/day-seperator';
 import { getQueryClient, trpc } from '@/trpc/server';
+import { formatDate } from '@/utils/format-date';
+
+type PostWithRelations = Post & {
+  space: Pick<Space, 'id' | 'name' | 'identifier'> | null;
+  author: Pick<User, 'id' | 'name' | 'image'> | null;
+};
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -31,15 +37,14 @@ export default async function Home() {
     if (isYesterday(date)) {
       return 'Yesterday';
     }
-    if (isThisWeek(date)) {
-      return 'This Week';
-    }
 
-    return 'Older';
+    return formatDate(date);
   }
 
-  function groupPostsByDate(posts: Post[]) {
-    const groups: Record<string, typeof posts> = {};
+  function groupPostsByDate(
+    posts: PostWithRelations[]
+  ): Record<string, PostWithRelations[]> {
+    const groups: Record<string, PostWithRelations[]> = {};
 
     for (const post of posts) {
       if (!post.publishedAt) {
@@ -56,22 +61,31 @@ export default async function Home() {
 
     return groups;
   }
-  const groupedPosts = groupPostsByDate(getAllPublishedPosts);
 
-  console.log({ groupedPosts });
+  const groupedPosts = groupPostsByDate(getAllPublishedPosts);
 
   return (
     <div className="flex h-full w-full gap-1.5 overflow-hidden">
       <div className="flex-1 rounded border bg-background">
         <AppHeader />
         <ActivitySection>
-          {/* Day separator */}
-          <div className="flex w-full items-center gap-2">
-            <Label className="font-normal text-muted-foreground">Today</Label>
-            <Separator className="flex-1 data-[orientation=horizontal]:w-full" />
-          </div>
-          {/* List of posts */}
-          {/* The post contains - post created user image, title, latest comment and space label */}
+          {Object.entries(groupedPosts).map(([dateLabel, posts]) => (
+            <div className="flex flex-col gap-6" key={dateLabel}>
+              <DaySeparator label={dateLabel} />
+              <div className="flex flex-col gap-4">
+                {posts.map((post) => (
+                  <PostItem
+                    authorName={post.author?.name || 'Unknown Author'}
+                    description={post.content || undefined}
+                    key={post.id}
+                    spaceName={post.space?.name || 'Unknown Space'}
+                    title={post.title}
+                    userImage={post.author?.image || undefined}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </ActivitySection>
       </div>
       <TeamsSidebar />
