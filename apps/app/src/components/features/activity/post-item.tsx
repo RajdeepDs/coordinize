@@ -18,7 +18,7 @@ export function PostItem({
   description,
 }: PostItemProps) {
   return (
-    <div className="flex h-12 items-center gap-2 rounded-md px-3 hover:bg-accent">
+    <div className="flex h-12 items-center gap-3 rounded-md px-3 hover:bg-accent">
       {userImage && (
         <AvatarStatus
           alt={authorName}
