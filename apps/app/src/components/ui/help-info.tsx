@@ -5,8 +5,10 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@coordinize/ui/components/dropdown-menu';
+import { KeyboardShortcut } from '@coordinize/ui/components/keyboard-shortcut';
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -15,7 +17,11 @@ import { Icons } from '@coordinize/ui/lib/icons';
 import { Fragment } from 'react';
 import { helpNav } from '@/config/help-nav';
 
-export function HelpInfo() {
+interface HelpInfoProps {
+  align?: 'start' | 'end' | 'center';
+}
+
+export function HelpInfo({ align = 'end' }: HelpInfoProps) {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -29,7 +35,7 @@ export function HelpInfo() {
               <Icons.help />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" side="top">
+          <DropdownMenuContent align={align} className="w-[14rem]" side="top">
             {helpNav.map((block) => (
               <Fragment key={block.index}>
                 <DropdownMenuGroup>
@@ -39,6 +45,15 @@ export function HelpInfo() {
                       <DropdownMenuItem key={item.title}>
                         <Icon />
                         {item.title}
+                        {item.shortcut ? (
+                          <DropdownMenuShortcut className="ml-auto">
+                            <KeyboardShortcut
+                              className="border-none"
+                              keysClassName="text-[1em]"
+                              shortcut={item.shortcut}
+                            />
+                          </DropdownMenuShortcut>
+                        ) : null}
                       </DropdownMenuItem>
                     );
                   })}

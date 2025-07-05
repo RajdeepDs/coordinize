@@ -3,9 +3,9 @@ export const helpNav = [
     index: 1,
     items: [
       {
-        title: 'Onboarding',
-        href: '/onboarding',
-        icon: 'circleAlert',
+        title: 'Shortcuts',
+        icon: 'keyboard',
+        shortcut: 'Ctrl + /',
       },
       {
         title: 'Documentations',
@@ -16,15 +16,6 @@ export const helpNav = [
   },
   {
     index: 2,
-    items: [
-      {
-        title: 'Shortcuts',
-        icon: 'keyboard',
-      },
-    ],
-  },
-  {
-    index: 3,
     items: [
       {
         title: 'Changelog',
