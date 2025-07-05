@@ -119,6 +119,7 @@ model Workspace {
   creator         User              @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   WorkspaceMember WorkspaceMember[]
   Space           Space[]
+  Post            Post[]
 
   @@index([createdBy])
   @@map("workspace")
@@ -204,6 +205,7 @@ model Post {
   content        String?
   authorId       String
   spaceId        String
+  workspaceId    String
   status         PostStatus @default(PUBLISHED)
   publishedAt    DateTime?
   resolvedAt     DateTime?
@@ -211,13 +213,16 @@ model Post {
   lastActivityAt DateTime   @default(now())
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+  pinned         Boolean    @default(false)
 
-  author     User  @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
-  space      Space @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  resolvedBy User? @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
+  workspace  Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  author     User      @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
+  space      Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  resolvedBy User?     @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
 
   @@index([authorId])
   @@index([spaceId])
   @@index([resolvedById])
+  @@index([workspaceId])
   @@map("post")
 }

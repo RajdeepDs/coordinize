@@ -51,3 +51,31 @@ export async function getDraftPostsQuery(userId: string) {
     },
   });
 }
+
+export async function getPublishedPostsQuery(
+  authorId: string,
+  workspaceId: string
+) {
+  return await database.post.findMany({
+    where: {
+      workspaceId,
+      authorId,
+      AND: {
+        status: 'PUBLISHED',
+      },
+    },
+    orderBy: {
+      publishedAt: 'desc',
+    },
+    include: {
+      space: {
+        select: {
+          id: true,
+          name: true,
+          identifier: true,
+        },
+      },
+      author: { select: { id: true, name: true, image: true } },
+    },
+  });
+}
