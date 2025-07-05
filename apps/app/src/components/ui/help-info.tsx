@@ -17,7 +17,11 @@ import { Icons } from '@coordinize/ui/lib/icons';
 import { Fragment } from 'react';
 import { helpNav } from '@/config/help-nav';
 
-export function HelpInfo() {
+interface HelpInfoProps {
+  align?: 'start' | 'end' | 'center';
+}
+
+export function HelpInfo({ align = 'end' }: HelpInfoProps) {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -31,7 +35,7 @@ export function HelpInfo() {
               <Icons.help />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[14rem]" side="top">
+          <DropdownMenuContent align={align} className="w-[14rem]" side="top">
             {helpNav.map((block) => (
               <Fragment key={block.index}>
                 <DropdownMenuGroup>

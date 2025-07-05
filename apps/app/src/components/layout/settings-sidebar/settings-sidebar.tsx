@@ -75,7 +75,7 @@ export function SettingsSidebar({ nav }: SettingsSidebarProps) {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <HelpInfo />
+        <HelpInfo align="start" />
       </SidebarFooter>
     </Sidebar>
   );
