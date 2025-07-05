@@ -1,4 +1,5 @@
 import AvatarStatus from '@/components/ui/avatar-status';
+import { Dot } from '@/components/ui/dot';
 import { stripHtml } from '@/utils/strip-html';
 
 interface PostItemProps {
@@ -29,7 +30,7 @@ export function PostItem({
       <div className="flex min-w-0 flex-1 flex-col gap-0">
         <div className="flex min-w-0 select-none items-center gap-2">
           <h1 className="truncate font-medium text-[15px]">{title}</h1>
-          <span className="size-1 flex-shrink-0 rounded-full bg-primary" />
+          <Dot />
           <p className="truncate font-medium text-[15px]">{spaceName}</p>
         </div>
         <p className="line-clamp-1 text-sm text-ui-gray-900">
