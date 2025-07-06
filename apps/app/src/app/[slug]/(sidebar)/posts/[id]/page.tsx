@@ -1,6 +1,11 @@
+import { Button } from '@coordinize/ui/components/button';
+import { Separator } from '@coordinize/ui/components/separator';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { cn } from '@coordinize/ui/lib/utils';
 import { ActivitySection } from '@/components/features/activity/activity-section';
-import { PostHeader } from '@/components/layout/post/post-header';
-import { PostMetadata } from '@/components/layout/post/post-metadata';
+import { PostContent } from '@/components/features/post/post-content';
+import { PostHeader } from '@/components/features/post/post-header';
+import { PostMetadata } from '@/components/features/post/post-metadata';
 import { getQueryClient, trpc } from '@/trpc/server';
 
 export default async function PostPage({
@@ -27,6 +32,16 @@ export default async function PostPage({
                 userImage={post.author.image || ''}
                 userName={post.author.name}
               />
+              <PostContent content={post.content} title={post.title} />
+              <Button
+                className={cn('size-7 rounded-sm text-muted-foreground')}
+                size={'icon'}
+                tooltip="Add a reaction"
+                variant={'ghost'}
+              >
+                <Icons.emojiPlus size={16} />
+              </Button>
+              <Separator />
             </ActivitySection>
           </>
         ) : (
