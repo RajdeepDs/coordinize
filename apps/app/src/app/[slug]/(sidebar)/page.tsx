@@ -24,6 +24,10 @@ export default async function Home() {
     trpc.post.getAllPublished.queryOptions()
   );
 
+  const currentWorkspace = await queryClient.fetchQuery(
+    trpc.workspace.current.queryOptions()
+  );
+
   function getDateLabel(publishedAt: Date | null): string {
     if (!publishedAt) {
       return 'Older';
@@ -77,10 +81,12 @@ export default async function Home() {
                   <PostItem
                     authorName={post.author?.name || 'Unknown Author'}
                     description={post.content || undefined}
+                    id={post.id}
                     key={post.id}
                     spaceName={post.space?.name || 'Unknown Space'}
                     title={post.title}
                     userImage={post.author?.image || undefined}
+                    workspaceSlug={currentWorkspace?.slug || ''}
                   />
                 ))}
               </div>

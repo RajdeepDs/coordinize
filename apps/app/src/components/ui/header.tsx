@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { WordLogo } from '@/components/ui/word-logo';
-import { WEB_URL } from '@/utils/lib';
+import { WEB_URL } from '@/utils/slugify';
 
 interface HeaderProps {
   readonly children?: React.ReactNode;
