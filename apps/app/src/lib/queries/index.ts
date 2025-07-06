@@ -79,3 +79,19 @@ export async function getPublishedPostsQuery(
     },
   });
 }
+
+export async function getPostByIdQuery(postId: string) {
+  return await database.post.findUnique({
+    where: { id: postId },
+    include: {
+      space: {
+        select: {
+          id: true,
+          name: true,
+          identifier: true,
+        },
+      },
+      author: { select: { id: true, name: true, image: true } },
+    },
+  });
+}

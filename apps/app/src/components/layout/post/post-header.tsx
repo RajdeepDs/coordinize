@@ -32,7 +32,10 @@ export function PostHeader({ space, title }: PostHeaderProps) {
             {space}
           </Label>
           <span className="text-ui-gray-900">/</span>
-          <Label className="font-normal">{title}</Label>
+          <Label className="font-normal">
+            {title.split(' ').slice(0, 10).join(' ')}
+            {title.split(' ').length > 10 && '...'}
+          </Label>
         </div>
         <div className="flex items-center gap-2">
           <Button

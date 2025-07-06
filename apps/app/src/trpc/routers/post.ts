@@ -1,5 +1,10 @@
+import { z } from 'zod';
 import { createDraftPost, createNewPost } from '@/lib/mutations';
-import { getDraftPostsQuery, getPublishedPostsQuery } from '@/lib/queries';
+import {
+  getDraftPostsQuery,
+  getPostByIdQuery,
+  getPublishedPostsQuery,
+} from '@/lib/queries';
 import { draftPostSchema, postSchema } from '@/lib/schemas/post';
 import { createTRPCRouter, protectedProcedure } from '../init';
 
@@ -14,10 +19,21 @@ export const postRouter = createTRPCRouter({
       return publishedPosts;
     }
   ),
+
+  getPostById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input }) => {
+      const { id } = input;
+      const post = await getPostByIdQuery(id);
+
+      return post;
+    }),
+
   getDrafts: protectedProcedure.query(async ({ ctx: { session } }) => {
     const draftPosts = await getDraftPostsQuery(session.user.id);
     return draftPosts;
   }),
+
   create: protectedProcedure
     .input(postSchema)
     .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
