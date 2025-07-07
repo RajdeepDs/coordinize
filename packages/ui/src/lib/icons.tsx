@@ -9,6 +9,7 @@ import {
   Calendar,
   CaseSensitive,
   Check,
+  CheckCircle2,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -29,6 +30,8 @@ import {
   Inbox,
   Italic,
   Keyboard,
+  Link,
+  Link2,
   List,
   ListOrdered,
   ListTodo,
@@ -111,6 +114,9 @@ export const Icons = {
   heading2: Heading2,
   heading3: Heading3,
   draft: FilePenLine,
+  resolve: CheckCircle2,
+  link: Link,
+  link2: Link2,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"

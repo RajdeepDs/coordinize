@@ -9,9 +9,16 @@ import { cn } from '@coordinize/ui/lib/utils';
 interface PostHeaderProps {
   space: string;
   title: string;
+  openDetails: boolean;
+  onOpenDetails: (open: boolean) => void;
 }
 
-export function PostHeader({ space, title }: PostHeaderProps) {
+export function PostHeader({
+  space,
+  title,
+  openDetails,
+  onOpenDetails,
+}: PostHeaderProps) {
   const { isMobile, state } = useSidebar();
 
   return (
@@ -66,9 +73,13 @@ export function PostHeader({ space, title }: PostHeaderProps) {
           <Icons.bell />
         </Button>
         <Button
-          className={cn('size-7 rounded-sm text-muted-foreground')}
+          className={cn(
+            'size-7 rounded-sm text-muted-foreground focus-visible:ring-0'
+          )}
+          onClick={() => onOpenDetails(!openDetails)}
           size={'icon'}
-          tooltip="Open details"
+          tooltip={openDetails ? 'Close details' : 'Open details'}
+          tooltipShortcut="]"
           variant={'ghost'}
         >
           <Icons.panelRight />
