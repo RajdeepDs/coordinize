@@ -76,20 +76,15 @@ export function PostPageContent({ post }: PostPageContentProps) {
           </ActivitySection>
         </div>
       </div>
-
       <div
         className={cn(
-          'relative bg-transparent transition-[width] duration-200 ease-linear',
+          'relative overflow-hidden bg-transparent transition-[width] duration-200 ease-linear',
           openDetails ? 'w-60' : 'w-0'
         )}
-      />
-      <div
-        className={cn(
-          'fixed inset-y-0 right-0 z-10 h-svh w-60 transition-[right] duration-200 ease-linear',
-          openDetails ? 'right-0' : 'right-[-20rem]'
-        )}
       >
-        <PostSidebar spaceName={post.space.name} />
+        <div className="h-full w-60">
+          <PostSidebar spaceName={post.space.name} />
+        </div>
       </div>
     </div>
   );
