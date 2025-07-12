@@ -41,6 +41,9 @@ export function PostComposerDialog() {
   const { mutate: createPost, status: isSubmitting } = useMutation(
     trpc.post.create.mutationOptions({
       onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getAllPublished.queryKey(),
+        });
         clearLocalStorage();
         formRef.current?.reset();
         setOpen(false);
@@ -50,7 +53,7 @@ export function PostComposerDialog() {
 
   const { mutate: createDraft, status: isDraftSaving } = useMutation(
     trpc.post.createDraft.mutationOptions({
-      onSettled: () => {
+      onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getDrafts.queryKey(),
         });

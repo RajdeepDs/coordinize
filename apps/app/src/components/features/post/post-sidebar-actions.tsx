@@ -21,12 +21,12 @@ export function PostSidebarActions({ postId }: { postId: string }) {
     trpc.post.delete.mutationOptions({
       onSuccess: () => {
         toast.success('Post deleted successfully.');
-      },
-      onSettled: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
-        router.push('/home');
+      },
+      onSettled: () => {
+        router.back();
       },
     })
   );
@@ -35,12 +35,12 @@ export function PostSidebarActions({ postId }: { postId: string }) {
     trpc.post.resolve.mutationOptions({
       onSuccess: () => {
         toast.success('Post resolved successfully.');
-      },
-      onSettled: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
-        router.push('/home');
+      },
+      onSettled: () => {
+        router.back();
       },
     })
   );
@@ -49,12 +49,12 @@ export function PostSidebarActions({ postId }: { postId: string }) {
     trpc.post.archive.mutationOptions({
       onSuccess: () => {
         toast.success('Post archived successfully.');
-      },
-      onSettled: () => {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
-        router.push('/home');
+      },
+      onSettled: () => {
+        router.back();
       },
     })
   );
