@@ -40,6 +40,7 @@
     "novel": "^1.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-use": "^17.6.0",
     "superjson": "^2.2.2",
     "ua-parser-js": "^2.0.3",
     "use-debounce": "^10.0.5",
