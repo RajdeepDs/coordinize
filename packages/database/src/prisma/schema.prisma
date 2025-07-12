@@ -214,6 +214,7 @@ model Post {
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   pinned         Boolean    @default(false)
+  archived       Boolean    @default(false)
 
   workspace  Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   author     User      @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)

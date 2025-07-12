@@ -15,9 +15,10 @@ import { SpaceGroup } from './space-group';
 
 interface PostSidebarProps {
   spaceName: string;
+  postId: string;
 }
 
-export function PostSidebar({ spaceName }: PostSidebarProps) {
+export function PostSidebar({ spaceName, postId }: PostSidebarProps) {
   return (
     <div className="flex h-full w-full flex-col bg-sidebar">
       <Sidebar
@@ -39,9 +40,9 @@ export function PostSidebar({ spaceName }: PostSidebarProps) {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>
-          <PostSidebarActions />
+          <PostSidebarActions postId={postId} />
         </SidebarContent>
-        <PostSidebarFooter />
+        <PostSidebarFooter postId={postId} />
       </Sidebar>
     </div>
   );

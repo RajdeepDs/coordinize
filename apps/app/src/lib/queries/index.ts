@@ -62,6 +62,8 @@ export async function getPublishedPostsQuery(
       authorId,
       AND: {
         status: 'PUBLISHED',
+        resolvedAt: null,
+        archived: false,
       },
     },
     orderBy: {
