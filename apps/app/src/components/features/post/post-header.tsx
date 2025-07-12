@@ -63,28 +63,18 @@ export function PostHeader({
           </Button>
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <Button
-          className={cn('size-7 rounded-sm text-muted-foreground')}
-          size={'icon'}
-          tooltip="Notifications"
-          variant={'ghost'}
-        >
-          <Icons.bell />
-        </Button>
-        <Button
-          className={cn(
-            'size-7 rounded-sm text-muted-foreground focus-visible:ring-0'
-          )}
-          onClick={() => onOpenDetails(!openDetails)}
-          size={'icon'}
-          tooltip={openDetails ? 'Close details' : 'Open details'}
-          tooltipShortcut="]"
-          variant={'ghost'}
-        >
-          <Icons.panelRight />
-        </Button>
-      </div>
+      <Button
+        className={cn(
+          'size-7 rounded-sm text-muted-foreground focus-visible:ring-0'
+        )}
+        onClick={() => onOpenDetails(!openDetails)}
+        size={'icon'}
+        tooltip={openDetails ? 'Close details' : 'Open details'}
+        tooltipShortcut="]"
+        variant={'ghost'}
+      >
+        <Icons.panelRight />
+      </Button>
     </header>
   );
 }
