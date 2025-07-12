@@ -63,4 +63,14 @@ export const postRouter = createTRPCRouter({
         workspaceId
       );
     }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx: { db } }) => {
+      const { id } = input;
+
+      await db.post.delete({
+        where: { id },
+      });
+    }),
 });

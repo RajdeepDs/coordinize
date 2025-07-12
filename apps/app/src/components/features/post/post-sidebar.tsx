@@ -40,7 +40,7 @@ export function PostSidebar({ spaceName, postId }: PostSidebarProps) {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>
-          <PostSidebarActions />
+          <PostSidebarActions postId={postId} />
         </SidebarContent>
         <PostSidebarFooter postId={postId} />
       </Sidebar>
