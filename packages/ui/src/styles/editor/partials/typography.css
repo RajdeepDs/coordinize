@@ -7,6 +7,10 @@
     @apply m-0 first:mt-0 last:mb-0;
   }
 
+  * > strong {
+    @apply font-medium;
+  }
+
   h1 {
     @apply text-xl;
   }
@@ -22,7 +26,7 @@
   h1,
   h2,
   h3 {
-    @apply font-semibold first:mt-0 last:mb-0 mt-0 mb-2.5;
+    @apply font-medium first:mt-0 last:mb-0 mt-0 mb-2.5;
   }
 
   a.link {
