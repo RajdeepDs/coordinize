@@ -83,4 +83,15 @@ export const postRouter = createTRPCRouter({
         data: { resolvedById: session.user.id, resolvedAt: new Date() },
       });
     }),
+
+  archive: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx: { db } }) => {
+      const { id } = input;
+
+      await db.post.update({
+        where: { id },
+        data: { archived: true },
+      });
+    }),
 });

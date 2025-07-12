@@ -45,12 +45,30 @@ export function PostSidebarActions({ postId }: { postId: string }) {
     })
   );
 
+  const { mutate: archivePost } = useMutation(
+    trpc.post.archive.mutationOptions({
+      onSuccess: () => {
+        toast.success('Post archived successfully.');
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getAllPublished.queryKey(),
+        });
+        router.push('/home');
+      },
+    })
+  );
+
   function handleDelete() {
     deletePost({ id: postId });
   }
 
   function handleResolve() {
     resolvePost({ id: postId });
+  }
+
+  function handleArchive() {
+    archivePost({ id: postId });
   }
 
   return (
@@ -62,9 +80,8 @@ export function PostSidebarActions({ postId }: { postId: string }) {
             <span>Resolve post</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
-        {/* TODO: Add archive post functionality */}
-        <SidebarMenuItem>
-          <SidebarMenuButton disabled>
+        <SidebarMenuItem onClick={() => handleArchive()}>
+          <SidebarMenuButton>
             <Icons.archive />
             <span>Archive post</span>
           </SidebarMenuButton>
