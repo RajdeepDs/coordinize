@@ -20,7 +20,21 @@ export function PostSidebarActions({ postId }: { postId: string }) {
   const { mutate: deletePost } = useMutation(
     trpc.post.delete.mutationOptions({
       onSuccess: () => {
-        toast.success('Post deleted successfully');
+        toast.success('Post deleted successfully.');
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getAllPublished.queryKey(),
+        });
+        router.push('/home');
+      },
+    })
+  );
+
+  const { mutate: resolvePost } = useMutation(
+    trpc.post.resolve.mutationOptions({
+      onSuccess: () => {
+        toast.success('Post resolved successfully.');
       },
       onSettled: () => {
         queryClient.invalidateQueries({
@@ -35,10 +49,14 @@ export function PostSidebarActions({ postId }: { postId: string }) {
     deletePost({ id: postId });
   }
 
+  function handleResolve() {
+    resolvePost({ id: postId });
+  }
+
   return (
     <SidebarGroup className="pl-0">
       <SidebarMenu>
-        <SidebarMenuItem>
+        <SidebarMenuItem onClick={() => handleResolve()}>
           <SidebarMenuButton>
             <Icons.resolve />
             <span>Resolve post</span>

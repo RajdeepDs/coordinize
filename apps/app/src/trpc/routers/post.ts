@@ -73,4 +73,14 @@ export const postRouter = createTRPCRouter({
         where: { id },
       });
     }),
+  resolve: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx: { db, session } }) => {
+      const { id } = input;
+
+      await db.post.update({
+        where: { id },
+        data: { resolvedById: session.user.id, resolvedAt: new Date() },
+      });
+    }),
 });
