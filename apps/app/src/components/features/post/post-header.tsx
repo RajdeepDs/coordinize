@@ -5,6 +5,7 @@ import { Label } from '@coordinize/ui/components/label';
 import { SidebarTrigger, useSidebar } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { cn } from '@coordinize/ui/lib/utils';
+import { PostOptions } from './post-options';
 
 interface PostHeaderProps {
   space: string;
@@ -44,37 +45,30 @@ export function PostHeader({
             {title.split(' ').length > 10 && '...'}
           </Label>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            className={cn('size-7 rounded-sm text-muted-foreground')}
-            size={'icon'}
-            tooltip="More options"
-            variant={'ghost'}
-          >
-            <Icons.ellipsis />
-          </Button>
-          <Button
-            className={cn('size-7 rounded-sm text-muted-foreground')}
-            size={'icon'}
-            tooltip="Add to your favorites"
-            variant={'ghost'}
-          >
-            <Icons.star />
-          </Button>
-        </div>
+        <Button
+          className={cn('size-7 rounded-sm text-muted-foreground')}
+          size={'icon'}
+          tooltip="Add to your favorites"
+          variant={'ghost'}
+        >
+          <Icons.star />
+        </Button>
       </div>
-      <Button
-        className={cn(
-          'size-7 rounded-sm text-muted-foreground focus-visible:ring-0'
-        )}
-        onClick={() => onOpenDetails(!openDetails)}
-        size={'icon'}
-        tooltip={openDetails ? 'Close details' : 'Open details'}
-        tooltipShortcut="]"
-        variant={'ghost'}
-      >
-        <Icons.panelRight />
-      </Button>
+      <div className="flex items-center gap-2">
+        <PostOptions />
+        <Button
+          className={cn(
+            'size-7 rounded-sm text-muted-foreground focus-visible:ring-0'
+          )}
+          onClick={() => onOpenDetails(!openDetails)}
+          size={'icon'}
+          tooltip={openDetails ? 'Close details' : 'Open details'}
+          tooltipShortcut="]"
+          variant={'ghost'}
+        >
+          <Icons.panelRight />
+        </Button>
+      </div>
     </header>
   );
 }
