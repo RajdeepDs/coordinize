@@ -41,15 +41,18 @@ import {
   Maximize2,
   Monitor,
   Pen,
+  Pin,
   Plus,
   Quote,
   Search,
+  Send,
   Settings,
   ShieldUser,
   SmilePlus,
   Star,
   Strikethrough,
   Tent,
+  Trash,
   Underline,
   UserCircle2,
   UserSquare2,
@@ -117,6 +120,9 @@ export const Icons = {
   resolve: CheckCircle2,
   link: Link,
   link2: Link2,
+  pin: Pin,
+  share: Send,
+  trash: Trash,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"
