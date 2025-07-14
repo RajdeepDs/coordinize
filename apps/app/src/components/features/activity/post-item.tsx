@@ -36,8 +36,10 @@ export function PostItem({
         <div className="flex min-w-0 flex-1 flex-col gap-0">
           <div className="flex min-w-0 select-none items-center gap-2">
             <h1 className="truncate font-medium text-[15px]">{title}</h1>
-            <Dot />
-            <p className="truncate font-medium text-[15px]">{spaceName}</p>
+            <Dot className="hidden sm:flex" />
+            <p className="hidden truncate font-medium text-[15px] sm:flex">
+              {spaceName}
+            </p>
           </div>
           <p className="line-clamp-1 text-sm text-ui-gray-900">
             {stripHtml(description || '')}
