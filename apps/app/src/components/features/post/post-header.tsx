@@ -10,17 +10,10 @@ import { PostOptions } from './post-options';
 interface PostHeaderProps {
   space: string;
   title: string;
-  openDetails: boolean;
-  onOpenDetails: (open: boolean) => void;
 }
 
-export function PostHeader({
-  space,
-  title,
-  openDetails,
-  onOpenDetails,
-}: PostHeaderProps) {
-  const { isMobile, state } = useSidebar();
+export function PostHeader({ space, title }: PostHeaderProps) {
+  const { isMobile, leftState } = useSidebar();
 
   return (
     <header className="flex items-center justify-between px-2 py-1">
@@ -28,10 +21,13 @@ export function PostHeader({
         <div
           className={cn(
             'flex h-full items-center',
-            isMobile || state === 'collapsed' ? 'flex' : 'hidden'
+            isMobile || leftState === 'collapsed' ? 'flex' : 'hidden'
           )}
         >
-          <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
+          <SidebarTrigger
+            className="size-7 rounded-sm text-muted-foreground"
+            side="left"
+          />
         </div>
 
         <div className="flex items-center gap-1">
@@ -56,18 +52,10 @@ export function PostHeader({
       </div>
       <div className="flex items-center gap-2">
         <PostOptions />
-        <Button
-          className={cn(
-            'size-7 rounded-sm text-muted-foreground focus-visible:ring-0'
-          )}
-          onClick={() => onOpenDetails(!openDetails)}
-          size={'icon'}
-          tooltip={openDetails ? 'Close details' : 'Open details'}
-          tooltipShortcut="]"
-          variant={'ghost'}
-        >
-          <Icons.panelRight />
-        </Button>
+        <SidebarTrigger
+          className="size-7 rounded-sm text-muted-foreground focus-visible:ring-0"
+          side="right"
+        />
       </div>
     </header>
   );

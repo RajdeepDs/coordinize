@@ -18,7 +18,7 @@ import { useParams, usePathname } from 'next/navigation';
 import { pageTabs } from '@/config/page-tabs';
 
 export function AppHeader() {
-  const { isMobile, state } = useSidebar();
+  const { isMobile, leftState } = useSidebar();
   const pathname = usePathname();
   const { slug } = useParams<{ slug: string }>();
 
@@ -45,7 +45,7 @@ export function AppHeader() {
         <div
           className={cn(
             'flex h-full items-center',
-            isMobile || state === 'collapsed' ? 'flex' : 'hidden'
+            isMobile || leftState === 'collapsed' ? 'flex' : 'hidden'
           )}
         >
           <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
