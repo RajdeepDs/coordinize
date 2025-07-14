@@ -5,15 +5,15 @@ import { Label } from '@coordinize/ui/components/label';
 import { SidebarTrigger, useSidebar } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { cn } from '@coordinize/ui/lib/utils';
-import { PostOptions } from './post-options';
+import { useSpaceWithPublishedPostsQuery } from '@/hooks/use-space';
 
-interface PostHeaderProps {
-  space: string;
-  title: string;
+interface SpaceHeaderProps {
+  identifier: string;
 }
 
-export function PostHeader({ space, title }: PostHeaderProps) {
+export function SpaceHeader({ identifier }: SpaceHeaderProps) {
   const { isMobile, leftState } = useSidebar();
+  const { data: space } = useSpaceWithPublishedPostsQuery(identifier);
 
   return (
     <header className="flex items-center justify-between px-2 py-1">
@@ -24,21 +24,16 @@ export function PostHeader({ space, title }: PostHeaderProps) {
             isMobile || leftState === 'collapsed' ? 'flex' : 'hidden'
           )}
         >
-          <SidebarTrigger
-            className="size-7 rounded-sm text-muted-foreground"
-            side="left"
-          />
+          <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
         </div>
-
         <div className="flex items-center gap-1">
           <Label className="font-normal">
             <Icons.space size={16} />
-            {space}
+            Spaces
           </Label>
           <span className="text-ui-gray-900">/</span>
           <Label className="font-normal">
-            {title.split(' ').slice(0, 10).join(' ')}
-            {title.split(' ').length > 10 && '...'}
+            {space?.name || 'Unknown Space'}
           </Label>
         </div>
         <Button
@@ -50,13 +45,10 @@ export function PostHeader({ space, title }: PostHeaderProps) {
           <Icons.star />
         </Button>
       </div>
-      <div className="flex items-center gap-2">
-        <PostOptions />
-        <SidebarTrigger
-          className="size-7 rounded-sm text-muted-foreground focus-visible:ring-0"
-          side="right"
-        />
-      </div>
+      <SidebarTrigger
+        className="size-7 rounded-sm text-muted-foreground focus-visible:ring-0"
+        side="right"
+      />
     </header>
   );
 }

@@ -8,11 +8,11 @@ interface SidebarLayoutProps {
 }
 
 export function SidebarLayout({ children }: SidebarLayoutProps) {
-  const { isMobile, state } = useSidebar();
+  const { isMobile, leftState } = useSidebar();
   return (
     <div
       className={cn('flex w-full flex-col bg-sidebar py-2 pr-2', {
-        'pl-2': isMobile || state === 'collapsed',
+        'pl-2': isMobile || leftState === 'collapsed',
       })}
     >
       <SidebarInset className="bg-transparent">{children}</SidebarInset>
