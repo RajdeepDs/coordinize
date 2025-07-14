@@ -1,5 +1,6 @@
+import z from 'zod/v4';
 import { createNewSpace } from '@/lib/mutations';
-import { getSpacesQuery } from '@/lib/queries';
+import { getSpacesQuery, getSpaceWithPublishedPosts } from '@/lib/queries';
 import { createSpaceSchema } from '@/lib/schemas';
 import { createTRPCRouter, protectedProcedure } from '../init';
 
@@ -11,6 +12,14 @@ export const spaceRouter = createTRPCRouter({
       membersCount: _count.members,
     }));
   }),
+  getSpaceWithPublishedPosts: protectedProcedure
+    .input(z.object({ identifier: z.string() }))
+    .query(async ({ input, ctx: { workspaceId } }) => {
+      const { identifier } = input;
+      const space = await getSpaceWithPublishedPosts(identifier, workspaceId);
+
+      return space;
+    }),
   create: protectedProcedure
     .input(createSpaceSchema)
     .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {

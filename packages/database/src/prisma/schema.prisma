@@ -170,7 +170,7 @@ model Space {
   workspace Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   creator   User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   members   SpaceMember[]
-  Post      Post[]
+  posts     Post[]
 
   @@unique([identifier, workspaceId])
   @@index([workspaceId])

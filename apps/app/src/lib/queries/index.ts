@@ -97,3 +97,48 @@ export async function getPostByIdQuery(postId: string) {
     },
   });
 }
+
+export async function getSpaceWithPublishedPosts(
+  identifier: string,
+  workspaceId: string
+) {
+  return await database.space.findFirst({
+    where: {
+      identifier,
+      workspaceId,
+    },
+    include: {
+      posts: {
+        where: {
+          status: 'PUBLISHED',
+          resolvedAt: null,
+          archived: false,
+          publishedAt: { not: null },
+        },
+        orderBy: {
+          publishedAt: 'desc',
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+      members: {
+        select: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
