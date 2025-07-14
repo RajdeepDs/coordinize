@@ -26,7 +26,7 @@ interface SettingsSidebarProps {
 
 export function SettingsSidebar({ nav }: SettingsSidebarProps) {
   const pathname = usePathname();
-  const { toggleSidebar, isMobile } = useSidebar();
+  const { toggleLeftSidebar, isMobile } = useSidebar();
   return (
     <Sidebar className="p-0" variant="inset">
       <SidebarHeader>
@@ -57,7 +57,7 @@ export function SettingsSidebar({ nav }: SettingsSidebarProps) {
                         isActive={pathname === item.href}
                         onClick={() => {
                           if (isMobile) {
-                            toggleSidebar();
+                            toggleLeftSidebar();
                           }
                         }}
                       >
