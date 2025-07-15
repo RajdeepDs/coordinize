@@ -37,7 +37,7 @@ interface SpacesTableProps {
 export type Item = {
   name: string;
   identifier: string;
-  icon?: string;
+  icon: string | null;
   membersCount: number;
   // postsCount: number;
   createdAt: string | number | Date;

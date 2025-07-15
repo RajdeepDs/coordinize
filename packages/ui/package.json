@@ -96,6 +96,6 @@
     "./textarea": "./src/components/textarea.tsx",
     "./emoji-picker": "./src/components/emoji-picker.tsx",
     "./layered-hotkeys": "./src/components/layered-hotkeys.tsx",
-    "./breadcrumbs": "./src/components/breadcrumbs.tsx"
+    "./breadcrumb": "./src/components/breadcrumb.tsx"
   }
 }
