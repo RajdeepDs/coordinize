@@ -1,8 +1,11 @@
+import { Button } from '@coordinize/ui/components/button';
 import { Sidebar, SidebarContent } from '@coordinize/ui/components/sidebar';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { cn } from '@coordinize/ui/lib/utils';
 import { ActivitySection } from '@/components/features/activity/activity-section';
-import { SpaceHeader } from '@/components/features/space/space-header';
 import { SpacePublishedPostsList } from '@/components/features/space/space-posts-list';
 import { SpaceSidebar } from '@/components/features/space/space-sidebar';
+import { PageHeader } from '@/components/layout/page-header';
 import { getQueryClient, HydrateClient, trpc } from '@/trpc/server';
 
 export default async function SpacesPage({
@@ -17,12 +20,37 @@ export default async function SpacesPage({
     trpc.space.getSpaceWithPublishedPosts.queryOptions({ identifier })
   );
 
+  const space = queryClient.getQueryData(
+    trpc.space.getSpaceWithPublishedPosts.queryOptions({ identifier }).queryKey
+  );
+
   return (
     <HydrateClient>
       <div className="flex h-full w-full">
         <div className="flex-1">
           <div className="flex h-full flex-col overflow-hidden rounded border bg-background">
-            <SpaceHeader identifier={identifier} />
+            <PageHeader
+              breadcrumb={[
+                {
+                  icon: <Icons.space size={16} />,
+                  label: 'Spaces',
+                },
+                {
+                  label: space?.name || identifier,
+                },
+              ]}
+              leftContent={
+                <Button
+                  className={cn('size-7 rounded-sm text-muted-foreground')}
+                  size={'icon'}
+                  tooltip="Add to your favorites"
+                  variant={'ghost'}
+                >
+                  <Icons.star />
+                </Button>
+              }
+              showRightSidebarTrigger={true}
+            />
             <div className="flex-1 overflow-auto">
               <ActivitySection>
                 <SpacePublishedPostsList identifier={identifier} />
