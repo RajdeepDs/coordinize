@@ -161,6 +161,7 @@ model Space {
   id          String   @id @default(cuid())
   name        String
   about       String?
+  icon        String?
   identifier  String
   workspaceId String
   createdBy   String

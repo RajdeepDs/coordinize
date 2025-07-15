@@ -14,12 +14,17 @@ import { SpaceGroup } from './space-group';
 interface PostSidebarProps {
   spaceName: string;
   postId: string;
+  spaceIcon: string | null;
 }
 
-export function PostSidebar({ spaceName, postId }: PostSidebarProps) {
+export function PostSidebar({
+  spaceName,
+  postId,
+  spaceIcon,
+}: PostSidebarProps) {
   return (
     <div className="flex h-full w-full flex-col">
-      <SpaceGroup spaceName={spaceName} />
+      <SpaceGroup icon={spaceIcon} spaceName={spaceName} />
       <SidebarGroup className="pl-0">
         <SidebarGroupLabel>Subscribe</SidebarGroupLabel>
         <SidebarMenu>

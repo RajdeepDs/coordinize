@@ -23,13 +23,14 @@ export const spaceRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createSpaceSchema)
     .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
-      const { name, identifier, about } = input;
+      const { name, identifier, about, icon } = input;
 
       await createNewSpace(
         db,
         name,
         identifier,
         about,
+        icon,
         workspaceId,
         session.user.id
       );

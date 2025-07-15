@@ -2,12 +2,22 @@
 
 import { Button } from '@coordinize/ui/components/button';
 import {
+  EmojiPicker,
+  EmojiPickerContent,
+  EmojiPickerSearch,
+} from '@coordinize/ui/components/emoji-picker';
+import {
   Form,
   FormControl,
   FormField,
   FormItem,
 } from '@coordinize/ui/components/form';
 import { Input } from '@coordinize/ui/components/input';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@coordinize/ui/components/popover';
 import { toast } from '@coordinize/ui/components/sonner';
 import { Textarea } from '@coordinize/ui/components/textarea';
 import { Icons } from '@coordinize/ui/lib/icons';
@@ -35,6 +45,7 @@ export function CreateNewSpaceForm() {
       name: '',
       identifier: '',
       about: '',
+      icon: '',
     },
   });
 
@@ -67,13 +78,52 @@ export function CreateNewSpaceForm() {
       name: values.name,
       identifier: values.identifier,
       about: values.about,
+      icon: values.icon,
     });
   }
 
   return (
     <Form {...form}>
       <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-        {/* TODO: Space icon field */}
+        <SettingsCard
+          className="flex-col items-start lg:flex-row lg:items-center lg:justify-between"
+          description="Choose an emoji to represent your space."
+          title="Space Icon"
+        >
+          <FormField
+            control={form.control}
+            name="icon"
+            render={({ field }) => (
+              <FormItem className="w-full md:w-96">
+                <FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        className="shadow-none"
+                        size={'icon'}
+                        type="button"
+                        variant="outline"
+                      >
+                        {field.value || <Icons.emojiPlus className="h-5 w-5" />}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="w-fit p-0">
+                      <EmojiPicker
+                        className="h-[342px]"
+                        onEmojiSelect={({ emoji }) => {
+                          field.onChange(emoji);
+                        }}
+                      >
+                        <EmojiPickerSearch />
+                        <EmojiPickerContent />
+                      </EmojiPicker>
+                    </PopoverContent>
+                  </Popover>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </SettingsCard>
         <SettingsCard
           className="flex-col items-start lg:flex-row lg:items-center lg:justify-between"
           description="Spaces are dedicated areas within a workspace where team members can collaborate and share posts."
