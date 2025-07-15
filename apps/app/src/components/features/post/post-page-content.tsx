@@ -5,12 +5,14 @@ import { Separator } from '@coordinize/ui/components/separator';
 import { Sidebar, SidebarContent } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { cn } from '@coordinize/ui/lib/utils';
+import { useParams } from 'next/navigation';
 import { ActivitySection } from '@/components/features/activity/activity-section';
 import { PostActivitySection } from '@/components/features/post/post-activity-section';
 import { PostContent } from '@/components/features/post/post-content';
-import { PostHeader } from '@/components/features/post/post-header';
 import { PostMetadata } from '@/components/features/post/post-metadata';
+import { PostOptions } from '@/components/features/post/post-options';
 import { PostSidebar } from '@/components/features/post/post-sidebar';
+import { PageHeader } from '@/components/layout/page-header';
 
 interface Post {
   id: string;
@@ -23,6 +25,7 @@ interface Post {
   };
   space: {
     name: string;
+    identifier: string;
   };
 }
 
@@ -31,11 +34,36 @@ interface PostPageContentProps {
 }
 
 export function PostPageContent({ post }: PostPageContentProps) {
+  const { slug } = useParams<{ slug: string }>();
+
   return (
     <div className="flex h-full w-full">
       <div className="flex-1">
         <div className="flex h-full flex-col overflow-hidden rounded border bg-background">
-          <PostHeader space={post.space.name} title={post.title} />
+          <PageHeader
+            breadcrumb={[
+              {
+                icon: <Icons.space size={16} />,
+                label: post.space?.name,
+                href: `/${slug}/spaces/${post.space.identifier}`,
+              },
+              {
+                label: post.title,
+              },
+            ]}
+            leftContent={
+              <Button
+                className={cn('size-7 rounded-sm text-muted-foreground')}
+                size={'icon'}
+                tooltip="Add to your favorites"
+                variant={'ghost'}
+              >
+                <Icons.star />
+              </Button>
+            }
+            rightContent={<PostOptions />}
+            showRightSidebarTrigger={true}
+          />
           <div className="flex-1 overflow-auto">
             <ActivitySection>
               <PostMetadata
