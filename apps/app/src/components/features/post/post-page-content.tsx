@@ -26,6 +26,7 @@ interface Post {
   space: {
     name: string;
     identifier: string;
+    icon: string | null;
   };
 }
 
@@ -43,7 +44,11 @@ export function PostPageContent({ post }: PostPageContentProps) {
           <PageHeader
             breadcrumb={[
               {
-                icon: <Icons.space size={16} />,
+                icon: post.space?.icon ? (
+                  <span className="text-sm">{post.space.icon}</span>
+                ) : (
+                  <Icons.space size={16} />
+                ),
                 label: post.space?.name,
                 href: `/${slug}/spaces/${post.space.identifier}`,
               },
@@ -94,7 +99,11 @@ export function PostPageContent({ post }: PostPageContentProps) {
         variant="sidebar"
       >
         <SidebarContent>
-          <PostSidebar postId={post.id} spaceName={post.space.name} />
+          <PostSidebar
+            postId={post.id}
+            spaceIcon={post.space.icon}
+            spaceName={post.space.name}
+          />
         </SidebarContent>
       </Sidebar>
     </div>

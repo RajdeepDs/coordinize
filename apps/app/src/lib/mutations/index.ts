@@ -102,6 +102,7 @@ export async function createNewSpace(
   name: string,
   identifier: string,
   about: string | undefined,
+  icon: string | undefined,
   workspaceId: string,
   userId: string
 ) {
@@ -110,6 +111,7 @@ export async function createNewSpace(
       name,
       identifier,
       about,
+      icon,
       workspaceId,
       createdBy: userId,
     },

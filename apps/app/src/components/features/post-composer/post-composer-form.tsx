@@ -1,3 +1,4 @@
+import type { Space } from '@coordinize/database/db';
 import { Input } from '@coordinize/ui/components/input';
 import { Controller, useFormContext } from 'react-hook-form';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
@@ -5,18 +6,7 @@ import { PostComposerSpacesPicker } from '@/components/features/post-composer/po
 import type { PostSchema } from '@/lib/schemas/post';
 
 interface PostComposerFormProps {
-  spaces:
-    | Array<{
-        id: string;
-        name: string;
-        about: string | null;
-        identifier: string;
-        workspaceId: string;
-        createdBy: string;
-        createdAt: Date;
-        updatedAt: Date;
-      }>
-    | undefined;
+  spaces: Space[];
   workspaceSlug: string;
 }
 

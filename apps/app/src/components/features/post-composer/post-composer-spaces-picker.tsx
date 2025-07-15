@@ -78,7 +78,14 @@ export function PostComposerSpacesPicker({
         >
           <PopoverTrigger asChild className="cursor-pointer outline-none">
             <div className="flex w-fit items-start gap-2 text-sm">
-              <p>{selectedSpace?.name ?? 'Select space'}</p>
+              <div className="flex items-center gap-2">
+                {selectedSpace?.icon ? (
+                  <span className="text-xs">{selectedSpace.icon}</span>
+                ) : (
+                  <Icons.space size={16} />
+                )}
+                <p>{selectedSpace?.name ?? 'Select space'}</p>
+              </div>
               <span className="flex items-center gap-1 text-muted-foreground">
                 {selectedSpace?.identifier || '--'}
                 <Icons.chevronDown size={16} />
@@ -104,12 +111,19 @@ export function PostComposerSpacesPicker({
                     className="cursor-pointer"
                     key={space.identifier}
                     onSelect={() => {
-                      methods.setValue('space_id', space.id); // Update form field
+                      methods.setValue('space_id', space.id);
                       setOpen(false);
                     }}
                     value={space.identifier}
                   >
-                    <Icons.space className="text-muted-foreground" size={16} />
+                    {space.icon ? (
+                      <span className="text-xs">{space.icon}</span>
+                    ) : (
+                      <Icons.space
+                        className="text-muted-foreground"
+                        size={16}
+                      />
+                    )}
                     {space.name}
                     {selectedSpaceId === space.id && (
                       <Icons.check

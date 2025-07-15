@@ -37,6 +37,7 @@ interface SpacesTableProps {
 export type Item = {
   name: string;
   identifier: string;
+  icon?: string;
   membersCount: number;
   // postsCount: number;
   createdAt: string | number | Date;
@@ -49,8 +50,9 @@ const columns: ColumnDef<Item>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center space-x-3">
-          {/* TODO: Show when the icons are ready */}
-          <div className="hidden size-5 rounded bg-muted-foreground/10" />
+          <div className="flex size-5 items-center justify-center rounded text-sm">
+            {row.original.icon || <Icons.space className="size-3" />}
+          </div>
           <div className="flex flex-1 items-center gap-2">
             <div className="text-sm">{row.getValue('name')}</div>
             <div className="hidden text-muted-foreground text-xs sm:flex">

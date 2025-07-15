@@ -7,7 +7,13 @@ import {
 } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 
-export function SpaceGroup({ spaceName }: { spaceName: string }) {
+export function SpaceGroup({
+  spaceName,
+  icon,
+}: {
+  spaceName: string;
+  icon: string | null;
+}) {
   return (
     <SidebarGroup className="pl-0">
       <SidebarGroupLabel>Space</SidebarGroupLabel>
@@ -15,7 +21,11 @@ export function SpaceGroup({ spaceName }: { spaceName: string }) {
         <SidebarMenuItem>
           <SidebarMenuButton>
             <span className="flex items-center gap-2">
-              <Icons.space size={16} />
+              {icon ? (
+                <span className="text-sm">{icon}</span>
+              ) : (
+                <Icons.space size={16} />
+              )}
               <span>{spaceName}</span>
             </span>
           </SidebarMenuButton>

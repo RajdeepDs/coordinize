@@ -36,6 +36,11 @@ export default async function SpacesPage({
                   label: 'Spaces',
                 },
                 {
+                  icon: space?.icon ? (
+                    <span className="text-sm">{space.icon}</span>
+                  ) : (
+                    <Icons.space size={16} />
+                  ),
                   label: space?.name || identifier,
                 },
               ]}

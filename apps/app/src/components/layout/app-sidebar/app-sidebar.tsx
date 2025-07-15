@@ -144,7 +144,11 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                           }
                         >
                           <Link href={`/${slug}/spaces/${space.identifier}`}>
-                            <Icons.space />
+                            {space.icon ? (
+                              <span className="text-xs">{space.icon}</span>
+                            ) : (
+                              <Icons.space />
+                            )}
                             <span>{space.name}</span>
                           </Link>
                         </SidebarMenuButton>
