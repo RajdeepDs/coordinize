@@ -149,7 +149,11 @@ export function PostOptions({ postId }: PostOptionsProps) {
                     )}
                     <span>{item.label}</span>
                   </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent className="w-48">
+                  <DropdownMenuSubContent
+                    alignOffset={-1}
+                    className="w-48"
+                    sideOffset={3}
+                  >
                     {item.subMenu.map((subItem) => (
                       <DropdownMenuItem
                         className="flex items-center"
@@ -172,7 +176,7 @@ export function PostOptions({ postId }: PostOptionsProps) {
                   key={item.label}
                   onClick={item.onClick}
                 >
-                  {item.icon && <item.icon className="" />}
+                  {item.icon && <item.icon />}
                   {item.label}
                 </DropdownMenuItem>
               )
