@@ -8,9 +8,7 @@ import {
 } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { usePathname } from 'next/navigation';
-import { useCopyToClipboard } from 'react-use';
-import { toast } from 'sonner';
-import { getUrl } from '@/utils/environment';
+import { copyPostId, copyPostLink } from '@/utils/clipboard';
 
 interface PostSidebarFooterProps {
   postId: string;
@@ -18,19 +16,13 @@ interface PostSidebarFooterProps {
 
 export function PostSidebarFooter({ postId }: PostSidebarFooterProps) {
   const pathname = usePathname();
-  const baseUrl = getUrl();
-
-  const [, copyToClipboard] = useCopyToClipboard();
 
   const handleCopyLink = () => {
-    const currentUrl = `${baseUrl}${pathname}`;
-    copyToClipboard(currentUrl);
-    toast.success('Post link copied to clipboard');
+    copyPostLink(pathname);
   };
 
   const handleCopyId = () => {
-    copyToClipboard(postId);
-    toast.success('Post ID copied to clipboard');
+    copyPostId(postId);
   };
 
   return (

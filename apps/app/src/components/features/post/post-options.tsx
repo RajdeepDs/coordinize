@@ -15,7 +15,9 @@ import {
 } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { cn } from '@coordinize/ui/lib/utils';
+import { usePathname } from 'next/navigation';
 import { useDeletePost } from '@/hooks/use-posts';
+import { copyPostLink } from '@/utils/clipboard';
 
 interface PostOption {
   icon: (typeof Icons)[keyof typeof Icons];
@@ -28,10 +30,15 @@ interface PostOptionsProps {
 }
 
 export function PostOptions({ postId }: PostOptionsProps) {
+  const pathname = usePathname();
   const { mutate: deletePost } = useDeletePost();
 
   const handleDeletePost = () => {
     deletePost({ id: postId });
+  };
+
+  const handleCopyLink = () => {
+    copyPostLink(pathname);
   };
 
   const options: PostOption[][] = [
@@ -67,6 +74,7 @@ export function PostOptions({ postId }: PostOptionsProps) {
       {
         icon: Icons.link,
         label: 'Copy link',
+        onClick: handleCopyLink,
       },
     ],
     [
