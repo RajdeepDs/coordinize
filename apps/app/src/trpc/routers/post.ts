@@ -190,4 +190,34 @@ export const postRouter = createTRPCRouter({
         data: { archived: true },
       });
     }),
+
+  movePostToSpace: protectedProcedure
+    .input(z.object({ postId: z.string(), spaceId: z.string() }))
+    .mutation(async ({ input, ctx: { db, session } }) => {
+      const { postId, spaceId } = input;
+
+      const post = await db.post.findUnique({
+        where: { id: postId },
+        select: { authorId: true, workspaceId: true },
+      });
+
+      if (!post) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Post not found.',
+        });
+      }
+
+      if (post.authorId !== session.user.id) {
+        throw new TRPCError({
+          code: 'UNAUTHORIZED',
+          message: 'Unauthorized: Only the author can move this post.',
+        });
+      }
+
+      await db.post.update({
+        where: { id: postId },
+        data: { spaceId },
+      });
+    }),
 });

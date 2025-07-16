@@ -12,6 +12,11 @@ export function usePublishedPostsQuery() {
   return useSuspenseQuery(trpc.post.getAllPublished.queryOptions());
 }
 
+export function usePostByIdQuery(postId: string) {
+  const trpc = useTRPC();
+  return useSuspenseQuery(trpc.post.getPostById.queryOptions({ id: postId }));
+}
+
 export function useUpdatePost(postId: string) {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
@@ -103,6 +108,28 @@ export function useResolvePost() {
       },
       onSettled: () => {
         router.back();
+      },
+    })
+  );
+}
+
+export function useMovePostToSpace() {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.post.movePostToSpace.mutationOptions({
+      onSuccess: () => {
+        toast.success('Post moved to space successfully.');
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getAllPublished.queryKey(),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getPostById.queryKey(),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+        });
       },
     })
   );
