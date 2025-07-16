@@ -15,56 +15,69 @@ import {
 } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { cn } from '@coordinize/ui/lib/utils';
+import { useDeletePost } from '@/hooks/use-posts';
 
 interface PostOption {
   icon: (typeof Icons)[keyof typeof Icons];
   label: string;
+  onClick?: () => void;
 }
 
-const options: PostOption[][] = [
-  [
-    {
-      icon: Icons.bellDot,
-      label: 'Subscribe',
-    },
-    {
-      icon: Icons.star,
-      label: 'Favorite',
-    },
-  ],
-  [
-    {
-      icon: Icons.space,
-      label: 'Move to space',
-    },
-    {
-      icon: Icons.pin,
-      label: 'Pin to space',
-    },
-    {
-      icon: Icons.resolve,
-      label: 'Resolve post',
-    },
-  ],
-  [
-    {
-      icon: Icons.share,
-      label: 'Share',
-    },
-    {
-      icon: Icons.link,
-      label: 'Copy link',
-    },
-  ],
-  [
-    {
-      icon: Icons.trash,
-      label: 'Delete post',
-    },
-  ],
-];
+interface PostOptionsProps {
+  postId: string;
+}
 
-export function PostOptions() {
+export function PostOptions({ postId }: PostOptionsProps) {
+  const { mutate: deletePost } = useDeletePost();
+
+  const handleDeletePost = () => {
+    deletePost({ id: postId });
+  };
+
+  const options: PostOption[][] = [
+    [
+      {
+        icon: Icons.bellDot,
+        label: 'Subscribe',
+      },
+      {
+        icon: Icons.star,
+        label: 'Favorite',
+      },
+    ],
+    [
+      {
+        icon: Icons.space,
+        label: 'Move to space',
+      },
+      {
+        icon: Icons.pin,
+        label: 'Pin to space',
+      },
+      {
+        icon: Icons.resolve,
+        label: 'Resolve post',
+      },
+    ],
+    [
+      {
+        icon: Icons.share,
+        label: 'Share',
+      },
+      {
+        icon: Icons.link,
+        label: 'Copy link',
+      },
+    ],
+    [
+      {
+        icon: Icons.trash,
+        label: 'Delete post',
+        onClick: handleDeletePost,
+      },
+    ],
+  ];
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -92,7 +105,7 @@ export function PostOptions() {
                   <SidebarMenu>
                     {group.map((item) => (
                       <SidebarMenuItem key={item.label}>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton onClick={item.onClick}>
                           <item.icon />
                           <span>{item.label}</span>
                         </SidebarMenuButton>

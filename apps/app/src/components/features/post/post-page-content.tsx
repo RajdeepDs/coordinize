@@ -66,7 +66,7 @@ export function PostPageContent({ post }: PostPageContentProps) {
                 <Icons.star />
               </Button>
             }
-            rightContent={<PostOptions />}
+            rightContent={<PostOptions postId={post.id} />}
             showRightSidebarTrigger={true}
           />
           <div className="flex-1 overflow-auto">

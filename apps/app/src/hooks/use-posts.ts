@@ -1,8 +1,10 @@
+import { toast } from '@coordinize/ui/components/sonner';
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useTRPC } from '@/trpc/client';
 
 export function usePublishedPostsQuery() {
@@ -61,6 +63,29 @@ export function useUpdatePost(postId: string) {
         queryClient.invalidateQueries({
           queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
         });
+      },
+    })
+  );
+}
+
+export function useDeletePost() {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation(
+    trpc.post.delete.mutationOptions({
+      onSuccess: () => {
+        toast.success('Post deleted successfully.');
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getAllPublished.queryKey(),
+        });
+      },
+      onError: () => {
+        toast.error('Failed to delete post.');
+      },
+      onSettled: () => {
+        router.back();
       },
     })
   );
