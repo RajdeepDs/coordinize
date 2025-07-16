@@ -81,8 +81,25 @@ export function useDeletePost() {
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
       },
-      onError: () => {
-        toast.error('Failed to delete post.');
+      onSettled: () => {
+        router.back();
+      },
+    })
+  );
+}
+
+export function useResolvePost() {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation(
+    trpc.post.resolve.mutationOptions({
+      onSuccess: () => {
+        toast.success('Post resolved successfully.');
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getAllPublished.queryKey(),
+        });
       },
       onSettled: () => {
         router.back();

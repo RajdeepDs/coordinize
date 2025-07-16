@@ -16,7 +16,7 @@ import {
 import { Icons } from '@coordinize/ui/lib/icons';
 import { cn } from '@coordinize/ui/lib/utils';
 import { usePathname } from 'next/navigation';
-import { useDeletePost } from '@/hooks/use-posts';
+import { useDeletePost, useResolvePost } from '@/hooks/use-posts';
 import { copyPostLink } from '@/utils/clipboard';
 
 interface PostOption {
@@ -32,9 +32,14 @@ interface PostOptionsProps {
 export function PostOptions({ postId }: PostOptionsProps) {
   const pathname = usePathname();
   const { mutate: deletePost } = useDeletePost();
+  const { mutate: resolvePost } = useResolvePost();
 
   const handleDeletePost = () => {
     deletePost({ id: postId });
+  };
+
+  const handleResolvePost = () => {
+    resolvePost({ id: postId });
   };
 
   const handleCopyLink = () => {
@@ -64,6 +69,7 @@ export function PostOptions({ postId }: PostOptionsProps) {
       {
         icon: Icons.resolve,
         label: 'Resolve post',
+        onClick: handleResolvePost,
       },
     ],
     [
