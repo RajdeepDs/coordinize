@@ -3,7 +3,7 @@
 import type { Post, Space, User } from '@coordinize/database/db';
 import { isToday, isYesterday } from 'date-fns';
 import { PostItem } from '@/components/features/activity/post-item';
-import { DaySeparator } from '@/components/ui/day-seperator';
+import { PostSeparator } from '@/components/ui/post-separator';
 import { usePublishedPostsQuery } from '@/hooks/use-posts';
 import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
 import { formatDate } from '@/utils/format-date';
@@ -61,7 +61,7 @@ export function PublishedPostsList() {
     <>
       {Object.entries(groupedPosts).map(([dateLabel, posts]) => (
         <div className="flex flex-col gap-6" key={dateLabel}>
-          <DaySeparator label={dateLabel} />
+          <PostSeparator label={dateLabel} />
           <div className="flex flex-col gap-4">
             {posts.map((post) => (
               <PostItem

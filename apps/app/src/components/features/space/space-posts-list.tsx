@@ -4,7 +4,7 @@ import type { Post, User } from '@coordinize/database/db';
 import { isToday, isYesterday } from 'date-fns';
 import { useParams } from 'next/navigation';
 import { PostItem } from '@/components/features/activity/post-item';
-import { DaySeparator } from '@/components/ui/day-seperator';
+import { PostSeparator } from '@/components/ui/post-separator';
 import { useSpaceWithPublishedPostsQuery } from '@/hooks/use-space';
 import { formatDate } from '@/utils/format-date';
 
@@ -42,11 +42,28 @@ export function SpacePublishedPostsList({
   ): Record<string, PostWithRelations[]> {
     const groups: Record<string, PostWithRelations[]> = {};
 
+    const pinnedPosts: PostWithRelations[] = [];
+    const unpinnedPosts: PostWithRelations[] = [];
+
     for (const post of posts) {
       if (!post.publishedAt) {
         continue;
       }
 
+      if (post.pinned) {
+        pinnedPosts.push(post);
+      } else {
+        unpinnedPosts.push(post);
+      }
+    }
+
+    // Add pinned posts group if there are any pinned posts
+    if (pinnedPosts.length > 0) {
+      groups.Pinned = pinnedPosts;
+    }
+
+    // Group unpinned posts by date
+    for (const post of unpinnedPosts) {
       const label = getDateLabel(post.publishedAt);
 
       if (!groups[label]) {
@@ -64,7 +81,7 @@ export function SpacePublishedPostsList({
     <>
       {Object.entries(groupedPosts).map(([dateLabel, posts]) => (
         <div className="flex flex-col gap-6" key={dateLabel}>
-          <DaySeparator label={dateLabel} />
+          <PostSeparator label={dateLabel} />
           <div className="flex flex-col gap-4">
             {posts.map((post) => (
               <PostItem
