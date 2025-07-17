@@ -93,10 +93,9 @@ export function useDeletePost() {
   );
 }
 
-export function useResolvePost() {
+export function useResolvePost(postId: string) {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   return useMutation(
     trpc.post.resolve.mutationOptions({
@@ -105,9 +104,14 @@ export function useResolvePost() {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
-      },
-      onSettled: () => {
-        router.back();
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getPostById.queryKey({
+            id: postId,
+          }),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+        });
       },
     })
   );

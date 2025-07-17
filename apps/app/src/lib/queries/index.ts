@@ -96,6 +96,7 @@ export async function getPostByIdQuery(postId: string) {
         },
       },
       author: { select: { id: true, name: true, image: true } },
+      resolvedBy: { select: { id: true, name: true, image: true } },
     },
   });
 }
