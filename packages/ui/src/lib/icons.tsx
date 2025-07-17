@@ -2,6 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Archive,
   ArrowRight,
+  Atom,
   Bell,
   BellDot,
   Bold,
@@ -51,6 +52,7 @@ import {
   ShieldUser,
   SmilePlus,
   Star,
+  StarOff,
   Strikethrough,
   Tent,
   Trash,
@@ -98,6 +100,7 @@ export const Icons = {
   plus: Plus,
   inbox: Inbox,
   star: Star,
+  starOff: StarOff,
   maximize: Maximize2,
   pen: Pen,
   space: Tent,
@@ -125,6 +128,7 @@ export const Icons = {
   pinOff: PinOff,
   share: Send,
   trash: Trash,
+  post: Atom,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"

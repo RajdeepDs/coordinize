@@ -42,6 +42,7 @@ model User {
   SpaceMember            SpaceMember[]
   Post                   Post[]                   @relation("AuthoredPosts")
   ResolvedPost           Post[]                   @relation("ResolvedBy")
+  favorite               Favorite[]
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -172,6 +173,7 @@ model Space {
   creator   User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   members   SpaceMember[]
   posts     Post[]
+  favorite  Favorite[]
 
   @@unique([identifier, workspaceId])
   @@index([workspaceId])
@@ -217,14 +219,34 @@ model Post {
   pinned         Boolean    @default(false)
   archived       Boolean    @default(false)
 
-  workspace  Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  author     User      @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
-  space      Space     @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  resolvedBy User?     @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
+  workspace  Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  author     User       @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
+  space      Space      @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  resolvedBy User?      @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
+  favorite   Favorite[]
 
   @@index([authorId])
   @@index([spaceId])
   @@index([resolvedById])
   @@index([workspaceId])
   @@map("post")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String?
+  spaceId   String?
+  createdAt DateTime @default(now())
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post  Post?  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  space Space? @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, spaceId])
+  @@index([userId])
+  @@index([postId])
+  @@index([spaceId])
+  @@map("favorite")
 }

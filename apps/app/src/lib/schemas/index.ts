@@ -50,3 +50,8 @@ export const createSpaceSchema = z.object({
   about: z.string(),
   icon: z.string().optional(),
 });
+
+export const togglefavoriteSchema = z.object({
+  type: z.enum(['post', 'space']),
+  id: z.string(),
+});

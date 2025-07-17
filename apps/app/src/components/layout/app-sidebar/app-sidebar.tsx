@@ -5,7 +5,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@coordinize/ui/components/collapsible';
-import { Label } from '@coordinize/ui/components/label';
 import {
   Sidebar,
   SidebarContent,
@@ -29,6 +28,7 @@ import { useDraftPostsQuery } from '@/hooks/use-draft-posts';
 import { useSpacesQuery } from '@/hooks/use-space';
 import { useUserQuery } from '@/hooks/use-user';
 import { AppFooter } from './app-footer';
+import { FavoritesGroup } from './favorite-group';
 import { TeamSwitcher } from './team-switcher';
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
@@ -37,6 +37,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   const { data: user } = useUserQuery();
   const { data: spaces } = useSpacesQuery();
   const { data: draftPosts } = useDraftPostsQuery();
+
   const { slug } = useParams<{ slug: string }>();
   const pathname = usePathname();
 
@@ -98,30 +99,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <Collapsible className="group/collapsible" defaultOpen>
-          <SidebarGroup>
-            <SidebarGroupLabel asChild>
-              <CollapsibleTrigger>
-                Favorites
-                <Icons.ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton>
-                      <Label className="font-normal text-muted-foreground">
-                        Favorite your most important posts.
-                      </Label>
-                      <Icons.star className="text-muted-foreground" />
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
+        <FavoritesGroup slug={slug} />
         <Collapsible className="group/collapsible" defaultOpen>
           <SidebarGroup>
             <SidebarGroupLabel asChild>

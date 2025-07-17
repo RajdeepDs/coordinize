@@ -83,7 +83,7 @@ export async function getPublishedPostsQuery(
   });
 }
 
-export async function getPostByIdQuery(postId: string) {
+export async function getPostByIdQuery(postId: string, userId?: string) {
   return await database.post.findUnique({
     where: { id: postId },
     include: {
@@ -97,13 +97,28 @@ export async function getPostByIdQuery(postId: string) {
       },
       author: { select: { id: true, name: true, image: true } },
       resolvedBy: { select: { id: true, name: true, image: true } },
+      favorite: userId
+        ? {
+            where: {
+              userId,
+            },
+            select: {
+              id: true,
+            },
+          }
+        : {
+            select: {
+              id: true,
+            },
+          },
     },
   });
 }
 
 export async function getSpaceWithPublishedPosts(
   identifier: string,
-  workspaceId: string
+  workspaceId: string,
+  userId?: string
 ) {
   return await database.space.findFirst({
     where: {
@@ -142,6 +157,20 @@ export async function getSpaceWithPublishedPosts(
           },
         },
       },
+      favorite: userId
+        ? {
+            where: {
+              userId,
+            },
+            select: {
+              id: true,
+            },
+          }
+        : {
+            select: {
+              id: true,
+            },
+          },
     },
   });
 }
