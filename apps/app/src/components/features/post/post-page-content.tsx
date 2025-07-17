@@ -7,8 +7,8 @@ import { Icons } from '@coordinize/ui/lib/icons';
 import { cn } from '@coordinize/ui/lib/utils';
 import { useParams } from 'next/navigation';
 import { ActivitySection } from '@/components/features/activity/activity-section';
+import { EditablePostContent } from '@/components/features/post/editable-post-content';
 import { PostActivitySection } from '@/components/features/post/post-activity-section';
-import { PostContent } from '@/components/features/post/post-content';
 import { PostMetadata } from '@/components/features/post/post-metadata';
 import { PostOptions } from '@/components/features/post/post-options';
 import { PostSidebar } from '@/components/features/post/post-sidebar';
@@ -66,7 +66,7 @@ export function PostPageContent({ post }: PostPageContentProps) {
                 <Icons.star />
               </Button>
             }
-            rightContent={<PostOptions />}
+            rightContent={<PostOptions postId={post.id} />}
             showRightSidebarTrigger={true}
           />
           <div className="flex-1 overflow-auto">
@@ -76,7 +76,11 @@ export function PostPageContent({ post }: PostPageContentProps) {
                 userImage={post.author.image || ''}
                 userName={post.author.name}
               />
-              <PostContent content={post.content || ''} title={post.title} />
+              <EditablePostContent
+                initialContent={post.content}
+                initialTitle={post.title}
+                postId={post.id}
+              />
               <Button
                 className={cn('size-7 rounded-sm text-muted-foreground')}
                 size={'icon'}

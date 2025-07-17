@@ -10,9 +10,10 @@ import { PostOptions } from './post-options';
 interface PostHeaderProps {
   space: string;
   title: string;
+  postId: string;
 }
 
-export function PostHeader({ space, title }: PostHeaderProps) {
+export function PostHeader({ space, title, postId }: PostHeaderProps) {
   const { isMobile, leftState } = useSidebar();
 
   return (
@@ -51,7 +52,7 @@ export function PostHeader({ space, title }: PostHeaderProps) {
         </Button>
       </div>
       <div className="flex items-center gap-2">
-        <PostOptions />
+        <PostOptions postId={postId} />
         <SidebarTrigger
           className="size-7 rounded-sm text-muted-foreground focus-visible:ring-0"
           side="right"

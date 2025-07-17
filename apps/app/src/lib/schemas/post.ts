@@ -21,3 +21,11 @@ export const postDefaultValues: PostSchema = {
   description: EMPTY_HTML,
   space_id: '',
 };
+
+export const updatePostSchema = z.object({
+  id: z.string(),
+  title: z.string().min(1, 'Title is required.').optional(),
+  content: z.string().optional(),
+});
+
+export type UpdatePostSchema = z.infer<typeof updatePostSchema>;
