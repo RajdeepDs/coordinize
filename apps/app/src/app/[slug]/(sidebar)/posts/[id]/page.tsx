@@ -9,17 +9,7 @@ export default async function PostPage({
   const { id } = await params;
 
   const queryClient = getQueryClient();
-  const post = await queryClient.fetchQuery(
-    trpc.post.getPostById.queryOptions({ id })
-  );
+  await queryClient.prefetchQuery(trpc.post.getPostById.queryOptions({ id }));
 
-  if (!post) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <p className="text-ui-gray-900">Post not found.</p>
-      </div>
-    );
-  }
-
-  return <PostPageContent post={post} />;
+  return <PostPageContent postId={id} />;
 }

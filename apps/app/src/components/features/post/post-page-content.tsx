@@ -12,30 +12,25 @@ import { PostActivitySection } from '@/components/features/post/post-activity-se
 import { PostMetadata } from '@/components/features/post/post-metadata';
 import { PostOptions } from '@/components/features/post/post-options';
 import { PostSidebar } from '@/components/features/post/post-sidebar';
+import { ResolvedPostLabel } from '@/components/features/post/resolved-post-label';
 import { PageHeader } from '@/components/layout/page-header';
-
-interface Post {
-  id: string;
-  title: string;
-  content: string | null;
-  createdAt: Date;
-  author: {
-    name: string;
-    image: string | null;
-  };
-  space: {
-    name: string;
-    identifier: string;
-    icon: string | null;
-  };
-}
+import { usePostByIdQuery } from '@/hooks/use-posts';
 
 interface PostPageContentProps {
-  post: Post;
+  postId: string;
 }
 
-export function PostPageContent({ post }: PostPageContentProps) {
+export function PostPageContent({ postId }: PostPageContentProps) {
   const { slug } = useParams<{ slug: string }>();
+  const { data: post } = usePostByIdQuery(postId);
+
+  if (!post) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <p className="text-ui-gray-900">Post not found.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full w-full">
@@ -49,7 +44,7 @@ export function PostPageContent({ post }: PostPageContentProps) {
                 ) : (
                   <Icons.space size={16} />
                 ),
-                label: post.space?.name,
+                label: post.space?.name || 'Space',
                 href: `/${slug}/spaces/${post.space.identifier}`,
               },
               {
@@ -71,10 +66,16 @@ export function PostPageContent({ post }: PostPageContentProps) {
           />
           <div className="flex-1 overflow-auto">
             <ActivitySection>
+              {post.resolvedAt && post.resolvedById && (
+                <ResolvedPostLabel
+                  resolvedAt={post.resolvedAt}
+                  userName={post.resolvedBy?.name || ''}
+                />
+              )}
               <PostMetadata
                 createdAt={post.createdAt}
                 userImage={post.author.image || ''}
-                userName={post.author.name}
+                userName={post.author.name || ''}
               />
               <EditablePostContent
                 initialContent={post.content}
@@ -105,8 +106,8 @@ export function PostPageContent({ post }: PostPageContentProps) {
         <SidebarContent>
           <PostSidebar
             postId={post.id}
-            spaceIcon={post.space.icon}
-            spaceName={post.space.name}
+            spaceIcon={post.space.icon || null}
+            spaceName={post.space.name || ''}
           />
         </SidebarContent>
       </Sidebar>

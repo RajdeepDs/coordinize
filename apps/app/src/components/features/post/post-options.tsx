@@ -39,7 +39,7 @@ interface PostOptionsProps {
 export function PostOptions({ postId }: PostOptionsProps) {
   const pathname = usePathname();
   const { mutate: deletePost } = useDeletePost();
-  const { mutate: resolvePost } = useResolvePost();
+  const { mutate: resolvePost } = useResolvePost(postId);
   const { mutate: movePostToSpace } = useMovePostToSpace(postId);
   const { mutate: pinPostToSpace } = usePinPostToSpace(postId);
   const { data: spaces } = useSpacesQuery();
@@ -100,11 +100,16 @@ export function PostOptions({ postId }: PostOptionsProps) {
         label: post?.pinned ? 'Unpin from space' : 'Pin to space',
         onClick: handlePinToSpace,
       },
-      {
-        icon: Icons.resolve,
-        label: 'Resolve post',
-        onClick: handleResolvePost,
-      },
+      ...(post?.resolvedAt
+        ? // TODO: Add "Unresolve post" option when post is resolved
+          []
+        : [
+            {
+              icon: Icons.resolve,
+              label: 'Resolve post',
+              onClick: handleResolvePost,
+            },
+          ]),
     ].filter(Boolean),
     [
       {

@@ -21,7 +21,7 @@ export function PostMetadata({
         src={userImage}
       />
       <div className="flex items-center gap-2 text-sm text-ui-gray-900">
-        <span className="font-medium text-primary ">{userName}</span>
+        <span className="font-medium text-primary">{userName}</span>
         <span>{formatDate(createdAt)}</span>
       </div>
     </div>
