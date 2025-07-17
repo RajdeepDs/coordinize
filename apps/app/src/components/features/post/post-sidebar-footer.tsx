@@ -26,7 +26,7 @@ export function PostSidebarFooter({ postId }: PostSidebarFooterProps) {
   };
 
   return (
-    <SidebarFooter className="pl-0">
+    <SidebarFooter className="pl-2 sm:pl-0">
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton onClick={handleCopyLink}>

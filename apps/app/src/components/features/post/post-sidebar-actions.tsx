@@ -72,7 +72,7 @@ export function PostSidebarActions({ postId }: { postId: string }) {
   }
 
   return (
-    <SidebarGroup className="pl-0">
+    <SidebarGroup className="pl-2 sm:pl-0">
       <SidebarMenu>
         <SidebarMenuItem onClick={() => handleResolve()}>
           <SidebarMenuButton>

@@ -58,14 +58,14 @@ export function PageHeader({
                       href={item.href}
                     >
                       {item.icon && <span>{item.icon}</span>}
-                      <span className="max-w-[32ch] overflow-hidden truncate text-ellipsis whitespace-nowrap">
+                      <span className="max-w-[10ch] overflow-hidden truncate text-ellipsis whitespace-nowrap sm:max-w-[32ch]">
                         {item.label}
                       </span>
                     </Link>
                   ) : (
                     <BreadcrumbPage className="flex min-w-0 items-center gap-1.5">
                       {item.icon && <span>{item.icon}</span>}
-                      <span className="max-w-[32ch] overflow-hidden truncate text-ellipsis whitespace-nowrap">
+                      <span className="max-w-[10ch] overflow-hidden truncate text-ellipsis whitespace-nowrap sm:max-w-[32ch]">
                         {item.label}
                       </span>
                     </BreadcrumbPage>
