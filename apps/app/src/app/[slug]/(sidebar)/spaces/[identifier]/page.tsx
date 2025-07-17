@@ -1,8 +1,7 @@
-import { Button } from '@coordinize/ui/components/button';
 import { Sidebar, SidebarContent } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
 import { ActivitySection } from '@/components/features/activity/activity-section';
+import { SpaceFavorite } from '@/components/features/space/space-favorite';
 import { SpacePublishedPostsList } from '@/components/features/space/space-posts-list';
 import { SpaceSidebar } from '@/components/features/space/space-sidebar';
 import { PageHeader } from '@/components/layout/page-header';
@@ -44,16 +43,7 @@ export default async function SpacesPage({
                   label: space?.name || identifier,
                 },
               ]}
-              leftContent={
-                <Button
-                  className={cn('size-7 rounded-sm text-muted-foreground')}
-                  size={'icon'}
-                  tooltip="Add to your favorites"
-                  variant={'ghost'}
-                >
-                  <Icons.star />
-                </Button>
-              }
+              leftContent={<SpaceFavorite identifier={identifier} />}
               showRightSidebarTrigger={true}
             />
             <div className="flex-1 overflow-auto">

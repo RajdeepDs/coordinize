@@ -14,6 +14,9 @@ export function useToggleFavorite() {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getPostById.queryKey(),
         });
+        queryClient.invalidateQueries({
+          queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+        });
       },
     })
   );

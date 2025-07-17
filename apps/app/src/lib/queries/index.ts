@@ -117,7 +117,8 @@ export async function getPostByIdQuery(postId: string, userId?: string) {
 
 export async function getSpaceWithPublishedPosts(
   identifier: string,
-  workspaceId: string
+  workspaceId: string,
+  userId?: string
 ) {
   return await database.space.findFirst({
     where: {
@@ -156,6 +157,20 @@ export async function getSpaceWithPublishedPosts(
           },
         },
       },
+      favorite: userId
+        ? {
+            where: {
+              userId,
+            },
+            select: {
+              id: true,
+            },
+          }
+        : {
+            select: {
+              id: true,
+            },
+          },
     },
   });
 }
