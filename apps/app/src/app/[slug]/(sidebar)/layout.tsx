@@ -9,6 +9,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     trpc.workspace.current.queryOptions(),
     trpc.space.getAll.queryOptions(),
     trpc.post.getAllPublished.queryOptions(),
+    trpc.favorite.getFavorites.queryOptions(),
   ]);
 
   return (

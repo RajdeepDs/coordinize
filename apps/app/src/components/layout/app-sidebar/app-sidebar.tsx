@@ -26,6 +26,7 @@ import { useParams, usePathname } from 'next/navigation';
 import { PostComposerDialog } from '@/components/features/post-composer/post-composer-dialog';
 import { appSidebarNav } from '@/config/app-sidebar-navigation';
 import { useDraftPostsQuery } from '@/hooks/use-draft-posts';
+import { useFavoritesQuery } from '@/hooks/use-favorite';
 import { useSpacesQuery } from '@/hooks/use-space';
 import { useUserQuery } from '@/hooks/use-user';
 import { AppFooter } from './app-footer';
@@ -37,6 +38,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   const { data: user } = useUserQuery();
   const { data: spaces } = useSpacesQuery();
   const { data: draftPosts } = useDraftPostsQuery();
+  const { data: favorites } = useFavoritesQuery();
   const { slug } = useParams<{ slug: string }>();
   const pathname = usePathname();
 
@@ -109,14 +111,26 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
             <CollapsibleContent>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton>
-                      <Label className="font-normal text-muted-foreground">
-                        Favorite your most important posts.
-                      </Label>
-                      <Icons.star className="text-muted-foreground" />
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  {favorites?.length ? (
+                    favorites.map((favorite) => (
+                      <SidebarMenuItem key={favorite.id}>
+                        <SidebarMenuButton asChild>
+                          <Link href={`/${slug}/posts/${favorite.postId}`}>
+                            <span>{favorite.post?.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))
+                  ) : (
+                    <SidebarMenuItem>
+                      <SidebarMenuButton>
+                        <Label className="font-normal text-muted-foreground">
+                          Favorite your most important posts.
+                        </Label>
+                        <Icons.star className="text-muted-foreground" />
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

@@ -15,6 +15,7 @@ import { PostSidebar } from '@/components/features/post/post-sidebar';
 import { ResolvedPostLabel } from '@/components/features/post/resolved-post-label';
 import { PageHeader } from '@/components/layout/page-header';
 import { usePostByIdQuery } from '@/hooks/use-posts';
+import { useToggleFavorite } from '@/hooks/use-toggle-favorite';
 
 interface PostPageContentProps {
   postId: string;
@@ -23,6 +24,15 @@ interface PostPageContentProps {
 export function PostPageContent({ postId }: PostPageContentProps) {
   const { slug } = useParams<{ slug: string }>();
   const { data: post } = usePostByIdQuery(postId);
+  const { mutate: toggleFavorite } = useToggleFavorite();
+
+  const isFavorited = post?.favorite && post.favorite.length > 0;
+
+  function handleToggleFavorite() {
+    if (post) {
+      toggleFavorite({ id: post.id, type: 'post' });
+    }
+  }
 
   if (!post) {
     return (
@@ -53,12 +63,22 @@ export function PostPageContent({ postId }: PostPageContentProps) {
             ]}
             leftContent={
               <Button
-                className={cn('size-7 rounded-sm text-muted-foreground')}
+                className={cn(
+                  'size-7 rounded-sm',
+                  isFavorited
+                    ? 'text-ui-amber-700 hover:text-ui-amber-600'
+                    : 'text-muted-foreground'
+                )}
+                onClick={() => handleToggleFavorite()}
                 size={'icon'}
-                tooltip="Add to your favorites"
+                tooltip={
+                  isFavorited
+                    ? 'Remove from favorites'
+                    : 'Add to your favorites'
+                }
                 variant={'ghost'}
               >
-                <Icons.star />
+                <Icons.star className={isFavorited ? 'fill-current' : ''} />
               </Button>
             }
             rightContent={<PostOptions postId={post.id} />}

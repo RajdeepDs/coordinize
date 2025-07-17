@@ -19,6 +19,7 @@ import {
   useResolvePost,
 } from '@/hooks/use-posts';
 import { useSpacesQuery } from '@/hooks/use-space';
+import { useToggleFavorite } from '@/hooks/use-toggle-favorite';
 import { copyPostLink } from '@/utils/clipboard';
 
 interface PostOption {
@@ -42,8 +43,11 @@ export function PostOptions({ postId }: PostOptionsProps) {
   const { mutate: resolvePost } = useResolvePost(postId);
   const { mutate: movePostToSpace } = useMovePostToSpace(postId);
   const { mutate: pinPostToSpace } = usePinPostToSpace(postId);
+  const { mutate: toggleFavorite } = useToggleFavorite();
   const { data: spaces } = useSpacesQuery();
   const { data: post } = usePostByIdQuery(postId);
+
+  const isFavorited = post?.favorite && post.favorite.length > 0;
 
   const handleDeletePost = () => {
     deletePost({ id: postId });
@@ -65,6 +69,10 @@ export function PostOptions({ postId }: PostOptionsProps) {
     pinPostToSpace({ postId, pinned: !post?.pinned });
   };
 
+  const handleToggleFavorite = () => {
+    toggleFavorite({ id: postId, type: 'post' });
+  };
+
   // Filter out the current space from the list
   // This ensures that the "Move to space" option does not include the current space
   const availableSpaces =
@@ -77,8 +85,9 @@ export function PostOptions({ postId }: PostOptionsProps) {
         label: 'Subscribe',
       },
       {
-        icon: Icons.star,
-        label: 'Favorite',
+        icon: isFavorited ? Icons.starOff : Icons.star,
+        label: isFavorited ? 'Remove from favorites' : 'Add to favorites',
+        onClick: handleToggleFavorite,
       },
     ],
     [

@@ -42,7 +42,7 @@ model User {
   SpaceMember            SpaceMember[]
   Post                   Post[]                   @relation("AuthoredPosts")
   ResolvedPost           Post[]                   @relation("ResolvedBy")
-  Favorite               Favorite[]
+  favorite               Favorite[]
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -173,7 +173,7 @@ model Space {
   creator   User          @relation(fields: [createdBy], references: [id], onDelete: Cascade)
   members   SpaceMember[]
   posts     Post[]
-  Favorite  Favorite[]
+  favorite  Favorite[]
 
   @@unique([identifier, workspaceId])
   @@index([workspaceId])
@@ -223,7 +223,7 @@ model Post {
   author     User       @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
   space      Space      @relation(fields: [spaceId], references: [id], onDelete: Cascade)
   resolvedBy User?      @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
-  Favorite   Favorite[]
+  favorite   Favorite[]
 
   @@index([authorId])
   @@index([spaceId])

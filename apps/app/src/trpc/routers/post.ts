@@ -27,9 +27,9 @@ export const postRouter = createTRPCRouter({
 
   getPostById: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx: { session } }) => {
       const { id } = input;
-      const post = await getPostByIdQuery(id);
+      const post = await getPostByIdQuery(id, session.user.id);
 
       return post;
     }),
