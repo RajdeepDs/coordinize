@@ -44,6 +44,9 @@ export function PostComposerDialog() {
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
+        queryClient.invalidateQueries({
+          queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+        });
         clearLocalStorage();
         formRef.current?.reset();
         setOpen(false);
