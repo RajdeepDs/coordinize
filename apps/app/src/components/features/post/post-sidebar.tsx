@@ -24,19 +24,21 @@ export function PostSidebar({
 }: PostSidebarProps) {
   return (
     <div className="flex h-full w-full flex-col">
-      <SpaceGroup icon={spaceIcon} spaceName={spaceName} />
-      <SidebarGroup className="pl-0">
-        <SidebarGroupLabel>Subscribe</SidebarGroupLabel>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <div className="flex items-center justify-between p-2 text-sm">
-              <span className="select-none">New Activity</span>
-              <Switch defaultChecked />
-            </div>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarGroup>
-      <PostSidebarActions postId={postId} />
+      <div className="flex-1">
+        <SpaceGroup icon={spaceIcon} spaceName={spaceName} />
+        <SidebarGroup className="pl-2 sm:pl-0">
+          <SidebarGroupLabel>Subscribe</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <div className="flex items-center justify-between p-2 text-sm">
+                <span className="select-none">New Activity</span>
+                <Switch defaultChecked />
+              </div>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+        <PostSidebarActions postId={postId} />
+      </div>
       <PostSidebarFooter postId={postId} />
     </div>
   );

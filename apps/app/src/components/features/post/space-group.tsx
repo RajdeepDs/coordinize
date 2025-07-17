@@ -15,7 +15,7 @@ export function SpaceGroup({
   icon: string | null;
 }) {
   return (
-    <SidebarGroup className="pl-0">
+    <SidebarGroup className="pl-2 sm:pl-0">
       <SidebarGroupLabel>Space</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem>
