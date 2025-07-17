@@ -30,11 +30,19 @@ export function FavoritesGroup({ slug }: { slug: string }) {
 
   useEffect(() => {
     if (favorites && mounted) {
+      const timeouts: NodeJS.Timeout[] = [];
       favorites.forEach((favorite, index) => {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
           setAnimatedItems((prev) => new Set(prev).add(favorite.id));
         }, index * 100);
+        timeouts.push(timeout);
       });
+
+      return () => {
+        for (const timeout of timeouts) {
+          clearTimeout(timeout);
+        }
+      };
     }
   }, [favorites, mounted]);
 

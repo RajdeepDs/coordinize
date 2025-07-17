@@ -7,16 +7,21 @@ export function useToggleFavorite() {
 
   return useMutation(
     trpc.favorite.toggleFavorite.mutationOptions({
-      onSuccess: () => {
+      onSuccess: (_data, variables) => {
         queryClient.invalidateQueries({
           queryKey: trpc.favorite.getFavorites.queryKey(),
         });
-        queryClient.invalidateQueries({
-          queryKey: trpc.post.getPostById.queryKey(),
-        });
-        queryClient.invalidateQueries({
-          queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
-        });
+
+        // Only invalidate specific queries based on the toggle type
+        if (variables.type === 'post') {
+          queryClient.invalidateQueries({
+            queryKey: trpc.post.getPostById.queryKey({ id: variables.id }),
+          });
+        } else if (variables.type === 'space') {
+          queryClient.invalidateQueries({
+            queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+          });
+        }
       },
     })
   );
