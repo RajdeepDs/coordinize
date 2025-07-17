@@ -22,10 +22,21 @@ import { useFavoritesQuery } from '@/hooks/use-favorite';
 export function FavoritesGroup({ slug }: { slug: string }) {
   const { data: favorites, isLoading } = useFavoritesQuery();
   const [mounted, setMounted] = useState(false);
+  const [animatedItems, setAnimatedItems] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (favorites && mounted) {
+      favorites.forEach((favorite, index) => {
+        setTimeout(() => {
+          setAnimatedItems((prev) => new Set(prev).add(favorite.id));
+        }, index * 100);
+      });
+    }
+  }, [favorites, mounted]);
 
   if (!mounted) {
     return null;
@@ -54,8 +65,11 @@ export function FavoritesGroup({ slug }: { slug: string }) {
               )}
 
               {!isLoading &&
-                favorites?.length &&
+                favorites &&
+                favorites.length > 0 &&
                 favorites.map((favorite) => {
+                  const isAnimated = animatedItems.has(favorite.id);
+
                   if (
                     favorite.postId &&
                     favorite.post?.title &&
@@ -63,7 +77,14 @@ export function FavoritesGroup({ slug }: { slug: string }) {
                   ) {
                     const postHref = `/${slug}/posts/${favorite.postId}`;
                     return (
-                      <SidebarMenuItem key={favorite.id}>
+                      <SidebarMenuItem
+                        className={`transition-all duration-300 ease-out ${
+                          isAnimated
+                            ? 'translate-y-0 opacity-100'
+                            : '-translate-y-4 opacity-0'
+                        }`}
+                        key={favorite.id}
+                      >
                         <SidebarMenuButton asChild>
                           <Link href={postHref}>
                             <Icons.post />
@@ -81,7 +102,14 @@ export function FavoritesGroup({ slug }: { slug: string }) {
                   ) {
                     const spaceHref = `/${slug}/spaces/${favorite.space.identifier}`;
                     return (
-                      <SidebarMenuItem key={favorite.id}>
+                      <SidebarMenuItem
+                        className={`transition-all duration-300 ease-out ${
+                          isAnimated
+                            ? 'translate-y-0 opacity-100'
+                            : '-translate-y-4 opacity-0'
+                        }`}
+                        key={favorite.id}
+                      >
                         <SidebarMenuButton asChild>
                           <Link href={spaceHref}>
                             {favorite.space.icon ? (

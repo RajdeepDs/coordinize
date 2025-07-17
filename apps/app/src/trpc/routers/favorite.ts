@@ -10,6 +10,9 @@ export const favoriteRouter = createTRPCRouter({
         post: true,
         space: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }),
 
