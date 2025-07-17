@@ -113,7 +113,7 @@ export function useResolvePost() {
   );
 }
 
-export function useMovePostToSpace() {
+export function useMovePostToSpace(postId: string) {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
@@ -125,7 +125,31 @@ export function useMovePostToSpace() {
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
         queryClient.invalidateQueries({
-          queryKey: trpc.post.getPostById.queryKey(),
+          queryKey: trpc.post.getPostById.queryKey({
+            id: postId,
+          }),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+        });
+      },
+    })
+  );
+}
+
+export function usePinPostToSpace(postId: string) {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.post.pinPostToSpace.mutationOptions({
+      onSuccess: (_, variables) => {
+        const message = variables.pinned
+          ? 'Post pinned to space successfully.'
+          : 'Post unpinned from space successfully.';
+        toast.success(message);
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getPostById.queryKey({ id: postId }),
         });
         queryClient.invalidateQueries({
           queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),

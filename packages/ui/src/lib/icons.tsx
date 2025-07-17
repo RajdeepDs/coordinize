@@ -42,6 +42,7 @@ import {
   Monitor,
   Pen,
   Pin,
+  PinOff,
   Plus,
   Quote,
   Search,
@@ -121,6 +122,7 @@ export const Icons = {
   link: Link,
   link2: Link2,
   pin: Pin,
+  pinOff: PinOff,
   share: Send,
   trash: Trash,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (

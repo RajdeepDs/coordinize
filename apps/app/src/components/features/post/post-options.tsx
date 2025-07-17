@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 import {
   useDeletePost,
   useMovePostToSpace,
+  usePinPostToSpace,
   usePostByIdQuery,
   useResolvePost,
 } from '@/hooks/use-posts';
@@ -39,7 +40,8 @@ export function PostOptions({ postId }: PostOptionsProps) {
   const pathname = usePathname();
   const { mutate: deletePost } = useDeletePost();
   const { mutate: resolvePost } = useResolvePost();
-  const { mutate: movePostToSpace } = useMovePostToSpace();
+  const { mutate: movePostToSpace } = useMovePostToSpace(postId);
+  const { mutate: pinPostToSpace } = usePinPostToSpace(postId);
   const { data: spaces } = useSpacesQuery();
   const { data: post } = usePostByIdQuery(postId);
 
@@ -57,6 +59,10 @@ export function PostOptions({ postId }: PostOptionsProps) {
 
   const handleMoveToSpace = (spaceId: string) => {
     movePostToSpace({ postId, spaceId });
+  };
+
+  const handlePinToSpace = () => {
+    pinPostToSpace({ postId, pinned: !post?.pinned });
   };
 
   // Filter out the current space from the list
@@ -90,8 +96,9 @@ export function PostOptions({ postId }: PostOptionsProps) {
           ]
         : []),
       {
-        icon: Icons.pin,
-        label: 'Pin to space',
+        icon: post?.pinned ? Icons.pinOff : Icons.pin,
+        label: post?.pinned ? 'Unpin from space' : 'Pin to space',
+        onClick: handlePinToSpace,
       },
       {
         icon: Icons.resolve,
