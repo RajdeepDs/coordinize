@@ -38,6 +38,7 @@
     "frimousse": "^0.2.0",
     "lucide-react": "^0.513.0",
     "next-themes": "^0.4.6",
+    "radix-ui": "^1.4.2",
     "react": "^19.1.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^19.1.0",
@@ -96,6 +97,7 @@
     "./textarea": "./src/components/textarea.tsx",
     "./emoji-picker": "./src/components/emoji-picker.tsx",
     "./layered-hotkeys": "./src/components/layered-hotkeys.tsx",
-    "./breadcrumb": "./src/components/breadcrumb.tsx"
+    "./breadcrumb": "./src/components/breadcrumb.tsx",
+    "./timeline": "./src/components/timeline.tsx"
   }
 }

@@ -36,6 +36,6 @@ export const TimelineEventMessages: Record<
     return `moved this post from ${oldSpaceName} to ${newSpaceName}`;
   },
   RESOLVED: () => 'marked this post as resolved',
-  REOPENED: () => 'reopened this post',
+  REOPENED: () => 're-opened this post',
   COMMENTED: () => 'commented on this post',
 };
