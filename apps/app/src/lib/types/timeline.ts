@@ -22,9 +22,19 @@ export const TimelineEventMessages: Record<
       oldTitle?: string;
       newTitle?: string;
     } | null;
-    return `changed the title from "${metadata?.oldTitle}" to "${metadata?.newTitle}"`;
+    return `changed the title from ${metadata?.oldTitle} to ${metadata?.newTitle}`;
   },
-  MOVED_SPACE: () => 'moved this post to another space',
+  MOVED_SPACE: (event) => {
+    const metadata = event.metadata as {
+      oldSpaceName?: string;
+      newSpaceName?: string;
+    } | null;
+
+    const oldSpaceName = metadata?.oldSpaceName;
+    const newSpaceName = metadata?.newSpaceName;
+
+    return `moved this post from ${oldSpaceName} to ${newSpaceName}`;
+  },
   RESOLVED: () => 'marked this post as resolved',
   REOPENED: () => 'reopened this post',
   COMMENTED: () => 'commented on this post',

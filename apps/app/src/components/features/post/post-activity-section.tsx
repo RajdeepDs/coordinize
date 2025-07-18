@@ -3,6 +3,8 @@
 import type { TimelineEvent } from '@coordinize/database/db';
 import { Label } from '@coordinize/ui/components/label';
 import { Suspense } from 'react';
+import AvatarStatus from '@/components/ui/avatar-status';
+import { Dot } from '@/components/ui/dot';
 import { usePostTimelineQuery } from '@/hooks/use-timeline';
 import { TimelineEventMessages } from '@/lib/types/timeline';
 import { formatDate } from '@/utils/format-date';
@@ -25,22 +27,23 @@ function TimelineContent({ postId }: { postId: string }) {
         const message = getMessage(event as TimelineEvent);
 
         return (
-          <div className="flex gap-3" key={event.id}>
+          <div className="flex gap-2" key={event.id}>
             <div className="flex-shrink-0">
-              <div className="flex size-8 items-center justify-center rounded-full bg-muted">
-                {event.actor?.name?.charAt(0) || '?'}
-              </div>
+              <AvatarStatus
+                alt="user-avatar"
+                className="size-6"
+                fallback={event.actor?.name?.charAt(0) || '?'}
+                src={event.actor?.image || ''}
+                statusShow={false}
+              />
             </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-sm">
-                <span className="font-medium text-foreground">
-                  {event.actor?.name || 'Unknown user'}
-                </span>{' '}
-                <span className="text-muted-foreground">{message}</span>
-              </div>
-              <div className="mt-1 text-muted-foreground text-xs">
-                {formatDate(event.createdAt)}
-              </div>
+            <div className="flex items-center gap-2 text-sm text-ui-gray-900">
+              <span className="font-medium text-primary">
+                {event.actor?.name || ''}
+              </span>
+              <span>{message}</span>
+              <Dot className="size-1" />
+              <span>{formatDate(event.createdAt)}</span>
             </div>
           </div>
         );

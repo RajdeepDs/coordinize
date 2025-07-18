@@ -184,7 +184,7 @@ export async function getPostTimelineEventsQuery(
   db: PrismaClient,
   postId: string
 ) {
-  return await db.timelineEvent.findMany({
+  const timelineEvents = await db.timelineEvent.findMany({
     where: {
       subjectType: 'Post',
       subjectId: postId,
@@ -202,6 +202,52 @@ export async function getPostTimelineEventsQuery(
       createdAt: 'desc',
     },
   });
+
+  // For MOVED_SPACE actions, we need to fetch space names
+  const eventsWithSpaceNames = await Promise.all(
+    timelineEvents.map(async (event) => {
+      if (event.action === 'MOVED_SPACE' && event.metadata) {
+        const metadata = event.metadata as {
+          oldSpaceId?: string;
+          newSpaceId?: string;
+        };
+
+        const spaceIds = [metadata.oldSpaceId, metadata.newSpaceId].filter(
+          Boolean
+        ) as string[];
+
+        const spaces = await db.space.findMany({
+          where: {
+            id: {
+              in: spaceIds,
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+          },
+        });
+
+        const spaceMap = new Map(spaces.map((space) => [space.id, space.name]));
+
+        return {
+          ...event,
+          metadata: {
+            ...metadata,
+            oldSpaceName: metadata.oldSpaceId
+              ? spaceMap.get(metadata.oldSpaceId)
+              : undefined,
+            newSpaceName: metadata.newSpaceId
+              ? spaceMap.get(metadata.newSpaceId)
+              : undefined,
+          },
+        };
+      }
+      return event;
+    })
+  );
+
+  return eventsWithSpaceNames;
 }
 
 export async function createTimelineEventMutation(
