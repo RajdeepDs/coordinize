@@ -5,6 +5,7 @@ import { favoriteRouter } from './favorite';
 import { onboardingRouter } from './onboarding';
 import { postRouter } from './post';
 import { spaceRouter } from './space';
+import { timelineRouter } from './timeline';
 import { userRouter } from './user';
 import { workspaceRouter } from './workspace';
 
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   space: spaceRouter,
   post: postRouter,
   favorite: favoriteRouter,
+  timeline: timelineRouter,
 });
 
 // export type definition of API

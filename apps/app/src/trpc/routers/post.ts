@@ -1,6 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod/v4';
 import { createDraftPost, createNewPost } from '@/lib/mutations';
+import { createPostTimelineEvent } from '@/lib/mutations/timeline-helpers';
 import {
   getDraftPostsQuery,
   getPostByIdQuery,
@@ -105,7 +106,7 @@ export const postRouter = createTRPCRouter({
 
       const existingPost = await db.post.findUnique({
         where: { id },
-        select: { authorId: true, workspaceId: true },
+        select: { authorId: true, workspaceId: true, title: true },
       });
 
       if (!existingPost) {
@@ -123,8 +124,11 @@ export const postRouter = createTRPCRouter({
       }
 
       const updateData: Record<string, string> = {};
-      if (title !== undefined) {
+      let titleChanged = false;
+
+      if (title !== undefined && title !== existingPost.title) {
         updateData.title = title;
+        titleChanged = true;
       }
       if (content !== undefined) {
         updateData.content = content;
@@ -135,6 +139,19 @@ export const postRouter = createTRPCRouter({
           where: { id },
           data: updateData,
         });
+
+        // Create timeline event for title changes
+        if (titleChanged) {
+          await createPostTimelineEvent(db, {
+            action: 'UPDATED_TITLE',
+            postId: id,
+            actorId: session.user.id,
+            metadata: {
+              oldTitle: existingPost.title,
+              newTitle: title,
+            },
+          });
+        }
       }
     }),
 
@@ -158,6 +175,56 @@ export const postRouter = createTRPCRouter({
       await db.post.update({
         where: { id },
         data: { resolvedById: session.user.id, resolvedAt: new Date() },
+      });
+
+      // Create timeline event for resolving post
+      await createPostTimelineEvent(db, {
+        action: 'RESOLVED',
+        postId: id,
+        actorId: session.user.id,
+        metadata: {
+          resolvedAt: new Date().toISOString(),
+        },
+      });
+    }),
+
+  unresolve: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx: { db, session } }) => {
+      const { id } = input;
+
+      const post = await db.post.findUnique({
+        where: { id },
+        select: { resolvedAt: true, workspaceId: true, authorId: true },
+      });
+
+      if (!post) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Post not found.',
+        });
+      }
+
+      if (!post.resolvedAt) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Post is not resolved.',
+        });
+      }
+
+      await db.post.update({
+        where: { id },
+        data: { resolvedById: null, resolvedAt: null },
+      });
+
+      // Create timeline event for unresolving post
+      await createPostTimelineEvent(db, {
+        action: 'REOPENED',
+        postId: id,
+        actorId: session.user.id,
+        metadata: {
+          unresolvedAt: new Date().toISOString(),
+        },
       });
     }),
 
@@ -198,7 +265,7 @@ export const postRouter = createTRPCRouter({
 
       const post = await db.post.findUnique({
         where: { id: postId },
-        select: { authorId: true, workspaceId: true },
+        select: { authorId: true, workspaceId: true, spaceId: true },
       });
 
       if (!post) {
@@ -215,9 +282,24 @@ export const postRouter = createTRPCRouter({
         });
       }
 
+      const oldSpaceId = post.spaceId;
+
       await db.post.update({
         where: { id: postId },
         data: { spaceId },
+      });
+
+      // Create timeline event for moving post to space
+      await createPostTimelineEvent(db, {
+        action: 'MOVED_SPACE',
+        postId,
+        actorId: session.user.id,
+        referenceType: 'Space',
+        referenceId: spaceId,
+        metadata: {
+          oldSpaceId,
+          newSpaceId: spaceId,
+        },
       });
     }),
 

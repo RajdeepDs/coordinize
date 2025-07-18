@@ -111,7 +111,7 @@ export function PostPageContent({ postId }: PostPageContentProps) {
                 <Icons.emojiPlus size={16} />
               </Button>
               <Separator />
-              <PostActivitySection />
+              <PostActivitySection postId={post.id} />
             </ActivitySection>
           </div>
         </div>

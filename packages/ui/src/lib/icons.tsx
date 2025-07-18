@@ -40,8 +40,7 @@ import {
   Lock,
   Mail,
   Maximize2,
-  Monitor,
-  Pen,
+  Monitor, Pencil,
   Pin,
   PinOff,
   Plus,
@@ -61,7 +60,7 @@ import {
   UserSquare2,
   Users,
   Users2,
-  X,
+  X
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -102,7 +101,7 @@ export const Icons = {
   star: Star,
   starOff: StarOff,
   maximize: Maximize2,
-  pen: Pen,
+  pen: Pencil,
   space: Tent,
   dragHandle: GripVertical,
   bold: Bold,

@@ -1,6 +1,11 @@
 'use server';
 
-import { database } from '@coordinize/database/db';
+import {
+  database,
+  type Prisma,
+  type PrismaClient,
+  type TimelineAction,
+} from '@coordinize/database/db';
 
 export async function getUserQuery(userId: string) {
   return await database.user.findUnique({ where: { id: userId } });
@@ -171,6 +176,115 @@ export async function getSpaceWithPublishedPosts(
               id: true,
             },
           },
+    },
+  });
+}
+
+export async function getPostTimelineEventsQuery(
+  db: PrismaClient,
+  postId: string
+) {
+  const timelineEvents = await db.timelineEvent.findMany({
+    where: {
+      subjectType: 'Post',
+      subjectId: postId,
+    },
+    include: {
+      actor: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  // For MOVED_SPACE actions, we need to fetch space names
+  const eventsWithSpaceNames = await Promise.all(
+    timelineEvents.map(async (event) => {
+      if (event.action === 'MOVED_SPACE' && event.metadata) {
+        const metadata = event.metadata as {
+          oldSpaceId?: string;
+          newSpaceId?: string;
+        };
+
+        const spaceIds = [metadata.oldSpaceId, metadata.newSpaceId].filter(
+          Boolean
+        ) as string[];
+
+        const spaces = await db.space.findMany({
+          where: {
+            id: {
+              in: spaceIds,
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+          },
+        });
+
+        const spaceMap = new Map(spaces.map((space) => [space.id, space.name]));
+
+        return {
+          ...event,
+          metadata: {
+            ...metadata,
+            oldSpaceName: metadata.oldSpaceId
+              ? spaceMap.get(metadata.oldSpaceId)
+              : undefined,
+            newSpaceName: metadata.newSpaceId
+              ? spaceMap.get(metadata.newSpaceId)
+              : undefined,
+          },
+        };
+      }
+      return event;
+    })
+  );
+
+  return eventsWithSpaceNames;
+}
+
+export async function createTimelineEventMutation(
+  db: PrismaClient,
+  data: {
+    actorId: string;
+    actorType: string;
+    subjectType: string;
+    subjectId: string;
+    referenceType?: string;
+    referenceId?: string;
+    action: TimelineAction;
+    metadata?: Prisma.InputJsonValue;
+  }
+) {
+  // For non-comment actions, delete existing timeline events of the same action type
+  // to avoid clutter (e.g., multiple space moves, title updates, etc.)
+  if (data.action !== 'COMMENTED') {
+    await db.timelineEvent.deleteMany({
+      where: {
+        subjectType: data.subjectType,
+        subjectId: data.subjectId,
+        action: data.action,
+      },
+    });
+  }
+
+  return await db.timelineEvent.create({
+    data,
+    include: {
+      actor: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
     },
   });
 }
