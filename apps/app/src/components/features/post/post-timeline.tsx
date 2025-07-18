@@ -65,12 +65,12 @@ export function PostTimeline({ postId }: { postId: string }) {
                 {getIcon()}
               </TimelineIndicator>
             </TimelineHeader>
-            <TimelineContent className="-ms-1 text-balance">
+            <TimelineContent className="-ms-1 space-x-0.5 text-balance">
               <span className="font-medium text-foreground">
                 {event.actor?.name || ''}
               </span>{' '}
               <span>{message}</span>{' '}
-              <span className="inline-block size-1 rounded-full bg-ui-gray-700 align-middle" />{' '}
+              <span className="inline-block size-[3px] rounded-full bg-ui-gray-700 align-middle" />{' '}
               <span>{formatDate(event.createdAt)}</span>
             </TimelineContent>
           </TimelineItem>

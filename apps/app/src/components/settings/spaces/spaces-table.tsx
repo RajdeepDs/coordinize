@@ -27,7 +27,7 @@ import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { RowActions } from '@/components/settings/spaces/row-actions';
-import { formatDate } from '@/utils/format-date';
+import { formatDateToMonthDay } from '@/utils/format-date';
 
 interface SpacesTableProps {
   readonly data: Item[];
@@ -75,7 +75,7 @@ const columns: ColumnDef<Item>[] = [
     header: 'Created',
     accessorKey: 'createdAt',
     cell: ({ row }) => {
-      const date = formatDate(row?.getValue('createdAt'));
+      const date = formatDateToMonthDay(row?.getValue('createdAt'));
       return date;
     },
   },
