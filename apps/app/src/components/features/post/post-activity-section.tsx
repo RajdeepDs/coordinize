@@ -2,6 +2,7 @@
 
 import type { TimelineEvent } from '@coordinize/database/db';
 import { Label } from '@coordinize/ui/components/label';
+import { Icons } from '@coordinize/ui/lib/icons';
 import { Suspense } from 'react';
 import AvatarStatus from '@/components/ui/avatar-status';
 import { Dot } from '@/components/ui/dot';
@@ -26,17 +27,34 @@ function TimelineContent({ postId }: { postId: string }) {
         const getMessage = TimelineEventMessages[event.action];
         const message = getMessage(event as TimelineEvent);
 
+        const getIcon = () => {
+          switch (event.action) {
+            case 'RESOLVED':
+            case 'REOPENED':
+              return <Icons.post className="text-muted-foreground" size={16} />;
+            case 'UPDATED_TITLE':
+              return <Icons.pen className="text-muted-foreground" size={16} />;
+            case 'MOVED_SPACE':
+              return (
+                <Icons.space className="text-muted-foreground" size={16} />
+              );
+
+            default:
+              return (
+                <AvatarStatus
+                  alt="user-avatar"
+                  className="size-4"
+                  fallback={event.actor?.name?.charAt(0) || '?'}
+                  src={event.actor?.image || ''}
+                  statusShow={false}
+                />
+              );
+          }
+        };
+
         return (
-          <div className="flex gap-2" key={event.id}>
-            <div className="flex-shrink-0">
-              <AvatarStatus
-                alt="user-avatar"
-                className="size-6"
-                fallback={event.actor?.name?.charAt(0) || '?'}
-                src={event.actor?.image || ''}
-                statusShow={false}
-              />
-            </div>
+          <div className="flex items-center gap-2" key={event.id}>
+            <div className="flex-shrink-0">{getIcon()}</div>
             <div className="flex items-center gap-2 text-sm text-ui-gray-900">
               <span className="font-medium text-primary">
                 {event.actor?.name || ''}
