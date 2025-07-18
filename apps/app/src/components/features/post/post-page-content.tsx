@@ -82,7 +82,7 @@ export function PostPageContent({ postId }: PostPageContentProps) {
               </Button>
             }
             rightContent={<PostOptions postId={post.id} />}
-            showRightSidebarTrigger={true}
+            showRightSidebarTrigger
           />
           <div className="flex-1 overflow-auto">
             <ActivitySection>
