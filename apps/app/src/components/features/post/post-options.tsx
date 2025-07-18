@@ -17,6 +17,7 @@ import {
   usePinPostToSpace,
   usePostByIdQuery,
   useResolvePost,
+  useUnresolvePost,
 } from '@/hooks/use-posts';
 import { useSpacesQuery } from '@/hooks/use-space';
 import { useToggleFavorite } from '@/hooks/use-toggle-favorite';
@@ -41,6 +42,7 @@ export function PostOptions({ postId }: PostOptionsProps) {
   const pathname = usePathname();
   const { mutate: deletePost } = useDeletePost();
   const { mutate: resolvePost } = useResolvePost(postId);
+  const { mutate: unresolvePost } = useUnresolvePost(postId);
   const { mutate: movePostToSpace } = useMovePostToSpace(postId);
   const { mutate: pinPostToSpace } = usePinPostToSpace(postId);
   const { mutate: toggleFavorite } = useToggleFavorite();
@@ -55,6 +57,10 @@ export function PostOptions({ postId }: PostOptionsProps) {
 
   const handleResolvePost = () => {
     resolvePost({ id: postId });
+  };
+
+  const handleUnresolvePost = () => {
+    unresolvePost({ id: postId });
   };
 
   const handleCopyLink = () => {
@@ -110,8 +116,13 @@ export function PostOptions({ postId }: PostOptionsProps) {
         onClick: handlePinToSpace,
       },
       ...(post?.resolvedAt
-        ? // TODO: Add "Unresolve post" option when post is resolved
-          []
+        ? [
+            {
+              icon: Icons.circleX,
+              label: 'Reopen post',
+              onClick: handleUnresolvePost,
+            },
+          ]
         : [
             {
               icon: Icons.resolve,

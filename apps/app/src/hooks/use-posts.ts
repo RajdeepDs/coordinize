@@ -68,6 +68,10 @@ export function useUpdatePost(postId: string) {
         queryClient.invalidateQueries({
           queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
         });
+
+        queryClient.invalidateQueries({
+          queryKey: trpc.timeline.getPostTimeline.queryKey({ postId }),
+        });
       },
     })
   );
@@ -112,6 +116,36 @@ export function useResolvePost(postId: string) {
         queryClient.invalidateQueries({
           queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
         });
+        queryClient.invalidateQueries({
+          queryKey: trpc.timeline.getPostTimeline.queryKey({ postId }),
+        });
+      },
+    })
+  );
+}
+
+export function useUnresolvePost(postId: string) {
+  const trpc = useTRPC();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    trpc.post.unresolve.mutationOptions({
+      onSuccess: () => {
+        toast.success('Post reopened successfully.');
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getAllPublished.queryKey(),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.post.getPostById.queryKey({
+            id: postId,
+          }),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.timeline.getPostTimeline.queryKey({ postId }),
+        });
       },
     })
   );
@@ -136,6 +170,9 @@ export function useMovePostToSpace(postId: string) {
         queryClient.invalidateQueries({
           queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
         });
+        queryClient.invalidateQueries({
+          queryKey: trpc.timeline.getPostTimeline.queryKey({ postId }),
+        });
       },
     })
   );
@@ -157,6 +194,9 @@ export function usePinPostToSpace(postId: string) {
         });
         queryClient.invalidateQueries({
           queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
+        });
+        queryClient.invalidateQueries({
+          queryKey: trpc.timeline.getPostTimeline.queryKey({ postId }),
         });
       },
     })

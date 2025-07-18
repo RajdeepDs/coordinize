@@ -134,7 +134,7 @@ export async function createNewPost(
   userId: string,
   workspaceId: string
 ) {
-  await db.post.create({
+  const post = await db.post.create({
     data: {
       title,
       content: description,
@@ -145,6 +145,7 @@ export async function createNewPost(
       publishedAt: new Date(),
     },
   });
+  return post;
 }
 
 export async function createDraftPost(

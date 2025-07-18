@@ -43,6 +43,7 @@ model User {
   Post                   Post[]                   @relation("AuthoredPosts")
   ResolvedPost           Post[]                   @relation("ResolvedBy")
   favorite               Favorite[]
+  TimelineEvent          TimelineEvent[]
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -219,11 +220,12 @@ model Post {
   pinned         Boolean    @default(false)
   archived       Boolean    @default(false)
 
-  workspace  Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  author     User       @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
-  space      Space      @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  resolvedBy User?      @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
-  favorite   Favorite[]
+  workspace      Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  author         User            @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
+  space          Space           @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  resolvedBy     User?           @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
+  favorite       Favorite[]
+  timelineEvents TimelineEvent[]
 
   @@index([authorId])
   @@index([spaceId])
@@ -249,4 +251,41 @@ model Favorite {
   @@index([postId])
   @@index([spaceId])
   @@map("favorite")
+}
+
+enum TimelineAction {
+  UPDATED_TITLE
+  MOVED_SPACE
+  RESOLVED
+  REOPENED
+  COMMENTED
+}
+
+model TimelineEvent {
+  id        String  @id @default(cuid())
+  actorId   String?
+  actor     User?   @relation(fields: [actorId], references: [id])
+  actorType String?
+
+  subjectType String
+  subjectId   String
+
+  post Post? @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  referenceType String?
+  referenceId   String?
+
+  action   TimelineAction
+  metadata Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([action])
+  @@index([actorType, actorId])
+  @@index([subjectType, subjectId])
+  @@index([subjectId])
+  @@index([referenceType, referenceId])
+  @@index([actorId])
+  @@map("timelineEvent")
 }
