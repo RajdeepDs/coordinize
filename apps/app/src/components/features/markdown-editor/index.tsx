@@ -28,6 +28,7 @@ interface MarkdownEditorProps {
   onEmptyDidChange?: (isEmpty: boolean) => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  editable?: boolean;
 }
 
 export function MarkdownEditor(props: MarkdownEditorProps) {
@@ -42,6 +43,7 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     onChangeDebounced,
     onChangeDebounceMs = 300,
     onEmptyDidChange,
+    editable = true,
   } = props;
 
   const onChangeDebouncedInner = useDebouncedCallback(
@@ -74,6 +76,7 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
             .join('; '),
         },
       },
+      editable,
       parseOptions: {
         preserveWhitespace: true,
       },
