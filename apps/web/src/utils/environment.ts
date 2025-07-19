@@ -1,4 +1,9 @@
 export function getUrl() {
+  // Always use www.coordinize.tech in production
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://www.coordinize.tech';
+  }
+
   if (process.env.NEXT_PUBLIC_WEB_URL) {
     return process.env.NEXT_PUBLIC_WEB_URL;
   }
