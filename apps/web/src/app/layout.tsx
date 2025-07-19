@@ -21,13 +21,19 @@ export const metadata: Metadata = {
   title: 'Coordinize',
   description: 'Modern communication platform for modern teams.',
   twitter: {
+    title: 'Coordinize',
+    description: 'Modern communication platform for modern teams.',
     card: 'summary_large_image',
     site: '@coordinize',
-    creator: '@coordinize',
+    images: '/opengraph-image.png',
   },
   openGraph: {
     title: 'Coordinize',
     description: 'Modern communication platform for modern teams.',
+    url: 'https://coordinize.tech',
+    siteName: 'Coordinize',
+    type: 'website',
+    locale: 'en_US',
     images: '/opengraph-image.png',
   },
 };

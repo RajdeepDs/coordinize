@@ -21,11 +21,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://coordinize.tech'),
   title: {
     template: '%s | Coordinize',
     default: 'Coordinize',
   },
   description: 'Modern communication platform for modern teams.',
+  twitter: {
+    title: 'Coordinize',
+    description: 'Modern communication platform for modern teams.',
+    card: 'summary_large_image',
+    site: '@coordinize',
+    images: '/opengraph-image.png',
+  },
+  openGraph: {
+    title: 'Coordinize',
+    description: 'Modern communication platform for modern teams.',
+    url: 'https://coordinize.tech',
+    siteName: 'Coordinize',
+    type: 'website',
+    locale: 'en_US',
+    images: '/opengraph-image.png',
+  },
 };
 
 export default function RootLayout({
