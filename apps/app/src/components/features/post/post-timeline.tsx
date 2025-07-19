@@ -13,7 +13,10 @@ import {
 import { CommentItem } from '@/components/features/comments/comment-item';
 import AvatarStatus from '@/components/ui/avatar-status';
 import { usePostTimelineQuery } from '@/hooks/use-timeline';
-import { TimelineEventMessages } from '@/lib/types/timeline';
+import {
+  type EventWithComment,
+  TimelineEventMessages,
+} from '@/lib/types/timeline';
 import { formatDate } from '@/utils/format-date';
 
 export function PostTimeline({ postId }: { postId: string }) {
@@ -24,55 +27,6 @@ export function PostTimeline({ postId }: { postId: string }) {
       <div className="text-muted-foreground text-sm">No activity yet.</div>
     );
   }
-
-  type EventWithComment = (typeof events)[0] & {
-    createdAt: Date;
-    comment?: {
-      id: string;
-      content: string;
-      createdAt: Date;
-      updatedAt: Date;
-      edited: boolean;
-      authorId: string;
-      postId: string;
-      parentId: string | null;
-      author: {
-        id: string;
-        name: string;
-        image: string | null;
-      };
-      replies?: {
-        id: string;
-        content: string;
-        createdAt: Date;
-        updatedAt: Date;
-        edited: boolean;
-        authorId: string;
-        postId: string;
-        parentId: string | null;
-        author: {
-          id: string;
-          name: string;
-          image: string | null;
-        };
-        replies?: {
-          id: string;
-          content: string;
-          createdAt: Date;
-          updatedAt: Date;
-          edited: boolean;
-          authorId: string;
-          postId: string;
-          parentId: string | null;
-          author: {
-            id: string;
-            name: string;
-            image: string | null;
-          };
-        }[];
-      }[];
-    };
-  };
 
   return (
     <div className="space-y-4">
@@ -87,7 +41,7 @@ export function PostTimeline({ postId }: { postId: string }) {
           .map((event, index) => {
             const getMessage = TimelineEventMessages[event.action];
             const message = getMessage(event as unknown as TimelineEvent);
-            const eventWithComment = event as EventWithComment;
+            const eventWithComment = event as unknown as EventWithComment;
 
             const getIcon = () => {
               switch (event.action) {
