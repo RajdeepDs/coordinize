@@ -6,6 +6,9 @@ type HomeLayoutProps = {
   readonly children: ReactNode;
 };
 
+// Required for tRPC prefetching
+export const dynamic = 'force-dynamic';
+
 export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <>

@@ -73,6 +73,7 @@ export function Header() {
             variant="ghost"
           >
             <Link
+              aria-label="Visit our GitHub repository"
               href={'https://github.com/RajdeepDs/coordinize'}
               rel="noopener noreferrer"
               target="_blank"
@@ -87,6 +88,7 @@ export function Header() {
             variant="ghost"
           >
             <Link
+              aria-label="Follow us on X (Twitter)"
               href={'https://x.com/Rajdeep__ds'}
               rel="noopener noreferrer"
               target="_blank"
