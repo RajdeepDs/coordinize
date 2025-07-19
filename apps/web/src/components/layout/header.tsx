@@ -49,7 +49,7 @@ export function Header() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2">
           <Link className="hidden" href={'/docs'}>
             <Button size="sm" variant="ghost">
               Docs

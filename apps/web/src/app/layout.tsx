@@ -1,3 +1,4 @@
+import { TRPCReactProvider } from '@/trpc/client';
 import '@coordinize/ui/globals.css';
 import { DesignSystemProvider } from '@coordinize/ui/providers';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
@@ -43,11 +44,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <DesignSystemProvider>
-          {children}
-          <VercelAnalytics />
-          <SpeedInsights />
-        </DesignSystemProvider>
+        <TRPCReactProvider>
+          <DesignSystemProvider>
+            {children}
+            <VercelAnalytics />
+            <SpeedInsights />
+          </DesignSystemProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
