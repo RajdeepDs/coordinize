@@ -1,5 +1,41 @@
 import type { TimelineAction, TimelineEvent } from '@coordinize/database/db';
 
+export interface CommentAuthor {
+  id: string;
+  name: string;
+  image: string | null;
+}
+
+export interface CommentReply {
+  id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  edited: boolean;
+  authorId: string;
+  postId: string;
+  parentId: string | null;
+  author: CommentAuthor;
+}
+
+export interface TimelineComment {
+  id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  edited: boolean;
+  authorId: string;
+  postId: string;
+  parentId: string | null;
+  author: CommentAuthor;
+  replies?: (CommentReply & { replies?: CommentReply[] })[];
+}
+
+export interface EventWithComment extends TimelineEvent {
+  createdAt: Date;
+  comment?: TimelineComment;
+}
+
 export interface TimelineEventDisplay {
   id: string;
   action: TimelineAction;
@@ -11,6 +47,16 @@ export interface TimelineEventDisplay {
     image: string | null;
   } | null;
   metadata?: Record<string, unknown>;
+  comment?: {
+    id: string;
+    content: string;
+    createdAt: Date;
+    author: {
+      id: string;
+      name: string;
+      image: string | null;
+    };
+  } | null;
 }
 
 export const TimelineEventMessages: Record<

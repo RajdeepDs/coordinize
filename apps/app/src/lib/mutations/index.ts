@@ -168,3 +168,69 @@ export async function createDraftPost(
     },
   });
 }
+
+export async function createCommentMutation(
+  db: PrismaClient,
+  content: string,
+  postId: string,
+  authorId: string,
+  parentId?: string
+) {
+  const comment = await db.comment.create({
+    data: {
+      content,
+      postId,
+      authorId,
+      parentId,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  // Update post's lastActivityAt
+  await db.post.update({
+    where: { id: postId },
+    data: { lastActivityAt: new Date() },
+  });
+
+  return comment;
+}
+
+export async function updateCommentMutation(
+  db: PrismaClient,
+  commentId: string,
+  content: string
+) {
+  return await db.comment.update({
+    where: { id: commentId },
+    data: {
+      content,
+      edited: true,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+}
+
+export async function deleteCommentMutation(
+  db: PrismaClient,
+  commentId: string
+) {
+  return await db.comment.delete({
+    where: { id: commentId },
+  });
+}

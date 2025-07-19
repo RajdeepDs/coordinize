@@ -44,6 +44,7 @@ model User {
   ResolvedPost           Post[]                   @relation("ResolvedBy")
   favorite               Favorite[]
   TimelineEvent          TimelineEvent[]
+  comments               Comment[]                @relation("AuthoredComments")
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -226,12 +227,35 @@ model Post {
   resolvedBy     User?           @relation("ResolvedBy", fields: [resolvedById], references: [id], onDelete: SetNull)
   favorite       Favorite[]
   timelineEvents TimelineEvent[]
+  comments       Comment[]
 
   @@index([authorId])
   @@index([spaceId])
   @@index([resolvedById])
   @@index([workspaceId])
   @@map("post")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  authorId  String
+  postId    String
+  parentId  String? // For nested comments/replies
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  edited    Boolean  @default(false)
+
+  author  User      @relation("AuthoredComments", fields: [authorId], references: [id], onDelete: Cascade)
+  post    Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([authorId])
+  @@index([postId])
+  @@index([parentId])
+  @@index([createdAt])
+  @@map("comment")
 }
 
 model Favorite {
