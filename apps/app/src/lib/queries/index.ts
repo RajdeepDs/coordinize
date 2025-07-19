@@ -180,6 +180,131 @@ export async function getSpaceWithPublishedPosts(
   });
 }
 
+async function processTimelineEvent(
+  db: PrismaClient,
+  event: {
+    id: string;
+    action: TimelineAction;
+    referenceId: string | null;
+    metadata: unknown;
+    actor: { id: string; name: string; image: string | null } | null;
+  }
+) {
+  if (event.action === 'MOVED_SPACE' && event.metadata) {
+    const metadata = event.metadata as {
+      oldSpaceId?: string;
+      newSpaceId?: string;
+    };
+
+    const spaceIds = [metadata.oldSpaceId, metadata.newSpaceId].filter(
+      Boolean
+    ) as string[];
+
+    const spaces = await db.space.findMany({
+      where: {
+        id: {
+          in: spaceIds,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    const spaceMap = new Map(spaces.map((space) => [space.id, space.name]));
+
+    return {
+      ...event,
+      metadata: {
+        ...metadata,
+        oldSpaceName: metadata.oldSpaceId
+          ? spaceMap.get(metadata.oldSpaceId)
+          : undefined,
+        newSpaceName: metadata.newSpaceId
+          ? spaceMap.get(metadata.newSpaceId)
+          : undefined,
+      },
+    };
+  }
+
+  if (event.action === 'COMMENTED' && event.referenceId) {
+    // Fetch the comment data with nested replies
+    const comment = await db.comment.findUnique({
+      where: { id: event.referenceId },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+        edited: true,
+        authorId: true,
+        postId: true,
+        parentId: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+        replies: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            updatedAt: true,
+            edited: true,
+            authorId: true,
+            postId: true,
+            parentId: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+              },
+            },
+            replies: {
+              select: {
+                id: true,
+                content: true,
+                createdAt: true,
+                updatedAt: true,
+                edited: true,
+                authorId: true,
+                postId: true,
+                parentId: true,
+                author: {
+                  select: {
+                    id: true,
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Only show top-level comments in timeline (parentId: null)
+    // Replies will be shown nested under their parent comments
+    if (comment && comment.parentId === null) {
+      return {
+        ...event,
+        comment,
+      };
+    }
+
+    // If this is a reply, don't show it as a separate timeline event
+    return null;
+  }
+
+  return event;
+}
+
 export async function getPostTimelineEventsQuery(
   db: PrismaClient,
   postId: string
@@ -204,50 +329,69 @@ export async function getPostTimelineEventsQuery(
   });
 
   // For MOVED_SPACE actions, we need to fetch space names
-  const eventsWithSpaceNames = await Promise.all(
-    timelineEvents.map(async (event) => {
-      if (event.action === 'MOVED_SPACE' && event.metadata) {
-        const metadata = event.metadata as {
-          oldSpaceId?: string;
-          newSpaceId?: string;
-        };
-
-        const spaceIds = [metadata.oldSpaceId, metadata.newSpaceId].filter(
-          Boolean
-        ) as string[];
-
-        const spaces = await db.space.findMany({
-          where: {
-            id: {
-              in: spaceIds,
-            },
-          },
-          select: {
-            id: true,
-            name: true,
-          },
-        });
-
-        const spaceMap = new Map(spaces.map((space) => [space.id, space.name]));
-
-        return {
-          ...event,
-          metadata: {
-            ...metadata,
-            oldSpaceName: metadata.oldSpaceId
-              ? spaceMap.get(metadata.oldSpaceId)
-              : undefined,
-            newSpaceName: metadata.newSpaceId
-              ? spaceMap.get(metadata.newSpaceId)
-              : undefined,
-          },
-        };
-      }
-      return event;
-    })
+  // For COMMENTED actions, we need to fetch comment data
+  const eventsWithAdditionalData = await Promise.all(
+    timelineEvents.map((event) => processTimelineEvent(db, event))
   );
 
-  return eventsWithSpaceNames;
+  return eventsWithAdditionalData.filter(Boolean);
+}
+
+export async function getPostCommentsQuery(db: PrismaClient, postId: string) {
+  return await db.comment.findMany({
+    where: {
+      postId,
+      parentId: null, // Only get top-level comments
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      replies: {
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'asc',
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+}
+
+export async function getCommentByIdQuery(db: PrismaClient, commentId: string) {
+  return await db.comment.findUnique({
+    where: { id: commentId },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      post: {
+        select: {
+          id: true,
+          authorId: true,
+          workspaceId: true,
+        },
+      },
+    },
+  });
 }
 
 export async function createTimelineEventMutation(

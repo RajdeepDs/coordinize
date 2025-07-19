@@ -11,6 +11,16 @@ export interface TimelineEventDisplay {
     image: string | null;
   } | null;
   metadata?: Record<string, unknown>;
+  comment?: {
+    id: string;
+    content: string;
+    createdAt: Date;
+    author: {
+      id: string;
+      name: string;
+      image: string | null;
+    };
+  } | null;
 }
 
 export const TimelineEventMessages: Record<
