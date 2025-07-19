@@ -2,9 +2,11 @@
 
 import { Button } from '@coordinize/ui/components/button';
 import { Separator } from '@coordinize/ui/components/separator';
+import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
 import { WordLogo } from '@/components/word-logo';
 import { env } from '@/env';
+import { ThemeToggle } from '../theme-toggle';
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
@@ -49,7 +51,7 @@ export function Header() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2">
           <Link className="hidden" href={'/docs'}>
             <Button size="sm" variant="ghost">
               Docs
@@ -61,6 +63,40 @@ export function Header() {
               Sign in
             </Button>
           </Link>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            asChild
+            className="size-8 text-foreground"
+            size="icon"
+            variant="ghost"
+          >
+            <Link
+              aria-label="Visit our GitHub repository"
+              href={'https://github.com/RajdeepDs/coordinize'}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Icons.github fill="currentColor" />
+            </Link>
+          </Button>
+          <Button
+            asChild
+            className="size-8 text-foreground"
+            size="icon"
+            variant="ghost"
+          >
+            <Link
+              aria-label="Follow us on X (Twitter)"
+              href={'https://x.com/Rajdeep__ds'}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <Icons.twitter fill="currentColor" />
+            </Link>
+          </Button>
+          <ThemeToggle />
         </div>
       </div>
     </header>

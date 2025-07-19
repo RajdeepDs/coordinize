@@ -1,3 +1,4 @@
+import { TRPCReactProvider } from '@/trpc/client';
 import '@coordinize/ui/globals.css';
 import { DesignSystemProvider } from '@coordinize/ui/providers';
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
@@ -20,13 +21,19 @@ export const metadata: Metadata = {
   title: 'Coordinize',
   description: 'Modern communication platform for modern teams.',
   twitter: {
+    title: 'Coordinize',
+    description: 'Modern communication platform for modern teams.',
     card: 'summary_large_image',
     site: '@coordinize',
-    creator: '@coordinize',
+    images: '/opengraph-image.png',
   },
   openGraph: {
     title: 'Coordinize',
     description: 'Modern communication platform for modern teams.',
+    url: 'https://coordinize.tech',
+    siteName: 'Coordinize',
+    type: 'website',
+    locale: 'en_US',
     images: '/opengraph-image.png',
   },
 };
@@ -43,11 +50,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
-        <DesignSystemProvider>
-          {children}
-          <VercelAnalytics />
-          <SpeedInsights />
-        </DesignSystemProvider>
+        <TRPCReactProvider>
+          <DesignSystemProvider>
+            {children}
+            <VercelAnalytics />
+            <SpeedInsights />
+          </DesignSystemProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
