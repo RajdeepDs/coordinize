@@ -1,4 +1,5 @@
 import { Button } from '@coordinize/ui/components/button';
+import type { Variants } from 'motion/react';
 import Link from 'next/link';
 import { env } from '@/env';
 import { HydrateClient, prefetch, trpc } from '@/trpc/server';
@@ -8,11 +9,31 @@ import { WaitlistForm } from './waitlist-form';
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
+const transitionVariants: Record<string, Variants> = {
+  item: {
+    hidden: {
+      opacity: 0,
+      filter: 'blur(12px)',
+      y: 12,
+    },
+    visible: {
+      opacity: 1,
+      filter: 'blur(0px)',
+      y: 0,
+      transition: {
+        type: 'spring',
+        bounce: 0.3,
+        duration: 1.5,
+      },
+    },
+  },
+};
+
 export function HeroSection() {
   prefetch(trpc.earlyAccess.getWaitlistCount.queryOptions());
   return (
     <>
-      <AnimatedGroup>
+      <AnimatedGroup variants={transitionVariants}>
         <div className="mx-auto flex flex-col gap-6 px-4 pt-14 sm:container">
           <div className="flex w-full flex-col items-center gap-2 text-center sm:items-start sm:text-start">
             <span className="hidden text-muted-foreground text-sm tracking-wide sm:inline-block">
@@ -61,7 +82,19 @@ export function HeroSection() {
         </div>
       </AnimatedGroup>
 
-      <AnimatedGroup>
+      <AnimatedGroup
+        variants={{
+          container: {
+            visible: {
+              transition: {
+                staggerChildren: 0.05,
+                delayChildren: 0.25,
+              },
+            },
+          },
+          ...transitionVariants,
+        }}
+      >
         <HeroScreenshot />
       </AnimatedGroup>
     </>
