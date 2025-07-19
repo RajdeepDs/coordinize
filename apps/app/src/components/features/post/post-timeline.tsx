@@ -26,6 +26,7 @@ export function PostTimeline({ postId }: { postId: string }) {
   }
 
   type EventWithComment = (typeof events)[0] & {
+    createdAt: Date;
     comment?: {
       id: string;
       content: string;
@@ -162,11 +163,7 @@ export function PostTimeline({ postId }: { postId: string }) {
                   </span>{' '}
                   <span>{message}</span>{' '}
                   <span className="inline-block size-[3px] rounded-full bg-ui-gray-700 align-middle" />{' '}
-                  <span>
-                    {formatDate(
-                      eventWithComment.comment?.createdAt || new Date()
-                    )}
-                  </span>
+                  <span>{formatDate(eventWithComment.createdAt)}</span>
                 </div>
               );
             };

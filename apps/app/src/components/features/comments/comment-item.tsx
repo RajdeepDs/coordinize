@@ -116,7 +116,11 @@ export function CommentItem({
           </div>
         ) : (
           <div className="prose prose-sm max-w-none text-foreground">
-            <MarkdownEditor content={comment.content} editable={false} />
+            <MarkdownEditor
+              containerClasses="px-0"
+              content={comment.content}
+              editable={false}
+            />
           </div>
         )}
 
