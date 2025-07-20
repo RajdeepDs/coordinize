@@ -17,6 +17,7 @@ import {
   ChevronsUpDown,
   CircleAlert,
   CircleXIcon,
+  Clipboard,
   Code,
   Code2,
   Command,
@@ -128,6 +129,7 @@ export const Icons = {
   share: Send,
   trash: Trash,
   post: Atom,
+  clipboard: Clipboard,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"
