@@ -45,6 +45,7 @@ model User {
   favorite               Favorite[]
   TimelineEvent          TimelineEvent[]
   comments               Comment[]                @relation("AuthoredComments")
+  InviteTokens           InviteToken[]
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -123,6 +124,7 @@ model Workspace {
   WorkspaceMember WorkspaceMember[]
   Space           Space[]
   Post            Post[]
+  InviteTokens    InviteToken[]
 
   @@index([createdBy])
   @@map("workspace")
@@ -312,4 +314,23 @@ model TimelineEvent {
   @@index([referenceType, referenceId])
   @@index([actorId])
   @@map("timelineEvent")
+}
+
+model InviteToken {
+  id          String   @id @default(cuid())
+  token       String   @unique
+  workspaceId String
+  createdBy   String
+  usesLeft    Int      @default(2)
+  maxUses     Int      @default(2)
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  creator   User      @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([createdBy])
+  @@map("inviteToken")
 }

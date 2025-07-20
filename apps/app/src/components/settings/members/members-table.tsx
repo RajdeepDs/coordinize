@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@coordinize/ui/components/button';
 import { Input } from '@coordinize/ui/components/input';
 import {
   Table,
@@ -27,6 +26,7 @@ import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { formatDateToMonthYear } from '@/utils/format-date';
+import { InviteDialog } from './invite-dialog';
 
 interface MembersTableProps {
   readonly data: Item[];
@@ -200,10 +200,7 @@ export function MembersTable({ data }: MembersTableProps) {
             )}
           </button>
         </div>
-        {/* TODO: Implement a dialog to invite members */}
-        <Button className="ml-auto font-normal" size={'sm'} variant="default">
-          Invite
-        </Button>
+        <InviteDialog />
       </div>
       {/* Table */}
       <div className="overflow-hidden bg-background">
