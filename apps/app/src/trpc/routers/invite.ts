@@ -130,7 +130,7 @@ export const inviteRouter = createTRPCRouter({
         },
       });
 
-      return await db.inviteToken.create({
+      const newToken = await db.inviteToken.create({
         data: {
           token: crypto.randomUUID(),
           workspaceId,
@@ -140,5 +140,7 @@ export const inviteRouter = createTRPCRouter({
           maxUses: 2,
         },
       });
+
+      return { token: newToken.token };
     }),
 });
