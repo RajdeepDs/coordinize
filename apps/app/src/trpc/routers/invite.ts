@@ -3,8 +3,41 @@ import { z } from 'zod/v4';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../init';
 
 export const inviteRouter = createTRPCRouter({
+  getCurrentToken: protectedProcedure.query(
+    async ({ ctx: { db, session, workspaceId } }) => {
+      const existingToken = await db.inviteToken.findFirst({
+        where: {
+          workspaceId,
+          createdBy: session.user.id,
+          expiresAt: { gt: new Date() }, // Not expired
+          usesLeft: { gt: 0 }, // Has uses remaining
+        },
+        orderBy: { createdAt: 'desc' }, // Get the latest token
+      });
+
+      return existingToken
+        ? { token: existingToken.token, usesLeft: existingToken.usesLeft }
+        : null;
+    }
+  ),
+
   generateToken: protectedProcedure.mutation(
     async ({ ctx: { db, session, workspaceId } }) => {
+      // Check if user already has a valid token
+      const existingToken = await db.inviteToken.findFirst({
+        where: {
+          workspaceId,
+          createdBy: session.user.id,
+          expiresAt: { gt: new Date() },
+          usesLeft: { gt: 0 },
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (existingToken) {
+        return { token: existingToken.token, usesLeft: existingToken.usesLeft };
+      }
+
       const workspace = await db.workspace.findUnique({
         where: { id: workspaceId },
         include: { WorkspaceMember: true },
@@ -32,7 +65,7 @@ export const inviteRouter = createTRPCRouter({
         },
       });
 
-      return { token: inviteToken.token };
+      return { token: inviteToken.token, usesLeft: inviteToken.usesLeft };
     }
   ),
 

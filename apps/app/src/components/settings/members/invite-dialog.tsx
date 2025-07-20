@@ -13,6 +13,7 @@ import { Input } from '@coordinize/ui/input';
 import { Label } from '@coordinize/ui/label';
 import { useCallback, useEffect, useState } from 'react';
 import {
+  useCurrentInviteToken,
   useGenerateInviteToken,
   useResetInviteToken,
 } from '@/hooks/use-invites';
@@ -22,14 +23,21 @@ export function InviteDialog() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [currentToken, setCurrentToken] = useState<string>('');
+  const [usesLeft, setUsesLeft] = useState<number>(2);
 
   const url = getUrl();
   const inviteLink = currentToken ? `${url}/invite/${currentToken}` : '';
 
+  const { data: existingTokenData, isLoading: isLoadingExisting } =
+    useCurrentInviteToken();
   const generateToken = useGenerateInviteToken();
   const resetToken = useResetInviteToken();
 
   function handleCopy() {
+    if (!inviteLink) {
+      return;
+    }
+
     navigator.clipboard.writeText(inviteLink);
     setCopied(true);
 
@@ -42,6 +50,7 @@ export function InviteDialog() {
     generateToken.mutate(undefined, {
       onSuccess: (data) => {
         setCurrentToken(data.token);
+        setUsesLeft(data.usesLeft);
       },
     });
   }, [generateToken]);
@@ -56,23 +65,43 @@ export function InviteDialog() {
       {
         onSuccess: (data) => {
           setCurrentToken(data.token);
+          setUsesLeft(2); // Reset to 2 uses
           setCopied(false);
         },
       }
     );
   }
 
+  // Load existing token when dialog opens
   useEffect(() => {
-    if (open && !currentToken && !generateToken.isPending) {
-      handleGenerateToken();
+    if (!open) {
+      return;
     }
-  }, [open, currentToken, handleGenerateToken, generateToken.isPending]);
 
-  useEffect(() => {
-    if (open) {
-      setCopied(false);
+    setCopied(false);
+
+    if (existingTokenData) {
+      setCurrentToken(existingTokenData.token);
+      setUsesLeft(existingTokenData.usesLeft);
+      return;
     }
-  }, [open]);
+
+    if (isLoadingExisting || generateToken.isPending || currentToken) {
+      return;
+    }
+
+    // Generate new token only if no existing token
+    handleGenerateToken();
+  }, [
+    open,
+    existingTokenData,
+    isLoadingExisting,
+    handleGenerateToken,
+    generateToken.isPending,
+    currentToken,
+  ]);
+
+  const isLoading = isLoadingExisting || generateToken.isPending;
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>
@@ -95,7 +124,8 @@ export function InviteDialog() {
           <div className="flex flex-col gap-1">
             <Label>Invite link</Label>
             <p className="select-auto text-sm text-ui-gray-900">
-              Anyone with this link can join workspace. (2 uses per link)
+              Anyone with this link can join workspace. ({usesLeft} use
+              {usesLeft !== 1 ? 's' : ''} remaining)
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -103,16 +133,12 @@ export function InviteDialog() {
               <Input
                 autoFocus={false}
                 className="h-8 px-1.5 pr-10 shadow-none focus-visible:border-ui-gray-400 focus-visible:ring-0"
-                disabled={generateToken.isPending}
+                disabled={isLoading}
                 readOnly
                 tabIndex={-1}
-                value={
-                  generateToken.isPending
-                    ? 'Generating invite link...'
-                    : inviteLink
-                }
+                value={isLoading ? 'Loading invite link...' : inviteLink}
               />
-              {generateToken.isPending ? (
+              {isLoading ? (
                 <div className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center">
                   <Icons.loader
                     aria-hidden="true"
