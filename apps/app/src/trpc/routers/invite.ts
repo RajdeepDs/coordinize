@@ -152,9 +152,8 @@ export const inviteRouter = createTRPCRouter({
       return { workspaceSlug: inviteToken.workspace.slug };
     }),
 
-  resetToken: protectedProcedure
-    .input(z.object({ token: z.string() }))
-    .mutation(async ({ ctx: { db, session, workspaceId } }) => {
+  resetToken: protectedProcedure.mutation(
+    async ({ ctx: { db, session, workspaceId } }) => {
       // Invalidate old token and create new one
       await db.inviteToken.deleteMany({
         where: {
@@ -175,5 +174,6 @@ export const inviteRouter = createTRPCRouter({
       });
 
       return { token: newToken.token };
-    }),
+    }
+  ),
 });

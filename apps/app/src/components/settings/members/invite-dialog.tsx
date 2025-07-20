@@ -60,16 +60,13 @@ export function InviteDialog() {
       return;
     }
 
-    resetToken.mutate(
-      { token: currentToken },
-      {
-        onSuccess: (data) => {
-          setCurrentToken(data.token);
-          setUsesLeft(2); // Reset to 2 uses
-          setCopied(false);
-        },
-      }
-    );
+    resetToken.mutate(undefined, {
+      onSuccess: (data: { token: string }) => {
+        setCurrentToken(data.token);
+        setUsesLeft(2); // Reset to 2 uses
+        setCopied(false);
+      },
+    });
   }
 
   // Load existing token when dialog opens
