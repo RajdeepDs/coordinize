@@ -26,7 +26,9 @@ export async function authMiddleware(request: NextRequest) {
   );
 
   // Skip all logic for auth APIs
-  if (isApiAuthRoute) return NextResponse.next();
+  if (isApiAuthRoute) {
+    return NextResponse.next();
+  }
 
   // -------------- User Not Authenticated ----------------
   if (!(session || isAuthRoute || isPublicRoute)) {
