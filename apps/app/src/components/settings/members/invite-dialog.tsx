@@ -72,10 +72,9 @@ export function InviteDialog() {
   // Load existing token when dialog opens
   useEffect(() => {
     if (!open) {
+      setCopied(false);
       return;
     }
-
-    setCopied(false);
 
     if (existingTokenData) {
       setCurrentToken(existingTokenData.token);
@@ -146,7 +145,7 @@ export function InviteDialog() {
               ) : (
                 <button
                   aria-label="Copy invite link"
-                  className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="absolute inset-y-0 end-0 flex h-full w-9 cursor-pointer items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={!inviteLink}
                   onClick={handleCopy}
                   type="button"
