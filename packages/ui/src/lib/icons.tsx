@@ -35,6 +35,7 @@ import {
   Link,
   Link2,
   List,
+  ListFilter,
   ListOrdered,
   ListTodo,
   Loader2Icon,
@@ -130,6 +131,7 @@ export const Icons = {
   trash: Trash,
   post: Atom,
   clipboard: Clipboard,
+  listFilter: ListFilter,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"
