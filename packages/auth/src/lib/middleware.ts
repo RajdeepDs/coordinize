@@ -20,50 +20,80 @@ export async function authMiddleware(request: NextRequest) {
     {
       baseURL: request.nextUrl.origin,
       headers: {
-        cookie: request.headers.get('cookie') || '', // Forward the cookies from the request
+        cookie: request.headers.get('cookie') || '',
       },
     }
   );
 
-  // Skip all logic for auth APIs
   if (isApiAuthRoute) {
     return NextResponse.next();
   }
 
-  // -------------- User Not Authenticated ----------------
-  if (!(session || isAuthRoute || isPublicRoute)) {
-    return NextResponse.redirect(new URL('/private-beta', nextUrl));
+  if (!session) {
+    return handleUnauthenticatedUser(isAuthRoute, isPublicRoute, nextUrl);
   }
 
-  // -------------- User Authenticated ----------------
-  if (session) {
-    const { onboarded, onboardingStep, defaultWorkspace } = session.user;
+  return handleAuthenticatedUser(
+    session,
+    pathname,
+    isAuthRoute,
+    isOnboardingRoute,
+    nextUrl
+  );
+}
 
-    if (!onboarded) {
-      const onboardingRouteMap: Record<OnboardingStep, string> = {
-        WELCOME: 'welcome',
-        WORKSPACE_SETUP: 'workspace-setup',
-        PREFERENCES: 'preferences',
-      };
+function handleUnauthenticatedUser(
+  isAuthRoute: boolean,
+  isPublicRoute: boolean,
+  nextUrl: URL
+) {
+  if (!(isAuthRoute || isPublicRoute)) {
+    return NextResponse.redirect(new URL('/private-beta', nextUrl));
+  }
+  return NextResponse.next();
+}
 
-      const currentStepPath = `/getting-started/${onboardingRouteMap[onboardingStep as OnboardingStep]}`;
+function handleAuthenticatedUser(
+  session: Session,
+  pathname: string,
+  isAuthRoute: boolean,
+  isOnboardingRoute: boolean,
+  nextUrl: URL
+) {
+  const { onboarded, onboardingStep, defaultWorkspace } = session.user;
 
-      if (!pathname.startsWith(currentStepPath)) {
-        return NextResponse.redirect(new URL(currentStepPath, nextUrl));
-      }
+  if (!onboarded) {
+    return handleOnboardingFlow(pathname, onboardingStep, nextUrl);
+  }
 
-      return NextResponse.next();
-    }
+  if (isAuthRoute || pathname === '/' || isOnboardingRoute) {
+    return NextResponse.redirect(
+      new URL(`/${defaultWorkspace || 'private-beta'}`, nextUrl)
+    );
+  }
 
-    // ✅ If user is onboarded and on an auth route → redirect to their default workspace
-    if (isAuthRoute || pathname === '/' || isOnboardingRoute) {
-      return NextResponse.redirect(
-        new URL(`/${defaultWorkspace || 'private-beta'}`, nextUrl)
-      );
-    }
+  return NextResponse.next();
+}
 
-    // Proceed normally otherwise
+function handleOnboardingFlow(
+  pathname: string,
+  onboardingStep: string,
+  nextUrl: URL
+) {
+  if (pathname.startsWith('/invite')) {
     return NextResponse.next();
+  }
+
+  const onboardingRouteMap: Record<OnboardingStep, string> = {
+    WELCOME: 'welcome',
+    WORKSPACE_SETUP: 'workspace-setup',
+    PREFERENCES: 'preferences',
+  };
+
+  const currentStepPath = `/getting-started/${onboardingRouteMap[onboardingStep as OnboardingStep]}`;
+
+  if (!pathname.startsWith(currentStepPath)) {
+    return NextResponse.redirect(new URL(currentStepPath, nextUrl));
   }
 
   return NextResponse.next();
