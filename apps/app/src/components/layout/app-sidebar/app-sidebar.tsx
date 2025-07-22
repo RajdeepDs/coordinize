@@ -25,6 +25,7 @@ import { useParams, usePathname } from 'next/navigation';
 import { PostComposerDialog } from '@/components/features/post-composer/post-composer-dialog';
 import { appSidebarNav } from '@/config/app-sidebar-navigation';
 import { useDraftPostsQuery } from '@/hooks/use-draft-posts';
+import { useNotificationCounts } from '@/hooks/use-notifications';
 import { useSpacesQuery } from '@/hooks/use-space';
 import { useUserQuery } from '@/hooks/use-user';
 import { AppFooter } from './app-footer';
@@ -37,6 +38,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   const { data: user } = useUserQuery();
   const { data: spaces } = useSpacesQuery();
   const { data: draftPosts } = useDraftPostsQuery();
+  const { data: notificationCounts } = useNotificationCounts();
 
   const { slug } = useParams<{ slug: string }>();
   const pathname = usePathname();
@@ -67,6 +69,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
 
                 const Icon = Icons[nav.icon as keyof typeof Icons];
                 const isDraftItem = nav.conditional && nav.title === 'Drafts';
+                const isInboxItem = nav.title === 'Inbox';
 
                 return (
                   <SidebarMenuItem
@@ -93,6 +96,13 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                         {draftPosts?.length}
                       </SidebarMenuBadge>
                     )}
+                    {isInboxItem &&
+                      notificationCounts &&
+                      notificationCounts.unreadCount > 0 && (
+                        <SidebarMenuBadge className="bg-blue-500 text-white">
+                          {notificationCounts.unreadCount}
+                        </SidebarMenuBadge>
+                      )}
                   </SidebarMenuItem>
                 );
               })}

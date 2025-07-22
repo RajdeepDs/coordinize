@@ -46,6 +46,8 @@ model User {
   TimelineEvent          TimelineEvent[]
   comments               Comment[]                @relation("AuthoredComments")
   InviteTokens           InviteToken[]
+  notifications          Notification[]
+  actorNotifications     Notification[]           @relation("NotificationActor")
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -125,6 +127,7 @@ model Workspace {
   Space           Space[]
   Post            Post[]
   InviteTokens    InviteToken[]
+  notifications   Notification[]
 
   @@index([createdBy])
   @@map("workspace")
@@ -314,6 +317,44 @@ model TimelineEvent {
   @@index([referenceType, referenceId])
   @@index([actorId])
   @@map("timelineEvent")
+}
+
+enum NotificationType {
+  POST_COMMENT
+  POST_MENTION
+  POST_UPDATE
+  POST_RESOLVED
+  POST_REOPENED
+  SPACE_INVITE
+  WORKSPACE_INVITE
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  type        NotificationType
+  title       String
+  message     String
+  read        Boolean          @default(false)
+  archived    Boolean          @default(false)
+  actorId     String?
+  subjectId   String?
+  subjectType String?
+  workspaceId String
+  metadata    Json?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  actor     User?     @relation("NotificationActor", fields: [actorId], references: [id], onDelete: SetNull)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, read])
+  @@index([workspaceId])
+  @@index([actorId])
+  @@index([subjectType, subjectId])
+  @@map("notification")
 }
 
 model InviteToken {

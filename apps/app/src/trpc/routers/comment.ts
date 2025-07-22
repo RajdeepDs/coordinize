@@ -5,6 +5,7 @@ import {
   updateCommentMutation,
 } from '@/lib/mutations';
 import { createPostTimelineEvent } from '@/lib/mutations/timeline-helpers';
+import { createPostCommentNotification } from '@/lib/notifications';
 import { getCommentByIdQuery, getPostCommentsQuery } from '@/lib/queries';
 import {
   createCommentSchema,
@@ -27,10 +28,14 @@ export const commentRouter = createTRPCRouter({
     .mutation(async ({ input, ctx: { db, session } }) => {
       const { content, postId, parentId } = input;
 
-      // Check if post exists
       const post = await db.post.findUnique({
         where: { id: postId },
-        select: { id: true, workspaceId: true },
+        select: {
+          id: true,
+          title: true,
+          authorId: true,
+          workspaceId: true,
+        },
       });
 
       if (!post) {
@@ -56,6 +61,18 @@ export const commentRouter = createTRPCRouter({
         referenceType: 'Comment',
         referenceId: comment.id,
       });
+
+      // Create notification for the post author (if not commenting on their own post)
+      if (post.authorId === session.user.id) {
+        await createPostCommentNotification(db, {
+          postId: post.id,
+          postTitle: post.title,
+          postAuthorId: post.authorId,
+          workspaceId: post.workspaceId,
+          commentAuthorId: session.user.id,
+          commentAuthorName: session.user.name || 'Someone',
+        });
+      }
 
       return comment;
     }),
