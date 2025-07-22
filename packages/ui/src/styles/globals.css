@@ -264,9 +264,32 @@
 
 @layer base {
   * {
+    -webkit-tap-highlight-color: transparent;
+    font-synthesis-weight: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ui-gray-500) transparent;
+  }
+
+  * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background-200 text-foreground;
+  }
+
+  html,
+  body {
+    @apply isolate relative flex h-full min-h-[100svh] flex-1 flex-col overflow-hidden;
+    -webkit-app-region: no-drag;
+  }
+
+  .scrollbar-hide {
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; 
   }
 }
