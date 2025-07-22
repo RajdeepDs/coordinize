@@ -1,10 +1,12 @@
 'use client';
 
 import type { Notification } from '@coordinize/database/db';
+import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
 import { ScrollableContainer } from '@/components/layout/scrollable-container';
 import { useInboxQuery } from '@/hooks/use-notifications';
 import { getInboxItemRoutePath } from '@/utils/get-inbox-route';
+import { PostPageContent } from '../post/post-page-content';
 import { InboxHeader } from './inbox-header';
 import { NotificationItem } from './notification-item';
 
@@ -25,7 +27,13 @@ export function InboxSplitView() {
         </ScrollableContainer>
       </div>
       <div className="flex min-w-0 flex-1 flex-col rounded border bg-background">
-        <p>Inbox detail view.</p>
+        <div className="hidden h-full flex-col items-center justify-center gap-2 text-muted-foreground">
+          <div className="flex size-12 items-center justify-center rounded-full border bg-accent">
+            <Icons.inbox />
+          </div>
+          <p className="select-none text-sm">No unread notifications</p>
+        </div>
+        <PostPageContent postId={data?.notifications[0]?.subjectId ?? ''} />
       </div>
     </div>
   );
@@ -54,5 +62,14 @@ export function InboxItem({
   children: React.ReactNode;
   item: Notification & { workspace: { slug: string } };
 }) {
-  return <Link href={getInboxItemRoutePath(item)}>{children}</Link>;
+  return (
+    <Link
+      href={getInboxItemRoutePath(item)}
+      onClick={(e) => {
+        e.preventDefault();
+      }}
+    >
+      {children}
+    </Link>
+  );
 }
