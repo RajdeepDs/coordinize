@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ScrollableContainer } from '@/components/layout/scrollable-container';
 import { useInboxQuery } from '@/hooks/use-notifications';
 import { getInboxItemRoutePath } from '@/utils/get-inbox-route';
-import { PostPageContent } from '../post/post-page-content';
+import { PostView } from '../post/post-view';
 import { InboxHeader } from './inbox-header';
 import { NotificationItem } from './notification-item';
 
@@ -33,7 +33,7 @@ export function InboxSplitView() {
           </div>
           <p className="select-none text-sm">No unread notifications</p>
         </div>
-        <PostPageContent postId={data?.notifications[0]?.subjectId ?? ''} />
+        <PostView postId={data?.notifications[0]?.subjectId ?? ''} />
       </div>
     </div>
   );
