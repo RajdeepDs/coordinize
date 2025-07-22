@@ -1,40 +1,32 @@
 'use client';
 
 import { Label } from '@coordinize/ui/components/label';
-import { useNotificationCounts } from '@/hooks/use-notifications';
-import { InboxFilter } from './inbox-filter';
+import { Separator } from '@coordinize/ui/components/separator';
+import { SidebarTrigger, useSidebar } from '@coordinize/ui/components/sidebar';
 
-interface InboxHeaderProps {
+interface _InboxHeaderProps {
   currentFilter: 'all' | 'unread' | 'archived';
   onFilterChange: (filter: 'all' | 'unread' | 'archived') => void;
 }
 
-export function InboxHeader({
-  currentFilter,
-  onFilterChange,
-}: InboxHeaderProps) {
-  const { data: counts } = useNotificationCounts();
-
-  const getFilterLabel = () => {
-    switch (currentFilter) {
-      case 'unread':
-        return `Inbox (${counts?.unreadCount ?? 0})`;
-      case 'archived':
-        return `Archived (${counts?.archivedCount ?? 0})`;
-      default:
-        return 'Inbox';
-    }
-  };
+export function InboxHeader() {
+  const { isMobile, leftState } = useSidebar();
 
   return (
     <div className="flex min-h-10 items-center justify-between pr-4 pl-3">
-      <Label className="font-normal text-foreground text-sm">
-        {getFilterLabel()}
-      </Label>
-      <InboxFilter
+      <div className="flex items-center gap-3">
+        {(isMobile || leftState === 'collapsed') && (
+          <div className="flex shrink-0 items-center gap-1.5">
+            <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
+            <Separator className="min-h-4" orientation="vertical" />
+          </div>
+        )}
+        <Label className="font-normal text-foreground text-sm">Inbox</Label>
+      </div>
+      {/* <InboxFilter
         currentFilter={currentFilter}
         onFilterChange={onFilterChange}
-      />
+      /> */}
     </div>
   );
 }

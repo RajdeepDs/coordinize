@@ -1,30 +1,17 @@
 'use client';
 
+import type { Notification, User } from '@coordinize/database/db';
 import { Icons } from '@coordinize/ui/lib/icons';
 import AvatarStatus from '@/components/ui/avatar-status';
 import { formatDate } from '@/utils/format-date';
 
-interface InboxItemProps {
-  notification: {
-    id: string;
-    type: string;
-    title: string;
-    message: string;
-    read: boolean;
-    archived: boolean;
-    createdAt: Date;
-    subjectId?: string | null;
-    subjectType?: string | null;
-    metadata?: unknown;
-    actor?: {
-      id: string;
-      name: string;
-      image: string | null;
-    } | null;
+interface NotificationItemProps {
+  notification: Notification & {
+    actor?: User;
   };
 }
 
-export function InboxItem({ notification }: InboxItemProps) {
+export function NotificationItem({ notification }: NotificationItemProps) {
   const getNotificationIcon = () => {
     switch (notification.type) {
       case 'POST_COMMENT':

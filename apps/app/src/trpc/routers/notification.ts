@@ -31,6 +31,11 @@ export const notificationRouter = createTRPCRouter({
               image: true,
             },
           },
+          workspace: {
+            select: {
+              slug: true,
+            },
+          },
         },
         orderBy: {
           createdAt: 'desc',
