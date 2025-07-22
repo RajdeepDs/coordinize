@@ -1,6 +1,6 @@
 'use client';
 
-import { SidebarInset, useSidebar } from '@coordinize/ui/components/sidebar';
+import { useSidebar } from '@coordinize/ui/components/sidebar';
 import { cn } from '@coordinize/ui/lib/utils';
 
 interface SidebarLayoutProps {
@@ -11,11 +11,16 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
   const { isMobile, leftState } = useSidebar();
   return (
     <div
-      className={cn('flex w-full flex-col bg-sidebar py-2 pr-2', {
-        'pl-2': isMobile || leftState === 'collapsed',
-      })}
+      className={cn(
+        'flex h-screen w-full flex-col overflow-hidden bg-sidebar py-2 pr-2',
+        {
+          'pl-2': isMobile || leftState === 'collapsed',
+        }
+      )}
     >
-      <SidebarInset className="bg-transparent">{children}</SidebarInset>
+      <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
+        {children}
+      </div>
     </div>
   );
 }

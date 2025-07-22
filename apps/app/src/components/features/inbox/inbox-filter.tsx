@@ -1,29 +1,62 @@
 'use client';
-import { Button } from '@coordinize/ui/button';
+
+import { Button } from '@coordinize/ui/components/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@coordinize/ui/components/dropdown-menu';
 import { Label } from '@coordinize/ui/components/label';
-import { Icons } from '@coordinize/ui/icons';
+import { Icons } from '@coordinize/ui/lib/icons';
+import { useMarkAllAsRead } from '@/hooks/use-notifications';
 
 interface InboxFilterOption {
   icon?: (typeof Icons)[keyof typeof Icons];
   label: string;
-  subMenu?: Array<{
-    icon?: (typeof Icons)[keyof typeof Icons];
-    label: string;
-    onClick?: () => void;
-  }>;
+  value?: string;
+  onClick?: () => void;
 }
 
-export function InboxFilter() {
-  const options: InboxFilterOption[] = [
+interface InboxFilterProps {
+  currentFilter: 'all' | 'unread' | 'archived';
+  onFilterChange: (filter: 'all' | 'unread' | 'archived') => void;
+}
+
+export function InboxFilter({
+  currentFilter,
+  onFilterChange,
+}: InboxFilterProps) {
+  const { mutate: markAllAsRead, isPending: isMarkingAllAsRead } =
+    useMarkAllAsRead();
+
+  const filterOptions: InboxFilterOption[] = [
     {
-      label: 'All Notifications',
+      label: 'All notifications',
       icon: Icons.inbox,
+      value: 'all',
+      onClick: () => onFilterChange('all'),
+    },
+    {
+      label: 'Unread',
+      icon: Icons.bell,
+      value: 'unread',
+      onClick: () => onFilterChange('unread'),
+    },
+    {
+      label: 'Archived',
+      icon: Icons.archive,
+      value: 'archived',
+      onClick: () => onFilterChange('archived'),
+    },
+  ];
+
+  const actionOptions: InboxFilterOption[] = [
+    {
+      label: 'Mark all as read',
+      icon: Icons.resolve,
+      onClick: () => markAllAsRead(),
     },
   ];
 
@@ -33,7 +66,7 @@ export function InboxFilter() {
         <Button
           className="size-7 rounded-sm text-muted-foreground"
           size={'icon'}
-          tooltip="Filter notifications by"
+          tooltip="Filter notifications"
           tooltipShortcut="F"
           variant={'ghost'}
         >
@@ -46,8 +79,32 @@ export function InboxFilter() {
       >
         <div className="p-1">
           <Label className="p-1 font-normal text-ui-gray-900">Filter</Label>
-          {options.map((item) => (
-            <DropdownMenuItem className="flex items-center" key={item.label}>
+          {filterOptions.map((item) => (
+            <DropdownMenuItem
+              className="flex items-center"
+              key={item.value}
+              onClick={item.onClick}
+            >
+              {item.icon && (
+                <item.icon className="size-4 text-muted-foreground" />
+              )}
+              <span>{item.label}</span>
+              {currentFilter === item.value && (
+                <Icons.check className="ml-auto size-4" />
+              )}
+            </DropdownMenuItem>
+          ))}
+
+          <DropdownMenuSeparator />
+
+          <Label className="p-1 font-normal text-ui-gray-900">Actions</Label>
+          {actionOptions.map((item) => (
+            <DropdownMenuItem
+              className="flex items-center"
+              disabled={isMarkingAllAsRead}
+              key={item.label}
+              onClick={item.onClick}
+            >
               {item.icon && (
                 <item.icon className="size-4 text-muted-foreground" />
               )}
