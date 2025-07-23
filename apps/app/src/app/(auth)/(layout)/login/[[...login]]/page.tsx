@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { Logo } from '@/components/ui/logo';
 
 export const metadata: Metadata = {
-  title: 'Sign up',
+  title: 'Log in',
 };
 
-export default function SignUpPage() {
+export default function LoginPage() {
   return (
     <m.div
       animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -21,7 +21,7 @@ export default function SignUpPage() {
         <Logo />
         <div className="space-y-8">
           <div className="space-y-6">
-            <h1 className="font-medium text-lg">Create your workspace</h1>
+            <h1 className="font-medium text-lg">Log in to Coordinize</h1>
             <div className="space-y-3">
               <Button className="h-11 w-full" size={'lg'}>
                 <Icons.google className="size-3 text-ui-gray-400" />
@@ -33,12 +33,12 @@ export default function SignUpPage() {
             </div>
           </div>
           <p className="text-sm text-ui-gray-900">
-            Already have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link
               className="text-foreground underline-offset-1 hover:underline"
-              href={'/login'}
+              href={'/sign-up'}
             >
-              Log in
+              Sign up
             </Link>
           </p>
         </div>
