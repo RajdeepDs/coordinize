@@ -1,33 +1,48 @@
+import { Button } from '@coordinize/ui/components/button';
+import { Icons } from '@coordinize/ui/lib/icons';
+import * as m from 'motion/react-client';
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-
-const title = 'Sign up';
-const SignUp = dynamic(() =>
-  import('@/components/auth/sign-up').then((mod) => mod.SignUp)
-);
+import { Logo } from '@/components/ui/logo';
 
 export const metadata: Metadata = {
-  title,
+  title: 'Sign up',
 };
 
 export default function SignUpPage() {
   return (
-    <div className="mx-auto flex h-full max-w-sm flex-col justify-center gap-4 px-4">
-      <div className="flex flex-col gap-1">
-        <h1 className="font-semibold text-base">{title}</h1>
-        <p className="text-muted-foreground text-sm">
+    <m.div
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      className="w-full max-w-xs text-center"
+      initial={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
+      transition={{ duration: 0.3, ease: 'linear' }}
+    >
+      <div className="space-y-9">
+        <div className="flex flex-col items-center gap-8 text-center">
+          <Logo />
+          <div className="space-y-6">
+            <h1 className="font-medium text-lg">Create your workspace</h1>
+            <div className="space-y-3">
+              <Button className="h-11 w-full" size={'lg'}>
+                <Icons.google className="size-3 text-ui-gray-400" />
+                Continue with Google
+              </Button>
+              <Button className="h-11 w-full" size={'lg'} variant={'outline'}>
+                Continue with Email
+              </Button>
+            </div>
+          </div>
+        </div>
+        <p className="text-sm text-ui-gray-900">
           Already have an account?{' '}
           <Link
-            className="text-blue-700 underline-offset-1 hover:underline dark:text-blue-400"
-            href={'/private-beta'}
+            className="text-foreground underline-offset-1 hover:underline"
+            href={'/login'}
           >
-            Sign in
+            Log in
           </Link>
-          .
         </p>
       </div>
-      <SignUp />
-    </div>
+    </m.div>
   );
 }
