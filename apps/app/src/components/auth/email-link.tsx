@@ -2,43 +2,71 @@
 
 import { Button } from '@coordinize/ui/components/button';
 import { Input } from '@coordinize/ui/components/input';
-import Link from 'next/link';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { type EmailLinkSchema, emailLinkSchema } from '@/lib/schemas/auth';
 
 interface EmailLinkProps {
-  onSetIsEmailLogin?: (isEmailLogin: boolean) => void;
+  onSetIsEmailLogin: (isEmailLogin: boolean) => void;
+  onEmailSubmit: (email: string) => void;
 }
 
-export function EmailLink({ onSetIsEmailLogin }: EmailLinkProps) {
+export function EmailLink({
+  onSetIsEmailLogin,
+  onEmailSubmit,
+}: EmailLinkProps) {
+  const form = useForm({
+    resolver: zodResolver(emailLinkSchema),
+    defaultValues: { email: '' },
+  });
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = form;
+
+  const onSubmit = (_values: EmailLinkSchema) => {
+    // TODO: Handle email submission logic here
+
+    onEmailSubmit(_values.email);
+  };
+
   return (
     <div className="space-y-8">
       <div className="space-y-6">
         <h1 className="font-medium text-lg">What's your email address?</h1>
-        <div className="space-y-3">
+        <form className="space-y-3">
           <Input
+            autoComplete="off"
             className="h-11 bg-transparent"
             placeholder="Enter your email address..."
             type="email"
+            {...register('email')}
           />
-          <Button className="h-11 w-full" size={'lg'} variant={'outline'}>
+          {errors.email && (
+            <p className="text-start text-ui-red-800 text-xs">
+              {errors.email?.message}
+            </p>
+          )}
+          <Button
+            className="h-11 w-full"
+            onClick={handleSubmit(onSubmit)}
+            size={'lg'}
+            variant={'outline'}
+          >
             Continue with Email
           </Button>
-        </div>
+        </form>
       </div>
       <Button
-        asChild
         className="px-0"
-        onClick={(e) => {
-          e.preventDefault();
-          onSetIsEmailLogin?.(false);
+        onClick={() => {
+          onSetIsEmailLogin(false);
         }}
         variant={'link'}
       >
-        <Link
-          className="text-foreground underline-offset-1 hover:underline"
-          href={'/login'}
-        >
-          Back to login
-        </Link>
+        Back to login
       </Button>
     </div>
   );
