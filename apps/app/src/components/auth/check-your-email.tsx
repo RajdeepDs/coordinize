@@ -45,9 +45,12 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             className="space-y-3"
             initial={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
+            onSubmit={handleSubmit(onSubmit)}
             transition={{ duration: 0.2, ease: 'easeInOut' }}
           >
             <Input
+              aria-describedby="code-error"
+              aria-label="Login verification code"
               autoComplete="off"
               className="h-11 bg-transparent"
               placeholder="Enter code"
@@ -55,14 +58,18 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
               {...register('code')}
             />
             {errors.code && (
-              <p className="text-start text-ui-red-800 text-xs">
+              <p
+                className="text-start text-ui-red-800 text-xs"
+                id="code-error"
+                role="alert"
+              >
                 {errors.code?.message}
               </p>
             )}
             <Button
               className="h-11 w-full"
-              onClick={handleSubmit(onSubmit)}
               size={'lg'}
+              type="submit"
               variant={'outline'}
             >
               Continue with login code

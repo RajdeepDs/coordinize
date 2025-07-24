@@ -36,8 +36,10 @@ export function EmailLink({
     <div className="space-y-8">
       <div className="space-y-6">
         <h1 className="font-medium text-lg">What's your email address?</h1>
-        <form className="space-y-3">
+        <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
           <Input
+            aria-describedby="code-error"
+            aria-label="Login email"
             autoComplete="off"
             className="h-11 bg-transparent"
             placeholder="Enter your email address..."
@@ -45,14 +47,18 @@ export function EmailLink({
             {...register('email')}
           />
           {errors.email && (
-            <p className="text-start text-ui-red-800 text-xs">
+            <p
+              className="text-start text-ui-red-800 text-xs"
+              id="code-error"
+              role="alert"
+            >
               {errors.email?.message}
             </p>
           )}
           <Button
             className="h-11 w-full"
-            onClick={handleSubmit(onSubmit)}
             size={'lg'}
+            type="submit"
             variant={'outline'}
           >
             Continue with Email
