@@ -9,7 +9,7 @@ export const publicRoutes = ['/join-waitlist'];
  * Routes that are accessible with authentication
  * @type {string[]}
  */
-export const authRoutes = ['/sign-up', '/private-beta'];
+export const authRoutes = ['/sign-up', '/login'];
 
 /**
  * Authenticated routes

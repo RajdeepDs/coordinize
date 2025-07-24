@@ -4,20 +4,20 @@ import Link from 'next/link';
 import { AuthClient } from '@/components/auth/auth-client';
 
 export const metadata: Metadata = {
-  title: 'Sign up',
+  title: 'Log in',
 };
 
-export default function SignUpPage() {
+export default function LoginPage() {
   return (
-    <AuthClient title="Create your workspace">
+    <AuthClient title="Log in to Coordinize">
       <p className="text-sm text-ui-gray-900">
-        Already have an account?{' '}
+        Don&apos;t have an account?{' '}
         <Button asChild className="px-0" variant={'link'}>
           <Link
             className="text-foreground underline-offset-1 hover:underline"
-            href={'/login'}
+            href={'/sign-up'}
           >
-            Log in
+            Sign up
           </Link>
         </Button>
       </p>
