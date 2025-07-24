@@ -48,7 +48,7 @@ function handleUnauthenticatedUser(
   nextUrl: URL
 ) {
   if (!(isAuthRoute || isPublicRoute)) {
-    return NextResponse.redirect(new URL('/private-beta', nextUrl));
+    return NextResponse.redirect(new URL('/login', nextUrl));
   }
   return NextResponse.next();
 }
@@ -68,7 +68,7 @@ function handleAuthenticatedUser(
 
   if (isAuthRoute || pathname === '/' || isOnboardingRoute) {
     return NextResponse.redirect(
-      new URL(`/${defaultWorkspace || 'private-beta'}`, nextUrl)
+      new URL(`/${defaultWorkspace || 'login'}`, nextUrl)
     );
   }
 
