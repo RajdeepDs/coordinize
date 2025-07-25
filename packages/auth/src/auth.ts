@@ -8,6 +8,9 @@ import { APIError, createAuthMiddleware } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
 import { emailOTP, magicLink } from 'better-auth/plugins';
 import React from 'react';
+import { keys } from '../keys';
+
+const env = keys();
 
 export const auth = betterAuth({
   database: prismaAdapter(database, {
@@ -72,6 +75,12 @@ export const auth = betterAuth({
         }
       }
     }),
+  },
+  socialProviders: {
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    },
   },
   plugins: [
     nextCookies(),
