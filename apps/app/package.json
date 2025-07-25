@@ -13,6 +13,7 @@
   "dependencies": {
     "@coordinize/auth": "workspace:*",
     "@coordinize/database": "workspace:*",
+    "@coordinize/email": "workspace:*",
     "@coordinize/next-config": "workspace:*",
     "@coordinize/rate-limit": "workspace:*",
     "@coordinize/storage": "workspace:*",

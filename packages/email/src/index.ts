@@ -1,10 +1,17 @@
+import { render } from '@react-email/components';
 import nodemailer from 'nodemailer';
+import type { ReactElement } from 'react';
 import { Resend } from 'resend';
 import { keys } from '../keys';
 
 const env = keys();
 
-export const resend = new Resend(env.RESEND_TOKEN);
+export const getResend = () => {
+  if (!env.RESEND_TOKEN) {
+    throw new Error('RESEND_TOKEN is required for Resend service');
+  }
+  return new Resend(env.RESEND_TOKEN);
+};
 
 // Nodemailer transporter for local development
 const createSMTPTransporter = () => {
@@ -27,7 +34,7 @@ export const emailService = {
   async send(options: {
     to: string | string[];
     subject: string;
-    html: string;
+    template: ReactElement;
     from?: string;
   }) {
     const isDevelopment = env.NODE_ENV === 'development';
@@ -36,11 +43,13 @@ export const emailService = {
       // Use MailHog for local development
       const transporter = createSMTPTransporter();
 
+      const emailHTML = await render(options.template);
+
       const result = await transporter.sendMail({
         from: options.from || env.SMTP_FROM,
         to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
         subject: options.subject,
-        html: options.html,
+        html: emailHTML,
       });
 
       return result;
@@ -51,11 +60,12 @@ export const emailService = {
       );
     }
 
+    const resend = getResend();
     return await resend.emails.send({
       from: options.from || env.RESEND_FROM,
       to: options.to,
       subject: options.subject,
-      html: options.html,
+      react: options.template,
     });
   },
 };

@@ -1,29 +1,5 @@
 import { z } from 'zod/v4';
 
-export const joinWaitlistSchema = z.object({
-  name: z.string().min(3, 'Name must be at least 3 characters.'),
-  email: z.email('Invalid email address.'),
-});
-
-export const privateBetaSchema = z.object({
-  email: z.email('Invalid email address.'),
-  password: z.string().min(8, 'Password must be at least 8 characters.'),
-});
-
-export const signUpSchema = z
-  .object({
-    name: z.string().min(3, 'Name must be at least 3 characters.'),
-    email: z.email('Invalid email address.'),
-    password: z.string().min(8, 'Password must be at least 8 characters.'),
-    confirmPassword: z
-      .string()
-      .min(8, 'Confirm Password must be at least 8 characters.'),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords must match.',
-    path: ['confirmPassword'],
-  });
-
 export const welcomeStepSchema = z.object({
   preferredName: z.string(),
   profilePicURL: z.url().optional(),

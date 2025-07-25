@@ -2,7 +2,6 @@
   "name": "@coordinize/email",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
@@ -27,6 +26,8 @@
   "exports": {
     "./keys": "./keys.ts",
     ".": "./src/index.ts",
-    "./templates/contact": "./src/templates/contact.tsx"
+    "./templates/contact": "./src/templates/contact.tsx",
+    "./templates/magic-link": "./src/templates/magic-link.tsx",
+    "./templates/email-otp": "./src/templates/email-otp.tsx"
   }
 }

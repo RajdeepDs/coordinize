@@ -1,9 +1,12 @@
 'use client';
 
+import { authClient } from '@coordinize/auth/auth-client';
 import { Button } from '@coordinize/ui/components/button';
 import { Input } from '@coordinize/ui/components/input';
+import { toast } from '@coordinize/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion as m } from 'motion/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type LoginCodeSchema, loginCodeSchema } from '@/lib/schemas/auth';
@@ -14,7 +17,10 @@ interface CheckYourEmailProps {
 }
 
 export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
+  const router = useRouter();
   const [isLoginWithCode, setIsLoginWithCode] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(loginCodeSchema),
@@ -27,9 +33,55 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
     formState: { errors },
   } = form;
 
-  const onSubmit = (_values: LoginCodeSchema) => {
-    // TODO: Implement login logic
+  const onSubmit = async (values: LoginCodeSchema) => {
+    if (isSubmitting) {
+      return;
+    }
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await authClient.signIn.emailOtp({
+        email,
+        otp: values.code,
+      });
+
+      if (error) {
+        const errorMessage =
+          error.code === 'invalid_otp'
+            ? 'Invalid verification code. Please check and try again.'
+            : 'Authentication failed. Please try again.';
+        toast.error(errorMessage);
+        return;
+      }
+
+      router.refresh();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  async function handleLoginWithCode() {
+    if (isSendingOtp) {
+      return;
+    }
+    setIsSendingOtp(true);
+
+    try {
+      const { error } = await authClient.emailOtp.sendVerificationOtp({
+        email,
+        type: 'sign-in',
+      });
+
+      if (error) {
+        toast.error('Failed to send verification code. Please try again.');
+        return;
+      }
+
+      setIsLoginWithCode(true);
+    } finally {
+      setIsSendingOtp(false);
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -68,6 +120,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
             )}
             <Button
               className="h-11 w-full"
+              disabled={isSubmitting}
               size={'lg'}
               type="submit"
               variant={'outline'}
@@ -79,7 +132,8 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
           <div className="space-y-3">
             <Button
               className="h-11 w-full"
-              onClick={() => setIsLoginWithCode(true)}
+              disabled={isSendingOtp}
+              onClick={handleLoginWithCode}
               size={'lg'}
               variant={'outline'}
             >

@@ -1,8 +1,16 @@
 import { database } from '@coordinize/database/db';
+import { emailService } from '@coordinize/email';
+import EmailOTPTemplate from '@coordinize/email/templates/email-otp';
+import { MagicLinkTemplate } from '@coordinize/email/templates/magic-link';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { APIError, createAuthMiddleware } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
+import { emailOTP, magicLink } from 'better-auth/plugins';
+import React from 'react';
+import { keys } from '../keys';
+
+const env = keys();
 
 export const auth = betterAuth({
   database: prismaAdapter(database, {
@@ -24,26 +32,7 @@ export const auth = betterAuth({
       },
     },
   },
-  emailAndPassword: {
-    enabled: true,
-    autoSignIn: false,
-    // TODO: Add `requireEmailVerification`, so the user needs to verify their email before sign in
-  },
   hooks: {
-    before: createAuthMiddleware(async (ctx) => {
-      // Only allow to sign up if the user is on the early access list
-      if (ctx.path.startsWith('/sign-up')) {
-        const email = ctx.body.email.toLowerCase() as string;
-
-        const res = await database.earlyAccess.findUnique({ where: { email } });
-
-        if (!res?.isEarlyAccess) {
-          throw new APIError('FORBIDDEN', {
-            message: "You're not on the early access list.",
-          });
-        }
-      }
-    }),
     after: createAuthMiddleware(async (ctx) => {
       // If the user is signing in, set the workspaceId cookie if the user has a default workspace
       if (ctx.path.startsWith('/sign-in')) {
@@ -87,5 +76,31 @@ export const auth = betterAuth({
       }
     }),
   },
-  plugins: [nextCookies()],
+  socialProviders: {
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    },
+  },
+  plugins: [
+    nextCookies(),
+    magicLink({
+      sendMagicLink: async ({ email, url }) => {
+        await emailService.send({
+          to: email,
+          subject: 'Your Magic Link',
+          template: React.createElement(MagicLinkTemplate, { url }),
+        });
+      },
+    }),
+    emailOTP({
+      sendVerificationOTP: async ({ email, otp }) => {
+        await emailService.send({
+          to: email,
+          subject: 'Your Verification Code',
+          template: React.createElement(EmailOTPTemplate, { loginCode: otp }),
+        });
+      },
+    }),
+  ],
 });
