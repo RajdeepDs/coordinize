@@ -19,6 +19,8 @@ interface CheckYourEmailProps {
 export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
   const router = useRouter();
   const [isLoginWithCode, setIsLoginWithCode] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(loginCodeSchema),
@@ -32,29 +34,52 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
   } = form;
 
   const onSubmit = async (values: LoginCodeSchema) => {
-    const { error } = await authClient.signIn.emailOtp({
-      email,
-      otp: values.code,
-    });
-
-    if (error) {
-      toast.error('Error logging in with code. Please try again.');
+    if (isSubmitting) {
       return;
     }
+    setIsSubmitting(true);
 
-    router.refresh();
+    try {
+      const { error } = await authClient.signIn.emailOtp({
+        email,
+        otp: values.code,
+      });
+
+      if (error) {
+        const errorMessage =
+          error.code === 'invalid_otp'
+            ? 'Invalid verification code. Please check and try again.'
+            : 'Authentication failed. Please try again.';
+        toast.error(errorMessage);
+        return;
+      }
+
+      router.refresh();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   async function handleLoginWithCode() {
-    setIsLoginWithCode(true);
+    if (isSendingOtp) {
+      return;
+    }
+    setIsSendingOtp(true);
 
-    const { error } = await authClient.emailOtp.sendVerificationOtp({
-      email,
-      type: 'sign-in',
-    });
+    try {
+      const { error } = await authClient.emailOtp.sendVerificationOtp({
+        email,
+        type: 'sign-in',
+      });
 
-    if (error) {
-      toast.error('Error sending verification code. Please try again.');
+      if (error) {
+        toast.error('Failed to send verification code. Please try again.');
+        return;
+      }
+
+      setIsLoginWithCode(true);
+    } finally {
+      setIsSendingOtp(false);
     }
   }
 
@@ -95,6 +120,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
             )}
             <Button
               className="h-11 w-full"
+              disabled={isSubmitting}
               size={'lg'}
               type="submit"
               variant={'outline'}
@@ -106,6 +132,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
           <div className="space-y-3">
             <Button
               className="h-11 w-full"
+              disabled={isSendingOtp}
               onClick={handleLoginWithCode}
               size={'lg'}
               variant={'outline'}

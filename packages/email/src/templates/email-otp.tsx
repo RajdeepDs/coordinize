@@ -20,7 +20,7 @@ export const EmailOTPTemplate = ({ loginCode }: EmailOTPTemplateProps) => (
     <Html>
       <Head />
       <Body className="bg-white font-sans">
-        <Preview>Log in with this magic link</Preview>
+        <Preview>Your login verification code</Preview>
         <Container className="px-3">
           <Heading className="my-10 font-bold text-2xl text-zinc-800">
             Login

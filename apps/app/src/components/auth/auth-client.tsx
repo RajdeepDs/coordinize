@@ -2,6 +2,7 @@
 
 import { authClient } from '@coordinize/auth/auth-client';
 import { Button } from '@coordinize/ui/components/button';
+import { toast } from '@coordinize/ui/components/sonner';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { AnimatePresence, motion as m } from 'motion/react';
 import { useState } from 'react';
@@ -17,6 +18,7 @@ interface AuthClientProps {
 export function AuthClient({ title, children }: AuthClientProps) {
   const [isEmailLogin, setIsEmailLogin] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState<string>('');
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const handleEmailSubmit = (email: string) => {
     setSubmittedEmail(email);
@@ -61,11 +63,16 @@ export function AuthClient({ title, children }: AuthClientProps) {
       );
     }
 
-    async function handleGoogleLogin() {
-      await authClient.signIn.social({
-        provider: 'google',
-      });
-    }
+    const handleGoogleLogin = async () => {
+      try {
+        setIsGoogleLoading(true);
+        await authClient.signIn.social({ provider: 'google' });
+      } catch {
+        toast.error('Failed to sign in with Google. Please try again later.');
+      } finally {
+        setIsGoogleLoading(false);
+      }
+    };
 
     return (
       <m.div
@@ -82,6 +89,7 @@ export function AuthClient({ title, children }: AuthClientProps) {
             <div className="space-y-3">
               <Button
                 className="h-11 w-full"
+                disabled={isGoogleLoading}
                 onClick={handleGoogleLogin}
                 size={'lg'}
               >
