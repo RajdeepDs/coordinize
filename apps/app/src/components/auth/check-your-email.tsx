@@ -1,9 +1,12 @@
 'use client';
 
+import { authClient } from '@coordinize/auth/auth-client';
 import { Button } from '@coordinize/ui/components/button';
 import { Input } from '@coordinize/ui/components/input';
+import { toast } from '@coordinize/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion as m } from 'motion/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type LoginCodeSchema, loginCodeSchema } from '@/lib/schemas/auth';
@@ -14,6 +17,7 @@ interface CheckYourEmailProps {
 }
 
 export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
+  const router = useRouter();
   const [isLoginWithCode, setIsLoginWithCode] = useState(false);
 
   const form = useForm({
@@ -27,9 +31,32 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
     formState: { errors },
   } = form;
 
-  const onSubmit = (_values: LoginCodeSchema) => {
-    // TODO: Implement login logic
+  const onSubmit = async (values: LoginCodeSchema) => {
+    const { error } = await authClient.signIn.emailOtp({
+      email,
+      otp: values.code,
+    });
+
+    if (error) {
+      toast.error('Error logging in with code. Please try again.');
+      return;
+    }
+
+    router.refresh();
   };
+
+  async function handleLoginWithCode() {
+    setIsLoginWithCode(true);
+
+    const { error } = await authClient.emailOtp.sendVerificationOtp({
+      email,
+      type: 'sign-in',
+    });
+
+    if (error) {
+      toast.error('Error sending verification code. Please try again.');
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -79,7 +106,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
           <div className="space-y-3">
             <Button
               className="h-11 w-full"
-              onClick={() => setIsLoginWithCode(true)}
+              onClick={handleLoginWithCode}
               size={'lg'}
               variant={'outline'}
             >

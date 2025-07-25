@@ -1,11 +1,12 @@
 import { database } from '@coordinize/database/db';
 import { emailService } from '@coordinize/email';
+import EmailOTPTemplate from '@coordinize/email/templates/email-otp';
 import { MagicLinkTemplate } from '@coordinize/email/templates/magic-link';
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { APIError, createAuthMiddleware } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
-import { magicLink } from 'better-auth/plugins';
+import { emailOTP, magicLink } from 'better-auth/plugins';
 import React from 'react';
 
 export const auth = betterAuth({
@@ -80,6 +81,15 @@ export const auth = betterAuth({
           to: email,
           subject: 'Your Magic Link',
           template: React.createElement(MagicLinkTemplate, { url }),
+        });
+      },
+    }),
+    emailOTP({
+      sendVerificationOTP: async ({ email, otp }) => {
+        await emailService.send({
+          to: email,
+          subject: 'Your Verification Code',
+          template: React.createElement(EmailOTPTemplate, { loginCode: otp }),
         });
       },
     }),

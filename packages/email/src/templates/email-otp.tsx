@@ -11,11 +11,11 @@ import {
   Text,
 } from '@react-email/components';
 
-interface MagicLinkTemplateProps {
-  url?: string;
+interface EmailOTPTemplateProps {
+  loginCode?: string;
 }
 
-export const MagicLinkTemplate = ({ url }: MagicLinkTemplateProps) => (
+export const EmailOTPTemplate = ({ loginCode }: EmailOTPTemplateProps) => (
   <Tailwind>
     <Html>
       <Head />
@@ -25,13 +25,12 @@ export const MagicLinkTemplate = ({ url }: MagicLinkTemplateProps) => (
           <Heading className="my-10 font-bold text-2xl text-zinc-800">
             Login
           </Heading>
-          <Link
-            className="mb-4 block text-blue-600 text-sm underline"
-            href={url}
-            target="_blank"
-          >
-            Click here to log in with this magic link
-          </Link>
+          <Text className="mb-3.5 text-sm text-zinc-900">
+            Copy and paste this temporary login code:
+          </Text>
+          <code className="inline-block w-11/12 rounded border border-gray-300 bg-gray-100 p-4 text-gray-800">
+            {loginCode}
+          </code>
           <Text className="mt-3.5 mb-4 text-sm text-zinc-500">
             If you didn&apos;t try to login, you can safely ignore this email.
           </Text>
@@ -61,4 +60,4 @@ export const MagicLinkTemplate = ({ url }: MagicLinkTemplateProps) => (
   </Tailwind>
 );
 
-export default MagicLinkTemplate;
+export default EmailOTPTemplate;

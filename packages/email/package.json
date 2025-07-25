@@ -27,6 +27,7 @@
     "./keys": "./keys.ts",
     ".": "./src/index.ts",
     "./templates/contact": "./src/templates/contact.tsx",
-    "./templates/magic-link": "./src/templates/magic-link.tsx"
+    "./templates/magic-link": "./src/templates/magic-link.tsx",
+    "./templates/email-otp": "./src/templates/email-otp.tsx"
   }
 }

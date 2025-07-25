@@ -3,6 +3,7 @@
 import { authClient } from '@coordinize/auth/auth-client';
 import { Button } from '@coordinize/ui/components/button';
 import { Input } from '@coordinize/ui/components/input';
+import { toast } from '@coordinize/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { type EmailLinkSchema, emailLinkSchema } from '@/lib/schemas/auth';
@@ -28,17 +29,14 @@ export function EmailLink({
   } = form;
 
   const onSubmit = async (values: EmailLinkSchema) => {
-    // TODO: Handle email submission logic here
-    const { data, error } = await authClient.signIn.magicLink({
+    const { error } = await authClient.signIn.magicLink({
       email: values.email,
     });
 
     if (error) {
-      console.error('Error sending magic link:', error);
+      toast.error('Error sending magic link. Please try again.');
       return;
     }
-
-    console.log('Magic link sent successfully:', data);
 
     onEmailSubmit(values.email);
   };
