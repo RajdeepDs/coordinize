@@ -1,5 +1,6 @@
 'use client';
 
+import { authClient } from '@coordinize/auth/auth-client';
 import { Button } from '@coordinize/ui/components/button';
 import { Input } from '@coordinize/ui/components/input';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,10 +27,20 @@ export function EmailLink({
     formState: { errors },
   } = form;
 
-  const onSubmit = (_values: EmailLinkSchema) => {
+  const onSubmit = async (values: EmailLinkSchema) => {
     // TODO: Handle email submission logic here
+    const { data, error } = await authClient.signIn.magicLink({
+      email: values.email,
+    });
 
-    onEmailSubmit(_values.email);
+    if (error) {
+      console.error('Error sending magic link:', error);
+      return;
+    }
+
+    console.log('Magic link sent successfully:', data);
+
+    onEmailSubmit(values.email);
   };
 
   return (
