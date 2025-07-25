@@ -14,7 +14,8 @@
       "!**/packages/ui/src/components/**",
       "!**/packages/ui/src/styles/**",
       "!**/packages/ui/src/lib/**",
-      "!**/packages/ui/src/hooks/**"
+      "!**/packages/ui/src/hooks/**",
+      "!**/bun.lock"
     ]
   }
 }
