@@ -14,7 +14,7 @@ export function InviteHeader() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push('/private-beta');
+          router.push('/login');
         },
       },
     });

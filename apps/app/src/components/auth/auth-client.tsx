@@ -5,6 +5,7 @@ import { Button } from '@coordinize/ui/components/button';
 import { toast } from '@coordinize/ui/components/sonner';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { AnimatePresence, motion as m } from 'motion/react';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { CheckYourEmail } from '@/components/auth/check-your-email';
 import { EmailLink } from '@/components/auth/email-link';
@@ -19,6 +20,7 @@ export function AuthClient({ title, children }: AuthClientProps) {
   const [isEmailLogin, setIsEmailLogin] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState<string>('');
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const searchParams = useSearchParams();
 
   const handleEmailSubmit = (email: string) => {
     setSubmittedEmail(email);
@@ -66,7 +68,11 @@ export function AuthClient({ title, children }: AuthClientProps) {
     const handleGoogleLogin = async () => {
       try {
         setIsGoogleLoading(true);
-        await authClient.signIn.social({ provider: 'google' });
+        const callbackUrl = searchParams.get('callbackUrl');
+        await authClient.signIn.social({
+          provider: 'google',
+          callbackURL: callbackUrl || undefined,
+        });
       } catch {
         toast.error('Failed to sign in with Google. Please try again later.');
       } finally {
