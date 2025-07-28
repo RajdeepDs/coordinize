@@ -2,7 +2,7 @@ import { auth } from '@coordinize/auth/auth';
 import { Label } from '@coordinize/ui/components/label';
 import { headers } from 'next/headers';
 import { LogOutAllDevices } from '@/components/settings/security/log-out-all-devices';
-import { SessionCard } from '@/components/settings/security/session-card';
+import { SessionsList } from '@/components/settings/security/sessions-list';
 import { SettingsCard } from '@/components/settings/settings-card';
 
 export default async function SecurityPage() {
@@ -23,17 +23,14 @@ export default async function SecurityPage() {
           description="Devices logged into your account."
           title="Sessions"
         >
-          {sessions.map((session) => (
-            <SessionCard
-              key={session.id}
-              session={{
-                ...session,
-                ipAddress: session.ipAddress ?? null,
-                userAgent: session.userAgent ?? null,
-                isCurrent: session.id === currentSession?.session?.id,
-              }}
-            />
-          ))}
+          <SessionsList
+            initialSessions={sessions.map((session) => ({
+              ...session,
+              ipAddress: session.ipAddress ?? null,
+              userAgent: session.userAgent ?? null,
+              isCurrent: session.id === currentSession?.session?.id,
+            }))}
+          />
         </SettingsCard>
         <LogOutAllDevices />
       </div>

@@ -5,16 +5,16 @@ import type { Session } from '@coordinize/database/db';
 import { Button } from '@coordinize/ui/components/button';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { formatDistanceToNow } from 'date-fns';
-import { redirect } from 'next/navigation';
 import { UAParser } from 'ua-parser-js';
 
 interface SessionCardProps {
   readonly session: Session & {
     isCurrent: boolean;
   };
+  readonly onSessionRevoked: (sessionId: string) => void;
 }
 
-export function SessionCard({ session }: SessionCardProps) {
+export function SessionCard({ session, onSessionRevoked }: SessionCardProps) {
   const parsed = new UAParser(session.userAgent ?? '');
   const browser = parsed.getBrowser().name ?? 'Unknown Browser';
   const os = parsed.getOS().name ?? 'Unknown OS';
@@ -47,10 +47,11 @@ export function SessionCard({ session }: SessionCardProps) {
       <Button
         className="hidden cursor-pointer font-normal group-hover:block"
         onClick={async () => {
-          await authClient.signOut({
+          await authClient.revokeSession({
+            token: session.token,
             fetchOptions: {
               onSuccess: () => {
-                redirect('/private-beta');
+                onSessionRevoked(session.id);
               },
             },
           });
