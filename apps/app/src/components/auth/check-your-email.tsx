@@ -6,9 +6,9 @@ import { Input } from '@coordinize/ui/components/input';
 import { toast } from '@coordinize/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion as m } from 'motion/react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useAuthRedirect } from '@/hooks/use-auth-redirect';
 import { type LoginCodeSchema, loginCodeSchema } from '@/lib/schemas/auth';
 
 interface CheckYourEmailProps {
@@ -17,7 +17,7 @@ interface CheckYourEmailProps {
 }
 
 export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
-  const router = useRouter();
+  const { handleAuthSuccess } = useAuthRedirect();
   const [isLoginWithCode, setIsLoginWithCode] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
@@ -54,7 +54,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
         return;
       }
 
-      router.refresh();
+      handleAuthSuccess();
     } finally {
       setIsSubmitting(false);
     }

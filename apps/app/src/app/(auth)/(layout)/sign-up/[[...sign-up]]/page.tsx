@@ -1,7 +1,8 @@
 import { Button } from '@coordinize/ui/components/button';
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Suspense } from 'react';
 import { AuthClient } from '@/components/auth/auth-client';
+import { PreserveCallbackLink } from '@/components/auth/preserve-callback-link';
 
 export const metadata: Metadata = {
   title: 'Sign up',
@@ -13,12 +14,14 @@ export default function SignUpPage() {
       <p className="text-sm text-ui-gray-900">
         Already have an account?{' '}
         <Button asChild className="px-0" variant={'link'}>
-          <Link
-            className="text-foreground underline-offset-1 hover:underline"
-            href={'/login'}
-          >
-            Log in
-          </Link>
+          <Suspense fallback={<span>Log in</span>}>
+            <PreserveCallbackLink
+              className="text-foreground underline-offset-1 hover:underline"
+              href="/login"
+            >
+              Log in
+            </PreserveCallbackLink>
+          </Suspense>
         </Button>
       </p>
     </AuthClient>

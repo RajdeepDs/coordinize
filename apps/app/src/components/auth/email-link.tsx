@@ -5,6 +5,7 @@ import { Button } from '@coordinize/ui/components/button';
 import { Input } from '@coordinize/ui/components/input';
 import { toast } from '@coordinize/ui/components/sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { type EmailLinkSchema, emailLinkSchema } from '@/lib/schemas/auth';
 
@@ -17,6 +18,7 @@ export function EmailLink({
   onSetIsEmailLogin,
   onEmailSubmit,
 }: EmailLinkProps) {
+  const searchParams = useSearchParams();
   const form = useForm({
     resolver: zodResolver(emailLinkSchema),
     defaultValues: { email: '' },
@@ -29,8 +31,10 @@ export function EmailLink({
   } = form;
 
   const onSubmit = async (values: EmailLinkSchema) => {
+    const callbackUrl = searchParams.get('callbackUrl');
     const { error } = await authClient.signIn.magicLink({
       email: values.email,
+      callbackURL: callbackUrl || undefined,
     });
 
     if (error) {

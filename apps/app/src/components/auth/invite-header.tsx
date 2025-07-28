@@ -14,7 +14,7 @@ export function InviteHeader() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push('/private-beta');
+          router.push('/login');
         },
       },
     });
@@ -22,11 +22,16 @@ export function InviteHeader() {
 
   return (
     <header className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
-      <div className="flex flex-col gap-1 text-sm">
-        <Label>Logged in as:</Label>
-        <span className="text-ui-gray-900">{user?.email}</span>
+      <div className="flex select-none flex-col text-sm">
+        <Label className="font-normal text-ui-gray-900">Logged in as:</Label>
+        <span className="text-foreground">{user?.email}</span>
       </div>
-      <Button onClick={handleLogout} size={'sm'} variant={'ghost'}>
+      <Button
+        className="text-foreground"
+        onClick={handleLogout}
+        size={'sm'}
+        variant={'ghost'}
+      >
         Log out
       </Button>
     </header>
