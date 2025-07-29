@@ -5,7 +5,6 @@ import type { Metadata } from 'next';
 import { ActivitySection } from '@/components/features/activity/activity-section';
 import { PublishedPostsList } from '@/components/features/activity/published-posts-list';
 import { PageHeader } from '@/components/layout/page-header';
-import { TeamsSidebar } from '@/components/layout/teams-sidebar/teams-sidebar';
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -37,7 +36,6 @@ export default function Home() {
           <PublishedPostsList />
         </ActivitySection>
       </div>
-      <TeamsSidebar />
     </div>
   );
 }
