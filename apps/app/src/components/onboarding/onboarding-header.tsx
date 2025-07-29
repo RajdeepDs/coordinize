@@ -13,7 +13,7 @@ export function OnboardingHeader() {
           await authClient.signOut({
             fetchOptions: {
               onSuccess: () => {
-                redirect('/private-beta');
+                redirect('/login');
               },
             },
           })

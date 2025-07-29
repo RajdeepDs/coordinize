@@ -103,7 +103,7 @@ export function TeamSwitcher({ email }: { email: string }) {
                 authClient.signOut({
                   fetchOptions: {
                     onSuccess: () => {
-                      redirect('/private-beta');
+                      redirect('/login');
                     },
                   },
                 })

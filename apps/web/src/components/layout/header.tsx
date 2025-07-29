@@ -58,7 +58,7 @@ export function Header() {
             </Button>
           </Link>
           <Separator className="hidden min-h-5" orientation="vertical" />
-          <Link href={`${APP_URL}/private-beta`}>
+          <Link href={`${APP_URL}/login`}>
             <Button size="sm" variant="default">
               Sign in
             </Button>
