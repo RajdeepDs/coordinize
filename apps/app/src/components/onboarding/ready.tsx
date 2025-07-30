@@ -57,7 +57,7 @@ export function Ready({ nextStep }: ReadyProps) {
       </div>
 
       <Button className="h-11 w-3xs" onClick={nextStep} size="lg">
-        Continue
+        Open Coordinize
       </Button>
     </div>
   );
