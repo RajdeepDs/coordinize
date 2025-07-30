@@ -2,11 +2,16 @@
 
 import { motion as m } from 'motion/react';
 import { useRouter } from 'next/navigation';
-import type { StepKey } from '@/app/(onboarding)/onboarding/[[...step]]/page';
-import { ChooseStyle } from './choose-style';
-import { Invite } from './invite';
-import { Ready } from './ready';
-import { Welcome } from './welcome';
+import { ChooseStyle } from '@/components/onboarding/choose-style';
+import { Invite } from '@/components/onboarding/invite';
+import { Ready } from '@/components/onboarding/ready';
+import { Welcome } from '@/components/onboarding/welcome';
+import {
+  type OnboardingStepId,
+  onboardingSteps,
+} from '@/config/onboarding-steps';
+
+type StepKey = OnboardingStepId;
 
 interface OnboardingClientProps {
   step: StepKey;
@@ -24,13 +29,25 @@ export function OnboardingClient({ step }: OnboardingClientProps) {
 
   const CurrentStepComponent = stepComponents[step] || Welcome;
 
+  const stepIndex = onboardingSteps.findIndex((s) => s.id === step);
+
+  const goToNext = () => {
+    const next = onboardingSteps[stepIndex + 1]?.id;
+    if (next) {
+      router.push(`/getting-started/${next}`);
+    } else {
+      router.push('/');
+    }
+  };
+
   return (
     <m.div
-      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-      initial={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
-      transition={{ duration: 0.3, ease: 'linear' }}
+      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+      exit={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
+      initial={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
     >
-      <CurrentStepComponent />
+      <CurrentStepComponent nextStep={goToNext} />
     </m.div>
   );
 }
