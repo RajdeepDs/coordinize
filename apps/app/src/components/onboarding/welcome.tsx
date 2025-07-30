@@ -12,7 +12,9 @@ export function Welcome({ nextStep }: WelcomeProps) {
     <div className="flex w-full flex-col items-center space-y-8 text-center">
       <Logo />
       <div className="flex flex-col items-center space-y-6">
-        <h1 className="font-semibold text-[2.5rem]">Welcome to Coordinize</h1>
+        <h1 className="font-semibold text-3xl sm:text-[2.5rem]">
+          Welcome to Coordinize
+        </h1>
         <p className="text-sm text-ui-gray-900">
           A modern async-first platform built for global teams. <br />{' '}
           Communicate clearly, collaborate effortlessly.

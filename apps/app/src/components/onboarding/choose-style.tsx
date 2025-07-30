@@ -28,7 +28,7 @@ export function ChooseStyle({ nextStep }: ChooseStyleProps) {
   }
 
   return (
-    <div className="flex w-full flex-col items-center space-y-8 text-center">
+    <div className="flex w-full flex-col items-center space-y-8 px-4 text-center sm:px-0">
       <div className="flex flex-col items-center space-y-4">
         <h1 className="font-medium text-lg">Choose your style</h1>
         <p className="max-w-sm text-muted-foreground text-sm">
