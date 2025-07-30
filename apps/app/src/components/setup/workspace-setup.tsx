@@ -44,10 +44,10 @@ export function WorkspaceSetup() {
     })
   );
 
-  const onSubmit = (_data: WorkspaceSetupSchema) => {
+  const onSubmit = (values: WorkspaceSetupSchema) => {
     workspaceMutation({
-      workspaceName: form.getValues('workspaceName'),
-      workspaceURL: form.getValues('workspaceURL'),
+      workspaceName: values.workspaceName,
+      workspaceURL: values.workspaceURL,
     });
   };
 
