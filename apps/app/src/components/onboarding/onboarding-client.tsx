@@ -1,5 +1,6 @@
 'use client';
 
+import { useMutation } from '@tanstack/react-query';
 import { motion as m } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { ChooseStyle } from '@/components/onboarding/choose-style';
@@ -10,6 +11,7 @@ import {
   type OnboardingStepId,
   onboardingSteps,
 } from '@/config/onboarding-steps';
+import { useTRPC } from '@/trpc/client';
 
 type StepKey = OnboardingStepId;
 
@@ -25,10 +27,15 @@ const stepComponents = {
 } as const;
 
 export function OnboardingClient({ step }: OnboardingClientProps) {
+  const trpc = useTRPC();
   const router = useRouter();
 
+  const { mutate: updateOnboardingStep } = useMutation(
+    trpc.user.updateOnboardingStep.mutationOptions()
+  );
+
   const currentStep = (step?.[0] as keyof typeof stepComponents) || 'welcome';
-  const CurrentStepComponent = stepComponents[step] || Welcome;
+  const CurrentStepComponent = stepComponents[currentStep] || Welcome;
 
   const stepIndex = onboardingSteps.findIndex((s) => s.id === currentStep);
 
@@ -36,8 +43,15 @@ export function OnboardingClient({ step }: OnboardingClientProps) {
     const next = onboardingSteps[stepIndex + 1]?.id;
 
     if (next) {
+      updateOnboardingStep({
+        step: next,
+      });
       router.push(`/onboarding/${next}`);
     } else {
+      updateOnboardingStep({
+        step: 'ready',
+        markAsOnboarded: true,
+      });
       router.push('/');
     }
   };

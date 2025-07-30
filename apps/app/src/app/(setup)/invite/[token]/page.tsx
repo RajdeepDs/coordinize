@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { AcceptInvite } from '@/components/auth/accept-invite';
+import { AcceptInvite } from '@/components/setup/accept-invite';
 import { HydrateClient, prefetch, trpc } from '@/trpc/server';
 
 export const metadata: Metadata = {

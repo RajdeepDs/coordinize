@@ -10,8 +10,9 @@ import { useUserQuery } from '@/hooks/use-user';
 
 const onboardingRouteMap: Record<OnboardingStep, string> = {
   WELCOME: 'welcome',
-  WORKSPACE_SETUP: 'workspace-setup',
-  PREFERENCES: 'preferences',
+  CHOOSE_STYLE: 'choose-style',
+  INVITE: 'invite',
+  READY: 'ready',
 };
 
 export function AcceptInvite({ token }: { token: string }) {
@@ -26,7 +27,7 @@ export function AcceptInvite({ token }: { token: string }) {
     if (user?.onboarded) {
       router.push(`/${user.defaultWorkspace}`);
     } else {
-      const currentStepPath = `/getting-started/${onboardingRouteMap[user?.onboardingStep as OnboardingStep]}`;
+      const currentStepPath = `/onboarding/${onboardingRouteMap[user?.onboardingStep as OnboardingStep]}`;
       router.push(currentStepPath);
     }
   }

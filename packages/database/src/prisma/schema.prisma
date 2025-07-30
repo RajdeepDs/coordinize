@@ -16,8 +16,9 @@ datasource db {
 
 enum OnboardingStep {
   WELCOME
-  WORKSPACE_SETUP
-  PREFERENCES
+  CHOOSE_STYLE
+  INVITE
+  READY
 }
 
 model User {

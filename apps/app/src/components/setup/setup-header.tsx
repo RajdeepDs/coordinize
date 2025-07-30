@@ -6,7 +6,7 @@ import { Label } from '@coordinize/ui/label';
 import { useRouter } from 'next/navigation';
 import { useUserQuery } from '@/hooks/use-user';
 
-export function InviteHeader() {
+export function SetupHeader() {
   const router = useRouter();
   const { data: user } = useUserQuery();
 
