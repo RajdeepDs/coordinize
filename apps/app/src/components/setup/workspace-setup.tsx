@@ -12,10 +12,11 @@ import {
   type WorkspaceSetupSchema,
   workspaceSetupSchema,
 } from '@/lib/schemas/setup';
-import { trpc } from '@/trpc/server';
+import { useTRPC } from '@/trpc/client';
 import { WorkspaceSetupForm } from './workspace-setup-form';
 
 export function WorkspaceSetup() {
+  const trpc = useTRPC();
   const form = useForm<WorkspaceSetupSchema>({
     resolver: zodResolver(workspaceSetupSchema),
     defaultValues: {
