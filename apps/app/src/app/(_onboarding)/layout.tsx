@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { OnboardingHeader } from '@/components/onboarding/onboarding-header';
+import { OnboardingHeader } from '@/components/_onboarding/onboarding-header';
 import { HydrateClient, prefetch, trpc } from '@/trpc/server';
 
 interface OnboardingLayoutProps {
