@@ -27,14 +27,16 @@ const stepComponents = {
 export function OnboardingClient({ step }: OnboardingClientProps) {
   const router = useRouter();
 
+  const currentStep = (step?.[0] as keyof typeof stepComponents) || 'welcome';
   const CurrentStepComponent = stepComponents[step] || Welcome;
 
-  const stepIndex = onboardingSteps.findIndex((s) => s.id === step);
+  const stepIndex = onboardingSteps.findIndex((s) => s.id === currentStep);
 
   const goToNext = () => {
     const next = onboardingSteps[stepIndex + 1]?.id;
+
     if (next) {
-      router.push(`/getting-started/${next}`);
+      router.push(`/onboarding/${next}`);
     } else {
       router.push('/');
     }
