@@ -1,3 +1,4 @@
+import { TRPCError } from '@trpc/server';
 import { getWorkspaceMembersQuery, getWorkspaceQuery } from '@/lib/queries';
 import { workspaceSetupSchema } from '@/lib/schemas/setup';
 import { createTRPCRouter, protectedProcedure } from '../init';
@@ -21,21 +22,39 @@ export const workspaceRouter = createTRPCRouter({
       },
     }) => {
       const { workspaceName, workspaceURL } = input;
-      const workspace = await db.workspace.create({
-        data: {
-          name: workspaceName,
-          slug: workspaceURL,
-          createdBy: user.id,
-        },
+
+      const existingWorkspace = await db.workspace.findUnique({
+        where: { slug: workspaceURL },
       });
 
-      await db.workspaceMember.create({
-        data: {
-          workspaceId: workspace.id,
-          userId: user.id,
-          role: 'ADMIN',
-        },
+      if (existingWorkspace) {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'A workspace with this URL already exists.',
+        });
+      }
+
+      const result = await db.$transaction(async (tx) => {
+        const workspace = await tx.workspace.create({
+          data: {
+            name: workspaceName,
+            slug: workspaceURL,
+            createdBy: user.id,
+          },
+        });
+
+        await tx.workspaceMember.create({
+          data: {
+            workspaceId: workspace.id,
+            userId: user.id,
+            role: 'ADMIN',
+          },
+        });
+
+        return workspace;
       });
+
+      return result;
     }
   ),
 });

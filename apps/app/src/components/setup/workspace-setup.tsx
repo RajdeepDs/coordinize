@@ -32,14 +32,14 @@ export function WorkspaceSetup() {
     form.setValue('workspaceURL', slug);
   }, [workspaceName, form]);
 
-  const { mutate: workspaceMutation } = useMutation(
+  const { mutate: workspaceMutation, isPending } = useMutation(
     trpc.workspace.workspaceSetup.mutationOptions({
       onSuccess: () => {
         toast.success('Workspace created successfully!');
         // TODO: Redirect to the onboarding page.
       },
-      onError: () => {
-        toast.error('Error creating workspace.');
+      onError: (error) => {
+        toast.error(error.message || 'Error creating workspace.');
       },
     })
   );
@@ -76,14 +76,19 @@ export function WorkspaceSetup() {
                 </p>
               </div>
               <div className="w-full rounded-md bg-white px-5 py-6 shadow-xl ring-1 ring-ui-gray-400">
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form
+                  id="workspace-setup-form"
+                  onSubmit={form.handleSubmit(onSubmit)}
+                >
                   <WorkspaceSetupForm form={form} />
                 </form>
               </div>
               <Button
                 className="h-11 w-full sm:w-sm"
-                onClick={form.handleSubmit(onSubmit)}
+                disabled={isPending}
+                form="workspace-setup-form"
                 size={'lg'}
+                type="submit"
               >
                 Continue
               </Button>
