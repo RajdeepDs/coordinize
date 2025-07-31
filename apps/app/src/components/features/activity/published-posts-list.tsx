@@ -65,11 +65,11 @@ export function PublishedPostsList() {
           <div className="flex flex-col gap-4">
             {posts.map((post) => (
               <PostItem
-                authorName={post.author?.name || 'Unknown Author'}
+                authorName={post.author?.name || ''}
                 description={post.content || undefined}
                 id={post.id}
                 key={post.id}
-                spaceName={post.space?.name || 'Unknown Space'}
+                spaceName={post.space?.name || ''}
                 title={post.title}
                 userImage={post.author?.image || undefined}
                 workspaceSlug={currentWorkspace?.slug || ''}
