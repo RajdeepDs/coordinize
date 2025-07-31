@@ -31,7 +31,7 @@ export const userRouter = createTRPCRouter({
       return user;
     }),
 
-  updateOnboarding: protectedProcedure.mutation(
+  updateOnboarding: authenticatedProcedure.mutation(
     async ({ ctx: { db, session } }) => {
       const user = await db.user.update({
         where: {

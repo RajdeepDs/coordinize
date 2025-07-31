@@ -49,11 +49,6 @@ export function Invite({ nextStep }: InviteProps) {
   }
 
   useEffect(() => {
-    if (!open) {
-      setCopied(false);
-      return;
-    }
-
     if (existingTokenData) {
       setCurrentToken(existingTokenData.token);
       setUsesLeft(existingTokenData.usesLeft);
