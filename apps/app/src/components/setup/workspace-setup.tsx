@@ -35,11 +35,19 @@ export function WorkspaceSetup() {
     form.setValue('workspaceURL', slug);
   }, [workspaceName, form]);
 
+  const { mutate: seedMutation } = useMutation(
+    trpc.seed.seed.mutationOptions({
+      onSuccess: () => {
+        router.push('/onboarding/welcome');
+      },
+    })
+  );
+
   const { mutate: workspaceMutation, isPending } = useMutation(
     trpc.workspace.workspaceSetup.mutationOptions({
       onSuccess: () => {
         toast.success('Workspace created successfully!');
-        router.push('/onboarding/welcome');
+        seedMutation();
       },
       onError: (error) => {
         toast.error(error.message || 'Error creating workspace.');

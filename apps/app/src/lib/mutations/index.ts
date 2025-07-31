@@ -1,7 +1,14 @@
 import type { PrismaClient } from '@coordinize/database/db';
 
+// Define a type that can accept both PrismaClient and transaction client
+type PrismaTransactionClient = Omit<
+  PrismaClient,
+  '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+>;
+type DatabaseClient = PrismaClient | PrismaTransactionClient;
+
 export async function createNewSpace(
-  db: PrismaClient,
+  db: DatabaseClient,
   name: string,
   identifier: string,
   about: string | undefined,
@@ -27,10 +34,12 @@ export async function createNewSpace(
       role: 'ADMIN',
     },
   });
+
+  return space;
 }
 
 export async function createNewPost(
-  db: PrismaClient,
+  db: DatabaseClient,
   title: string,
   description: string,
   spaceId: string,
@@ -52,7 +61,7 @@ export async function createNewPost(
 }
 
 export async function createDraftPost(
-  db: PrismaClient,
+  db: DatabaseClient,
   title: string,
   description: string,
   spaceId: string,
@@ -73,7 +82,7 @@ export async function createDraftPost(
 }
 
 export async function createCommentMutation(
-  db: PrismaClient,
+  db: DatabaseClient,
   content: string,
   postId: string,
   authorId: string,
@@ -107,7 +116,7 @@ export async function createCommentMutation(
 }
 
 export async function updateCommentMutation(
-  db: PrismaClient,
+  db: DatabaseClient,
   commentId: string,
   content: string
 ) {
@@ -130,7 +139,7 @@ export async function updateCommentMutation(
 }
 
 export async function deleteCommentMutation(
-  db: PrismaClient,
+  db: DatabaseClient,
   commentId: string
 ) {
   return await db.comment.delete({

@@ -5,6 +5,7 @@ import { favoriteRouter } from './favorite';
 import { inviteRouter } from './invite';
 import { notificationRouter } from './notification';
 import { postRouter } from './post';
+import { seedRouter } from './seed';
 import { spaceRouter } from './space';
 import { timelineRouter } from './timeline';
 import { userRouter } from './user';
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   comment: commentRouter,
   invite: inviteRouter,
   notification: notificationRouter,
+  seed: seedRouter,
 });
 
 // export type definition of API
