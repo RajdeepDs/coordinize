@@ -74,6 +74,20 @@ export const seedRouter = createTRPCRouter({
             workspaceId
           );
 
+          await tx.favorite.create({
+            data: {
+              userId: user.id,
+              spaceId: space.id,
+            },
+          });
+
+          await tx.favorite.create({
+            data: {
+              userId: user.id,
+              postId: post.id,
+            },
+          });
+
           return {
             space,
             post,
