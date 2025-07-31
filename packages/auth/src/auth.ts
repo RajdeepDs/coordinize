@@ -76,6 +76,12 @@ export const auth = betterAuth({
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      mapProfileToUser: (profile) => {
+        return {
+          name: profile.name,
+          image: profile.picture,
+        };
+      },
     },
   },
   plugins: [

@@ -11,6 +11,11 @@ export const config: NextConfig = {
         hostname: 'o1lk19zcl9.ufs.sh',
         pathname: '/f/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '**',
+      },
     ],
   },
   webpack(config, { isServer }) {
