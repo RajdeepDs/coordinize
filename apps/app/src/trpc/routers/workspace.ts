@@ -1,5 +1,4 @@
 import { TRPCError } from '@trpc/server';
-import { cookies } from 'next/headers';
 import { getWorkspaceMembersQuery, getWorkspaceQuery } from '@/lib/queries';
 import { workspaceSetupSchema } from '@/lib/schemas/setup';
 import {
@@ -62,14 +61,6 @@ export const workspaceRouter = createTRPCRouter({
         });
 
         return workspace;
-      });
-
-      const cookieStore = await cookies();
-      cookieStore.set({
-        name: 'workspaceId',
-        value: result.id,
-        secure: true,
-        httpOnly: true,
       });
 
       return result;

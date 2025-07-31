@@ -1,7 +1,7 @@
 import { auth } from '@coordinize/auth/auth';
 import { database as db } from '@coordinize/database/db';
 import { initTRPC, TRPCError } from '@trpc/server';
-import { cookies, headers } from 'next/headers';
+import { headers } from 'next/headers';
 import { cache } from 'react';
 import superjson from 'superjson';
 
@@ -45,10 +45,14 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  const cookieStore = await cookies();
-  const workspaceId = cookieStore.get('workspaceId')?.value;
+  const workspace = await db.workspace.findUnique({
+    where: { slug: session.user.defaultWorkspace },
+    select: {
+      id: true,
+    },
+  });
 
-  if (!workspaceId) {
+  if (!workspace) {
     throw new TRPCError({
       code: 'NOT_FOUND',
       message: 'WorkspaceId not found',
@@ -58,7 +62,7 @@ export const protectedProcedure = t.procedure.use(async (opts) => {
   return opts.next({
     ctx: {
       session,
-      workspaceId,
+      workspaceId: workspace.id,
     },
   });
 });
