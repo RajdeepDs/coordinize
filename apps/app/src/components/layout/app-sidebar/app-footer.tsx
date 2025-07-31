@@ -29,7 +29,7 @@ export function AppFooter({ user }: AppFooterProps) {
             <AvatarStatus
               alt="user-image"
               className="size-6 ring-ui-gray-500 ring-offset-1 ring-offset-sidebar transition-all duration-200 ease-in-out hover:ring-2"
-              fallback={user.name.at(0)?.toUpperCase() ?? 'A'}
+              fallback={user.name.at(0)}
               src={user.image ?? ''}
             />
           </Link>
