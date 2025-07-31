@@ -34,14 +34,13 @@ export function OnboardingClient({ step }: OnboardingClientProps) {
     trpc.user.updateOnboarding.mutationOptions()
   );
 
-  const currentStep = (step as keyof typeof stepComponents) || 'welcome';
+  const currentStep = (step?.[0] as keyof typeof stepComponents) || 'welcome';
   const CurrentStepComponent = stepComponents[currentStep] || Welcome;
 
   const stepIndex = onboardingSteps.findIndex((s) => s.id === currentStep);
 
   const goToNext = () => {
     const next = onboardingSteps[stepIndex + 1]?.id;
-
     if (next) {
       router.push(`/onboarding/${next}`);
     } else {
