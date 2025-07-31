@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import slugify from '@sindresorhus/slugify';
 import { useMutation } from '@tanstack/react-query';
 import { AnimatePresence, motion as m } from 'motion/react';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,6 +18,8 @@ import { WorkspaceSetupForm } from './workspace-setup-form';
 
 export function WorkspaceSetup() {
   const trpc = useTRPC();
+  const router = useRouter();
+
   const form = useForm<WorkspaceSetupSchema>({
     resolver: zodResolver(workspaceSetupSchema),
     defaultValues: {
@@ -36,7 +39,7 @@ export function WorkspaceSetup() {
     trpc.workspace.workspaceSetup.mutationOptions({
       onSuccess: () => {
         toast.success('Workspace created successfully!');
-        // TODO: Redirect to the onboarding page.
+        router.push('/onboarding/welcome');
       },
       onError: (error) => {
         toast.error(error.message || 'Error creating workspace.');

@@ -30,8 +30,8 @@ export function OnboardingClient({ step }: OnboardingClientProps) {
   const trpc = useTRPC();
   const router = useRouter();
 
-  const { mutate: updateOnboardingStep } = useMutation(
-    trpc.user.updateOnboardingStep.mutationOptions()
+  const { mutate: updateOnboarding } = useMutation(
+    trpc.user.updateOnboarding.mutationOptions()
   );
 
   const currentStep = (step?.[0] as keyof typeof stepComponents) || 'welcome';
@@ -43,15 +43,9 @@ export function OnboardingClient({ step }: OnboardingClientProps) {
     const next = onboardingSteps[stepIndex + 1]?.id;
 
     if (next) {
-      updateOnboardingStep({
-        step: next,
-      });
       router.push(`/onboarding/${next}`);
     } else {
-      updateOnboardingStep({
-        step: 'ready',
-        markAsOnboarded: true,
-      });
+      updateOnboarding();
       router.push('/');
     }
   };

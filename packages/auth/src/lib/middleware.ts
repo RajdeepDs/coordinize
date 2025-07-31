@@ -1,5 +1,4 @@
 import { betterFetch } from '@better-fetch/fetch';
-import type { OnboardingStep } from '@coordinize/database/db';
 import { type NextRequest, NextResponse } from 'next/server';
 import type { auth } from '../auth';
 import { apiAuthPrefix, authRoutes, publicRoutes } from './routes';
@@ -13,7 +12,8 @@ export async function authMiddleware(request: NextRequest) {
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(pathname);
   const isAuthRoute = authRoutes.includes(pathname);
-  const isOnboardingRoute = pathname.startsWith('/getting-started');
+  const isOnboardingRoute = pathname.startsWith('/onboarding');
+  const isWorkspaceSetupRoute = pathname === '/workspace-setup';
 
   const { data: session } = await betterFetch<Session>(
     '/api/auth/get-session',
@@ -38,6 +38,7 @@ export async function authMiddleware(request: NextRequest) {
     pathname,
     isAuthRoute,
     isOnboardingRoute,
+    isWorkspaceSetupRoute,
     nextUrl
   );
 }
@@ -60,42 +61,44 @@ function handleAuthenticatedUser(
   pathname: string,
   isAuthRoute: boolean,
   isOnboardingRoute: boolean,
+  isWorkspaceSetupRoute: boolean,
   nextUrl: URL
 ) {
-  const { onboarded, onboardingStep, defaultWorkspace } = session.user;
+  const { onboarded, defaultWorkspace } = session.user;
 
-  if (!onboarded) {
-    return handleOnboardingFlow(pathname, onboardingStep, nextUrl);
+  // Handle workspace setup flow - if user doesn't have a workspace
+  if (!defaultWorkspace) {
+    if (isWorkspaceSetupRoute || pathname.startsWith('/invite')) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL('/workspace-setup', nextUrl));
   }
 
-  if (isAuthRoute || pathname === '/' || isOnboardingRoute) {
-    return NextResponse.redirect(
-      new URL(`/${defaultWorkspace || 'login'}`, nextUrl)
-    );
+  // Handle onboarding flow - user has workspace but not onboarded
+  if (!onboarded) {
+    return handleOnboardingFlow(pathname, nextUrl);
+  }
+
+  // User is fully set up - redirect auth routes and home to their workspace
+  if (
+    isAuthRoute ||
+    pathname === '/' ||
+    isOnboardingRoute ||
+    isWorkspaceSetupRoute
+  ) {
+    return NextResponse.redirect(new URL(`/${defaultWorkspace}`, nextUrl));
   }
 
   return NextResponse.next();
 }
 
-function handleOnboardingFlow(
-  pathname: string,
-  onboardingStep: string,
-  nextUrl: URL
-) {
+function handleOnboardingFlow(pathname: string, nextUrl: URL) {
   if (pathname.startsWith('/invite')) {
     return NextResponse.next();
   }
 
-  const onboardingRouteMap: Record<OnboardingStep, string> = {
-    WELCOME: 'welcome',
-    WORKSPACE_SETUP: 'workspace-setup',
-    PREFERENCES: 'preferences',
-  };
-
-  const currentStepPath = `/getting-started/${onboardingRouteMap[onboardingStep as OnboardingStep]}`;
-
-  if (!pathname.startsWith(currentStepPath)) {
-    return NextResponse.redirect(new URL(currentStepPath, nextUrl));
+  if (!pathname.startsWith('/onboarding')) {
+    return NextResponse.redirect(new URL('/onboarding/welcome', nextUrl));
   }
 
   return NextResponse.next();

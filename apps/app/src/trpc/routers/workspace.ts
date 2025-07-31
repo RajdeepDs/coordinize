@@ -2,7 +2,11 @@ import { TRPCError } from '@trpc/server';
 import { cookies } from 'next/headers';
 import { getWorkspaceMembersQuery, getWorkspaceQuery } from '@/lib/queries';
 import { workspaceSetupSchema } from '@/lib/schemas/setup';
-import { createTRPCRouter, protectedProcedure } from '../init';
+import {
+  authenticatedProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+} from '../init';
 
 export const workspaceRouter = createTRPCRouter({
   current: protectedProcedure.query(async ({ ctx: { workspaceId } }) => {
@@ -14,7 +18,7 @@ export const workspaceRouter = createTRPCRouter({
     return members;
   }),
 
-  workspaceSetup: protectedProcedure.input(workspaceSetupSchema).mutation(
+  workspaceSetup: authenticatedProcedure.input(workspaceSetupSchema).mutation(
     async ({
       input,
       ctx: {

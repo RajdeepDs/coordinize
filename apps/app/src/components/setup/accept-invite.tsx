@@ -1,19 +1,11 @@
 'use client';
 
-import type { OnboardingStep } from '@coordinize/database/db';
 import { Button } from '@coordinize/ui/components/button';
 import { AnimatePresence, motion as m } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/ui/logo';
 import { useAcceptInvite, useInviteTokenInfo } from '@/hooks/use-invites';
 import { useUserQuery } from '@/hooks/use-user';
-
-const onboardingRouteMap: Record<OnboardingStep, string> = {
-  WELCOME: 'welcome',
-  CHOOSE_STYLE: 'choose-style',
-  INVITE: 'invite',
-  READY: 'ready',
-};
 
 export function AcceptInvite({ token }: { token: string }) {
   const router = useRouter();
@@ -27,7 +19,7 @@ export function AcceptInvite({ token }: { token: string }) {
     if (user?.onboarded) {
       router.push(`/${user.defaultWorkspace}`);
     } else {
-      const currentStepPath = `/onboarding/${onboardingRouteMap[user?.onboardingStep as OnboardingStep]}`;
+      const currentStepPath = '/onboarding/welcome';
       router.push(currentStepPath);
     }
   }
