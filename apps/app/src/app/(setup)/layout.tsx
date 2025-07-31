@@ -1,4 +1,4 @@
-import { InviteHeader } from '@/components/auth/invite-header';
+import { SetupHeader } from '@/components/setup/setup-header';
 import { HydrateClient, prefetch, trpc } from '@/trpc/server';
 
 export default function SetupLayout({
@@ -11,7 +11,7 @@ export default function SetupLayout({
   return (
     <HydrateClient>
       <main className="flex h-svh w-full flex-col items-center justify-center">
-        <InviteHeader />
+        <SetupHeader />
         {children}
       </main>
     </HydrateClient>

@@ -17,9 +17,6 @@ export function useGenerateInviteToken() {
 
   return useMutation(
     trpc.invite.generateToken.mutationOptions({
-      onSuccess: () => {
-        toast.success('Invite link ready.');
-      },
       onError: () => {
         toast.error('Failed to generate invite link.');
       },

@@ -4,7 +4,6 @@ import { commentRouter } from './comment';
 import { favoriteRouter } from './favorite';
 import { inviteRouter } from './invite';
 import { notificationRouter } from './notification';
-import { onboardingRouter } from './onboarding';
 import { postRouter } from './post';
 import { spaceRouter } from './space';
 import { timelineRouter } from './timeline';
@@ -12,7 +11,6 @@ import { userRouter } from './user';
 import { workspaceRouter } from './workspace';
 
 export const appRouter = createTRPCRouter({
-  onboarding: onboardingRouter,
   user: userRouter,
   workspace: workspaceRouter,
   space: spaceRouter,

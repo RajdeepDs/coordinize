@@ -26,10 +26,6 @@ export const auth = betterAuth({
         type: 'string',
         defaultValue: null,
       },
-      onboardingStep: {
-        type: 'string',
-        defaultValue: 'WELCOME',
-      },
     },
   },
   hooks: {
