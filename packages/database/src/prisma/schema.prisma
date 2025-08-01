@@ -41,6 +41,7 @@ model User {
   InviteTokens           InviteToken[]
   notifications          Notification[]
   actorNotifications     Notification[]           @relation("NotificationActor")
+  reactions              Reaction[]
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -226,6 +227,7 @@ model Post {
   favorite       Favorite[]
   timelineEvents TimelineEvent[]
   comments       Comment[]
+  reactions      Reaction[]
 
   @@index([authorId])
   @@index([spaceId])
@@ -348,6 +350,22 @@ model Notification {
   @@index([actorId])
   @@index([subjectType, subjectId])
   @@map("notification")
+}
+
+model Reaction {
+  id        String   @id @default(cuid())
+  emoji     String
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId, emoji])
+  @@index([postId])
+  @@index([userId])
+  @@map("reaction")
 }
 
 model InviteToken {
