@@ -8,6 +8,7 @@ import { cn } from '@coordinize/ui/lib/utils';
 import { useParams } from 'next/navigation';
 import { ActivitySection } from '@/components/features/activity/activity-section';
 import { EditablePostContent } from '@/components/features/post/editable-post-content';
+import { EmojiReactions } from '@/components/features/post/emoji-reactions';
 import { PostActivitySection } from '@/components/features/post/post-activity-section';
 import { PostMetadata } from '@/components/features/post/post-metadata';
 import { PostOptions } from '@/components/features/post/post-options';
@@ -102,14 +103,7 @@ export function PostPageContent({ postId }: PostPageContentProps) {
                 initialTitle={post.title}
                 postId={post.id}
               />
-              <Button
-                className={cn('size-7 rounded-sm text-muted-foreground')}
-                size={'icon'}
-                tooltip="Add a reaction"
-                variant={'ghost'}
-              >
-                <Icons.emojiPlus size={16} />
-              </Button>
+              <EmojiReactions postId={post.id} />
               <Separator />
               <PostActivitySection postId={post.id} />
             </ActivitySection>
