@@ -121,7 +121,7 @@ export function TeamSwitcher({ email }: { email: string }) {
             tooltip="Search workspace"
             variant={'ghost'}
           >
-            <Link href={'/search'}>
+            <Link href={`/${params.slug}/search`}>
               <Icons.search />
             </Link>
           </Button>

@@ -6,6 +6,7 @@ import {
   getDraftPostsQuery,
   getPostByIdQuery,
   getPublishedPostsQuery,
+  searchPostsQuery,
 } from '@/lib/queries';
 import {
   draftPostSchema,
@@ -39,6 +40,18 @@ export const postRouter = createTRPCRouter({
     const draftPosts = await getDraftPostsQuery(session.user.id);
     return draftPosts;
   }),
+
+  search: protectedProcedure
+    .input(z.object({ query: z.string().min(1) }))
+    .query(async ({ input, ctx: { session, workspaceId } }) => {
+      const { query } = input;
+      const searchResults = await searchPostsQuery(
+        query,
+        workspaceId,
+        session.user.id
+      );
+      return searchResults;
+    }),
 
   create: protectedProcedure
     .input(postSchema)
