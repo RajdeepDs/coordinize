@@ -45,7 +45,7 @@ export function PostPageContent({ postId }: PostPageContentProps) {
   return (
     <div className="flex h-full w-full">
       <div className="flex-1">
-        <div className="flex h-full flex-col overflow-hidden rounded border bg-background">
+        <div className="flex h-full flex-col overflow-hidden rounded-md border bg-background">
           <PageHeader
             breadcrumb={[
               {

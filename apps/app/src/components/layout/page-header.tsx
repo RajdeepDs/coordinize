@@ -34,7 +34,7 @@ export function PageHeader({
   const { isMobile, leftState } = useSidebar();
 
   return (
-    <header className="flex items-center justify-between px-2 py-1">
+    <header className="flex min-h-8 items-center justify-between px-2">
       <div className="flex h-full min-w-0 flex-1 items-center gap-3">
         {(isMobile || leftState === 'collapsed') && (
           <div className="flex shrink-0 items-center gap-1.5">

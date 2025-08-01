@@ -26,31 +26,29 @@ export default async function SpacesPage({
   return (
     <HydrateClient>
       <div className="flex h-full w-full">
-        <div className="flex-1">
-          <div className="flex h-full flex-col overflow-hidden rounded border bg-background">
-            <PageHeader
-              breadcrumb={[
-                {
-                  icon: <Icons.space size={16} />,
-                  label: 'Spaces',
-                },
-                {
-                  icon: space?.icon ? (
-                    <span className="text-sm">{space.icon}</span>
-                  ) : (
-                    <Icons.space size={16} />
-                  ),
-                  label: space?.name || identifier,
-                },
-              ]}
-              leftContent={<SpaceFavorite identifier={identifier} />}
-              showRightSidebarTrigger={true}
-            />
-            <div className="flex-1 overflow-auto">
-              <ActivitySection>
-                <SpacePublishedPostsList identifier={identifier} />
-              </ActivitySection>
-            </div>
+        <div className="flex h-full flex-1 flex-col overflow-hidden rounded-md border bg-background">
+          <PageHeader
+            breadcrumb={[
+              {
+                icon: <Icons.space className="text-ui-gray-900" size={16} />,
+                label: 'Spaces',
+              },
+              {
+                icon: space?.icon ? (
+                  <span className="text-sm">{space.icon}</span>
+                ) : (
+                  <Icons.space size={16} />
+                ),
+                label: space?.name || identifier,
+              },
+            ]}
+            leftContent={<SpaceFavorite identifier={identifier} />}
+            showRightSidebarTrigger={true}
+          />
+          <div className="flex-1 overflow-hidden">
+            <ActivitySection>
+              <SpacePublishedPostsList identifier={identifier} />
+            </ActivitySection>
           </div>
         </div>
 

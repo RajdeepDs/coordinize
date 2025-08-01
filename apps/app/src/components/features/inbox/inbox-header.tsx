@@ -13,7 +13,7 @@ export function InboxHeader() {
   const { isMobile, leftState } = useSidebar();
 
   return (
-    <div className="flex min-h-10 items-center justify-between pr-4 pl-3">
+    <div className="flex min-h-8 items-center justify-between pr-4 pl-3">
       <div className="flex items-center gap-3">
         {(isMobile || leftState === 'collapsed') && (
           <div className="flex shrink-0 items-center gap-1.5">
