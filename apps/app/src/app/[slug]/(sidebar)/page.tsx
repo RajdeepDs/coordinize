@@ -17,7 +17,6 @@ export default function Home() {
           },
         ]}
       />
-
       <div className="flex-1 overflow-hidden">
         <ActivitySection>
           <PublishedPostsList />
