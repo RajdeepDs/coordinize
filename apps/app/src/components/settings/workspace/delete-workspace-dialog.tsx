@@ -13,20 +13,48 @@ import {
 } from '@coordinize/ui/components/dialog';
 import { Input } from '@coordinize/ui/components/input';
 import { Label } from '@coordinize/ui/components/label';
+import { toast } from '@coordinize/ui/components/sonner';
+import { useMutation } from '@tanstack/react-query';
 import { CircleAlertIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useTRPC } from '@/trpc/client';
 
 interface DeleteWorkspaceDialogProps {
-  WorkspaceName: string;
+  workspaceId: string;
+  workspaceName: string;
 }
 
 export default function DeleteWorkspaceDialog({
-  WorkspaceName,
+  workspaceId,
+  workspaceName,
 }: DeleteWorkspaceDialogProps) {
+  const trpc = useTRPC();
+  const router = useRouter();
+
+  const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
+  const { mutate: deleteWorkspace, isPending } = useMutation(
+    trpc.workspace.delete.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(data.message);
+        router.push('/workspace-setup');
+      },
+      onError: (error) => {
+        toast.error(
+          error.message || 'Error deleting workspace. Please try again.'
+        );
+      },
+      onSettled: () => {
+        setOpen(false);
+        setInputValue('');
+      },
+    })
+  );
+
   return (
-    <Dialog>
+    <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
         <Button
           className="border-destructive-foreground font-normal text-destructive-foreground hover:bg-destructive/10 hover:text-destructive-foreground"
@@ -51,7 +79,7 @@ export default function DeleteWorkspaceDialog({
             <DialogDescription className="sm:text-center">
               This action cannot be undone. To confirm, please enter the
               workspace name{' '}
-              <span className="text-foreground">{WorkspaceName}</span>.
+              <span className="text-foreground">{workspaceName}</span>.
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -61,7 +89,7 @@ export default function DeleteWorkspaceDialog({
             <Label>Workspace name</Label>
             <Input
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder={`Type ${WorkspaceName} to confirm`}
+              placeholder={`Type ${workspaceName} to confirm`}
               type="text"
               value={inputValue}
             />
@@ -74,10 +102,11 @@ export default function DeleteWorkspaceDialog({
             </DialogClose>
             <Button
               className="flex-1"
-              disabled={inputValue !== WorkspaceName}
+              disabled={inputValue !== workspaceName || isPending}
+              onClick={() => deleteWorkspace({ workspaceId })}
               type="button"
             >
-              Delete
+              {isPending ? 'Deleting...' : 'Delete'}
             </Button>
           </DialogFooter>
         </form>
