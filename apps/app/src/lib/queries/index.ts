@@ -88,6 +88,52 @@ export async function getPublishedPostsQuery(
   });
 }
 
+export async function searchPostsQuery(
+  query: string,
+  workspaceId: string,
+  authorId: string
+) {
+  return await database.post.findMany({
+    where: {
+      workspaceId,
+      authorId,
+      AND: {
+        status: 'PUBLISHED',
+        resolvedAt: null,
+        archived: false,
+        OR: [
+          {
+            title: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+          {
+            content: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+    },
+    orderBy: {
+      publishedAt: 'desc',
+    },
+    include: {
+      space: {
+        select: {
+          id: true,
+          name: true,
+          identifier: true,
+          icon: true,
+        },
+      },
+      author: { select: { id: true, name: true, image: true } },
+    },
+  });
+}
+
 export async function getPostByIdQuery(postId: string, userId?: string) {
   return await database.post.findUnique({
     where: { id: postId },
