@@ -93,6 +93,10 @@ export async function searchPostsQuery(
   workspaceId: string,
   authorId: string
 ) {
+  if (!query || query.trim().length === 0) {
+    throw new Error('Search query cannot be empty or contain only whitespace');
+  }
+
   return await database.post.findMany({
     where: {
       workspaceId,
