@@ -22,13 +22,6 @@ interface EmojiReactionsProps {
   postId: string;
 }
 
-type Reaction = {
-  emoji: string;
-  count: number;
-  users: { id: string; name: string; image: string | null }[];
-  hasReacted: boolean;
-};
-
 export function EmojiReactions({ postId }: EmojiReactionsProps) {
   const { reactions, toggleReaction, isToggling } = useReactions(postId);
   const { data: currentUser } = useUserQuery();
@@ -45,7 +38,7 @@ export function EmojiReactions({ postId }: EmojiReactionsProps) {
 
   return (
     <div className="flex items-center gap-2">
-      {(reactions as Reaction[]).map((reaction) => (
+      {reactions.map((reaction) => (
         <Button
           className={cn(
             'focus:bg-accent',
