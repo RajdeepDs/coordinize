@@ -1,6 +1,11 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod/v4';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../init';
+import {
+  authenticatedProcedure,
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from '../init';
 
 export const inviteRouter = createTRPCRouter({
   getCurrentToken: protectedProcedure.query(
@@ -98,7 +103,7 @@ export const inviteRouter = createTRPCRouter({
       };
     }),
 
-  acceptInvite: protectedProcedure
+  acceptInvite: authenticatedProcedure
     .input(z.object({ token: z.string() }))
     .mutation(async ({ input, ctx: { db, session } }) => {
       const inviteToken = await db.inviteToken.findUnique({
@@ -146,6 +151,11 @@ export const inviteRouter = createTRPCRouter({
         db.inviteToken.update({
           where: { id: inviteToken.id },
           data: { usesLeft: { decrement: 1 } },
+        }),
+
+        db.user.update({
+          where: { id: session.user.id },
+          data: { defaultWorkspace: inviteToken.workspace.slug },
         }),
       ]);
 

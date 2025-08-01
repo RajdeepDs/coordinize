@@ -35,7 +35,10 @@ export default async function WorkspacePage() {
             description="This will permanently delete your workspace and all its data. This action cannot be undone."
             title="Delete workspace"
           >
-            <DeleteWorkspaceDialog WorkspaceName={workspace.name} />
+            <DeleteWorkspaceDialog
+              workspaceId={workspace.id}
+              workspaceName={workspace.name}
+            />
           </SettingsCard>
         </div>
       </div>
