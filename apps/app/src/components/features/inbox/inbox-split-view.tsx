@@ -36,8 +36,8 @@ function InboxSplitViewContent() {
   }, [data?.notifications, selectedNotification, setSelectedNotification]);
 
   return (
-    <div className="flex h-full flex-1 gap-1 overflow-hidden">
-      <div className="flex h-full w-full flex-col rounded border bg-background lg:max-w-md lg:basis-[30%]">
+    <div className="flex h-full flex-1 gap-1.5 overflow-hidden">
+      <div className="flex h-full w-full flex-col rounded-md border bg-background lg:max-w-md lg:basis-[30%]">
         <InboxHeader />
         <ScrollableContainer>
           {isNotificationsLoading ? (
@@ -48,7 +48,7 @@ function InboxSplitViewContent() {
           <InboxNotifications notifications={data?.notifications || []} />
         </ScrollableContainer>
       </div>
-      <div className="flex min-w-0 flex-1 flex-col rounded border bg-background">
+      <div className="flex min-w-0 flex-1 flex-col rounded-md border bg-background">
         {selectedNotification ? (
           <PostView postId={selectedNotification.subjectId ?? ''} />
         ) : (
