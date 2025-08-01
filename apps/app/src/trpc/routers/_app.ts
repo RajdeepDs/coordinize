@@ -5,6 +5,7 @@ import { favoriteRouter } from './favorite';
 import { inviteRouter } from './invite';
 import { notificationRouter } from './notification';
 import { postRouter } from './post';
+import { reactionRouter } from './reaction';
 import { seedRouter } from './seed';
 import { spaceRouter } from './space';
 import { timelineRouter } from './timeline';
@@ -21,6 +22,7 @@ export const appRouter = createTRPCRouter({
   comment: commentRouter,
   invite: inviteRouter,
   notification: notificationRouter,
+  reaction: reactionRouter,
   seed: seedRouter,
 });
 
