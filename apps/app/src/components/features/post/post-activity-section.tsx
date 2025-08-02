@@ -2,7 +2,7 @@
 
 import { Label } from '@coordinize/ui/components/label';
 import { Suspense } from 'react';
-import { PostTimeline } from '@/components/features/post/post-timeline';
+import { PostTimeline } from '@/components/features/timeline/post-timeline';
 import { CommentForm } from '../comments/comment';
 
 interface PostActivitySectionProps {
