@@ -2,6 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Archive,
   ArrowRight,
+  ArrowUp,
   Atom,
   Bell,
   BellDot,
@@ -132,6 +133,7 @@ export const Icons = {
   post: Atom,
   clipboard: Clipboard,
   listFilter: ListFilter,
+  arrowUp: ArrowUp,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"

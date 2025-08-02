@@ -27,7 +27,7 @@ interface CommentFormProps {
 export function CommentForm({
   postId,
   parentId,
-  placeholder = 'Add a comment...',
+  placeholder = 'Leave a comment...',
   onCancel,
   onSuccess,
 }: CommentFormProps) {
@@ -71,16 +71,9 @@ export function CommentForm({
     onCancel?.();
   };
 
-  const getButtonText = () => {
-    if (isSubmitting) {
-      return 'Posting...';
-    }
-    return parentId ? 'Reply' : 'Comment';
-  };
-
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <div className="flex min-h-[6rem] flex-col justify-between rounded-lg bg-background p-3 ring-1 ring-border">
+      <div className="flex min-h-20 flex-col justify-between rounded-lg bg-background p-3 ring-1 ring-border ">
         <div className="min-h-0 flex-1 overflow-y-auto">
           <MarkdownEditor
             containerClasses="px-0"
@@ -91,10 +84,7 @@ export function CommentForm({
             placeholder={placeholder}
           />
         </div>
-        <div className="flex items-center justify-between pt-2">
-          <Button size="icon" type="button" variant="ghost">
-            <Icons.emojiPlus />
-          </Button>
+        <div className="flex items-center justify-end pt-2">
           <div className="flex gap-2">
             {onCancel && (
               <Button
@@ -107,6 +97,7 @@ export function CommentForm({
               </Button>
             )}
             <Button
+              className="size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000"
               disabled={
                 isSubmitting ||
                 !form.watch('content') ||
@@ -114,8 +105,9 @@ export function CommentForm({
               }
               size="sm"
               type="submit"
+              variant="default"
             >
-              {getButtonText()}
+              <Icons.arrowUp />
             </Button>
           </div>
         </div>
