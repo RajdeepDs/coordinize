@@ -11,6 +11,21 @@ interface PostEventItemProps {
   event: ProcessedTimelineEvent;
 }
 
+// Type-safe function to get timeline event message
+const getTimelineMessage = (processedEvent: ProcessedTimelineEvent): string => {
+  const getMessage = TimelineEventMessages[processedEvent.action];
+
+  const eventForMessage = {
+    id: processedEvent.id,
+    action: processedEvent.action,
+    metadata: processedEvent.metadata as Record<string, unknown> | null,
+    createdAt: processedEvent.createdAt,
+    updatedAt: processedEvent.updatedAt,
+  };
+
+  return getMessage(eventForMessage as TimelineEvent);
+};
+
 export function PostEventItem({ event }: PostEventItemProps) {
   const getIcon = () => {
     switch (event.action) {
@@ -34,8 +49,7 @@ export function PostEventItem({ event }: PostEventItemProps) {
     }
   };
 
-  const getMessage = TimelineEventMessages[event.action];
-  const message = getMessage(event as unknown as TimelineEvent);
+  const message = getTimelineMessage(event);
 
   return (
     <div className="select-none pl-3">

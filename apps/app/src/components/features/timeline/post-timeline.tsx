@@ -1,12 +1,13 @@
 'use client';
 
+import { Icons } from '@coordinize/ui/lib/icons';
+import { CommentItem } from '@/components/features/timeline/comment-item';
+import { PostEventItem } from '@/components/features/timeline/post-event-item';
 import { usePostTimelineQuery } from '@/hooks/use-timeline';
 import type {
   CommentTimelineEvent,
   ProcessedTimelineEvent,
 } from '@/lib/queries';
-import { CommentItem } from './comment-item';
-import { PostEventItem } from './post-event-item';
 
 function isCommentEvent(
   event: ProcessedTimelineEvent
@@ -15,7 +16,37 @@ function isCommentEvent(
 }
 
 export function PostTimeline({ postId }: { postId: string }) {
-  const { data: events } = usePostTimelineQuery(postId);
+  const {
+    data: events,
+    isLoading,
+    isError,
+    error,
+  } = usePostTimelineQuery(postId);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center gap-2 py-8">
+        <Icons.loader className="size-4 animate-spin text-ui-gray-600" />
+        <span className="text-sm text-ui-gray-600">Loading timeline...</span>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="rounded-md border border-red-200 bg-red-50 p-4">
+        <div className="flex items-center gap-2">
+          <div className="size-2 rounded-full bg-ui-red-500" />
+          <span className="font-medium text-sm text-ui-red-800">
+            Failed to load timeline
+          </span>
+        </div>
+        <p className="mt-1 text-sm text-ui-red-600">
+          {error?.message || 'Something went wrong while loading the timeline.'}
+        </p>
+      </div>
+    );
+  }
 
   if (!events || events.length === 0) {
     return (
@@ -27,7 +58,7 @@ export function PostTimeline({ postId }: { postId: string }) {
     <div className="relative space-y-3">
       <div className="absolute top-0 left-6 z-0 h-full w-px bg-ui-gray-400" />
       {events.map((event) => (
-        <div className="relative z-10 bg-white" key={event.id}>
+        <div className="relative z-10 bg-background" key={event.id}>
           {isCommentEvent(event) ? (
             <CommentItem comment={event.comment} />
           ) : (

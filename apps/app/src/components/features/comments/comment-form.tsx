@@ -97,6 +97,7 @@ export function CommentForm({
               </Button>
             )}
             <Button
+              aria-label={parentId ? 'Post reply' : 'Post comment'}
               className="size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000"
               disabled={
                 isSubmitting ||
