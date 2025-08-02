@@ -48,6 +48,7 @@ import {
   PinOff,
   Plus,
   Quote,
+  Reply,
   Search,
   Send,
   Settings,
@@ -134,6 +135,7 @@ export const Icons = {
   clipboard: Clipboard,
   listFilter: ListFilter,
   arrowUp: ArrowUp,
+  reply: Reply,
   megaphone: (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="none"

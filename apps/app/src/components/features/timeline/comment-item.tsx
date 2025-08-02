@@ -1,6 +1,8 @@
 'use client';
 
 import type { Comment, User } from '@coordinize/database/db';
+import { Button } from '@coordinize/ui/components/button';
+import { Icons } from '@coordinize/ui/lib/icons';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
 import AvatarStatus from '@/components/ui/avatar-status';
 import { formatDate } from '@/utils/format-date';
@@ -13,7 +15,7 @@ interface CommentItemProps {
 
 export function CommentItem({ comment }: CommentItemProps) {
   return (
-    <div className="w-full space-y-2 rounded-md border p-3">
+    <div className="group relative w-full space-y-2 rounded-md border p-3">
       <div className="flex select-none items-center gap-2">
         <AvatarStatus
           alt="comment-author-image"
@@ -34,6 +36,28 @@ export function CommentItem({ comment }: CommentItemProps) {
           editable={false}
         />
       </div>
+      <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
+        <CommentOptions />
+      </div>
+    </div>
+  );
+}
+
+function CommentOptions() {
+  return (
+    <div className="flex items-center gap-1">
+      <Button className="size-7 rounded-sm" size={'icon'} variant={'ghost'}>
+        <Icons.reply />
+      </Button>
+      <Button className="size-7 rounded-sm" size={'icon'} variant={'ghost'}>
+        <Icons.check />
+      </Button>
+      <Button className="size-7 rounded-sm" size={'icon'} variant={'ghost'}>
+        <Icons.emojiPlus />
+      </Button>
+      <Button className="size-7 rounded-sm" size={'icon'} variant={'ghost'}>
+        <Icons.ellipsis />
+      </Button>
     </div>
   );
 }
