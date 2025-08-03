@@ -1,7 +1,7 @@
 'use client';
 
 import { Icons } from '@coordinize/ui/lib/icons';
-import { CommentItem } from '@/components/features/timeline/comment-item';
+import { CommentWrapper } from '@/components/features/timeline/comment-item';
 import { PostEventItem } from '@/components/features/timeline/post-event-item';
 import { usePostTimelineQuery } from '@/hooks/use-timeline';
 import type {
@@ -58,9 +58,9 @@ export function PostTimeline({ postId }: { postId: string }) {
     <div className="relative space-y-3">
       <div className="absolute top-0 left-6 z-0 h-full w-px bg-ui-gray-400" />
       {events.map((event) => (
-        <div className="relative z-10 bg-background" key={event.id}>
+        <div className="relative bg-background" key={event.id}>
           {isCommentEvent(event) ? (
-            <CommentItem comment={event.comment} />
+            <CommentWrapper comment={event.comment} />
           ) : (
             <PostEventItem event={event} />
           )}
