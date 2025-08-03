@@ -3,11 +3,15 @@
 import type { Comment, User } from '@coordinize/database/db';
 import { Button } from '@coordinize/ui/components/button';
 import { Icons } from '@coordinize/ui/lib/icons';
+import { CommentEmojiReactions } from '@/components/features/comment/comment-emoji-reactions';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
+import {
+  CommentProvider,
+  useComment,
+} from '@/components/features/timeline/comment-context';
+import { CommentForm } from '@/components/features/timeline/comment-form';
 import AvatarStatus from '@/components/ui/avatar-status';
 import { formatDate } from '@/utils/format-date';
-import { CommentForm } from '../comments/comment-form';
-import { CommentProvider, useComment } from './comment-context';
 
 type CommentWithAuthor = Comment & {
   author: Partial<User>;
@@ -61,7 +65,7 @@ export function CommentContainer({ comment }: CommentContainerProps) {
 
 export function CommentItem({ comment, isReply }: CommentItemProps) {
   return (
-    <div className="group relative flex flex-col gap-y-2 p-3">
+    <div className="group relative flex flex-col gap-y-2 p-3 ">
       <div className="flex select-none items-center gap-2">
         <AvatarStatus
           alt="comment-author-image"
@@ -75,13 +79,15 @@ export function CommentItem({ comment, isReply }: CommentItemProps) {
           {formatDate(comment.createdAt)}
         </span>
       </div>
-      <div className="prose prose-sm max-w-none text-foreground">
+      <div className="prose prose-sm mb-3 max-w-none text-foreground">
         <MarkdownEditor
           containerClasses="px-0 text-[15px]"
           content={comment.content}
           editable={false}
         />
       </div>
+      {/* Comment Reactions */}
+      <CommentEmojiReactions commentId={comment.id} />
       {/* Comment Options */}
       <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
         <CommentOptions commentId={comment.id} isReply={isReply} />
@@ -123,14 +129,6 @@ function CommentOptions({
         variant={'ghost'}
       >
         <Icons.check />
-      </Button>
-      <Button
-        className="size-7 rounded-sm"
-        size={'icon'}
-        title="Add reaction"
-        variant={'ghost'}
-      >
-        <Icons.emojiPlus />
       </Button>
       <Button
         className="size-7 rounded-sm"
