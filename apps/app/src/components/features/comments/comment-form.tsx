@@ -22,18 +22,15 @@ interface CommentFormProps {
   placeholder?: string;
   onCancel?: () => void;
   onSuccess?: () => void;
-  variant?: 'default' | 'inline'; // New prop for styling variants
-  showCancel?: boolean; // Control cancel button visibility
+  variant?: 'default' | 'inline';
 }
 
 export function CommentForm({
   postId,
   parentId,
   placeholder = 'Leave a comment...',
-  onCancel,
   onSuccess,
   variant = 'default',
-  showCancel = true,
 }: CommentFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: createComment } = useCreateComment(postId);
@@ -70,11 +67,6 @@ export function CommentForm({
     );
   };
 
-  const handleCancel = () => {
-    form.reset();
-    onCancel?.();
-  };
-
   const isInlineVariant = variant === 'inline';
 
   return (
@@ -94,7 +86,7 @@ export function CommentForm({
           }
         >
           <MarkdownEditor
-            containerClasses="px-0"
+            containerClasses="px-0 text-[15px] placeholder-shown:text-ui-gray-500"
             content={form.watch('content')}
             onChangeDebounced={(value: string) =>
               form.setValue('content', value)
@@ -107,36 +99,24 @@ export function CommentForm({
             isInlineVariant ? '' : 'flex items-center justify-end pt-2'
           }
         >
-          <div className="flex gap-2">
-            {showCancel && onCancel && (
-              <Button
-                onClick={handleCancel}
-                size="sm"
-                type="button"
-                variant="ghost"
-              >
-                Cancel
-              </Button>
-            )}
-            <Button
-              aria-label={parentId ? 'Post reply' : 'Post comment'}
-              className={
-                isInlineVariant
-                  ? 'mt-auto size-7 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
-                  : 'size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
-              }
-              disabled={
-                isSubmitting ||
-                !form.watch('content') ||
-                form.watch('content') === EMPTY_HTML
-              }
-              size="sm"
-              type="submit"
-              variant="default"
-            >
-              <Icons.arrowUp />
-            </Button>
-          </div>
+          <Button
+            aria-label={parentId ? 'Post reply' : 'Post comment'}
+            className={
+              isInlineVariant
+                ? 'mt-auto size-7 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
+                : 'size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
+            }
+            disabled={
+              isSubmitting ||
+              !form.watch('content') ||
+              form.watch('content') === EMPTY_HTML
+            }
+            size="sm"
+            type="submit"
+            variant="default"
+          >
+            <Icons.arrowUp />
+          </Button>
         </div>
       </div>
     </form>

@@ -36,6 +36,7 @@ export function BubbleMenuDropdown({
           <Button
             className={cn('size-min h-6 gap-0.5 rounded px-1')}
             size={'icon'}
+            type="button"
             variant={'ghost'}
           >
             {menuIcon}

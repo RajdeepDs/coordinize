@@ -6,7 +6,8 @@ import { Icons } from '@coordinize/ui/lib/icons';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
 import AvatarStatus from '@/components/ui/avatar-status';
 import { formatDate } from '@/utils/format-date';
-import { CommentProvider } from './comment-context';
+import { CommentForm } from '../comments/comment-form';
+import { CommentProvider, useComment } from './comment-context';
 
 type CommentWithAuthor = Comment & {
   author: Partial<User>;
@@ -15,31 +16,50 @@ type CommentWithAuthor = Comment & {
 
 interface CommentItemProps {
   comment: CommentWithAuthor;
+  isReply?: boolean;
 }
 
 interface CommentContainerProps {
   comment: CommentWithAuthor;
 }
 
-export function CommentContainer({ comment }: CommentContainerProps) {
+export function CommentWrapper({ comment }: CommentContainerProps) {
   return (
     <CommentProvider>
-      <div className="w-full rounded-md border">
-        <CommentItem comment={comment} />
-        {/* Replies */}
-        {comment.replies && comment.replies.length > 0 && (
-          <div className="border-ui-gray-200 border-t pl-5">
-            {comment.replies.map((reply) => (
-              <CommentItem comment={reply} key={reply.id} />
-            ))}
-          </div>
-        )}
-      </div>
+      <CommentContainer comment={comment} />
     </CommentProvider>
   );
 }
 
-export function CommentItem({ comment }: CommentItemProps) {
+export function CommentContainer({ comment }: CommentContainerProps) {
+  const { activeReplyId } = useComment();
+
+  const showReply = activeReplyId === comment.id;
+
+  return (
+    <div className="w-full divide-y rounded-md border border-ui-gray-200">
+      <CommentItem comment={comment} />
+      {/* Replies */}
+      {comment.replies && comment.replies.length > 0 && (
+        <div className="divide-y">
+          {comment.replies.map((reply) => (
+            <CommentItem comment={reply} isReply={true} key={reply.id} />
+          ))}
+        </div>
+      )}
+      {/* Reply to Comment Form */}
+      {showReply && (
+        <CommentForm
+          parentId={comment.id}
+          postId={comment.postId}
+          variant="inline"
+        />
+      )}
+    </div>
+  );
+}
+
+export function CommentItem({ comment, isReply }: CommentItemProps) {
   return (
     <div className="group relative flex flex-col gap-y-2 p-3">
       <div className="flex select-none items-center gap-2">
@@ -57,45 +77,50 @@ export function CommentItem({ comment }: CommentItemProps) {
       </div>
       <div className="prose prose-sm max-w-none text-foreground">
         <MarkdownEditor
-          containerClasses="px-0"
+          containerClasses="px-0 text-[15px]"
           content={comment.content}
           editable={false}
         />
       </div>
       {/* Comment Options */}
       <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
-        <CommentOptions />
+        <CommentOptions commentId={comment.id} isReply={isReply} />
       </div>
     </div>
   );
 }
 
 function CommentOptions({
-  onReplyClick,
-  onResolveClick,
-  isResolved,
+  commentId,
+  isReply = false,
 }: {
-  onReplyClick?: () => void;
-  onResolveClick?: () => void;
-  isResolved?: boolean;
+  commentId: string;
+  isReply?: boolean;
 }) {
+  const { toggleReply } = useComment();
+
+  const handleReplyClick = () => {
+    toggleReply(commentId);
+  };
+
   return (
     <div className="flex items-center gap-1">
+      {!isReply && (
+        <Button
+          className="size-7 rounded-sm"
+          onClick={handleReplyClick}
+          size={'icon'}
+          title="Reply to comment"
+          variant={'ghost'}
+        >
+          <Icons.reply />
+        </Button>
+      )}
       <Button
-        className="size-7 rounded-sm"
-        onClick={onReplyClick}
+        className={'size-7 rounded-sm '}
         size={'icon'}
-        title="Reply to comment"
+        title="Mark as resolved"
         variant={'ghost'}
-      >
-        <Icons.reply />
-      </Button>
-      <Button
-        className={`size-7 rounded-sm ${isResolved ? 'bg-green-100 text-green-600' : ''}`}
-        onClick={onResolveClick}
-        size={'icon'}
-        title={isResolved ? 'Mark as unresolved' : 'Mark as resolved'}
-        variant={isResolved ? 'default' : 'ghost'}
       >
         <Icons.check />
       </Button>
