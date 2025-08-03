@@ -42,6 +42,7 @@ model User {
   notifications          Notification[]
   actorNotifications     Notification[]           @relation("NotificationActor")
   reactions              Reaction[]
+  commentReactions       CommentReaction[]        @relation("CommentReactions")
 
   @@unique([email])
   @@index(defaultWorkspace)
@@ -246,10 +247,11 @@ model Comment {
   updatedAt DateTime @updatedAt
   edited    Boolean  @default(false)
 
-  author  User      @relation("AuthoredComments", fields: [authorId], references: [id], onDelete: Cascade)
-  post    Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Restrict, onUpdate: Restrict)
-  replies Comment[] @relation("CommentReplies")
+  author    User              @relation("AuthoredComments", fields: [authorId], references: [id], onDelete: Cascade)
+  post      Post              @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parent    Comment?          @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  replies   Comment[]         @relation("CommentReplies")
+  reactions CommentReaction[]
 
   @@index([authorId])
   @@index([postId])
@@ -366,6 +368,22 @@ model Reaction {
   @@index([postId])
   @@index([userId])
   @@map("reaction")
+}
+
+model CommentReaction {
+  id        String   @id @default(cuid())
+  emoji     String
+  commentId String
+  userId    String
+  createdAt DateTime @default(now())
+
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user    User    @relation("CommentReactions", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId, emoji])
+  @@index([commentId])
+  @@index([userId])
+  @@map("commentReaction")
 }
 
 model InviteToken {
