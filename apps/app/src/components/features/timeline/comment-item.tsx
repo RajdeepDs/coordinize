@@ -117,6 +117,7 @@ function CommentOptions({
           onClick={handleReplyClick}
           size={'icon'}
           title="Reply to comment"
+          tooltip="Reply to comment"
           variant={'ghost'}
         >
           <Icons.reply />
@@ -126,6 +127,7 @@ function CommentOptions({
         className={'size-7 rounded-sm '}
         size={'icon'}
         title="Mark as resolved"
+        tooltip="Mark as resolved"
         variant={'ghost'}
       >
         <Icons.check />
@@ -134,6 +136,7 @@ function CommentOptions({
         className="size-7 rounded-sm"
         size={'icon'}
         title="More options"
+        tooltip="More options"
         variant={'ghost'}
       >
         <Icons.ellipsis />

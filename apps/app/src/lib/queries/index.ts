@@ -425,7 +425,7 @@ export async function getPostTimelineEventsQuery(
       },
     },
     orderBy: {
-      createdAt: 'asc',
+      createdAt: 'desc',
     },
   });
 
