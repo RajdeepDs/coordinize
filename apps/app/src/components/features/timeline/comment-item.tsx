@@ -3,86 +3,68 @@
 import type { Comment, User } from '@coordinize/database/db';
 import { Button } from '@coordinize/ui/components/button';
 import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
 import AvatarStatus from '@/components/ui/avatar-status';
 import { formatDate } from '@/utils/format-date';
-import { CommentProvider, useComment } from './comment-context';
+import { CommentProvider } from './comment-context';
+
+type CommentWithAuthor = Comment & {
+  author: Partial<User>;
+  replies?: CommentWithAuthor[];
+};
 
 interface CommentItemProps {
-  comment: Comment & {
-    author: Partial<User>;
-  };
+  comment: CommentWithAuthor;
 }
 
-export function CommentWrapper({ comment }: CommentItemProps) {
+interface CommentContainerProps {
+  comment: CommentWithAuthor;
+}
+
+export function CommentContainer({ comment }: CommentContainerProps) {
   return (
     <CommentProvider>
-      <CommentItem comment={comment} />
+      <div className="w-full rounded-md border">
+        <CommentItem comment={comment} />
+        {/* Replies */}
+        {comment.replies && comment.replies.length > 0 && (
+          <div className="border-ui-gray-200 border-t pl-5">
+            {comment.replies.map((reply) => (
+              <CommentItem comment={reply} key={reply.id} />
+            ))}
+          </div>
+        )}
+      </div>
     </CommentProvider>
   );
 }
 
 export function CommentItem({ comment }: CommentItemProps) {
-  const { activeReplyId, toggleReply } = useComment();
-
-  const showReply = activeReplyId === comment.id;
-
-  const handleReplyClick = () => {
-    toggleReply(comment.id);
-  };
-
   return (
-    <div className={'group relative w-full rounded-md border'}>
-      <div className="space-y-2 p-3">
-        <div className="flex select-none items-center gap-2">
-          <AvatarStatus
-            alt="comment-author-image"
-            className="size-6"
-            fallback={comment.author?.name?.at(0) ?? ''}
-            src={comment.author?.image ?? ''}
-            statusShow={false}
-          />
-          <p className="font-medium text-sm">{comment.author?.name}</p>
-          <span className="text-sm text-ui-gray-900">
-            {formatDate(comment.createdAt)}
-          </span>
-        </div>
-        <div className="prose prose-sm max-w-none text-foreground">
-          <MarkdownEditor
-            containerClasses="px-0"
-            content={comment.content}
-            editable={false}
-          />
-        </div>
+    <div className="group relative flex flex-col gap-y-2 p-3">
+      <div className="flex select-none items-center gap-2">
+        <AvatarStatus
+          alt="comment-author-image"
+          className="size-6"
+          fallback={comment.author?.name?.at(0) ?? ''}
+          src={comment.author?.image ?? ''}
+          statusShow={false}
+        />
+        <p className="font-medium text-sm">{comment.author?.name}</p>
+        <span className="text-sm text-ui-gray-900">
+          {formatDate(comment.createdAt)}
+        </span>
       </div>
-      {/* Child comments or Reply section*/}
-      <div
-        className={cn(
-          'overflow-hidden border-t transition-[max-height,opacity] duration-300 ease-in-out',
-          showReply ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
-        )}
-      >
-        <div className="flex items-center gap-2 p-3">
-          <div className="prose prose-sm max-w-none flex-1 text-foreground">
-            <MarkdownEditor
-              containerClasses="px-0"
-              placeholder="Write a reply..."
-            />
-          </div>
-
-          <Button
-            className="mt-auto size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000"
-            size="sm"
-            type="submit"
-            variant="default"
-          >
-            <Icons.arrowUp />
-          </Button>
-        </div>
+      <div className="prose prose-sm max-w-none text-foreground">
+        <MarkdownEditor
+          containerClasses="px-0"
+          content={comment.content}
+          editable={false}
+        />
       </div>
+      {/* Comment Options */}
       <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
-        <CommentOptions onReplyClick={handleReplyClick} />
+        <CommentOptions />
       </div>
     </div>
   );
@@ -93,7 +75,7 @@ function CommentOptions({
   onResolveClick,
   isResolved,
 }: {
-  onReplyClick: () => void;
+  onReplyClick?: () => void;
   onResolveClick?: () => void;
   isResolved?: boolean;
 }) {

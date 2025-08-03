@@ -22,6 +22,8 @@ interface CommentFormProps {
   placeholder?: string;
   onCancel?: () => void;
   onSuccess?: () => void;
+  variant?: 'default' | 'inline'; // New prop for styling variants
+  showCancel?: boolean; // Control cancel button visibility
 }
 
 export function CommentForm({
@@ -30,6 +32,8 @@ export function CommentForm({
   placeholder = 'Leave a comment...',
   onCancel,
   onSuccess,
+  variant = 'default',
+  showCancel = true,
 }: CommentFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: createComment } = useCreateComment(postId);
@@ -71,10 +75,24 @@ export function CommentForm({
     onCancel?.();
   };
 
+  const isInlineVariant = variant === 'inline';
+
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <div className="flex min-h-20 flex-col justify-between rounded-lg bg-background p-3 ring-1 ring-border ">
-        <div className="min-h-0 flex-1 overflow-y-auto">
+      <div
+        className={
+          isInlineVariant
+            ? 'flex items-center gap-2 p-3'
+            : 'flex min-h-20 flex-col justify-between rounded-lg bg-background p-3 ring-1 ring-border'
+        }
+      >
+        <div
+          className={
+            isInlineVariant
+              ? 'prose prose-sm max-w-none flex-1 text-foreground'
+              : 'min-h-0 flex-1 overflow-y-auto'
+          }
+        >
           <MarkdownEditor
             containerClasses="px-0"
             content={form.watch('content')}
@@ -84,9 +102,13 @@ export function CommentForm({
             placeholder={placeholder}
           />
         </div>
-        <div className="flex items-center justify-end pt-2">
+        <div
+          className={
+            isInlineVariant ? '' : 'flex items-center justify-end pt-2'
+          }
+        >
           <div className="flex gap-2">
-            {onCancel && (
+            {showCancel && onCancel && (
               <Button
                 onClick={handleCancel}
                 size="sm"
@@ -98,7 +120,11 @@ export function CommentForm({
             )}
             <Button
               aria-label={parentId ? 'Post reply' : 'Post comment'}
-              className="size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000"
+              className={
+                isInlineVariant
+                  ? 'mt-auto size-7 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
+                  : 'size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
+              }
               disabled={
                 isSubmitting ||
                 !form.watch('content') ||
