@@ -44,9 +44,9 @@ export function TeamSwitcher({ email }: { email: string }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="h-8">
             <SidebarMenuButton className="w-fit focus-visible:ring-0">
-              <Avatar className="size-5 rounded border">
+              <Avatar className="size-5 overflow-hidden rounded border">
                 <AvatarImage alt="workspace-logo" src={workspace?.logo ?? ''} />
-                <AvatarFallback className="select-none">
+                <AvatarFallback className="select-none rounded-none">
                   {workspace?.name.at(0)?.toUpperCase()}
                 </AvatarFallback>
               </Avatar>
