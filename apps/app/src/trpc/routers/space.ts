@@ -61,6 +61,35 @@ export const spaceRouter = createTRPCRouter({
 
       return space;
     }),
+  getMembersBySpaceId: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx: { db, workspaceId } }) => {
+      const { id } = input;
+
+      const spaceMembers = await db.spaceMember.findMany({
+        where: {
+          space: {
+            identifier: id,
+            workspaceId,
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+              email: true,
+            },
+          },
+        },
+        orderBy: {
+          joined: 'asc',
+        },
+      });
+
+      return spaceMembers;
+    }),
   create: protectedProcedure
     .input(createSpaceSchema)
     .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
