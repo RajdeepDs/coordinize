@@ -47,27 +47,7 @@ export function CommentEmojiReactions({
   };
 
   if (reactions.length === 0) {
-    return (
-      <Popover onOpenChange={setIsPickerOpen} open={isPickerOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            className="size-7 rounded-sm text-ui-gray-900"
-            disabled={isToggling}
-            size="icon"
-            tooltip="Add a reaction"
-            variant="ghost"
-          >
-            <Icons.emojiPlus size={16} />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent align="start" className="w-auto p-0">
-          <EmojiPicker className="h-[342px]" onEmojiSelect={handleEmojiSelect}>
-            <EmojiPickerSearch />
-            <EmojiPickerContent />
-          </EmojiPicker>
-        </PopoverContent>
-      </Popover>
-    );
+    return null;
   }
 
   return (

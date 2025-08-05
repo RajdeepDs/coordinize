@@ -2,7 +2,18 @@
 
 import type { Comment, User } from '@coordinize/database/db';
 import { Button } from '@coordinize/ui/components/button';
+import {
+  EmojiPicker,
+  EmojiPickerContent,
+  EmojiPickerSearch,
+} from '@coordinize/ui/components/emoji-picker';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@coordinize/ui/components/popover';
 import { Icons } from '@coordinize/ui/lib/icons';
+import { useState } from 'react';
 import { CommentEmojiReactions } from '@/components/features/comment/comment-emoji-reactions';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
 import {
@@ -11,6 +22,7 @@ import {
 } from '@/components/features/timeline/comment-context';
 import { CommentForm } from '@/components/features/timeline/comment-form';
 import AvatarStatus from '@/components/ui/avatar-status';
+import { useCommentReactions } from '@/hooks/use-comment-reactions';
 import { formatDate } from '@/utils/format-date';
 
 type CommentWithAuthor = Comment & {
@@ -64,6 +76,9 @@ export function CommentContainer({ comment }: CommentContainerProps) {
 }
 
 export function CommentItem({ comment, isReply }: CommentItemProps) {
+  const { reactions } = useCommentReactions(comment.id);
+  const hasReactions = reactions.length > 0;
+
   return (
     <div className="group relative flex flex-col gap-y-2 p-3 ">
       <div className="flex select-none items-center gap-2">
@@ -86,11 +101,15 @@ export function CommentItem({ comment, isReply }: CommentItemProps) {
           editable={false}
         />
       </div>
-      {/* Comment Reactions */}
-      <CommentEmojiReactions commentId={comment.id} />
+      {/* Comment Reactions - only show if there are reactions */}
+      {hasReactions && <CommentEmojiReactions commentId={comment.id} />}
       {/* Comment Options */}
       <div className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100">
-        <CommentOptions commentId={comment.id} isReply={isReply} />
+        <CommentOptions
+          commentId={comment.id}
+          isReply={isReply}
+          showEmojiButton={!hasReactions}
+        />
       </div>
     </div>
   );
@@ -99,14 +118,23 @@ export function CommentItem({ comment, isReply }: CommentItemProps) {
 function CommentOptions({
   commentId,
   isReply = false,
+  showEmojiButton = false,
 }: {
   commentId: string;
   isReply?: boolean;
+  showEmojiButton?: boolean;
 }) {
   const { toggleReply } = useComment();
+  const { toggleReaction, isToggling } = useCommentReactions(commentId);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   const handleReplyClick = () => {
     toggleReply(commentId);
+  };
+
+  const handleEmojiSelect = ({ emoji }: { emoji: string }) => {
+    toggleReaction(emoji);
+    setIsPickerOpen(false);
   };
 
   return (
@@ -123,8 +151,33 @@ function CommentOptions({
           <Icons.reply />
         </Button>
       )}
+      {/* Emoji reaction button - show when there are no reactions */}
+      {showEmojiButton && (
+        <Popover onOpenChange={setIsPickerOpen} open={isPickerOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              className="size-7 rounded-sm text-ui-gray-900"
+              disabled={isToggling}
+              size="icon"
+              tooltip="Add a reaction"
+              variant="ghost"
+            >
+              <Icons.emojiPlus size={16} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-auto p-0">
+            <EmojiPicker
+              className="h-[342px]"
+              onEmojiSelect={handleEmojiSelect}
+            >
+              <EmojiPickerSearch />
+              <EmojiPickerContent />
+            </EmojiPicker>
+          </PopoverContent>
+        </Popover>
+      )}
       <Button
-        className={'size-7 rounded-sm '}
+        className={'hidden size-7 rounded-sm '}
         size={'icon'}
         title="Mark as resolved"
         tooltip="Mark as resolved"
@@ -133,7 +186,7 @@ function CommentOptions({
         <Icons.check />
       </Button>
       <Button
-        className="size-7 rounded-sm"
+        className="hidden size-7 rounded-sm"
         size={'icon'}
         title="More options"
         tooltip="More options"
