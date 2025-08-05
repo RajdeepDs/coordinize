@@ -29,10 +29,12 @@ export function PostSidebar({
         <SidebarGroup className="pl-2 sm:pl-0">
           <SidebarGroupLabel>Subscribe</SidebarGroupLabel>
           <SidebarMenu>
-            <SidebarMenuItem>
+            <SidebarMenuItem className="cursor-default">
               <div className="flex items-center justify-between p-2 text-sm">
-                <span className="select-none">New Activity</span>
-                <Switch defaultChecked />
+                <span className="select-none text-ui-gray-800">
+                  New Activity
+                </span>
+                <Switch disabled />
               </div>
             </SidebarMenuItem>
           </SidebarMenu>

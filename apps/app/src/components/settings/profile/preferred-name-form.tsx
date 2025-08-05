@@ -4,10 +4,10 @@ import { toast } from '@coordinize/ui/components/sonner';
 import { Form, FormControl, FormField, FormItem } from '@coordinize/ui/form';
 import { Input } from '@coordinize/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAction } from 'next-safe-action/hooks';
+import { useMutation } from '@tanstack/react-query';
 import { useForm, useFormState } from 'react-hook-form';
 import { z } from 'zod';
-import { updateProfileAction } from '@/actions/update-user-action';
+import { useTRPC } from '@/trpc/client';
 
 const formSchema = z.object({
   preferredName: z
@@ -20,22 +20,26 @@ interface PreferredNameFormProps {
 }
 
 export function PreferredNameForm({ name }: PreferredNameFormProps) {
+  const trpc = useTRPC();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { preferredName: name ?? '' },
   });
 
-  const { execute } = useAction(updateProfileAction, {
-    onError: () => {
-      toast.error('Something went wrong.');
-    },
-    onSuccess: () => {
-      toast.success('Your preferred name has been updated.');
-    },
-  });
+  const { mutate: updateProfile } = useMutation(
+    trpc.user.updateProfile.mutationOptions({
+      onError: () => {
+        toast.error('Something went wrong.');
+      },
+      onSuccess: () => {
+        toast.success('Your preferred name has been updated.');
+      },
+    })
+  );
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    execute({ ...values });
+    updateProfile({ preferredName: values.preferredName });
   }
 
   const { isDirty } = useFormState({ control: form.control });

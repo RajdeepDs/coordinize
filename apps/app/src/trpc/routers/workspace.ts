@@ -68,6 +68,69 @@ export const workspaceRouter = createTRPCRouter({
     }
   ),
 
+  update: protectedProcedure
+    .input(
+      z.object({
+        workspaceName: z
+          .string()
+          .min(1, { message: 'Workspace name is required.' })
+          .optional(),
+        workspaceURL: z
+          .string()
+          .min(3, { message: 'Workspace URL must be at least 3 characters.' })
+          .optional(),
+        workspaceLogoURL: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx: { db, session } }) => {
+      const { workspaceName, workspaceURL, workspaceLogoURL } = input;
+
+      const workspaceSlug = session.user.defaultWorkspace;
+
+      if (!workspaceSlug) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Workspace not found',
+        });
+      }
+
+      // Build update object dynamically
+      const updateData: Record<string, string> = {};
+      if (workspaceName) {
+        updateData.name = workspaceName;
+      }
+      if (workspaceURL) {
+        updateData.slug = workspaceURL;
+      }
+      if (workspaceLogoURL !== undefined) {
+        updateData.logo = workspaceLogoURL;
+      }
+
+      // Update only if there's something to update
+      if (Object.keys(updateData).length > 0) {
+        await db.workspace.update({
+          where: {
+            slug: workspaceSlug,
+          },
+          data: updateData,
+        });
+
+        // Update the defaultWorkspace field in the user only if the workspaceURL has changed
+        if (workspaceURL && workspaceURL !== workspaceSlug) {
+          await db.user.update({
+            where: {
+              id: session.user.id,
+            },
+            data: {
+              defaultWorkspace: workspaceURL,
+            },
+          });
+        }
+      }
+
+      return { success: true };
+    }),
+
   delete: protectedProcedure
     .input(z.object({ workspaceId: z.string() }))
     .mutation(async ({ input: { workspaceId }, ctx: { db, session } }) => {

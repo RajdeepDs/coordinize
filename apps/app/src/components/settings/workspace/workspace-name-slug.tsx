@@ -5,12 +5,13 @@ import { Form, FormControl, FormField, FormItem } from '@coordinize/ui/form';
 import { Input } from '@coordinize/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import slugify from '@sindresorhus/slugify';
-import { useAction } from 'next-safe-action/hooks';
+import { useMutation } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { updateWorkspaceAction } from '@/actions/update-workspace-action';
+import { useAutoSaveForm } from '@/components/forms/auto-save-form';
 import { SettingsCard } from '@/components/settings/settings-card';
+import { useTRPC } from '@/trpc/client';
 
 const formSchema = z.object({
   workspaceName: z
@@ -29,6 +30,8 @@ interface WorkspaceNameSlugProps {
 }
 
 export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
+  const trpc = useTRPC();
+
   const initialValues = useMemo(
     () => ({
       workspaceName: workspace.name || '',
@@ -49,45 +52,32 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
     form.setValue('workspaceSlug', newSlug);
   }, [workspaceName, form]);
 
-  const { execute } = useAction(updateWorkspaceAction, {
-    onError: () => {
-      toast.error('Something went wrong!');
-    },
-    onSuccess: () => {
-      toast.success('Workspace updated.');
-    },
-  });
+  const { mutate: updateWorkspace } = useMutation(
+    trpc.workspace.update.mutationOptions({
+      onError: () => {
+        toast.error('Something went wrong!');
+      },
+      onSuccess: () => {
+        toast.success('Workspace updated.');
+      },
+    })
+  );
 
   const onSubmit = useCallback(
     (values: z.infer<typeof formSchema>) => {
-      execute({
+      updateWorkspace({
         workspaceName: values.workspaceName,
         workspaceURL: values.workspaceSlug,
       });
     },
-    [execute]
+    [updateWorkspace]
   );
 
-  const handleFieldBlur = useCallback(
-    async (fieldName: keyof z.infer<typeof formSchema>) => {
-      const isValid = await form.trigger(fieldName);
-      if (!isValid) {
-        const error = form.getFieldState(fieldName).error;
-        if (error?.message) {
-          toast.error(error.message);
-        }
-        return;
-      }
-
-      const currentValue = form.getValues(fieldName);
-      const initialValue = initialValues[fieldName];
-
-      if (currentValue !== initialValue) {
-        form.handleSubmit(onSubmit)();
-      }
-    },
-    [form, initialValues, onSubmit]
-  );
+  const { handleFieldBlur } = useAutoSaveForm({
+    form,
+    initialValues,
+    onSubmit,
+  });
 
   return (
     <Form {...form}>

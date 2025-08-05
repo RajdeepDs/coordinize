@@ -29,7 +29,7 @@ export function SpaceSidebar({ identifier }: SpaceSidebarProps) {
           {space?.about || 'No description available.'}
         </p>
       </SidebarGroup>
-      <SidebarGroup className="pl-2 sm:pl-0">
+      <SidebarGroup className="hidden pl-2 sm:pl-0">
         <SidebarGroupLabel>
           {membersCount} member{membersCount !== 1 ? 's' : ''}
         </SidebarGroupLabel>
@@ -44,6 +44,7 @@ export function SpaceSidebar({ identifier }: SpaceSidebarProps) {
                 className="size-6"
                 fallback={member.user.name}
                 src={member.user.image ?? ''}
+                statusShow={false}
               />
             </div>
           ))}
@@ -58,7 +59,7 @@ export function SpaceSidebar({ identifier }: SpaceSidebarProps) {
         </SidebarGroupContent>
       </SidebarGroup>
       {/* TODO: Implement Notifications functionality */}
-      <SidebarGroup className="pl-2 sm:pl-0">
+      <SidebarGroup className="hidden pl-2 sm:pl-0">
         <SidebarGroupLabel>Notifications</SidebarGroupLabel>
         <SidebarMenu>
           <SidebarMenuItem>

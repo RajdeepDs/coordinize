@@ -8,12 +8,12 @@ export function getSpaceNavigation(spaceId: string, slug: string): NavItem[] {
   return [
     {
       label: 'General',
-      href: `/${slug}/settings/space/${spaceId}/general`,
+      href: `/${slug}/settings/spaces/${spaceId}/general`,
       icon: 'settings',
     },
     {
       label: 'Members',
-      href: `/${slug}/settings/space/${spaceId}/members`,
+      href: `/${slug}/settings/spaces/${spaceId}/members`,
       icon: 'members',
     },
   ];
