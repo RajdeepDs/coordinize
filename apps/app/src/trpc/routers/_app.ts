@@ -1,6 +1,7 @@
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { createTRPCRouter } from '../init';
 import { commentRouter } from './comment';
+import { commentReactionRouter } from './comment-reaction';
 import { favoriteRouter } from './favorite';
 import { inviteRouter } from './invite';
 import { notificationRouter } from './notification';
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   favorite: favoriteRouter,
   timeline: timelineRouter,
   comment: commentRouter,
+  commentReaction: commentReactionRouter,
   invite: inviteRouter,
   notification: notificationRouter,
   reaction: reactionRouter,

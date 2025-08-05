@@ -22,14 +22,15 @@ interface CommentFormProps {
   placeholder?: string;
   onCancel?: () => void;
   onSuccess?: () => void;
+  variant?: 'default' | 'inline';
 }
 
 export function CommentForm({
   postId,
   parentId,
-  placeholder = 'Add a comment...',
-  onCancel,
+  placeholder = 'Leave a comment...',
   onSuccess,
+  variant = 'default',
 }: CommentFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mutate: createComment } = useCreateComment(postId);
@@ -66,24 +67,26 @@ export function CommentForm({
     );
   };
 
-  const handleCancel = () => {
-    form.reset();
-    onCancel?.();
-  };
-
-  const getButtonText = () => {
-    if (isSubmitting) {
-      return 'Posting...';
-    }
-    return parentId ? 'Reply' : 'Comment';
-  };
+  const isInlineVariant = variant === 'inline';
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
-      <div className="flex min-h-[6rem] flex-col justify-between rounded-lg bg-background p-3 ring-1 ring-border">
-        <div className="min-h-0 flex-1 overflow-y-auto">
+      <div
+        className={
+          isInlineVariant
+            ? 'flex items-center gap-2 p-3'
+            : 'flex min-h-20 flex-col justify-between rounded-lg bg-background p-3 ring-1 ring-border'
+        }
+      >
+        <div
+          className={
+            isInlineVariant
+              ? 'prose prose-sm max-w-none flex-1 text-foreground'
+              : 'min-h-0 flex-1 overflow-y-auto'
+          }
+        >
           <MarkdownEditor
-            containerClasses="px-0"
+            containerClasses="px-0 text-[15px] placeholder-shown:text-ui-gray-500"
             content={form.watch('content')}
             onChangeDebounced={(value: string) =>
               form.setValue('content', value)
@@ -91,33 +94,29 @@ export function CommentForm({
             placeholder={placeholder}
           />
         </div>
-        <div className="flex items-center justify-between pt-2">
-          <Button size="icon" type="button" variant="ghost">
-            <Icons.emojiPlus />
+        <div
+          className={
+            isInlineVariant ? '' : 'flex items-center justify-end pt-2'
+          }
+        >
+          <Button
+            aria-label={parentId ? 'Post reply' : 'Post comment'}
+            className={
+              isInlineVariant
+                ? 'mt-auto size-7 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
+                : 'size-8 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
+            }
+            disabled={
+              isSubmitting ||
+              !form.watch('content') ||
+              form.watch('content') === EMPTY_HTML
+            }
+            size="sm"
+            type="submit"
+            variant="default"
+          >
+            <Icons.arrowUp />
           </Button>
-          <div className="flex gap-2">
-            {onCancel && (
-              <Button
-                onClick={handleCancel}
-                size="sm"
-                type="button"
-                variant="ghost"
-              >
-                Cancel
-              </Button>
-            )}
-            <Button
-              disabled={
-                isSubmitting ||
-                !form.watch('content') ||
-                form.watch('content') === EMPTY_HTML
-              }
-              size="sm"
-              type="submit"
-            >
-              {getButtonText()}
-            </Button>
-          </div>
         </div>
       </div>
     </form>

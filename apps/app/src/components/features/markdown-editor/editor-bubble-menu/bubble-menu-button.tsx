@@ -41,6 +41,7 @@ export function BubbleMenuButton({
         )}
         onClick={onClick}
         size={'icon'}
+        type="button"
         variant={'ghost'}
       >
         {icon}

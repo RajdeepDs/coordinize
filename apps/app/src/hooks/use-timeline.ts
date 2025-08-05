@@ -1,13 +1,11 @@
 'use client';
 
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTRPC } from '@/trpc/client';
 
 export function usePostTimelineQuery(postId: string) {
   const trpc = useTRPC();
-  return useSuspenseQuery(
-    trpc.timeline.getPostTimeline.queryOptions({ postId })
-  );
+  return useQuery(trpc.timeline.getPostTimeline.queryOptions({ postId }));
 }
 
 export function useCreateTimelineEvent() {

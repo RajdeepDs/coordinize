@@ -10,6 +10,7 @@ import {
   type Extensions,
   useEditor,
 } from '@tiptap/react';
+import { useEffect } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { EditorBubbleMenu } from '@/components/features/markdown-editor/editor-bubble-menu';
 import { SlashCommand } from '@/components/features/markdown-editor/slash-command';
@@ -94,6 +95,13 @@ export function MarkdownEditor(props: MarkdownEditorProps) {
     },
     []
   );
+
+  // Sync editor content when prop changes
+  useEffect(() => {
+    if (editor && content !== undefined && editor.getHTML() !== content) {
+      editor.commands.setContent(content);
+    }
+  }, [editor, content]);
 
   if (!editor) {
     return null;

@@ -230,6 +230,55 @@ export async function getSpaceWithPublishedPosts(
   });
 }
 
+// Base timeline event type
+export type BaseTimelineEvent = {
+  id: string;
+  action: TimelineAction;
+  referenceId: string | null;
+  metadata: unknown;
+  createdAt: Date;
+  updatedAt: Date;
+  actor: { id: string; name: string; image: string | null } | null;
+};
+
+// Comment timeline event type (when action is COMMENTED)
+export type CommentTimelineEvent = BaseTimelineEvent & {
+  action: 'COMMENTED';
+  comment: {
+    id: string;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date;
+    edited: boolean;
+    authorId: string;
+    postId: string;
+    parentId: string | null;
+    author: {
+      id: string;
+      name: string;
+      image: string | null;
+    };
+    replies: {
+      id: string;
+      content: string;
+      createdAt: Date;
+      updatedAt: Date;
+      edited: boolean;
+      authorId: string;
+      postId: string;
+      parentId: string | null;
+      author: {
+        id: string;
+        name: string;
+        image: string | null;
+      };
+    }[];
+  };
+};
+
+// Union type for all timeline events
+export type ProcessedTimelineEvent = BaseTimelineEvent | CommentTimelineEvent;
+
 async function processTimelineEvent(
   db: PrismaClient,
   event: {
@@ -237,9 +286,11 @@ async function processTimelineEvent(
     action: TimelineAction;
     referenceId: string | null;
     metadata: unknown;
+    createdAt: Date;
+    updatedAt: Date;
     actor: { id: string; name: string; image: string | null } | null;
   }
-) {
+): Promise<ProcessedTimelineEvent | null> {
   if (event.action === 'MOVED_SPACE' && event.metadata) {
     const metadata = event.metadata as {
       oldSpaceId?: string;
@@ -358,7 +409,7 @@ async function processTimelineEvent(
 export async function getPostTimelineEventsQuery(
   db: PrismaClient,
   postId: string
-) {
+): Promise<ProcessedTimelineEvent[]> {
   const timelineEvents = await db.timelineEvent.findMany({
     where: {
       subjectType: 'Post',
@@ -384,7 +435,9 @@ export async function getPostTimelineEventsQuery(
     timelineEvents.map((event) => processTimelineEvent(db, event))
   );
 
-  return eventsWithAdditionalData.filter(Boolean);
+  return eventsWithAdditionalData.filter(
+    (event): event is ProcessedTimelineEvent => event !== null
+  );
 }
 
 export async function getPostCommentsQuery(db: PrismaClient, postId: string) {
