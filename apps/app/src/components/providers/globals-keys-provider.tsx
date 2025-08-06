@@ -49,6 +49,15 @@ export function GlobalsKeysProvider() {
       enabled: !!currentSlug,
     },
   });
+  useGlobalHotkeys({
+    keys: 'esc',
+    callback: () => {
+      router.back();
+    },
+    options: {
+      enabled: !!currentSlug,
+    },
+  });
 
   return null;
 }
