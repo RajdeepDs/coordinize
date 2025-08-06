@@ -38,6 +38,17 @@ export function GlobalsKeysProvider() {
       enabled: !!currentSlug,
     },
   });
+  useGlobalHotkeys({
+    keys: 'g>s',
+    callback: () => {
+      if (currentSlug) {
+        router.push(`/${currentSlug}/settings/preferences`);
+      }
+    },
+    options: {
+      enabled: !!currentSlug,
+    },
+  });
 
   return null;
 }

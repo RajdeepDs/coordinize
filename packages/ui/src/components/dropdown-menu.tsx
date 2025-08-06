@@ -180,7 +180,7 @@ function DropdownMenuShortcut({
   return (
     <span
       className={cn(
-        'ml-auto text-muted-foreground text-xs tracking-widest',
+        'ml-auto text-muted-foreground text-[11px] tracking-widest',
         className
       )}
       data-slot="dropdown-menu-shortcut"
