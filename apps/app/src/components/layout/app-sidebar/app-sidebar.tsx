@@ -63,47 +63,47 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   useGlobalHotkeys({
     keys: 'alt+1',
     callback: () => handleSpaceShortcut(1),
-    options: { enabled: !!user && spacesCount >= 1 },
+    options: { enabled: !!user && spacesCount >= 1, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+2',
     callback: () => handleSpaceShortcut(2),
-    options: { enabled: !!user && spacesCount >= 2 },
+    options: { enabled: !!user && spacesCount >= 2, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+3',
     callback: () => handleSpaceShortcut(3),
-    options: { enabled: !!user && spacesCount >= 3 },
+    options: { enabled: !!user && spacesCount >= 3, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+4',
     callback: () => handleSpaceShortcut(4),
-    options: { enabled: !!user && spacesCount >= 4 },
+    options: { enabled: !!user && spacesCount >= 4, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+5',
     callback: () => handleSpaceShortcut(5),
-    options: { enabled: !!user && spacesCount >= 5 },
+    options: { enabled: !!user && spacesCount >= 5, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+6',
     callback: () => handleSpaceShortcut(6),
-    options: { enabled: !!user && spacesCount >= 6 },
+    options: { enabled: !!user && spacesCount >= 6, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+7',
     callback: () => handleSpaceShortcut(7),
-    options: { enabled: !!user && spacesCount >= 7 },
+    options: { enabled: !!user && spacesCount >= 7, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+8',
     callback: () => handleSpaceShortcut(8),
-    options: { enabled: !!user && spacesCount >= 8 },
+    options: { enabled: !!user && spacesCount >= 8, preventDefault: true },
   });
   useGlobalHotkeys({
     keys: 'alt+9',
     callback: () => handleSpaceShortcut(9),
-    options: { enabled: !!user && spacesCount >= 9 },
+    options: { enabled: !!user && spacesCount >= 9, preventDefault: true },
   });
 
   // Register Alt+0 for new space
