@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '@coordinize/ui/components/dialog';
 import { SidebarMenuButton } from '@coordinize/ui/components/sidebar';
-import { LayeredHotkeys } from '@coordinize/ui/layered-hotkeys';
+import { useGlobalHotkeys } from '@coordinize/ui/hooks';
 import { cn } from '@coordinize/ui/lib/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
@@ -23,10 +23,12 @@ import {
   PostComposerFormProvider,
   type PostComposerFormRef,
 } from './post-composer-form-provider';
+import { PostComposerSpacesPicker } from './post-composer-spaces-picker';
 import { UnsavedChangesDialog } from './unsaved-changes-dialog';
 
 export function PostComposerDialog() {
   const [open, setOpen] = useState(false);
+  const [openSpacePicker, setOpenSpacePicker] = useState(false);
   const [isClose, _] = useState(false);
   const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
 
@@ -126,14 +128,25 @@ export function PostComposerDialog() {
     });
   };
 
+  useGlobalHotkeys({
+    keys: 'c',
+    callback: handleCreatePost,
+    options: { preventDefault: true },
+  });
+
+  useGlobalHotkeys({
+    keys: 'ctrl+shift+m',
+    callback: () => setOpenSpacePicker(!openSpacePicker),
+    options: {
+      preventDefault: true,
+      enabled: open,
+      enableOnFormTags: true,
+      enableOnContentEditable: true,
+    },
+  });
+
   return (
     <>
-      <LayeredHotkeys
-        callback={handleCreatePost}
-        keys={'c'}
-        options={{ preventDefault: true }}
-      />
-
       <PostComposerFormProvider ref={formRef}>
         <Dialog onOpenChange={handleOpenChange} open={open}>
           <DialogTrigger asChild>
@@ -159,10 +172,14 @@ export function PostComposerDialog() {
             <DialogDescription className="sr-only">
               Dialog to create a new post.
             </DialogDescription>
-            <PostComposerForm
-              spaces={spaces}
-              workspaceSlug={workspace?.slug ?? ''}
-            />
+            <PostComposerForm>
+              <PostComposerSpacesPicker
+                open={openSpacePicker}
+                setOpen={setOpenSpacePicker}
+                spaces={spaces || []}
+                workspaceSlug={workspace?.slug ?? ''}
+              />
+            </PostComposerForm>
             <PostComposerActions
               isDraftSaving={isDraftSaving === 'pending'}
               isSubmitting={isSubmitting === 'pending'}

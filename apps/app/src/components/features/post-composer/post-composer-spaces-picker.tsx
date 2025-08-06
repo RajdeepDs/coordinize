@@ -11,7 +11,6 @@ import {
   CommandList,
   CommandSeparator,
 } from '@coordinize/ui/components/command';
-import { LayeredHotkeys } from '@coordinize/ui/components/layered-hotkeys';
 import {
   Popover,
   PopoverContent,
@@ -20,21 +19,24 @@ import {
 import { Tooltip } from '@coordinize/ui/components/tooltip';
 import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import type { PostSchema } from '@/lib/schemas/post';
 
 interface PostComposerSpacesPickerProps {
   spaces: readonly Space[];
   workspaceSlug: string;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 export function PostComposerSpacesPicker({
   spaces,
   workspaceSlug,
+  open,
+  setOpen,
 }: PostComposerSpacesPickerProps) {
   const methods = useFormContext<PostSchema>();
-  const [open, setOpen] = useState<boolean>(false);
   const spaceId = methods.watch('space_id');
 
   const selectedSpaceId = spaceId || spaces[0]?.id;
@@ -63,12 +65,6 @@ export function PostComposerSpacesPicker({
 
   return (
     <>
-      <LayeredHotkeys
-        callback={() => setOpen(true)}
-        keys={'ctrl+shift+m'}
-        options={{ preventDefault: true }}
-      />
-
       <Popover onOpenChange={setOpen} open={open}>
         <Tooltip
           align="start"
