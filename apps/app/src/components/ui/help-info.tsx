@@ -16,9 +16,11 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from '@coordinize/ui/components/sidebar';
+import { useGlobalHotkeys } from '@coordinize/ui/hooks';
 import { Icons } from '@coordinize/ui/lib/icons';
 import { Fragment, useState } from 'react';
 import { helpNav } from '@/config/help-nav';
+import { ShortcutSheet } from './shortcut-sheet';
 
 interface HelpInfoProps {
   align?: 'start' | 'end' | 'center';
@@ -26,10 +28,33 @@ interface HelpInfoProps {
 
 export function HelpInfo({ align = 'end' }: HelpInfoProps) {
   const [open, setOpen] = useState(false);
+  const [shortcutSheetOpen, setShortcutSheetOpen] = useState(false);
 
   const handleOpenHelp = () => {
     setOpen(true);
   };
+
+  const handleItemClick = (item: {
+    title: string;
+    href?: string;
+    icon: string;
+    shortcut?: string;
+  }) => {
+    if (item.title === 'Shortcuts') {
+      setShortcutSheetOpen(true);
+      setOpen(false);
+    } else if (item.href) {
+      // Handle other navigation items
+      window.location.href = item.href;
+    }
+  };
+
+  useGlobalHotkeys({
+    keys: 'ctrl+slash',
+    callback: () => setShortcutSheetOpen(!shortcutSheetOpen),
+    options: { preventDefault: true },
+  });
+
   return (
     <>
       <LayeredHotkeys
@@ -58,14 +83,16 @@ export function HelpInfo({ align = 'end' }: HelpInfoProps) {
                     {block.items.map((item) => {
                       const Icon = Icons[item.icon as keyof typeof Icons];
                       return (
-                        <DropdownMenuItem key={item.title}>
+                        <DropdownMenuItem
+                          key={item.title}
+                          onClick={() => handleItemClick(item)}
+                        >
                           <Icon />
                           {item.title}
                           {item.shortcut ? (
                             <DropdownMenuShortcut className="ml-auto">
                               <KeyboardShortcut
                                 className="border-none"
-                                keysClassName="text-[1em]"
                                 shortcut={item.shortcut}
                               />
                             </DropdownMenuShortcut>
@@ -81,6 +108,10 @@ export function HelpInfo({ align = 'end' }: HelpInfoProps) {
           </DropdownMenu>
         </SidebarMenuItem>
       </SidebarMenu>
+      <ShortcutSheet
+        onOpenChange={setShortcutSheetOpen}
+        open={shortcutSheetOpen}
+      />
     </>
   );
 }

@@ -69,7 +69,7 @@ export function PostComposerSpacesPicker({
         <Tooltip
           align="start"
           label="Set space"
-          shortcut="ctrl+shift+m"
+          shortcut="meta+shift+m"
           side="bottom"
         >
           <PopoverTrigger asChild className="cursor-pointer outline-none">

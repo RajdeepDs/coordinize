@@ -5,7 +5,7 @@ export const helpNav = [
       {
         title: 'Shortcuts',
         icon: 'keyboard',
-        shortcut: 'Ctrl + /',
+        shortcut: 'meta+/',
       },
       {
         title: 'Documentations',
