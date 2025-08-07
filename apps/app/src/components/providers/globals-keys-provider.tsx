@@ -38,6 +38,48 @@ export function GlobalsKeysProvider() {
       enabled: !!currentSlug,
     },
   });
+  useGlobalHotkeys({
+    keys: 'g>s',
+    callback: () => {
+      if (currentSlug) {
+        router.push(`/${currentSlug}/settings/preferences`);
+      }
+    },
+    options: {
+      enabled: !!currentSlug,
+    },
+  });
+  useGlobalHotkeys({
+    keys: 'esc',
+    callback: () => {
+      // Check if there are any open popovers, dialogs, dropdowns, etc.
+      // These elements typically have data attributes or specific roles
+      const openElements = document.querySelectorAll(
+        [
+          '[data-radix-popper-content-wrapper]', // Radix popper content
+          '[role="dialog"]', // ARIA dialogs
+          '[role="menu"]', // ARIA menus
+          '[role="listbox"]', // ARIA listboxes
+          '.popover', // Custom popover classes
+          '.dropdown', // Custom dropdown classes
+          '.modal', // Custom modal classes
+        ].join(', ')
+      );
+
+      // If there are open elements, let them handle the escape key
+      if (openElements.length > 0) {
+        return;
+      }
+
+      // Only navigate back if no UI elements are open
+      if (currentSlug) {
+        router.back();
+      }
+    },
+    options: {
+      enabled: !!currentSlug,
+    },
+  });
 
   return null;
 }

@@ -1,27 +1,18 @@
-import type { Space } from '@coordinize/database/db';
 import { Input } from '@coordinize/ui/components/input';
 import { Controller, useFormContext } from 'react-hook-form';
 import { MarkdownEditor } from '@/components/features/markdown-editor';
-import { PostComposerSpacesPicker } from '@/components/features/post-composer/post-composer-spaces-picker';
 import type { PostSchema } from '@/lib/schemas/post';
 
 interface PostComposerFormProps {
-  spaces: Space[];
-  workspaceSlug: string;
+  children?: React.ReactNode;
 }
 
-export function PostComposerForm({
-  spaces,
-  workspaceSlug,
-}: PostComposerFormProps) {
+export function PostComposerForm({ children }: PostComposerFormProps) {
   const { control } = useFormContext<PostSchema>();
 
   return (
     <>
-      <PostComposerSpacesPicker
-        spaces={spaces || []}
-        workspaceSlug={workspaceSlug}
-      />
+      {children}
 
       <div className="flex flex-col gap-1 overflow-hidden">
         <Controller

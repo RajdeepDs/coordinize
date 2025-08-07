@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@coordinize/ui/components/button';
+import { LayeredHotkeys } from '@coordinize/ui/components/layered-hotkeys';
 import { Separator } from '@coordinize/ui/components/separator';
 import { Sidebar, SidebarContent } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
@@ -44,87 +45,93 @@ export function PostPageContent({ postId }: PostPageContentProps) {
   }
 
   return (
-    <div className="flex h-full w-full">
-      <div className="flex-1">
-        <div className="flex h-full flex-col overflow-hidden rounded-md border bg-background">
-          <PageHeader
-            breadcrumb={[
-              {
-                icon: post.space?.icon ? (
-                  <span className="text-sm">{post.space.icon}</span>
-                ) : (
-                  <Icons.space size={16} />
-                ),
-                label: post.space?.name || 'Space',
-                href: `/${slug}/spaces/${post.space.identifier}`,
-              },
-              {
-                label: post.title,
-              },
-            ]}
-            leftContent={
-              <Button
-                className={cn(
-                  'size-7 rounded-sm',
-                  isFavorited
-                    ? 'text-ui-amber-700 hover:text-ui-amber-600'
-                    : 'text-muted-foreground'
+    <>
+      <LayeredHotkeys
+        callback={handleToggleFavorite}
+        keys="alt+f"
+        options={{
+          preventDefault: true,
+        }}
+      />
+      <div className="flex h-full w-full">
+        <div className="flex-1">
+          <div className="flex h-full flex-col overflow-hidden rounded-md border bg-background">
+            <PageHeader
+              breadcrumb={[
+                {
+                  icon: post.space?.icon ? (
+                    <span className="text-sm">{post.space.icon}</span>
+                  ) : (
+                    <Icons.space size={16} />
+                  ),
+                  label: post.space?.name || 'Space',
+                  href: `/${slug}/spaces/${post.space.identifier}`,
+                },
+                {
+                  label: post.title,
+                },
+              ]}
+              leftContent={
+                <Button
+                  className={cn(
+                    'size-7 rounded-sm',
+                    isFavorited
+                      ? 'text-ui-amber-700 hover:text-ui-amber-600'
+                      : 'text-muted-foreground'
+                  )}
+                  onClick={() => handleToggleFavorite()}
+                  size={'icon'}
+                  tooltip={isFavorited ? 'Unfavorite post' : 'Favorite post'}
+                  tooltipShortcut="alt+f"
+                  variant={'ghost'}
+                >
+                  <Icons.star className={isFavorited ? 'fill-current' : ''} />
+                </Button>
+              }
+              rightContent={<PostOptions postId={post.id} />}
+              showRightSidebarTrigger
+            />
+            <div className="flex-1 overflow-auto">
+              <ActivitySection>
+                {post.resolvedAt && post.resolvedById && (
+                  <ResolvedPostLabel
+                    resolvedAt={post.resolvedAt}
+                    userName={post.resolvedBy?.name || ''}
+                  />
                 )}
-                onClick={() => handleToggleFavorite()}
-                size={'icon'}
-                tooltip={
-                  isFavorited
-                    ? 'Remove from favorites'
-                    : 'Add to your favorites'
-                }
-                variant={'ghost'}
-              >
-                <Icons.star className={isFavorited ? 'fill-current' : ''} />
-              </Button>
-            }
-            rightContent={<PostOptions postId={post.id} />}
-            showRightSidebarTrigger
-          />
-          <div className="flex-1 overflow-auto">
-            <ActivitySection>
-              {post.resolvedAt && post.resolvedById && (
-                <ResolvedPostLabel
-                  resolvedAt={post.resolvedAt}
-                  userName={post.resolvedBy?.name || ''}
+                <PostMetadata
+                  createdAt={post.createdAt}
+                  userImage={post.author.image || ''}
+                  userName={post.author.name || ''}
                 />
-              )}
-              <PostMetadata
-                createdAt={post.createdAt}
-                userImage={post.author.image || ''}
-                userName={post.author.name || ''}
-              />
-              <EditablePostContent
-                initialContent={post.content}
-                initialTitle={post.title}
-                postId={post.id}
-              />
-              <EmojiReactions postId={post.id} />
-              <Separator />
-              <PostActivitySection postId={post.id} />
-            </ActivitySection>
+                <EditablePostContent
+                  initialContent={post.content}
+                  initialTitle={post.title}
+                  postId={post.id}
+                />
+                <EmojiReactions postId={post.id} />
+                <Separator />
+                <PostActivitySection postId={post.id} />
+              </ActivitySection>
+            </div>
           </div>
         </div>
-      </div>
 
-      <Sidebar
-        className="border-none"
-        collapsible="offcanvas"
-        side="right"
-        variant="sidebar"
-      >
-        <SidebarContent>
-          <PostSidebar
-            postId={post.id}
-            spaceIcon={post.space.icon || null}
-            spaceName={post.space.name || ''}
-          />
-        </SidebarContent>
-      </Sidebar>
-    </div>
+        <Sidebar
+          className="border-none"
+          collapsible="offcanvas"
+          side="right"
+          variant="sidebar"
+        >
+          <SidebarContent>
+            <PostSidebar
+              postId={post.id}
+              spaceIcon={post.space.icon || null}
+              spaceName={post.space.name || ''}
+            />
+          </SidebarContent>
+        </Sidebar>
+      </div>
+    </>
   );
 }
