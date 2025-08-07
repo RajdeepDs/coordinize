@@ -32,10 +32,11 @@ import {
 } from '@coordinize/ui/components/sidebar';
 import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
-import { redirect, useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
 
 export function TeamSwitcher({ email }: { email: string }) {
+  const router = useRouter();
   const { data: workspace } = useCurrentWorkspaceQuery();
   const params = useParams<{ slug: string }>();
   const { isMobile } = useSidebar();
@@ -44,7 +45,7 @@ export function TeamSwitcher({ email }: { email: string }) {
     authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          redirect('/login');
+          router.push('/login');
         },
       },
     });

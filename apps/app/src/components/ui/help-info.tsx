@@ -18,6 +18,7 @@ import {
 } from '@coordinize/ui/components/sidebar';
 import { useGlobalHotkeys } from '@coordinize/ui/hooks';
 import { Icons } from '@coordinize/ui/lib/icons';
+import { useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { helpNav } from '@/config/help-nav';
 import { ShortcutSheet } from './shortcut-sheet';
@@ -27,6 +28,7 @@ interface HelpInfoProps {
 }
 
 export function HelpInfo({ align = 'end' }: HelpInfoProps) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [shortcutSheetOpen, setShortcutSheetOpen] = useState(false);
 
@@ -44,14 +46,13 @@ export function HelpInfo({ align = 'end' }: HelpInfoProps) {
       setShortcutSheetOpen(true);
       setOpen(false);
     } else if (item.href) {
-      // Handle other navigation items
-      window.location.href = item.href;
+      router.push(item.href);
     }
   };
 
   useGlobalHotkeys({
     keys: 'ctrl+slash',
-    callback: () => setShortcutSheetOpen(!shortcutSheetOpen),
+    callback: () => setShortcutSheetOpen((prev) => !prev),
     options: { preventDefault: true },
   });
 

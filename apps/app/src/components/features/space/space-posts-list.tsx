@@ -1,12 +1,11 @@
 'use client';
 
 import type { Post, User } from '@coordinize/database/db';
-import { useGlobalHotkeys } from '@coordinize/ui/hooks';
 import { isToday, isYesterday } from 'date-fns';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
 import { PostItem } from '@/components/features/activity/post-item';
 import { PostSeparator } from '@/components/ui/post-separator';
+import { useKeyboardNavigation } from '@/hooks/use-keyboard-post-navigation';
 import { useSpaceWithPublishedPostsQuery } from '@/hooks/use-space';
 import { formatDate } from '@/utils/format-date';
 
@@ -26,71 +25,16 @@ export function SpacePublishedPostsList({
 
   // Flatten posts for navigation
   const flatPosts = space?.posts || [];
-  const [selectedPostIndex, setSelectedPostIndex] = useState<number | null>(
-    null
+
+  // Keyboard navigation
+  const { selectedIndex, selectedRef } = useKeyboardNavigation(
+    flatPosts,
+    (post) => {
+      router.push(
+        `/workspace/${workspaceSlug}/space/${identifier}/post/${post.id}`
+      );
+    }
   );
-  const selectedPostRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (
-      selectedPostRef.current &&
-      flatPosts.length > 0 &&
-      selectedPostIndex !== null
-    ) {
-      selectedPostRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-      });
-    }
-  }, [selectedPostIndex, flatPosts.length]);
-
-  const navigateUp = () => {
-    setSelectedPostIndex((prev) => {
-      if (prev === null) {
-        return flatPosts.length - 1;
-      }
-      return prev > 0 ? prev - 1 : flatPosts.length - 1;
-    });
-  };
-
-  const navigateDown = () => {
-    setSelectedPostIndex((prev) => {
-      if (prev === null) {
-        return 0;
-      }
-      return prev < flatPosts.length - 1 ? prev + 1 : 0;
-    });
-  };
-
-  const openSelectedPost = () => {
-    if (selectedPostIndex === null) {
-      setSelectedPostIndex(0);
-      return;
-    }
-
-    const selectedPost = flatPosts[selectedPostIndex];
-    if (selectedPost && workspaceSlug) {
-      router.push(`/${workspaceSlug}/posts/${selectedPost.id}`);
-    }
-  };
-
-  useGlobalHotkeys({
-    keys: ['k', 'up'],
-    callback: navigateUp,
-    options: { enabled: flatPosts.length > 0 },
-  });
-
-  useGlobalHotkeys({
-    keys: ['j', 'down'],
-    callback: navigateDown,
-    options: { enabled: flatPosts.length > 0 },
-  });
-
-  useGlobalHotkeys({
-    keys: 'enter',
-    callback: openSelectedPost,
-    options: { enabled: flatPosts.length > 0 },
-  });
 
   function getDateLabel(publishedAt: Date | null): string {
     if (!publishedAt) {
@@ -159,7 +103,7 @@ export function SpacePublishedPostsList({
               // Find the index of this post in the flat array
               const postIndex = flatPosts.findIndex((p) => p.id === post.id);
               const isSelected =
-                selectedPostIndex !== null && postIndex === selectedPostIndex;
+                selectedIndex !== null && postIndex === selectedIndex;
 
               return (
                 <div
@@ -167,7 +111,7 @@ export function SpacePublishedPostsList({
                     isSelected ? 'bg-accent' : ''
                   }`}
                   key={post.id}
-                  ref={isSelected ? selectedPostRef : null}
+                  ref={isSelected ? selectedRef : null}
                 >
                   <PostItem
                     authorName={post.author?.name || ''}
