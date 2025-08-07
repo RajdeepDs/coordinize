@@ -56,7 +56,6 @@ export function GlobalsKeysProvider() {
       // These elements typically have data attributes or specific roles
       const openElements = document.querySelectorAll(
         [
-          '[data-state="open"]', // Radix UI elements (popover, dialog, dropdown, etc.)
           '[data-radix-popper-content-wrapper]', // Radix popper content
           '[role="dialog"]', // ARIA dialogs
           '[role="menu"]', // ARIA menus

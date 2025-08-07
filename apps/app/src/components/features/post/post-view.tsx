@@ -18,6 +18,9 @@ interface PostPageContentProps {
   postId: string;
 }
 
+/**
+ * This component displays the content of a post. Used in the Inbox.
+ */
 export function PostView({ postId }: PostPageContentProps) {
   const { slug } = useParams<{ slug: string }>();
   const { data: post } = usePostByIdQuery(postId);
