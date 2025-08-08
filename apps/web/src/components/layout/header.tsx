@@ -1,11 +1,10 @@
 'use client';
 
 import { Button } from '@coordinize/ui/components/button';
-import { Separator } from '@coordinize/ui/components/separator';
 import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
-import { WordLogo } from '@/components/word-logo';
 import { env } from '@/env';
+import { Logo } from '../logo';
 import { ThemeToggle } from '../theme-toggle';
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
@@ -31,13 +30,13 @@ const Links = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/50 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 w-full border-b bg-background-200 backdrop-blur-lg">
       <div className="flex h-(--header-height) items-center justify-between px-4">
         <Link href={'/'}>
-          <WordLogo />
+          <Logo />
         </Link>
 
-        <div className="hidden gap-2">
+        <div className="-translate-x-1/2 absolute left-1/2 hidden gap-2 sm:flex">
           {Links.map((link) => (
             <Button
               asChild
@@ -51,21 +50,20 @@ export function Header() {
           ))}
         </div>
 
-        <div className="hidden items-center gap-2">
-          <Link className="hidden" href={'/docs'}>
+        <div className="flex items-center gap-2">
+          <Link href={`${APP_URL}/login`}>
             <Button size="sm" variant="ghost">
-              Docs
+              Log in
             </Button>
           </Link>
-          <Separator className="hidden min-h-5" orientation="vertical" />
-          <Link href={`${APP_URL}/login`}>
+          <Link href={`${APP_URL}/sign-up`}>
             <Button size="sm" variant="default">
-              Sign in
+              Sign up
             </Button>
           </Link>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2">
           <Button
             asChild
             className="size-8 text-foreground"
