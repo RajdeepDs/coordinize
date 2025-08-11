@@ -4,6 +4,7 @@ import type { Variants } from 'motion/react';
 import Link from 'next/link';
 import { env } from '@/env';
 import { AnimatedGroup } from './animated-group';
+import { HeroScreenshot } from './hero-screenshot';
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
@@ -50,6 +51,21 @@ export function HeroSection() {
             </Button>
           </div>
         </div>
+      </AnimatedGroup>
+      <AnimatedGroup
+        variants={{
+          container: {
+            visible: {
+              transition: {
+                staggerChildren: 0.05,
+                delayChildren: 0.25,
+              },
+            },
+          },
+          ...transitionVariants,
+        }}
+      >
+        <HeroScreenshot />
       </AnimatedGroup>
     </>
   );

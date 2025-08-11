@@ -13,6 +13,11 @@ export const config: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'c0nwx4j17a.ufs.sh',
+        pathname: '/f/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
         pathname: '**',
       },
