@@ -30,17 +30,17 @@ export function SpaceSection() {
           <p className="text-sm">Spaces</p>
           <Icons.chevronDown size={16} />
         </div>
-        <div className="space-y-1">
+        <ul aria-label="Spaces" className="space-y-1">
           {spaces.map((space) => (
-            <div
+            <li
               className="flex h-9 items-center gap-2 rounded-md border bg-background px-3"
               key={space.id}
             >
-              <span>{space.icon}</span>
-              <h1>{space.name}</h1>
-            </div>
+              <span aria-hidden="true">{space.icon}</span>
+              <span className="text-base">{space.name}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
       <div className="space-y-1">
         <h1 className="font-medium text-lg">{title}</h1>
