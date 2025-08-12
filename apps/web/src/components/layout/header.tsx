@@ -1,12 +1,9 @@
 'use client';
 
 import { Button } from '@coordinize/ui/components/button';
-import { Separator } from '@coordinize/ui/components/separator';
-import { Icons } from '@coordinize/ui/lib/icons';
 import Link from 'next/link';
-import { WordLogo } from '@/components/word-logo';
 import { env } from '@/env';
-import { ThemeToggle } from '../theme-toggle';
+import { Logo } from '../logo';
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
@@ -31,13 +28,13 @@ const Links = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/50 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 w-full border-b bg-background-200 backdrop-blur-lg">
       <div className="flex h-(--header-height) items-center justify-between px-4">
         <Link href={'/'}>
-          <WordLogo />
+          <Logo />
         </Link>
 
-        <div className="hidden gap-2">
+        <div className="-translate-x-1/2 absolute left-1/2 hidden gap-2">
           {Links.map((link) => (
             <Button
               asChild
@@ -51,52 +48,13 @@ export function Header() {
           ))}
         </div>
 
-        <div className="hidden items-center gap-2">
-          <Link className="hidden" href={'/docs'}>
-            <Button size="sm" variant="ghost">
-              Docs
-            </Button>
-          </Link>
-          <Separator className="hidden min-h-5" orientation="vertical" />
-          <Link href={`${APP_URL}/login`}>
-            <Button size="sm" variant="default">
-              Sign in
-            </Button>
-          </Link>
-        </div>
-
         <div className="flex items-center gap-2">
-          <Button
-            asChild
-            className="size-8 text-foreground"
-            size="icon"
-            variant="ghost"
-          >
-            <Link
-              aria-label="Visit our GitHub repository"
-              href={'https://github.com/RajdeepDs/coordinize'}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <Icons.github fill="currentColor" />
-            </Link>
+          <Button asChild size="sm" variant="ghost">
+            <Link href={`${APP_URL}/login`}>Log in</Link>
           </Button>
-          <Button
-            asChild
-            className="size-8 text-foreground"
-            size="icon"
-            variant="ghost"
-          >
-            <Link
-              aria-label="Follow us on X (Twitter)"
-              href={'https://x.com/Rajdeep__ds'}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <Icons.twitter fill="currentColor" />
-            </Link>
+          <Button asChild size="sm" variant="default">
+            <Link href={`${APP_URL}/sign-up`}>Sign up</Link>
           </Button>
-          <ThemeToggle />
         </div>
       </div>
     </header>
