@@ -36,7 +36,7 @@ export function Header() {
           <Logo />
         </Link>
 
-        <div className="-translate-x-1/2 absolute left-1/2 hidden gap-2 sm:flex">
+        <div className="-translate-x-1/2 absolute left-1/2 hidden gap-2">
           {Links.map((link) => (
             <Button
               asChild

@@ -46,8 +46,14 @@ export function HeroSection() {
             <Button asChild className="w-fit" size={'lg'}>
               <Link href={`${APP_URL}/sign-up`}>Get Started</Link>
             </Button>
-            <Button className="w-fit" size={'lg'} variant={'ghost'}>
-              Introducing Coordinize <Icons.ChevronRight />
+            <Button asChild className="w-fit" size={'lg'} variant={'ghost'}>
+              <Link
+                href={'https://github.com/RajdeepDs/coordinize'}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Introducing Coordinize <Icons.ChevronRight />
+              </Link>
             </Button>
           </div>
         </div>
