@@ -42,8 +42,18 @@ export function ChooseStyle({ nextStep }: ChooseStyleProps) {
         value={theme}
       >
         {[
-          { id: 'light', label: 'Light', image: '/ui-light.webp' },
-          { id: 'dark', label: 'Dark', image: '/ui-dark.webp' },
+          {
+            id: 'light',
+            label: 'Light',
+            image:
+              'https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2vCH4fSOlisdn2UOKHRLYoCj4X1f0Il6zpmZW',
+          },
+          {
+            id: 'dark',
+            label: 'Dark',
+            image:
+              'https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2qAAapqtSfvhYgmauXPK7FEyCO360Grtj1p98',
+          },
         ].map(({ id, label, image }) => (
           <label
             className="group relative cursor-pointer px-14 pt-10 pb-12 text-center transition-colors"
@@ -60,6 +70,7 @@ export function ChooseStyle({ nextStep }: ChooseStyleProps) {
               className={cn('rounded ring transition-all duration-200', {
                 'outline-2 outline-primary outline-offset-3': theme === id,
               })}
+              fetchPriority="high"
               height={120}
               priority
               src={image}
