@@ -80,7 +80,7 @@ export function Invite({ nextStep }: InviteProps) {
         </p>
       </div>
 
-      <div className="flex w-full flex-col gap-4 rounded-md bg-background p-6 shadow-lg ring ring-ui-gray-400">
+      <div className="flex max-w-sm flex-col gap-4 rounded-md bg-background p-6 shadow-lg ring ring-ui-gray-400 sm:max-w-full">
         <div className="flex flex-col gap-1">
           <Label>Invite link</Label>
           <p className="select-auto text-start text-sm text-ui-gray-900">
@@ -88,7 +88,7 @@ export function Invite({ nextStep }: InviteProps) {
             {usesLeft !== 1 ? 's' : ''} remaining)
           </p>
         </div>
-        <div className="flex w-lg items-center gap-2">
+        <div className="flex w-full items-center gap-2 sm:w-lg">
           <Input
             autoFocus={false}
             className="h-8 w-full px-1.5 shadow-none focus-visible:border-ui-gray-400 focus-visible:ring-0"

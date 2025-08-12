@@ -37,13 +37,13 @@ export function ChooseStyle({ nextStep }: ChooseStyleProps) {
       </div>
 
       <RadioGroup
-        className="flex gap-0 divide-x rounded-md border"
+        className="flex max-w-sm flex-col gap-0 divide-y rounded-md border sm:max-w-full sm:flex-row sm:divide-x sm:divide-y-0"
         onValueChange={setTheme}
         value={theme}
       >
         {[
-          { id: 'light', label: 'Light', image: '/ui-light.png' },
-          { id: 'dark', label: 'Dark', image: '/ui-dark.png' },
+          { id: 'light', label: 'Light', image: '/ui-light.webp' },
+          { id: 'dark', label: 'Dark', image: '/ui-dark.webp' },
         ].map(({ id, label, image }) => (
           <label
             className="group relative cursor-pointer px-14 pt-10 pb-12 text-center transition-colors"
