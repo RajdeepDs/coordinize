@@ -10,9 +10,9 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
 const items = [
-  { value: 'light', label: 'Light', image: '/ui-light.png' },
-  { value: 'dark', label: 'Dark', image: '/ui-dark.png' },
-  { value: 'system', label: 'System', image: '/ui-system.png' },
+  { value: 'light', label: 'Light', image: '/ui-light.webp' },
+  { value: 'dark', label: 'Dark', image: '/ui-dark.webp' },
+  { value: 'system', label: 'System', image: '/ui-system.webp' },
 ];
 
 export default function InterfaceSelect() {

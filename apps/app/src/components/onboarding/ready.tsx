@@ -43,7 +43,7 @@ export function Ready({ nextStep }: ReadyProps) {
         </p>
       </div>
 
-      <div className="grid grid-cols-3 divide-x rounded-md border">
+      <div className="grid grid-rows-3 divide-y rounded-md border lg:grid-cols-3 lg:grid-rows-1 lg:divide-x lg:divide-y-0">
         {highlights.map(({ icon, title, description }) => (
           <div
             className="flex w-xs flex-col items-start gap-2 px-4 py-6 text-start text-sm"
