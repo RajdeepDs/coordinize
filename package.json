@@ -1,47 +1,49 @@
 {
-  "name": "coordinize",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "packages/email/*"
-  ],
-  "scripts": {
-    "build": "turbo build",
-    "clean": "git clean -xdf node_modules",
-    "clean:workspaces": "turbo clean",
-    "format": "biome format --write .",
-    "lint": "turbo lint && manypkg check",
-    "typecheck": "turbo typecheck",
-    "dev": "turbo dev --parallel",
-    "test": "turbo test --parallel",
-    "start:web": "turbo start --filter=@coordinize/web",
-    "dev:web": "turbo dev --filter=@coordinize/web ",
-    "start:app": "turbo start --filter=@coordinize/app",
-    "dev:app": "turbo dev --filter=@coordinize/app ",
-    "docker:up": "docker compose up -d",
-    "db:generate": "turbo db:generate --filter=@coordinize/database",
-    "db:migrate": "cd packages/database && bun db:migrate",
-    "db:deploy": "turbo db:deploy --filter=@coordinize/database",
-    "postinstall": "bun run db:generate",
-    "prepare": "husky"
-  },
-  "packageManager": "bun@1.1.38",
-  "resolutions": {
-    "jackspeak": "2.1.1"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.0.5",
-    "@manypkg/cli": "^0.23.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
-    "turbo": "2.3.3",
-    "typescript": "^5.8.2",
-    "ultracite": "5.0.23"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
-      "npx ultracite format"
-    ]
-  }
+	"name": "coordinize",
+	"private": true,
+	"workspaces": [
+		"apps/*",
+		"packages/*",
+		"packages/email/*"
+	],
+	"scripts": {
+		"build": "turbo build",
+		"clean": "git clean -xdf node_modules",
+		"clean:workspaces": "turbo clean",
+		"format": "biome format --write .",
+		"lint": "turbo lint && manypkg check",
+		"typecheck": "turbo typecheck",
+		"dev": "turbo dev --parallel",
+		"test": "turbo test --parallel",
+		"start:web": "turbo start --filter=@coordinize/web",
+		"dev:web": "turbo dev --filter=@coordinize/web ",
+		"start:app": "turbo start --filter=@coordinize/app",
+		"dev:app": "turbo dev --filter=@coordinize/app ",
+		"docker:up": "docker compose up -d",
+		"db:generate": "turbo db:generate --filter=@coordinize/database",
+		"db:migrate": "cd packages/database && bun db:migrate",
+		"db:deploy": "turbo db:deploy --filter=@coordinize/database",
+		"prepare": "husky"
+	},
+	"packageManager": "bun@1.1.38",
+	"resolutions": {
+		"jackspeak": "2.1.1",
+		"@trpc/server": "*",
+		"@trpc/client": "*",
+		"@trpc/tanstack-react-query": "*"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.3",
+		"@manypkg/cli": "^0.25.1",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.1.6",
+		"turbo": "2.5.6",
+		"typescript": "^5.9.2",
+		"ultracite": "5.3.4"
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+			"npx ultracite format"
+		]
+	}
 }

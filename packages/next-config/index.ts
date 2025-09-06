@@ -3,7 +3,7 @@ import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin';
 import type { NextConfig } from 'next';
 
 export const config: NextConfig = {
-  transpilePackages: ['@coordinize/ui'],
+  transpilePackages: ['@coordinize/ui', '@coordinize/api'],
   images: {
     remotePatterns: [
       {

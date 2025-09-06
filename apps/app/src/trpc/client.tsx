@@ -1,5 +1,6 @@
 'use client';
 
+import type { AppRouter } from '@coordinize/api/routers/_app';
 import type { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -9,7 +10,6 @@ import { useState } from 'react';
 import superjson from 'superjson';
 import { getUrl } from '@/utils/environment';
 import { makeQueryClient } from './query-client';
-import type { AppRouter } from './routers/_app';
 
 export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
 

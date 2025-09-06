@@ -7,11 +7,11 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@prisma/nextjs-monorepo-workaround-plugin": "^6.9.0",
-    "next": "^15.3.3"
+    "@prisma/nextjs-monorepo-workaround-plugin": "6.9.0",
+    "next": "^15.5.2"
   },
   "devDependencies": {
     "@coordinize/tsconfig": "workspace:*",
-    "@types/node": "^22.15.30"
+    "@types/node": "^24.3.1"
   }
 }

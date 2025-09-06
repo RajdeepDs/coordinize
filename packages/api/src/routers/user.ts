@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { getUserQuery } from '@/lib/queries';
 import {
   authenticatedProcedure,
   createTRPCRouter,
   protectedProcedure,
 } from '../init';
+import { getUserQuery } from '../queries';
 
 export const userRouter = createTRPCRouter({
   me: authenticatedProcedure.query(async ({ ctx: { session } }) => {

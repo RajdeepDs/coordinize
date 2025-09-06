@@ -1,3 +1,5 @@
+import 'server-only';
+
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { createTRPCRouter } from '../init';
 import { commentRouter } from './comment';

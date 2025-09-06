@@ -1,19 +1,19 @@
 import { TRPCError } from '@trpc/server';
+import { createTRPCRouter, protectedProcedure } from '../init';
 import {
   createCommentMutation,
   deleteCommentMutation,
   updateCommentMutation,
-} from '@/lib/mutations';
-import { createPostTimelineEvent } from '@/lib/mutations/timeline-helpers';
-import { createPostCommentNotification } from '@/lib/notifications';
-import { getCommentByIdQuery, getPostCommentsQuery } from '@/lib/queries';
+} from '../mutations';
+import { createPostCommentNotification } from '../mutations/notifications';
+import { createPostTimelineEvent } from '../mutations/timeline-helpers';
+import { getCommentByIdQuery, getPostCommentsQuery } from '../queries';
 import {
   createCommentSchema,
   deleteCommentSchema,
   getCommentsSchema,
   updateCommentSchema,
-} from '@/lib/schemas/comment';
-import { createTRPCRouter, protectedProcedure } from '../init';
+} from '../schemas/comment';
 
 export const commentRouter = createTRPCRouter({
   getComments: protectedProcedure

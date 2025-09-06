@@ -1,19 +1,15 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod/v4';
-import { createDraftPost, createNewPost } from '@/lib/mutations';
-import { createPostTimelineEvent } from '@/lib/mutations/timeline-helpers';
+import { createTRPCRouter, protectedProcedure } from '../init';
+import { createDraftPost, createNewPost } from '../mutations';
+import { createPostTimelineEvent } from '../mutations/timeline-helpers';
 import {
   getDraftPostsQuery,
   getPostByIdQuery,
   getPublishedPostsQuery,
   searchPostsQuery,
-} from '@/lib/queries';
-import {
-  draftPostSchema,
-  postSchema,
-  updatePostSchema,
-} from '@/lib/schemas/post';
-import { createTRPCRouter, protectedProcedure } from '../init';
+} from '../queries';
+import { draftPostSchema, postSchema, updatePostSchema } from '../schemas/post';
 
 export const postRouter = createTRPCRouter({
   getAllPublished: protectedProcedure.query(

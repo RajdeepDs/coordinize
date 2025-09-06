@@ -1,5 +1,5 @@
-import { togglefavoriteSchema } from '@/lib/schemas';
 import { createTRPCRouter, protectedProcedure } from '../init';
+import { togglefavoriteSchema } from '../schemas';
 
 export const favoriteRouter = createTRPCRouter({
   getFavorites: protectedProcedure.query(async ({ ctx: { session, db } }) => {

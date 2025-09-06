@@ -1,8 +1,8 @@
 import z, { string } from 'zod/v4';
-import { createNewSpace } from '@/lib/mutations';
-import { getSpacesQuery, getSpaceWithPublishedPosts } from '@/lib/queries';
-import { createSpaceSchema } from '@/lib/schemas';
 import { createTRPCRouter, protectedProcedure } from '../init';
+import { createNewSpace } from '../mutations';
+import { getSpacesQuery, getSpaceWithPublishedPosts } from '../queries';
+import { createSpaceSchema } from '../schemas';
 
 const updateSpaceSchema = z.object({
   id: z.string(),

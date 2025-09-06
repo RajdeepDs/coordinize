@@ -1,11 +1,11 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod/v4';
+import { createTRPCRouter, protectedProcedure } from '../init';
 import {
   createTimelineEventMutation,
   getPostTimelineEventsQuery,
-} from '@/lib/queries';
-import { timelineSchema } from '@/lib/schemas/timeline';
-import { createTRPCRouter, protectedProcedure } from '../init';
+} from '../queries';
+import { timelineSchema } from '../schemas/timeline';
 
 export const timelineRouter = createTRPCRouter({
   getPostTimeline: protectedProcedure

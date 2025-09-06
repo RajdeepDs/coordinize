@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
-import { createNewPost, createNewSpace } from '@/lib/mutations';
 import { createTRPCRouter, protectedProcedure } from '../init';
+import { createNewPost, createNewSpace } from '../mutations';
 
 const WELCOME_SPACE = {
   name: 'Getting Started',

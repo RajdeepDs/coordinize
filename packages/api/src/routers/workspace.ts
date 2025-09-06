@@ -1,12 +1,12 @@
 import { TRPCError } from '@trpc/server';
 import z from 'zod/v4';
-import { getWorkspaceMembersQuery, getWorkspaceQuery } from '@/lib/queries';
-import { workspaceSetupSchema } from '@/lib/schemas/setup';
 import {
   authenticatedProcedure,
   createTRPCRouter,
   protectedProcedure,
 } from '../init';
+import { getWorkspaceMembersQuery, getWorkspaceQuery } from '../queries';
+import { workspaceSetupSchema } from '../schemas/setup';
 
 export const workspaceRouter = createTRPCRouter({
   current: protectedProcedure.query(async ({ ctx: { workspaceId } }) => {
