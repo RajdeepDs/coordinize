@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { toast } from 'sonner';
-import { getUrl } from './environment';
+import { toast } from "sonner";
+import { getUrl } from "./environment";
 
 /**
  * Copies the current page URL to clipboard
@@ -13,10 +13,10 @@ export function copyPostLink(pathname: string) {
   navigator.clipboard
     .writeText(currentUrl)
     .then(() => {
-      toast.success('Post link copied to clipboard.');
+      toast.success("Post link copied to clipboard.");
     })
     .catch(() => {
-      toast.error('Failed to copy link to clipboard.');
+      toast.error("Failed to copy link to clipboard.");
     });
 }
 
@@ -27,9 +27,9 @@ export function copyPostId(postId: string) {
   navigator.clipboard
     .writeText(postId)
     .then(() => {
-      toast.success('Post ID copied to clipboard.');
+      toast.success("Post ID copied to clipboard.");
     })
     .catch(() => {
-      toast.error('Failed to copy post ID to clipboard.');
+      toast.error("Failed to copy post ID to clipboard.");
     });
 }

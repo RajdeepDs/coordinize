@@ -1,19 +1,19 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { forwardRef, useEffect, useImperativeHandle } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { useLocalStoragePost } from '@/hooks/use-local-storage-post';
 import {
   type PostSchema,
   postDefaultValues,
   postSchema,
-} from '@/lib/schemas/post';
+} from "@coordinize/api/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useLocalStoragePost } from "@/hooks/use-local-storage-post";
 
-export interface PostComposerFormRef {
+export type PostComposerFormRef = {
   isDirty: boolean;
   reset: () => void;
   clearLocalStorage: () => void;
   getValues: () => PostSchema;
-}
+};
 
 export const PostComposerFormProvider = forwardRef<
   PostComposerFormRef,

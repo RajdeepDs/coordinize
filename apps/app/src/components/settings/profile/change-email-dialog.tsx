@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -8,19 +8,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@coordinize/ui/components/dialog';
+} from "@coordinize/ui/components/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@coordinize/ui/components/form';
-import { Input } from '@coordinize/ui/components/input';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod/v4';
+} from "@coordinize/ui/components/form";
+import { Input } from "@coordinize/ui/components/input";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod/v4";
 
 const formSchema = (currentEmail: string) =>
   z.object({
@@ -28,7 +28,7 @@ const formSchema = (currentEmail: string) =>
       .email()
       .refine(
         (val) => val !== currentEmail,
-        'Please enter a different email address.'
+        "Please enter a different email address."
       ),
   });
 
@@ -36,18 +36,18 @@ export function ChangeEmailDialog({ currentEmail }: { currentEmail: string }) {
   const form = useForm<z.infer<ReturnType<typeof formSchema>>>({
     resolver: zodResolver(formSchema(currentEmail)),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
-  function onSubmit(values: z.infer<ReturnType<typeof formSchema>>) {
-    console.log(values);
+  function onSubmit(_values: z.infer<ReturnType<typeof formSchema>>) {
+    form.reset();
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-normal" size={'sm'} variant={'outline'}>
+        <Button className="font-normal" size={"sm"} variant={"outline"}>
           Change email
         </Button>
       </DialogTrigger>

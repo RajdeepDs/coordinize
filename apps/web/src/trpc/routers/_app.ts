@@ -1,6 +1,6 @@
-import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
-import { createTRPCRouter } from '../init';
-import { earlyAccessRouter } from './early-access';
+import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import { createTRPCRouter } from "../init";
+import { earlyAccessRouter } from "./early-access";
 
 export const appRouter = createTRPCRouter({
   earlyAccess: earlyAccessRouter,

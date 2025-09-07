@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { authClient } from '@coordinize/auth/auth-client';
-import { Button } from '@coordinize/ui/button';
-import { Label } from '@coordinize/ui/label';
-import { useRouter } from 'next/navigation';
-import { useUserQuery } from '@/hooks/use-user';
+import { authClient } from "@coordinize/auth/auth-client";
+import { Button } from "@coordinize/ui/button";
+import { Label } from "@coordinize/ui/label";
+import { useRouter } from "next/navigation";
+import { useUserQuery } from "@/hooks/use-user";
 
 export function SetupHeader() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export function SetupHeader() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push('/login');
+          router.push("/login");
         },
       },
     });
@@ -29,8 +29,8 @@ export function SetupHeader() {
       <Button
         className="text-foreground"
         onClick={handleLogout}
-        size={'sm'}
-        variant={'ghost'}
+        size={"sm"}
+        variant={"ghost"}
       >
         Log out
       </Button>

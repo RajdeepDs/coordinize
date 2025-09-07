@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { authClient } from '@coordinize/auth/auth-client';
-import { Button } from '@coordinize/ui/components/button';
-import { Input } from '@coordinize/ui/components/input';
-import { toast } from '@coordinize/ui/components/sonner';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { type EmailLinkSchema, emailLinkSchema } from '@/lib/schemas/auth';
+import { type EmailLinkSchema, emailLinkSchema } from "@coordinize/api/schemas";
+import { authClient } from "@coordinize/auth/auth-client";
+import { Button } from "@coordinize/ui/components/button";
+import { Input } from "@coordinize/ui/components/input";
+import { toast } from "@coordinize/ui/components/sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-interface EmailLinkProps {
+type EmailLinkProps = {
   onSetIsEmailLogin: (isEmailLogin: boolean) => void;
   onEmailSubmit: (email: string) => void;
-}
+};
 
 export function EmailLink({
   onSetIsEmailLogin,
@@ -21,7 +21,7 @@ export function EmailLink({
   const searchParams = useSearchParams();
   const form = useForm({
     resolver: zodResolver(emailLinkSchema),
-    defaultValues: { email: '' },
+    defaultValues: { email: "" },
   });
 
   const {
@@ -31,14 +31,14 @@ export function EmailLink({
   } = form;
 
   const onSubmit = async (values: EmailLinkSchema) => {
-    const callbackUrl = searchParams.get('callbackUrl');
+    const callbackUrl = searchParams.get("callbackUrl");
     const { error } = await authClient.signIn.magicLink({
       email: values.email,
       callbackURL: callbackUrl || undefined,
     });
 
     if (error) {
-      toast.error('Error sending magic link. Please try again.');
+      toast.error("Error sending magic link. Please try again.");
       return;
     }
 
@@ -57,7 +57,7 @@ export function EmailLink({
             className="h-11 bg-transparent"
             placeholder="Enter your email address..."
             type="email"
-            {...register('email')}
+            {...register("email")}
           />
           {errors.email && (
             <p
@@ -70,9 +70,9 @@ export function EmailLink({
           )}
           <Button
             className="h-11 w-full"
-            size={'lg'}
+            size={"lg"}
             type="submit"
-            variant={'outline'}
+            variant={"outline"}
           >
             Continue with Email
           </Button>
@@ -83,7 +83,7 @@ export function EmailLink({
         onClick={() => {
           onSetIsEmailLogin(false);
         }}
-        variant={'link'}
+        variant={"link"}
       >
         Back to login
       </Button>

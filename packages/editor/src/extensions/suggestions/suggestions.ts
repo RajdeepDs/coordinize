@@ -1,21 +1,21 @@
-import { escapeForRegEx, type Range } from '@tiptap/core';
-import type { ResolvedPos } from '@tiptap/pm/model';
+import { escapeForRegEx, type Range } from "@tiptap/core";
+import type { ResolvedPos } from "@tiptap/pm/model";
 import {
   type EditorState,
   Plugin,
   PluginKey,
   type Transaction,
-} from '@tiptap/pm/state';
-import { Decoration, DecorationSet, type EditorView } from '@tiptap/pm/view';
-import type { Editor } from '@tiptap/react';
+} from "@tiptap/pm/state";
+import { Decoration, DecorationSet, type EditorView } from "@tiptap/pm/view";
+import type { Editor } from "@tiptap/react";
 
-export interface Trigger {
+export type Trigger = {
   char: string;
   allowSpaces: boolean;
   allowedPrefixes: string[] | null;
   startOfLine: boolean;
   $position: ResolvedPos;
-}
+};
 
 export type SuggestionMatch = {
   range: Range;
@@ -28,10 +28,10 @@ export function defaultFindSuggestionMatch(config: Trigger): SuggestionMatch {
 
   const escapedChar = escapeForRegEx(char);
   const suffix = new RegExp(`\\s${escapedChar}$`);
-  const prefix = startOfLine ? '^' : '';
+  const prefix = startOfLine ? "^" : "";
   const regexp = allowSpaces
-    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, 'gm')
-    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, 'gm');
+    ? new RegExp(`${prefix}${escapedChar}.*?(?=\\s${escapedChar}|$)`, "gm")
+    : new RegExp(`${prefix}(?:^)?${escapedChar}[^\\s${escapedChar}]*`, "gm");
 
   const text = $position.nodeBefore?.isText && $position.nodeBefore.text;
 
@@ -53,7 +53,7 @@ export function defaultFindSuggestionMatch(config: Trigger): SuggestionMatch {
     match.index
   );
   const matchPrefixIsAllowed = new RegExp(
-    `^[${allowedPrefixes?.join('')}\0]?$`
+    `^[${allowedPrefixes?.join("")}\0]?$`
   ).test(matchPrefix);
 
   if (allowedPrefixes !== null && !matchPrefixIsAllowed) {
@@ -67,14 +67,14 @@ export function defaultFindSuggestionMatch(config: Trigger): SuggestionMatch {
   // Edge case handling; if spaces are allowed and we're directly in between
   // two triggers
   if (allowSpaces && suffix.test(text.slice(to - 1, to + 1))) {
-    match[0] += ' ';
+    match[0] += " ";
     to += 1;
   }
 
   const query = match[0].slice(char.length);
 
   // if the query is just a space, then don't return a suggestion
-  if (query === ' ') {
+  if (query === " ") {
     return null;
   }
 
@@ -93,7 +93,7 @@ export function defaultFindSuggestionMatch(config: Trigger): SuggestionMatch {
   return null;
 }
 
-export interface SuggestionOptions<I = any, TSelected = any> {
+export type SuggestionOptions<I = any, TSelected = any> = {
   /**
    * The plugin key for the suggestion plugin.
    * @default 'suggestion'
@@ -200,9 +200,9 @@ export interface SuggestionOptions<I = any, TSelected = any> {
     oldState: EditorState;
     state: EditorState;
   }) => void;
-}
+};
 
-export interface SuggestionProps<I = any, TSelected = any> {
+export type SuggestionProps<I = any, TSelected = any> = {
   /**
    * The editor instance.
    */
@@ -247,15 +247,15 @@ export interface SuggestionProps<I = any, TSelected = any> {
    * @example () => new DOMRect(0, 0, 0, 0)
    */
   clientRect?: (() => DOMRect | null) | null;
-}
+};
 
-export interface SuggestionKeyDownProps {
+export type SuggestionKeyDownProps = {
   view: EditorView;
   event: KeyboardEvent;
   range: Range;
-}
+};
 
-export const SuggestionPluginKey = new PluginKey('suggestion');
+export const SuggestionPluginKey = new PluginKey("suggestion");
 
 /**
  * This utility allows you to create suggestions.
@@ -264,12 +264,12 @@ export const SuggestionPluginKey = new PluginKey('suggestion');
 export function Suggestion<I = any, TSelected = any>({
   pluginKey = SuggestionPluginKey,
   editor,
-  char = '@',
+  char = "@",
   allowSpaces = false,
-  allowedPrefixes = [' '],
+  allowedPrefixes = [" "],
   startOfLine = false,
-  decorationTag = 'span',
-  decorationClass = 'suggestion',
+  decorationTag = "span",
+  decorationClass = "suggestion",
   command = () => null,
   items = () => [],
   render = () => ({}),
@@ -334,7 +334,9 @@ export function Suggestion<I = any, TSelected = any>({
               ? () => {
                   // because of `items` can be asynchrounous we’ll search for the current decoration node
                   const state = this.key?.getState(editor.state);
-                  if (!state) return null;
+                  if (!state) {
+                    return null;
+                  }
                   const { decorationId } = state;
                   const currentDecorationNode = view.dom.querySelector(
                     `[data-decoration-id="${decorationId}"]`
@@ -501,7 +503,7 @@ export function Suggestion<I = any, TSelected = any>({
           Decoration.inline(range.from, range.to, {
             nodeName: decorationTag,
             class: decorationClass,
-            'data-decoration-id': decorationId,
+            "data-decoration-id": decorationId,
           }),
         ]);
       },

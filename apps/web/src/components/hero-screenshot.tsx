@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import LightHero from '../../public/light-hero.webp';
+import Image from "next/image";
+import LightHero from "../../public/light-hero.webp";
 
 export function HeroScreenshot() {
   return (

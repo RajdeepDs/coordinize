@@ -1,6 +1,6 @@
-import { Label } from '@coordinize/ui/components/label';
-import { SpaceDetailsForm } from '@/components/settings/spaces/space-details-form';
-import { HydrateClient, prefetch, trpc } from '@/trpc/server';
+import { Label } from "@coordinize/ui/components/label";
+import { SpaceDetailsForm } from "@/components/settings/spaces/space-details-form";
+import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 
 export default async function SpaceSettingsPage({
   params,

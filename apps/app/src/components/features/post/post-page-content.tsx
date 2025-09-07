@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
-import { LayeredHotkeys } from '@coordinize/ui/components/layered-hotkeys';
-import { Separator } from '@coordinize/ui/components/separator';
-import { Sidebar, SidebarContent } from '@coordinize/ui/components/sidebar';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
-import { useParams } from 'next/navigation';
-import { ActivitySection } from '@/components/features/activity/activity-section';
-import { EditablePostContent } from '@/components/features/post/editable-post-content';
-import { EmojiReactions } from '@/components/features/post/emoji-reactions';
-import { PostActivitySection } from '@/components/features/post/post-activity-section';
-import { PostMetadata } from '@/components/features/post/post-metadata';
-import { PostOptions } from '@/components/features/post/post-options';
-import { PostSidebar } from '@/components/features/post/post-sidebar';
-import { ResolvedPostLabel } from '@/components/features/post/resolved-post-label';
-import { PageHeader } from '@/components/layout/page-header';
-import { usePostByIdQuery } from '@/hooks/use-posts';
-import { useToggleFavorite } from '@/hooks/use-toggle-favorite';
+import { Button } from "@coordinize/ui/components/button";
+import { LayeredHotkeys } from "@coordinize/ui/components/layered-hotkeys";
+import { Separator } from "@coordinize/ui/components/separator";
+import { Sidebar, SidebarContent } from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
+import { useParams } from "next/navigation";
+import { ActivitySection } from "@/components/features/activity/activity-section";
+import { EditablePostContent } from "@/components/features/post/editable-post-content";
+import { EmojiReactions } from "@/components/features/post/emoji-reactions";
+import { PostActivitySection } from "@/components/features/post/post-activity-section";
+import { PostMetadata } from "@/components/features/post/post-metadata";
+import { PostOptions } from "@/components/features/post/post-options";
+import { PostSidebar } from "@/components/features/post/post-sidebar";
+import { ResolvedPostLabel } from "@/components/features/post/resolved-post-label";
+import { PageHeader } from "@/components/layout/page-header";
+import { usePostByIdQuery } from "@/hooks/use-posts";
+import { useToggleFavorite } from "@/hooks/use-toggle-favorite";
 
-interface PostPageContentProps {
+type PostPageContentProps = {
   postId: string;
-}
+};
 
 export function PostPageContent({ postId }: PostPageContentProps) {
   const { slug } = useParams<{ slug: string }>();
@@ -32,7 +32,7 @@ export function PostPageContent({ postId }: PostPageContentProps) {
 
   function handleToggleFavorite() {
     if (post) {
-      toggleFavorite({ id: post.id, type: 'post' });
+      toggleFavorite({ id: post.id, type: "post" });
     }
   }
 
@@ -64,7 +64,7 @@ export function PostPageContent({ postId }: PostPageContentProps) {
                   ) : (
                     <Icons.space size={16} />
                   ),
-                  label: post.space?.name || 'Space',
+                  label: post.space?.name || "Space",
                   href: `/${slug}/spaces/${post.space.identifier}`,
                 },
                 {
@@ -74,18 +74,18 @@ export function PostPageContent({ postId }: PostPageContentProps) {
               leftContent={
                 <Button
                   className={cn(
-                    'size-7 rounded-sm',
+                    "size-7 rounded-sm",
                     isFavorited
-                      ? 'text-ui-amber-700 hover:text-ui-amber-600'
-                      : 'text-muted-foreground'
+                      ? "text-ui-amber-700 hover:text-ui-amber-600"
+                      : "text-muted-foreground"
                   )}
                   onClick={() => handleToggleFavorite()}
-                  size={'icon'}
-                  tooltip={isFavorited ? 'Unfavorite post' : 'Favorite post'}
+                  size={"icon"}
+                  tooltip={isFavorited ? "Unfavorite post" : "Favorite post"}
                   tooltipShortcut="alt+f"
-                  variant={'ghost'}
+                  variant={"ghost"}
                 >
-                  <Icons.star className={isFavorited ? 'fill-current' : ''} />
+                  <Icons.star className={isFavorited ? "fill-current" : ""} />
                 </Button>
               }
               rightContent={<PostOptions postId={post.id} />}
@@ -96,13 +96,13 @@ export function PostPageContent({ postId }: PostPageContentProps) {
                 {post.resolvedAt && post.resolvedById && (
                   <ResolvedPostLabel
                     resolvedAt={post.resolvedAt}
-                    userName={post.resolvedBy?.name || ''}
+                    userName={post.resolvedBy?.name || ""}
                   />
                 )}
                 <PostMetadata
                   createdAt={post.createdAt}
-                  userImage={post.author.image || ''}
-                  userName={post.author.name || ''}
+                  userImage={post.author.image || ""}
+                  userName={post.author.name || ""}
                 />
                 <EditablePostContent
                   initialContent={post.content}
@@ -127,7 +127,7 @@ export function PostPageContent({ postId }: PostPageContentProps) {
             <PostSidebar
               postId={post.id}
               spaceIcon={post.space.icon || null}
-              spaceName={post.space.name || ''}
+              spaceName={post.space.name || ""}
             />
           </SidebarContent>
         </Sidebar>

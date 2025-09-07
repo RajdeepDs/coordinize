@@ -1,11 +1,11 @@
-import { Input } from '@coordinize/ui/components/input';
-import { Controller, useFormContext } from 'react-hook-form';
-import { MarkdownEditor } from '@/components/features/markdown-editor';
-import type { PostSchema } from '@/lib/schemas/post';
+import type { PostSchema } from "@coordinize/api/schemas";
+import { Input } from "@coordinize/ui/components/input";
+import { Controller, useFormContext } from "react-hook-form";
+import { MarkdownEditor } from "@/components/features/markdown-editor";
 
-interface PostComposerFormProps {
+type PostComposerFormProps = {
   children?: React.ReactNode;
-}
+};
 
 export function PostComposerForm({ children }: PostComposerFormProps) {
   const { control } = useFormContext<PostSchema>();
@@ -34,7 +34,7 @@ export function PostComposerForm({ children }: PostComposerFormProps) {
               <MarkdownEditor
                 {...field}
                 containerClasses="px-0 h-full"
-                content={field.value || ''}
+                content={field.value || ""}
                 onChangeDebounced={field.onChange}
                 placeholder="Write something about it..."
               />

@@ -1,11 +1,11 @@
-import AvatarStatus from '@/components/ui/avatar-status';
-import { formatDate } from '@/utils/format-date';
+import AvatarStatus from "@/components/ui/avatar-status";
+import { formatDate } from "@/utils/format-date";
 
-interface PostMetadataProps {
+type PostMetadataProps = {
   userName: string;
   userImage: string;
   createdAt: Date;
-}
+};
 
 export function PostMetadata({
   userName,

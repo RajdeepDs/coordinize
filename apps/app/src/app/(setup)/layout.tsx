@@ -1,5 +1,5 @@
-import { SetupHeader } from '@/components/setup/setup-header';
-import { HydrateClient, prefetch, trpc } from '@/trpc/server';
+import { SetupHeader } from "@/components/setup/setup-header";
+import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 
 export default function SetupLayout({
   children,

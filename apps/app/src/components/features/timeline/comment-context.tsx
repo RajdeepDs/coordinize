@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { createContext, type ReactNode, useContext, useState } from 'react';
+import { createContext, type ReactNode, useContext, useState } from "react";
 
-interface CommentActions {
+type CommentActions = {
   // Reply management
   activeReplyId: string | null;
   setActiveReplyId: (id: string | null) => void;
@@ -22,7 +22,7 @@ interface CommentActions {
   expandedComments: Set<string>;
   toggleExpanded: (id: string) => void;
   isExpanded: (id: string) => boolean;
-}
+};
 
 const CommentContext = createContext<CommentActions | undefined>(undefined);
 
@@ -113,7 +113,7 @@ export function CommentProvider({ children }: { children: ReactNode }) {
 export function useComment() {
   const context = useContext(CommentContext);
   if (context === undefined) {
-    throw new Error('useComment must be used within a CommentProvider');
+    throw new Error("useComment must be used within a CommentProvider");
   }
   return context;
 }

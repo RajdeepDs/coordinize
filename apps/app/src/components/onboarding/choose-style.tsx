@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
-import { Label } from '@coordinize/ui/components/label';
+import { Button } from "@coordinize/ui/components/button";
+import { Label } from "@coordinize/ui/components/label";
 import {
   RadioGroup,
   RadioGroupItem,
-} from '@coordinize/ui/components/radio-group';
-import { cn } from '@coordinize/ui/lib/utils';
-import Image from 'next/image';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+} from "@coordinize/ui/components/radio-group";
+import { cn } from "@coordinize/ui/lib/utils";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
-interface ChooseStyleProps {
+type ChooseStyleProps = {
   nextStep: () => void;
-}
+};
 
 export function ChooseStyle({ nextStep }: ChooseStyleProps) {
   const { setTheme, theme } = useTheme();
@@ -43,16 +43,16 @@ export function ChooseStyle({ nextStep }: ChooseStyleProps) {
       >
         {[
           {
-            id: 'light',
-            label: 'Light',
+            id: "light",
+            label: "Light",
             image:
-              'https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2vCH4fSOlisdn2UOKHRLYoCj4X1f0Il6zpmZW',
+              "https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2vCH4fSOlisdn2UOKHRLYoCj4X1f0Il6zpmZW",
           },
           {
-            id: 'dark',
-            label: 'Dark',
+            id: "dark",
+            label: "Dark",
             image:
-              'https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2qAAapqtSfvhYgmauXPK7FEyCO360Grtj1p98',
+              "https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2qAAapqtSfvhYgmauXPK7FEyCO360Grtj1p98",
           },
         ].map(({ id, label, image }) => (
           <label
@@ -67,8 +67,8 @@ export function ChooseStyle({ nextStep }: ChooseStyleProps) {
             />
             <Image
               alt={`${label} theme`}
-              className={cn('rounded ring transition-all duration-200', {
-                'outline-2 outline-primary outline-offset-3': theme === id,
+              className={cn("rounded ring transition-all duration-200", {
+                "outline-2 outline-primary outline-offset-3": theme === id,
               })}
               fetchPriority="high"
               height={120}

@@ -1,6 +1,6 @@
-interface OnboardingLayoutProps {
+type OnboardingLayoutProps = {
   readonly children: React.ReactNode;
-}
+};
 
 export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
   return (

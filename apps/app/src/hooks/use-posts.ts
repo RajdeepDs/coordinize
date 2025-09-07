@@ -1,11 +1,11 @@
-import { toast } from '@coordinize/ui/components/sonner';
+import { toast } from "@coordinize/ui/components/sonner";
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
-} from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useTRPC } from '@/trpc/client';
+} from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
 
 export function usePublishedPostsQuery() {
   const trpc = useTRPC();
@@ -85,7 +85,7 @@ export function useDeletePost() {
   return useMutation(
     trpc.post.delete.mutationOptions({
       onSuccess: () => {
-        toast.success('Post deleted successfully.');
+        toast.success("Post deleted successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
@@ -104,7 +104,7 @@ export function useResolvePost(postId: string) {
   return useMutation(
     trpc.post.resolve.mutationOptions({
       onSuccess: () => {
-        toast.success('Post resolved successfully.');
+        toast.success("Post resolved successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
@@ -131,7 +131,7 @@ export function useUnresolvePost(postId: string) {
   return useMutation(
     trpc.post.unresolve.mutationOptions({
       onSuccess: () => {
-        toast.success('Post reopened successfully.');
+        toast.success("Post reopened successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
@@ -158,7 +158,7 @@ export function useMovePostToSpace(postId: string) {
   return useMutation(
     trpc.post.movePostToSpace.mutationOptions({
       onSuccess: () => {
-        toast.success('Post moved to space successfully.');
+        toast.success("Post moved to space successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
@@ -186,8 +186,8 @@ export function usePinPostToSpace(postId: string) {
     trpc.post.pinPostToSpace.mutationOptions({
       onSuccess: (_, variables) => {
         const message = variables.pinned
-          ? 'Post pinned to space successfully.'
-          : 'Post unpinned from space successfully.';
+          ? "Post pinned to space successfully."
+          : "Post unpinned from space successfully.";
         toast.success(message);
         queryClient.invalidateQueries({
           queryKey: trpc.post.getPostById.queryKey({ id: postId }),

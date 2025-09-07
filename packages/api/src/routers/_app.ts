@@ -1,19 +1,19 @@
-import 'server-only';
+import "server-only";
 
-import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
-import { createTRPCRouter } from '../init';
-import { commentRouter } from './comment';
-import { commentReactionRouter } from './comment-reaction';
-import { favoriteRouter } from './favorite';
-import { inviteRouter } from './invite';
-import { notificationRouter } from './notification';
-import { postRouter } from './post';
-import { reactionRouter } from './reaction';
-import { seedRouter } from './seed';
-import { spaceRouter } from './space';
-import { timelineRouter } from './timeline';
-import { userRouter } from './user';
-import { workspaceRouter } from './workspace';
+import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import { createTRPCRouter } from "../init";
+import { commentRouter } from "./comment";
+import { commentReactionRouter } from "./comment-reaction";
+import { favoriteRouter } from "./favorite";
+import { inviteRouter } from "./invite";
+import { notificationRouter } from "./notification";
+import { postRouter } from "./post";
+import { reactionRouter } from "./reaction";
+import { seedRouter } from "./seed";
+import { spaceRouter } from "./space";
+import { timelineRouter } from "./timeline";
+import { userRouter } from "./user";
+import { workspaceRouter } from "./workspace";
 
 export const appRouter = createTRPCRouter({
   user: userRouter,

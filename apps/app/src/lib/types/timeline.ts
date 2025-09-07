@@ -1,12 +1,12 @@
-import type { TimelineAction, TimelineEvent } from '@coordinize/database/db';
+import type { TimelineAction, TimelineEvent } from "@coordinize/database/db";
 
-export interface CommentAuthor {
+export type CommentAuthor = {
   id: string;
   name: string;
   image: string | null;
-}
+};
 
-export interface CommentReply {
+export type CommentReply = {
   id: string;
   content: string;
   createdAt: Date;
@@ -16,9 +16,9 @@ export interface CommentReply {
   postId: string;
   parentId: string | null;
   author: CommentAuthor;
-}
+};
 
-export interface TimelineComment {
+export type TimelineComment = {
   id: string;
   content: string;
   createdAt: Date;
@@ -29,14 +29,14 @@ export interface TimelineComment {
   parentId: string | null;
   author: CommentAuthor;
   replies?: (CommentReply & { replies?: CommentReply[] })[];
-}
+};
 
 export interface EventWithComment extends TimelineEvent {
   createdAt: Date;
   comment?: TimelineComment;
 }
 
-export interface TimelineEventDisplay {
+export type TimelineEventDisplay = {
   id: string;
   action: TimelineAction;
   message: string;
@@ -57,7 +57,7 @@ export interface TimelineEventDisplay {
       image: string | null;
     };
   } | null;
-}
+};
 
 export const TimelineEventMessages: Record<
   TimelineAction,
@@ -81,7 +81,7 @@ export const TimelineEventMessages: Record<
 
     return `moved this post from ${oldSpaceName} to ${newSpaceName}`;
   },
-  RESOLVED: () => 'marked this post as resolved',
-  REOPENED: () => 're-opened this post',
-  COMMENTED: () => 'commented on this post',
+  RESOLVED: () => "marked this post as resolved",
+  REOPENED: () => "re-opened this post",
+  COMMENTED: () => "commented on this post",
 };

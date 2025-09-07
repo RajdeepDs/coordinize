@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Breadcrumb,
@@ -6,24 +6,24 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@coordinize/ui/components/breadcrumb';
-import { Separator } from '@coordinize/ui/components/separator';
-import { SidebarTrigger, useSidebar } from '@coordinize/ui/components/sidebar';
-import Link from 'next/link';
-import type { ReactNode } from 'react';
+} from "@coordinize/ui/components/breadcrumb";
+import { Separator } from "@coordinize/ui/components/separator";
+import { SidebarTrigger, useSidebar } from "@coordinize/ui/components/sidebar";
+import Link from "next/link";
+import type { ReactNode } from "react";
 
-interface BreadcrumbProps {
+type BreadcrumbProps = {
   label: string;
   href?: string;
   icon?: ReactNode;
-}
+};
 
-interface PageHeaderProps {
+type PageHeaderProps = {
   readonly leftContent?: ReactNode;
   readonly rightContent?: ReactNode;
   breadcrumb: BreadcrumbProps[];
   showRightSidebarTrigger?: boolean;
-}
+};
 
 export function PageHeader({
   leftContent,
@@ -36,7 +36,7 @@ export function PageHeader({
   return (
     <header className="flex min-h-8 items-center justify-between px-2">
       <div className="flex h-full min-w-0 flex-1 items-center gap-3">
-        {(isMobile || leftState === 'collapsed') && (
+        {(isMobile || leftState === "collapsed") && (
           <div className="flex shrink-0 items-center gap-1.5">
             <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
             <Separator className="min-h-4" orientation="vertical" />

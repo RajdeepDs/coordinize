@@ -1,11 +1,11 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod/v4';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod/v4";
 import {
   authenticatedProcedure,
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
-} from '../init';
+} from "../init";
 
 export const inviteRouter = createTRPCRouter({
   getCurrentToken: protectedProcedure.query(
@@ -17,7 +17,7 @@ export const inviteRouter = createTRPCRouter({
           expiresAt: { gt: new Date() }, // Not expired
           usesLeft: { gt: 0 }, // Has uses remaining
         },
-        orderBy: { createdAt: 'desc' }, // Get the latest token
+        orderBy: { createdAt: "desc" }, // Get the latest token
       });
 
       return existingToken
@@ -36,7 +36,7 @@ export const inviteRouter = createTRPCRouter({
           expiresAt: { gt: new Date() },
           usesLeft: { gt: 0 },
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
       });
 
       if (existingToken) {
@@ -50,8 +50,8 @@ export const inviteRouter = createTRPCRouter({
 
       if (!workspace) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Workspace not found.',
+          code: "NOT_FOUND",
+          message: "Workspace not found.",
         });
       }
 
@@ -91,8 +91,8 @@ export const inviteRouter = createTRPCRouter({
         inviteToken.usesLeft <= 0
       ) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Invalid or expired invite link.',
+          code: "NOT_FOUND",
+          message: "Invalid or expired invite link.",
         });
       }
 
@@ -117,8 +117,8 @@ export const inviteRouter = createTRPCRouter({
         inviteToken.usesLeft <= 0
       ) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Invalid or expired invite link.',
+          code: "NOT_FOUND",
+          message: "Invalid or expired invite link.",
         });
       }
 
@@ -134,8 +134,8 @@ export const inviteRouter = createTRPCRouter({
 
       if (existingMember) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'You are already a member of this workspace.',
+          code: "BAD_REQUEST",
+          message: "You are already a member of this workspace.",
         });
       }
 
@@ -145,7 +145,7 @@ export const inviteRouter = createTRPCRouter({
           data: {
             userId: session.user.id,
             workspaceId: inviteToken.workspaceId,
-            role: 'MEMBER',
+            role: "MEMBER",
           },
         }),
         db.inviteToken.update({

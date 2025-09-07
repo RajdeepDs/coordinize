@@ -1,6 +1,6 @@
-import { Label } from '@coordinize/ui/components/label';
-import { SpacesTable } from '@/components/settings/spaces/spaces-table';
-import { getQueryClient, HydrateClient, trpc } from '@/trpc/server';
+import { Label } from "@coordinize/ui/components/label";
+import { SpacesTable } from "@/components/settings/spaces/spaces-table";
+import { getQueryClient, HydrateClient, trpc } from "@/trpc/server";
 
 export default async function SpacesPage({
   params,
@@ -12,7 +12,7 @@ export default async function SpacesPage({
   const spaces = await queryClient.fetchQuery(trpc.space.getAll.queryOptions());
 
   if (!spaces) {
-    return <>Loading...</>;
+    return "Loading...";
   }
 
   const { slug } = await params;

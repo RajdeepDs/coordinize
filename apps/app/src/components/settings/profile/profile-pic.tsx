@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import type { User } from '@coordinize/database/db';
-import AvatarUploader from '@coordinize/ui/components/avatar-uploader';
+import type { User } from "@coordinize/database/db";
+import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@coordinize/ui/components/form';
-import { toast } from '@coordinize/ui/components/sonner';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useAction } from 'next-safe-action/hooks';
-import { useCallback, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { updateProfileAction } from '@/actions/update-user-action';
-import { useUploadThing } from '@/utils/uploadthing';
+} from "@coordinize/ui/components/form";
+import { toast } from "@coordinize/ui/components/sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
+import { useCallback, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { updateProfileAction } from "@/actions/update-user-action";
+import { useUploadThing } from "@/utils/uploadthing";
 
 const formSchema = z.object({
   profilePic: z.string().url().or(z.string().length(0)),
@@ -29,30 +29,29 @@ export function ProfilePic({ user }: { user: User }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      profilePic: '',
+      profilePic: "",
       profilePicFile: undefined,
     },
   });
 
-  const { startUpload } = useUploadThing('imageUploader');
+  const { startUpload } = useUploadThing("imageUploader");
   const isSubmitting = useRef(false);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (user) {
       form.reset({
-        profilePic: user.image ?? '',
+        profilePic: user.image ?? "",
         profilePicFile: undefined,
       });
     }
   }, [user, form]);
 
   const { execute } = useAction(updateProfileAction, {
-    onError: ({ error }) => {
-      toast.error('Something went wrong.');
-      console.log({ error });
+    onError: () => {
+      toast.error("Something went wrong.");
     },
-    onSuccess: () => toast.success('Profile updated.'),
+    onSuccess: () => toast.success("Profile updated."),
   });
 
   const hasSubmitted = useRef(false);
@@ -71,12 +70,10 @@ export function ProfilePic({ user }: { user: User }) {
 
         if (values.profilePicFile instanceof File) {
           const uploaded = await startUpload([values.profilePicFile]);
-          profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? '';
+          profilePicUrl = (uploaded?.[0]?.ufsUrl || user?.image) ?? "";
         }
 
         execute({ image: profilePicUrl });
-      } catch (error) {
-        console.error('Error submitting form:', error);
       } finally {
         isSubmitting.current = false;
 
@@ -91,9 +88,9 @@ export function ProfilePic({ user }: { user: User }) {
 
   const handleAvatarChange = useCallback(
     (file: File | null) => {
-      form.setValue('profilePicFile', file || undefined);
+      form.setValue("profilePicFile", file || undefined);
       if (!file) {
-        form.setValue('profilePic', '');
+        form.setValue("profilePic", "");
         form.handleSubmit(onSubmit)();
         return;
       }
@@ -119,7 +116,7 @@ export function ProfilePic({ user }: { user: User }) {
               <FormControl>
                 <AvatarUploader
                   onChange={handleAvatarChange}
-                  previewUrl={form.getValues('profilePic') || ''}
+                  previewUrl={form.getValues("profilePic") || ""}
                 />
               </FormControl>
               <FormMessage />

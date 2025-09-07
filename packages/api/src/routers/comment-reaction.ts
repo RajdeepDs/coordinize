@@ -1,7 +1,7 @@
-import type { PrismaClient } from '@coordinize/database/db';
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod/v4';
-import { createTRPCRouter, protectedProcedure } from '../init';
+import type { PrismaClient } from "@coordinize/database/db";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod/v4";
+import { createTRPCRouter, protectedProcedure } from "../init";
 
 async function validateCommentExists(db: PrismaClient, commentId: string) {
   const comment = await db.comment.findUnique({
@@ -10,8 +10,8 @@ async function validateCommentExists(db: PrismaClient, commentId: string) {
 
   if (!comment) {
     throw new TRPCError({
-      code: 'NOT_FOUND',
-      message: 'Comment not found.',
+      code: "NOT_FOUND",
+      message: "Comment not found.",
     });
   }
 
@@ -35,7 +35,7 @@ export const commentReactionRouter = createTRPCRouter({
             },
           },
         },
-        orderBy: { createdAt: 'asc' },
+        orderBy: { createdAt: "asc" },
       });
 
       const groupedReactions = reactions.reduce(
@@ -102,8 +102,8 @@ export const commentReactionRouter = createTRPCRouter({
 
       if (existingReaction) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'You have already reacted with this emoji.',
+          code: "BAD_REQUEST",
+          message: "You have already reacted with this emoji.",
         });
       }
 
@@ -135,8 +135,8 @@ export const commentReactionRouter = createTRPCRouter({
 
       if (!reaction) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Reaction not found.',
+          code: "NOT_FOUND",
+          message: "Reaction not found.",
         });
       }
 
@@ -181,7 +181,7 @@ export const commentReactionRouter = createTRPCRouter({
               },
             },
           });
-          return { action: 'removed' as const };
+          return { action: "removed" as const };
         }
 
         await tx.commentReaction.create({
@@ -191,7 +191,7 @@ export const commentReactionRouter = createTRPCRouter({
             emoji,
           },
         });
-        return { action: 'added' as const };
+        return { action: "added" as const };
       });
 
       return toggleResult;

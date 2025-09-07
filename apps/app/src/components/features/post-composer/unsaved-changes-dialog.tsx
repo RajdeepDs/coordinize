@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   AlertDialog,
@@ -9,16 +9,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@coordinize/ui/components/alert-dialog';
-import { buttonVariants } from '@coordinize/ui/components/button';
-import { cn } from '@coordinize/ui/lib/utils';
+} from "@coordinize/ui/components/alert-dialog";
+import { buttonVariants } from "@coordinize/ui/components/button";
+import { cn } from "@coordinize/ui/lib/utils";
 
-interface UnsavedChangesDialogProps {
+type UnsavedChangesDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onDiscard: () => void;
   onSaveAsDraft: () => void;
-}
+};
 
 export function UnsavedChangesDialog({
   open,
@@ -39,19 +39,19 @@ export function UnsavedChangesDialog({
         </AlertDialogHeader>
         <AlertDialogFooter className="flex w-full sm:justify-between">
           <AlertDialogCancel
-            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
             onClick={onDiscard}
           >
             Discard
           </AlertDialogCancel>
-          <div className="flex gap-2 ">
+          <div className="flex gap-2">
             <AlertDialogCancel
-              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
             >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              className={cn(buttonVariants({ size: 'sm' }))}
+              className={cn(buttonVariants({ size: "sm" }))}
               onClick={onSaveAsDraft}
             >
               Save

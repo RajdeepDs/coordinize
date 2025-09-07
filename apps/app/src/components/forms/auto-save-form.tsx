@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { toast } from '@coordinize/ui/components/sonner';
-import { useCallback } from 'react';
-import type { FieldValues, Path, UseFormReturn } from 'react-hook-form';
+import { toast } from "@coordinize/ui/components/sonner";
+import { useCallback } from "react";
+import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
-interface UseAutoSaveFormOptions<T extends FieldValues> {
+type UseAutoSaveFormOptions<T extends FieldValues> = {
   form: UseFormReturn<T>;
   initialValues: T;
   onSubmit: (values: T) => void;
-}
+};
 
 export function useAutoSaveForm<T extends FieldValues>({
   form,

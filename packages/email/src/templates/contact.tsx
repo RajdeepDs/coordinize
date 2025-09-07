@@ -8,7 +8,7 @@ import {
   Section,
   Tailwind,
   Text,
-} from '@react-email/components';
+} from "@react-email/components";
 
 type ContactTemplateProps = {
   readonly name: string;

@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import type { Post, Space, User } from '@coordinize/database/db';
-import { Input } from '@coordinize/ui/components/input';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { useParams } from 'next/navigation';
-import { useState } from 'react';
-import { ActivitySection } from '@/components/features/activity/activity-section';
-import { PostItem } from '@/components/features/activity/post-item';
-import { useSearchPosts } from '@/hooks/use-search';
+import type { Post, Space, User } from "@coordinize/database/db";
+import { Input } from "@coordinize/ui/components/input";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { useParams } from "next/navigation";
+import { useState } from "react";
+import { ActivitySection } from "@/components/features/activity/activity-section";
+import { PostItem } from "@/components/features/activity/post-item";
+import { useSearchPosts } from "@/hooks/use-search";
 
 type PostWithRelations = Post & {
-  space: Pick<Space, 'id' | 'name' | 'identifier'> | null;
-  author: Pick<User, 'id' | 'name' | 'image'> | null;
+  space: Pick<Space, "id" | "name" | "identifier"> | null;
+  author: Pick<User, "id" | "name" | "image"> | null;
 };
 
 export default function SearchPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const params = useParams<{ slug: string }>();
   const workspaceSlug = params.slug;
@@ -27,7 +27,7 @@ export default function SearchPage() {
   );
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       const query = e.currentTarget.value.trim();
       if (query.length > 0) {
         setSearchQuery(query);
@@ -37,8 +37,8 @@ export default function SearchPage() {
   };
 
   const handleClearSearch = () => {
-    setSearchQuery('');
-    setInputValue('');
+    setSearchQuery("");
+    setInputValue("");
     setIsSearching(false);
   };
 
@@ -71,13 +71,13 @@ export default function SearchPage() {
       <div className="flex flex-col gap-4">
         {searchResults.map((post: PostWithRelations) => (
           <PostItem
-            authorName={post.author?.name || ''}
-            description={post.content || ''}
+            authorName={post.author?.name || ""}
+            description={post.content || ""}
             id={post.id}
             key={post.id}
-            spaceName={post.space?.name || ''}
+            spaceName={post.space?.name || ""}
             title={post.title}
-            userImage={post.author?.image || ''}
+            userImage={post.author?.image || ""}
             workspaceSlug={workspaceSlug}
           />
         ))}

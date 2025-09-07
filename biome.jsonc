@@ -1,21 +1,29 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite"],
   "linter": {
     "rules": {
       "performance": {
-        "noNamespaceImport": "off"
+        "noNamespaceImport": "off",
+        "noBarrelFile": "off"
+      },
+      "style": {
+        "noMagicNumbers": "off"
       }
     }
   },
   "files": {
     "includes": [
       "**",
-      "!**/packages/ui/src/components/**",
-      "!**/packages/ui/src/styles/**",
-      "!**/packages/ui/src/lib/**",
-      "!**/packages/ui/src/hooks/**",
-      "!**/bun.lock"
+      "!apps/app/src/components/features/markdown-editor",
+      "!apps/app/src/actions",
+      "!packages/ui/src/components",
+      "!packages/ui/src/styles",
+      "!packages/ui/src/lib",
+      "!packages/ui/src/hooks",
+      "!packages/editor",
+      "!**/*.mjs",
+      "!bun.lock"
     ]
   }
 }

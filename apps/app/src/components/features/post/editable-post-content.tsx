@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-} from '@coordinize/ui/components/form';
-import { Input } from '@coordinize/ui/components/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useDebouncedCallback } from 'use-debounce';
-import { z } from 'zod/v4';
-import { MarkdownEditor } from '@/components/features/markdown-editor';
-import { useUpdatePost } from '@/hooks/use-posts';
-import { EMPTY_HTML } from '@/utils/markdown';
+} from "@coordinize/ui/components/form";
+import { Input } from "@coordinize/ui/components/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useDebouncedCallback } from "use-debounce";
+import { z } from "zod/v4";
+import { MarkdownEditor } from "@/components/features/markdown-editor";
+import { useUpdatePost } from "@/hooks/use-posts";
+import { EMPTY_HTML } from "@/utils/markdown";
 
 const updatePostFormSchema = z.object({
-  title: z.string().min(1, 'Title is required.'),
+  title: z.string().min(1, "Title is required."),
   content: z.string(),
 });
 
 type UpdatePostFormData = z.infer<typeof updatePostFormSchema>;
 
-interface EditablePostContentProps {
+type EditablePostContentProps = {
   postId: string;
   initialTitle: string;
   initialContent: string | null;
-}
+};
 
 export function EditablePostContent({
   postId,
@@ -69,9 +69,9 @@ export function EditablePostContent({
 
   useEffect(() => {
     const subscription = form.watch((value, { name }) => {
-      if (name === 'title') {
+      if (name === "title") {
         debouncedUpdate({ title: value.title });
-      } else if (name === 'content') {
+      } else if (name === "content") {
         debouncedUpdate({ content: value.content });
       }
     });

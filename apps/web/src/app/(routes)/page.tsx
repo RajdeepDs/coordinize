@@ -1,8 +1,8 @@
-import { PostSection } from '@/components/features/post';
-import { SpaceSection } from '@/components/features/space';
-import { TimelineSection } from '@/components/features/timeline';
-import { HeroSection } from '@/components/hero';
-import { FoundersMemo } from '@/components/layout/founder-memo';
+import { PostSection } from "@/components/features/post";
+import { SpaceSection } from "@/components/features/space";
+import { TimelineSection } from "@/components/features/timeline";
+import { HeroSection } from "@/components/hero";
+import { FoundersMemo } from "@/components/layout/founder-memo";
 
 export default function Home() {
   return (

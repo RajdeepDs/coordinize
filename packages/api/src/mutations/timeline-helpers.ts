@@ -1,14 +1,14 @@
-import type { Prisma, PrismaClient } from '@coordinize/database/db';
+import type { Prisma, PrismaClient } from "@coordinize/database/db";
 
 export async function createPostTimelineEvent(
   db: PrismaClient,
   data: {
     action:
-      | 'UPDATED_TITLE'
-      | 'MOVED_SPACE'
-      | 'RESOLVED'
-      | 'REOPENED'
-      | 'COMMENTED';
+      | "UPDATED_TITLE"
+      | "MOVED_SPACE"
+      | "RESOLVED"
+      | "REOPENED"
+      | "COMMENTED";
     postId: string;
     actorId: string;
     metadata?: Prisma.InputJsonValue;
@@ -18,10 +18,10 @@ export async function createPostTimelineEvent(
 ) {
   // For non-comment actions, delete existing timeline events of the same action type
   // to avoid clutter (e.g., multiple space moves)
-  if (data.action !== 'COMMENTED') {
+  if (data.action !== "COMMENTED") {
     await db.timelineEvent.deleteMany({
       where: {
-        subjectType: 'Post',
+        subjectType: "Post",
         subjectId: data.postId,
         action: data.action,
       },
@@ -32,8 +32,8 @@ export async function createPostTimelineEvent(
     data: {
       action: data.action,
       actorId: data.actorId,
-      actorType: 'User',
-      subjectType: 'Post',
+      actorType: "User",
+      subjectType: "Post",
       subjectId: data.postId,
       referenceType: data.referenceType,
       referenceId: data.referenceId,

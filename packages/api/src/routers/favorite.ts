@@ -1,5 +1,5 @@
-import { createTRPCRouter, protectedProcedure } from '../init';
-import { togglefavoriteSchema } from '../schemas';
+import { createTRPCRouter, protectedProcedure } from "../init";
+import { togglefavoriteSchema } from "../schemas";
 
 export const favoriteRouter = createTRPCRouter({
   getFavorites: protectedProcedure.query(async ({ ctx: { session, db } }) => {
@@ -11,7 +11,7 @@ export const favoriteRouter = createTRPCRouter({
         space: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: "desc",
       },
     });
   }),
@@ -23,7 +23,7 @@ export const favoriteRouter = createTRPCRouter({
       const userId = session.user.id;
 
       const where =
-        type === 'post' ? { userId, postId: id } : { userId, spaceId: id };
+        type === "post" ? { userId, postId: id } : { userId, spaceId: id };
 
       const existing = await db.favorite.findFirst({ where });
 

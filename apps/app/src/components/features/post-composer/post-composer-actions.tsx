@@ -1,15 +1,15 @@
-import { Button } from '@coordinize/ui/components/button';
-import { DialogFooter } from '@coordinize/ui/components/dialog';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { useFormContext } from 'react-hook-form';
-import type { PostSchema } from '@/lib/schemas/post';
+import type { PostSchema } from "@coordinize/api/schemas";
+import { Button } from "@coordinize/ui/components/button";
+import { DialogFooter } from "@coordinize/ui/components/dialog";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { useFormContext } from "react-hook-form";
 
-interface PostComposerActionsProps {
+type PostComposerActionsProps = {
   onSubmit: (data: PostSchema) => void;
   onSaveDraft: (data: PostSchema) => void;
   isSubmitting: boolean;
   isDraftSaving: boolean;
-}
+};
 
 export function PostComposerActions({
   onSubmit,

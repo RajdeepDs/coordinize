@@ -1,15 +1,12 @@
-import { TextStyle } from '@tiptap/extension-text-style';
+import { TextStyle } from "@tiptap/extension-text-style";
 import {
   CodeBlock,
-  Column,
-  Columns,
   Document,
   Dropcursor,
   Focus,
   Heading,
   Highlight,
   HorizontalRule,
-  Link,
   Placeholder,
   StarterKit,
   Subscript,
@@ -18,7 +15,7 @@ import {
   TaskList,
   Typography,
   Underline,
-} from './extensions';
+} from "./extensions";
 
 export const markdownExtensions = ({
   placeholder,
@@ -39,9 +36,6 @@ export const markdownExtensions = ({
   CodeBlock,
   TextStyle,
   HorizontalRule,
-  Link.configure({
-    openOnClick: false,
-  }),
   Highlight.configure({ multicolor: true }),
   Subscript,
   Superscript,
@@ -52,8 +46,6 @@ export const markdownExtensions = ({
   Focus,
   Dropcursor.configure({
     width: 2,
-    class: 'ProseMirror-dropcursor border-black',
+    class: "ProseMirror-dropcursor border-black",
   }),
-  Column,
-  Columns,
 ];

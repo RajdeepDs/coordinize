@@ -1,11 +1,11 @@
-import { Badge } from '@coordinize/ui/badge';
+import { Badge } from "@coordinize/ui/badge";
 
-import { formatDate } from '@/utils/format-date';
+import { formatDate } from "@/utils/format-date";
 
-interface ResolvedPostLabelProps {
+type ResolvedPostLabelProps = {
   userName: string;
   resolvedAt: Date;
-}
+};
 
 export function ResolvedPostLabel({
   userName,

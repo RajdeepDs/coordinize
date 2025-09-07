@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { cn } from '@coordinize/ui/lib/utils';
-import { type HTMLProps, useRef } from 'react';
+import { cn } from "@coordinize/ui/lib/utils";
+import { type HTMLProps, useRef } from "react";
 
 export type ScrollableContainerProps = HTMLProps<HTMLDivElement> & {
   disableStableGutter?: boolean;
@@ -22,9 +22,9 @@ export function ScrollableContainer({
   return (
     <div
       className={cn(
-        'flex w-full flex-1 flex-col overflow-y-auto',
-        'focus:outline-none focus:ring-0',
-        !disableStableGutter && '[scrollbar-gutter:stable]',
+        "flex w-full flex-1 flex-col overflow-y-auto",
+        "focus:outline-none focus:ring-0",
+        !disableStableGutter && "[scrollbar-gutter:stable]",
         className
       )}
       ref={ref}
@@ -35,4 +35,4 @@ export function ScrollableContainer({
   );
 }
 
-ScrollableContainer.displayName = 'ScrollableContainer';
+ScrollableContainer.displayName = "ScrollableContainer";

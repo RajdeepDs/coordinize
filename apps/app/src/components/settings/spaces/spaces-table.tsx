@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
-import { Input } from '@coordinize/ui/components/input';
+import { Button } from "@coordinize/ui/components/button";
+import { Input } from "@coordinize/ui/components/input";
 import {
   Table,
   TableBody,
@@ -9,9 +9,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@coordinize/ui/components/table';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
+} from "@coordinize/ui/components/table";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -22,17 +22,17 @@ import {
   type Header,
   type SortingState,
   useReactTable,
-} from '@tanstack/react-table';
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { RowActions } from '@/components/settings/spaces/row-actions';
-import { formatDateToMonthDay } from '@/utils/format-date';
+} from "@tanstack/react-table";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { RowActions } from "@/components/settings/spaces/row-actions";
+import { formatDateToMonthDay } from "@/utils/format-date";
 
-interface SpacesTableProps {
+type SpacesTableProps = {
   readonly data: Item[];
   readonly slug: string;
-}
+};
 
 export type Item = {
   name: string;
@@ -45,8 +45,8 @@ export type Item = {
 
 const columns: ColumnDef<Item>[] = [
   {
-    header: 'Name',
-    accessorKey: 'name',
+    header: "Name",
+    accessorKey: "name",
     cell: ({ row }) => {
       return (
         <div className="flex items-center space-x-3">
@@ -54,7 +54,7 @@ const columns: ColumnDef<Item>[] = [
             {row.original.icon || <Icons.space className="size-3" />}
           </div>
           <div className="flex flex-1 items-center gap-2">
-            <div className="text-sm">{row.getValue('name')}</div>
+            <div className="text-sm">{row.getValue("name")}</div>
             <div className="hidden text-muted-foreground text-xs sm:flex">
               {row.original.identifier}
             </div>
@@ -64,23 +64,23 @@ const columns: ColumnDef<Item>[] = [
     },
   },
   {
-    header: 'Members',
-    accessorKey: 'membersCount',
+    header: "Members",
+    accessorKey: "membersCount",
   },
   // {
   //   header: "Posts",
   //   accessorKey: "postsCount",
   // },
   {
-    header: 'Created',
-    accessorKey: 'createdAt',
+    header: "Created",
+    accessorKey: "createdAt",
     cell: ({ row }) => {
-      const date = formatDateToMonthDay(row?.getValue('createdAt'));
+      const date = formatDateToMonthDay(row?.getValue("createdAt"));
       return date;
     },
   },
   {
-    id: 'actions',
+    id: "actions",
     header: () => <span className="sr-only">Actions</span>,
     cell: ({ row }) => <RowActions identifier={row.original.identifier} />,
     size: 60,
@@ -89,7 +89,7 @@ const columns: ColumnDef<Item>[] = [
 ];
 
 const renderSortIcon = (sortDirection: string | false) => {
-  if (sortDirection === 'asc') {
+  if (sortDirection === "asc") {
     return (
       <ChevronUpIcon
         aria-hidden="true"
@@ -99,7 +99,7 @@ const renderSortIcon = (sortDirection: string | false) => {
     );
   }
 
-  if (sortDirection === 'desc') {
+  if (sortDirection === "desc") {
     return (
       <ChevronDownIcon
         aria-hidden="true"
@@ -126,13 +126,13 @@ const renderHeaderContent = (header: Header<Item, unknown>) => {
   return (
     <button
       className={cn(
-        'group flex h-full w-full cursor-pointer select-none items-center justify-between gap-2 border-0 bg-transparent p-0 text-left'
+        "group flex h-full w-full cursor-pointer select-none items-center justify-between gap-2 border-0 bg-transparent p-0 text-left"
       )}
       onClick={header.column.getToggleSortingHandler()}
       onKeyDown={(e) => {
         if (
           header.column.getCanSort() &&
-          (e.key === 'Enter' || e.key === ' ')
+          (e.key === "Enter" || e.key === " ")
         ) {
           e.preventDefault();
           header.column.getToggleSortingHandler()?.(e);
@@ -155,7 +155,7 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: 'name',
+      id: "name",
       desc: false,
     },
   ]);
@@ -170,9 +170,9 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -198,11 +198,11 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
           <Input
             className="peer ps-8 pe-9 shadow-none"
             onChange={(event) =>
-              table.getColumn('name')?.setFilterValue(event.target.value)
+              table.getColumn("name")?.setFilterValue(event.target.value)
             }
             placeholder="Filter by name..."
             type="text"
-            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           />
           <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
             <Icons.search aria-hidden="true" size={16} />
@@ -211,14 +211,14 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
             aria-label="Clear filter"
             className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground focus:z-10 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => {
-              table.getColumn('name')?.setFilterValue('');
+              table.getColumn("name")?.setFilterValue("");
               if (inputRef.current) {
                 inputRef.current.focus();
               }
             }}
             type="button"
           >
-            {Boolean(table.getColumn('name')?.getFilterValue()) && (
+            {Boolean(table.getColumn("name")?.getFilterValue()) && (
               <Icons.circleX aria-hidden="true" size={16} />
             )}
           </button>
@@ -226,7 +226,7 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
         <Button
           asChild
           className="ml-auto font-normal"
-          size={'sm'}
+          size={"sm"}
           variant="default"
         >
           <Link href={slug}>Create space</Link>
@@ -242,10 +242,10 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
                   return (
                     <TableHead
                       className={cn(
-                        'font-normal text-muted-foreground text-sm',
-                        header.column.id === 'name' && 'w-full flex-1',
-                        header.column.id === 'createdAt' &&
-                          'hidden sm:table-cell'
+                        "font-normal text-muted-foreground text-sm",
+                        header.column.id === "name" && "w-full flex-1",
+                        header.column.id === "createdAt" &&
+                          "hidden sm:table-cell"
                       )}
                       key={header.id}
                     >
@@ -264,21 +264,21 @@ export function SpacesTable({ data, slug }: SpacesTableProps) {
                 return (
                   <TableRow
                     className="group"
-                    data-state={row.getIsSelected() && 'selected'}
+                    data-state={row.getIsSelected() && "selected"}
                     key={row.id}
                     onMouseEnter={() => setHoveredRowId(row.id)}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         className={cn(
-                          'text-muted-foreground last:py-0',
-                          cell.column.id === 'name' && 'text-primary',
-                          cell.column.id === 'createdAt' &&
-                            'hidden sm:table-cell',
-                          cell.column.id === 'actions' &&
+                          "text-muted-foreground last:py-0",
+                          cell.column.id === "name" && "text-primary",
+                          cell.column.id === "createdAt" &&
+                            "hidden sm:table-cell",
+                          cell.column.id === "actions" &&
                             (hoveredRowId === row.id
-                              ? 'text-muted-foreground opacity-100'
-                              : 'text-muted-foreground opacity-0 group-hover:opacity-100')
+                              ? "text-muted-foreground opacity-100"
+                              : "text-muted-foreground opacity-0 group-hover:opacity-100")
                         )}
                         key={cell.id}
                       >

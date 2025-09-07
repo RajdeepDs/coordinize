@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Sidebar,
@@ -12,17 +12,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@coordinize/ui/components/sidebar';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { HelpInfo } from '@/components/ui/help-info';
-import type { SidebarSection } from '@/config/navigation';
+} from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { HelpInfo } from "@/components/ui/help-info";
+import type { SidebarSection } from "@/config/navigation";
 
-interface SettingsSidebarProps {
+type SettingsSidebarProps = {
   readonly nav: SidebarSection[];
-}
+};
 
 export function SettingsSidebar({ nav }: SettingsSidebarProps) {
   const pathname = usePathname();
@@ -31,9 +31,9 @@ export function SettingsSidebar({ nav }: SettingsSidebarProps) {
     <Sidebar className="p-0" variant="inset">
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className={cn(isMobile && 'hidden')}>
+          <SidebarMenuItem className={cn(isMobile && "hidden")}>
             <SidebarMenuButton asChild className="text-sidebar-foreground/70">
-              <Link href={'/'}>
+              <Link href={"/"}>
                 <Icons.chevronLeft />
                 Back to app
               </Link>

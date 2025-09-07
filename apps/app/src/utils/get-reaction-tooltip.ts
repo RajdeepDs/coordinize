@@ -1,4 +1,4 @@
-import type { User } from '@coordinize/database/db';
+import type { User } from "@coordinize/database/db";
 
 type Reaction = {
   emoji: string;
@@ -12,11 +12,11 @@ export const getTooltipText = (
   currentUser: User | null
 ): string => {
   if (reaction.hasReacted) {
-    return 'You reacted';
+    return "You reacted";
   }
 
   if (reaction.users.length === 0) {
-    return 'Click to react';
+    return "Click to react";
   }
 
   // Filter out current user to show only other users who reacted
@@ -25,7 +25,7 @@ export const getTooltipText = (
     .map((user) => user.name);
 
   if (otherUsers.length === 0) {
-    return 'Click to react';
+    return "Click to react";
   }
 
   if (otherUsers.length === 1) {

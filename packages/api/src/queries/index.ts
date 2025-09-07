@@ -1,11 +1,11 @@
-'use server';
+"use server";
 
 import {
   database,
   type Prisma,
   type PrismaClient,
   type TimelineAction,
-} from '@coordinize/database/db';
+} from "@coordinize/database/db";
 
 export async function getUserQuery(userId: string) {
   return await database.user.findUnique({ where: { id: userId } });
@@ -49,10 +49,10 @@ export async function getDraftPostsQuery(userId: string) {
   return await database.post.findMany({
     where: {
       authorId: userId,
-      status: 'DRAFT',
+      status: "DRAFT",
     },
     orderBy: {
-      updatedAt: 'desc',
+      updatedAt: "desc",
     },
   });
 }
@@ -66,13 +66,13 @@ export async function getPublishedPostsQuery(
       workspaceId,
       authorId,
       AND: {
-        status: 'PUBLISHED',
+        status: "PUBLISHED",
         resolvedAt: null,
         archived: false,
       },
     },
     orderBy: {
-      publishedAt: 'desc',
+      publishedAt: "desc",
     },
     include: {
       space: {
@@ -94,7 +94,7 @@ export async function searchPostsQuery(
   authorId: string
 ) {
   if (!query || query.trim().length === 0) {
-    throw new Error('Search query cannot be empty or contain only whitespace');
+    throw new Error("Search query cannot be empty or contain only whitespace");
   }
 
   return await database.post.findMany({
@@ -102,27 +102,27 @@ export async function searchPostsQuery(
       workspaceId,
       authorId,
       AND: {
-        status: 'PUBLISHED',
+        status: "PUBLISHED",
         resolvedAt: null,
         archived: false,
         OR: [
           {
             title: {
               contains: query,
-              mode: 'insensitive',
+              mode: "insensitive",
             },
           },
           {
             content: {
               contains: query,
-              mode: 'insensitive',
+              mode: "insensitive",
             },
           },
         ],
       },
     },
     orderBy: {
-      publishedAt: 'desc',
+      publishedAt: "desc",
     },
     include: {
       space: {
@@ -183,13 +183,13 @@ export async function getSpaceWithPublishedPosts(
     include: {
       posts: {
         where: {
-          status: 'PUBLISHED',
+          status: "PUBLISHED",
           resolvedAt: null,
           archived: false,
           publishedAt: { not: null },
         },
         orderBy: {
-          publishedAt: 'desc',
+          publishedAt: "desc",
         },
         include: {
           author: {
@@ -243,7 +243,7 @@ export type BaseTimelineEvent = {
 
 // Comment timeline event type (when action is COMMENTED)
 export type CommentTimelineEvent = BaseTimelineEvent & {
-  action: 'COMMENTED';
+  action: "COMMENTED";
   comment: {
     id: string;
     content: string;
@@ -291,7 +291,7 @@ async function processTimelineEvent(
     actor: { id: string; name: string; image: string | null } | null;
   }
 ): Promise<ProcessedTimelineEvent | null> {
-  if (event.action === 'MOVED_SPACE' && event.metadata) {
+  if (event.action === "MOVED_SPACE" && event.metadata) {
     const metadata = event.metadata as {
       oldSpaceId?: string;
       newSpaceId?: string;
@@ -329,7 +329,7 @@ async function processTimelineEvent(
     };
   }
 
-  if (event.action === 'COMMENTED' && event.referenceId) {
+  if (event.action === "COMMENTED" && event.referenceId) {
     // Fetch the comment data with nested replies
     const comment = await db.comment.findUnique({
       where: { id: event.referenceId },
@@ -412,7 +412,7 @@ export async function getPostTimelineEventsQuery(
 ): Promise<ProcessedTimelineEvent[]> {
   const timelineEvents = await db.timelineEvent.findMany({
     where: {
-      subjectType: 'Post',
+      subjectType: "Post",
       subjectId: postId,
     },
     include: {
@@ -425,7 +425,7 @@ export async function getPostTimelineEventsQuery(
       },
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 
@@ -465,12 +465,12 @@ export async function getPostCommentsQuery(db: PrismaClient, postId: string) {
           },
         },
         orderBy: {
-          createdAt: 'asc',
+          createdAt: "asc",
         },
       },
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
   });
 }
@@ -512,7 +512,7 @@ export async function createTimelineEventMutation(
 ) {
   // For non-comment actions, delete existing timeline events of the same action type
   // to avoid clutter (e.g., multiple space moves, title updates, etc.)
-  if (data.action !== 'COMMENTED') {
+  if (data.action !== "COMMENTED") {
     await db.timelineEvent.deleteMany({
       where: {
         subjectType: data.subjectType,

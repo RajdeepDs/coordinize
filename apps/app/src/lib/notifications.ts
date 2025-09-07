@@ -2,9 +2,9 @@ import type {
   NotificationType,
   Prisma,
   PrismaClient,
-} from '@coordinize/database/db';
+} from "@coordinize/database/db";
 
-interface CreateNotificationParams {
+type CreateNotificationParams = {
   db: PrismaClient;
   userId: string;
   workspaceId: string;
@@ -15,7 +15,7 @@ interface CreateNotificationParams {
   subjectId?: string;
   subjectType?: string;
   metadata?: Prisma.InputJsonValue;
-}
+};
 
 export async function createNotification({
   db,
@@ -70,12 +70,12 @@ export async function createPostCommentNotification(
     db,
     userId: postAuthorId,
     workspaceId,
-    type: 'POST_COMMENT',
-    title: 'New comment on your post',
+    type: "POST_COMMENT",
+    title: "New comment on your post",
     message: `${commentAuthorName} commented on "${postTitle}"`,
     actorId: commentAuthorId,
     subjectId: postId,
-    subjectType: 'Post',
+    subjectType: "Post",
     metadata: {
       postId,
       postTitle,
@@ -100,14 +100,14 @@ export async function createPostUpdateNotification(
     workspaceId: string;
     actorId: string;
     actorName: string;
-    updateType: 'resolved' | 'reopened' | 'moved' | 'updated';
+    updateType: "resolved" | "reopened" | "moved" | "updated";
   }
 ) {
   const typeMap = {
-    resolved: 'POST_RESOLVED' as const,
-    reopened: 'POST_REOPENED' as const,
-    moved: 'POST_UPDATE' as const,
-    updated: 'POST_UPDATE' as const,
+    resolved: "POST_RESOLVED" as const,
+    reopened: "POST_REOPENED" as const,
+    moved: "POST_UPDATE" as const,
+    updated: "POST_UPDATE" as const,
   };
 
   const messageMap = {
@@ -118,10 +118,10 @@ export async function createPostUpdateNotification(
   };
 
   const titleMap = {
-    resolved: 'Post resolved',
-    reopened: 'Post reopened',
-    moved: 'Post moved',
-    updated: 'Post updated',
+    resolved: "Post resolved",
+    reopened: "Post reopened",
+    moved: "Post moved",
+    updated: "Post updated",
   };
 
   const notifications = subscriberIds.map((userId) =>
@@ -134,7 +134,7 @@ export async function createPostUpdateNotification(
       message: messageMap[updateType],
       actorId,
       subjectId: postId,
-      subjectType: 'Post',
+      subjectType: "Post",
       metadata: {
         postId,
         postTitle,
@@ -162,7 +162,7 @@ export async function createMentionNotification(
     actorId: string;
     actorName: string;
     contentTitle: string;
-    contentType: 'post' | 'comment';
+    contentType: "post" | "comment";
     subjectId: string;
   }
 ) {
@@ -170,12 +170,12 @@ export async function createMentionNotification(
     db,
     userId: mentionedUserId,
     workspaceId,
-    type: 'POST_MENTION',
+    type: "POST_MENTION",
     title: `You were mentioned in a ${contentType}`,
     message: `${actorName} mentioned you in "${contentTitle}"`,
     actorId,
     subjectId,
-    subjectType: contentType === 'post' ? 'Post' : 'Comment',
+    subjectType: contentType === "post" ? "Post" : "Comment",
     metadata: {
       contentTitle,
       contentType,

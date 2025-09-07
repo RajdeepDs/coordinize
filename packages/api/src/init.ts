@@ -5,14 +5,12 @@ import { headers } from "next/headers";
 import { cache } from "react";
 import superjson from "superjson";
 
-
-type Session = typeof auth.$Infer.Session
+type Session = typeof auth.$Infer.Session;
 
 type TRPCContext = {
   db: typeof db;
-  session: Session | null
+  session: Session | null;
   workspaceId?: string;
-
 };
 
 export const createTRPCContext = cache(async () => {

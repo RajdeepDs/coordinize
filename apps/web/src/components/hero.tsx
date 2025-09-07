@@ -1,10 +1,10 @@
-import { Button } from '@coordinize/ui/components/button';
-import { Icons } from '@coordinize/ui/lib/icons';
-import type { Variants } from 'motion/react';
-import Link from 'next/link';
-import { env } from '@/env';
-import { AnimatedGroup } from './animated-group';
-import { HeroScreenshot } from './hero-screenshot';
+import { Button } from "@coordinize/ui/components/button";
+import { Icons } from "@coordinize/ui/lib/icons";
+import type { Variants } from "motion/react";
+import Link from "next/link";
+import { env } from "@/env";
+import { AnimatedGroup } from "./animated-group";
+import { HeroScreenshot } from "./hero-screenshot";
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
@@ -12,15 +12,15 @@ const transitionVariants: Record<string, Variants> = {
   item: {
     hidden: {
       opacity: 0,
-      filter: 'blur(12px)',
+      filter: "blur(12px)",
       y: 12,
     },
     visible: {
       opacity: 1,
-      filter: 'blur(0px)',
+      filter: "blur(0px)",
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         bounce: 0.3,
         duration: 1.5,
       },
@@ -43,12 +43,12 @@ export function HeroSection() {
           </p>
 
           <div className="mt-5 flex items-start gap-2 sm:items-center sm:justify-center">
-            <Button asChild className="w-fit" size={'lg'}>
+            <Button asChild className="w-fit" size={"lg"}>
               <Link href={`${APP_URL}/sign-up`}>Get Started</Link>
             </Button>
-            <Button asChild className="w-fit" size={'lg'} variant={'ghost'}>
+            <Button asChild className="w-fit" size={"lg"} variant={"ghost"}>
               <Link
-                href={'https://github.com/RajdeepDs/coordinize'}
+                href={"https://github.com/RajdeepDs/coordinize"}
                 rel="noopener noreferrer"
                 target="_blank"
               >

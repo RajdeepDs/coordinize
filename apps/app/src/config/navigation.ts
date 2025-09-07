@@ -11,17 +11,17 @@ export type SidebarSection = {
 
 export const settingsSidebarNav = (slug: string): SidebarSection[] => [
   {
-    title: 'Account',
+    title: "Account",
     items: [
       {
-        title: 'Preferences',
+        title: "Preferences",
         href: `/${slug}/settings/preferences`,
-        icon: 'home',
+        icon: "home",
       },
       {
-        title: 'Profile',
+        title: "Profile",
         href: `/${slug}/settings/profile`,
-        icon: 'userCircle',
+        icon: "userCircle",
       },
       // {
       //   title: "Notifications",
@@ -29,29 +29,29 @@ export const settingsSidebarNav = (slug: string): SidebarSection[] => [
       //   icon: "bellDot",
       // },
       {
-        title: 'Security & Access',
+        title: "Security & Access",
         href: `/${slug}/settings/security`,
-        icon: 'sheildUser',
+        icon: "sheildUser",
       },
     ],
   },
   {
-    title: 'Administration',
+    title: "Administration",
     items: [
       {
-        title: 'Workspace',
+        title: "Workspace",
         href: `/${slug}/settings/workspace`,
-        icon: 'command',
+        icon: "command",
       },
       {
-        title: 'Spaces',
+        title: "Spaces",
         href: `/${slug}/settings/spaces`,
-        icon: 'space',
+        icon: "space",
       },
       {
-        title: 'Members',
+        title: "Members",
         href: `/${slug}/settings/members`,
-        icon: 'users',
+        icon: "users",
       },
       // {
       //   title: "Billing",

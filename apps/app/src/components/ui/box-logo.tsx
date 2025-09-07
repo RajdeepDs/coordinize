@@ -1,14 +1,14 @@
-import { cn } from '@coordinize/ui/lib/utils';
+import { cn } from "@coordinize/ui/lib/utils";
 
-interface LogoProps {
+type LogoProps = {
   className?: string;
-}
+};
 
 export function BoxLogo({ className }: LogoProps) {
   return (
     <svg
       aria-labelledby="coordinizeLogo"
-      className={cn('text-foreground', className)}
+      className={cn("text-foreground", className)}
       fill="none"
       height="400"
       viewBox="0 0 400 400"
@@ -19,7 +19,7 @@ export function BoxLogo({ className }: LogoProps) {
       <path
         d="M0 0H400V400H0V0Z"
         fill="currentcolor"
-        style={{ fill: 'currentcolor', fillOpacity: 1 }}
+        style={{ fill: "currentcolor", fillOpacity: 1 }}
       />
       <path
         className="fill-white dark:fill-black"

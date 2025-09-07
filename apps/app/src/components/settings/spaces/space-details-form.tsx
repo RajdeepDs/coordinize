@@ -1,41 +1,41 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   EmojiPicker,
   EmojiPickerContent,
   EmojiPickerSearch,
-} from '@coordinize/ui/components/emoji-picker';
+} from "@coordinize/ui/components/emoji-picker";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-} from '@coordinize/ui/components/form';
-import { Input } from '@coordinize/ui/components/input';
+} from "@coordinize/ui/components/form";
+import { Input } from "@coordinize/ui/components/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@coordinize/ui/components/popover';
-import { toast } from '@coordinize/ui/components/sonner';
-import { Textarea } from '@coordinize/ui/components/textarea';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { useAutoSaveForm } from '@/components/forms/auto-save-form';
-import { SettingsCard } from '@/components/settings/settings-card';
-import { useTRPC } from '@/trpc/client';
+} from "@coordinize/ui/components/popover";
+import { toast } from "@coordinize/ui/components/sonner";
+import { Textarea } from "@coordinize/ui/components/textarea";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useCallback, useEffect, useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useAutoSaveForm } from "@/components/forms/auto-save-form";
+import { SettingsCard } from "@/components/settings/settings-card";
+import { useTRPC } from "@/trpc/client";
 
 const formSchema = z.object({
   id: z.string(),
-  name: z.string().min(3, { message: 'Name must be at least 3 characters.' }),
+  name: z.string().min(3, { message: "Name must be at least 3 characters." }),
   identifier: z
     .string()
-    .min(3, { message: 'Identifier must be at least 3 characters.' }),
+    .min(3, { message: "Identifier must be at least 3 characters." }),
   about: z.string().optional(),
   icon: z.string().optional(),
 });
@@ -49,11 +49,11 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
 
   const initialValues = useMemo(
     () => ({
-      id: space?.id || '',
-      name: space?.name || '',
-      identifier: space?.identifier || '',
-      about: space?.about || '',
-      icon: space?.icon || '',
+      id: space?.id || "",
+      name: space?.name || "",
+      identifier: space?.identifier || "",
+      about: space?.about || "",
+      icon: space?.icon || "",
     }),
     [space?.id, space?.name, space?.identifier, space?.about, space?.icon]
   );
@@ -67,10 +67,10 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
     if (space) {
       form.reset({
         id: space.id,
-        name: space.name || '',
-        identifier: space.identifier || '',
-        about: space.about || '',
-        icon: space.icon || '',
+        name: space.name || "",
+        identifier: space.identifier || "",
+        about: space.about || "",
+        icon: space.icon || "",
       });
     }
   }, [space, form]);
@@ -78,10 +78,10 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
   const { mutate: updateSpace } = useMutation(
     trpc.space.update.mutationOptions({
       onError: () => {
-        toast.error('Something went wrong!');
+        toast.error("Something went wrong!");
       },
       onSuccess: () => {
-        toast.success('Space updated.');
+        toast.success("Space updated.");
       },
     })
   );
@@ -121,8 +121,8 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
                     <PopoverTrigger asChild>
                       <Button
                         className="shadow-none"
-                        onBlur={() => handleFieldBlur('icon')}
-                        size={'icon'}
+                        onBlur={() => handleFieldBlur("icon")}
+                        size={"icon"}
                         type="button"
                         variant="outline"
                       >
@@ -135,7 +135,7 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
                         onEmojiSelect={({ emoji }) => {
                           field.onChange(emoji);
                           // Trigger blur after emoji selection
-                          setTimeout(() => handleFieldBlur('icon'), 100);
+                          setTimeout(() => handleFieldBlur("icon"), 100);
                         }}
                       >
                         <EmojiPickerSearch />
@@ -163,9 +163,9 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
                   <Input
                     {...field}
                     className={`w-full shadow-none ${
-                      form.getValues('name') ? 'bg-input' : ''
+                      form.getValues("name") ? "bg-input" : ""
                     }`}
-                    onBlur={() => handleFieldBlur('name')}
+                    onBlur={() => handleFieldBlur("name")}
                     placeholder="e.g. Engineering"
                     type="text"
                   />
@@ -189,9 +189,9 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
                   <Input
                     {...field}
                     className={`w-full shadow-none ${
-                      form.getValues('identifier') ? 'bg-input' : ''
+                      form.getValues("identifier") ? "bg-input" : ""
                     }`}
-                    onBlur={() => handleFieldBlur('identifier')}
+                    onBlur={() => handleFieldBlur("identifier")}
                     placeholder="e.g. ENG"
                     type="text"
                   />
@@ -215,9 +215,9 @@ export function SpaceDetailsForm({ identifier }: { identifier: string }) {
                   <Textarea
                     {...field}
                     className={`shadow-none ${
-                      form.getValues('about') ? 'bg-input' : ''
+                      form.getValues("about") ? "bg-input" : ""
                     }`}
-                    onBlur={() => handleFieldBlur('about')}
+                    onBlur={() => handleFieldBlur("about")}
                     placeholder="Write something about..."
                   />
                 </FormControl>

@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@coordinize/ui/components/dropdown-menu';
-import { Label } from '@coordinize/ui/components/label';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { useMarkAllAsRead } from '@/hooks/use-notifications';
+} from "@coordinize/ui/components/dropdown-menu";
+import { Label } from "@coordinize/ui/components/label";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { useMarkAllAsRead } from "@/hooks/use-notifications";
 
-interface InboxFilterOption {
+type InboxFilterOption = {
   icon?: (typeof Icons)[keyof typeof Icons];
   label: string;
   value?: string;
   onClick?: () => void;
-}
+};
 
-interface InboxFilterProps {
-  currentFilter: 'all' | 'unread' | 'archived';
-  onFilterChange: (filter: 'all' | 'unread' | 'archived') => void;
-}
+type InboxFilterProps = {
+  currentFilter: "all" | "unread" | "archived";
+  onFilterChange: (filter: "all" | "unread" | "archived") => void;
+};
 
 export function InboxFilter({
   currentFilter,
@@ -33,28 +33,28 @@ export function InboxFilter({
 
   const filterOptions: InboxFilterOption[] = [
     {
-      label: 'All notifications',
+      label: "All notifications",
       icon: Icons.inbox,
-      value: 'all',
-      onClick: () => onFilterChange('all'),
+      value: "all",
+      onClick: () => onFilterChange("all"),
     },
     {
-      label: 'Unread',
+      label: "Unread",
       icon: Icons.bell,
-      value: 'unread',
-      onClick: () => onFilterChange('unread'),
+      value: "unread",
+      onClick: () => onFilterChange("unread"),
     },
     {
-      label: 'Archived',
+      label: "Archived",
       icon: Icons.archive,
-      value: 'archived',
-      onClick: () => onFilterChange('archived'),
+      value: "archived",
+      onClick: () => onFilterChange("archived"),
     },
   ];
 
   const actionOptions: InboxFilterOption[] = [
     {
-      label: 'Mark all as read',
+      label: "Mark all as read",
       icon: Icons.resolve,
       onClick: () => markAllAsRead(),
     },
@@ -65,10 +65,10 @@ export function InboxFilter({
       <DropdownMenuTrigger asChild className="focus-visible:ring-0">
         <Button
           className="size-7 rounded-sm text-muted-foreground"
-          size={'icon'}
+          size={"icon"}
           tooltip="Filter notifications"
           tooltipShortcut="F"
-          variant={'ghost'}
+          variant={"ghost"}
         >
           <Icons.listFilter />
         </Button>

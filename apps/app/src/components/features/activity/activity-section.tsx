@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { ScrollableContainer } from '@/components/layout/scrollable-container';
+import { ScrollableContainer } from "@/components/layout/scrollable-container";
 
-interface ActivitySectionProps {
+type ActivitySectionProps = {
   readonly children: React.ReactNode;
-}
+};
 
 export function ActivitySection({ children }: ActivitySectionProps) {
   return (

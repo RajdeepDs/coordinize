@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useTRPC } from '@/trpc/client';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
-export function useInboxQuery(filter: 'all' | 'unread' | 'archived' = 'all') {
+export function useInboxQuery(filter: "all" | "unread" | "archived" = "all") {
   const trpc = useTRPC();
 
   return useQuery(

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@coordinize/ui/components/collapsible';
+} from "@coordinize/ui/components/collapsible";
 import {
   Sidebar,
   SidebarContent,
@@ -18,20 +18,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from '@coordinize/ui/components/sidebar';
-import { useGlobalHotkeys } from '@coordinize/ui/hooks';
-import { Icons } from '@coordinize/ui/lib/icons';
-import Link from 'next/link';
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import { PostComposerDialog } from '@/components/features/post-composer/post-composer-dialog';
-import { appSidebarNav } from '@/config/app-sidebar-navigation';
-import { useDraftPostsQuery } from '@/hooks/use-draft-posts';
-import { useNotificationCounts } from '@/hooks/use-notifications';
-import { useSpacesQuery } from '@/hooks/use-space';
-import { useUserQuery } from '@/hooks/use-user';
-import { AppFooter } from './app-footer';
-import { FavoritesGroup } from './favorite-group';
-import { TeamSwitcher } from './team-switcher';
+} from "@coordinize/ui/components/sidebar";
+import { useGlobalHotkeys } from "@coordinize/ui/hooks";
+import { Icons } from "@coordinize/ui/lib/icons";
+import Link from "next/link";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { PostComposerDialog } from "@/components/features/post-composer/post-composer-dialog";
+import { appSidebarNav } from "@/config/app-sidebar-navigation";
+import { useDraftPostsQuery } from "@/hooks/use-draft-posts";
+import { useNotificationCounts } from "@/hooks/use-notifications";
+import { useSpacesQuery } from "@/hooks/use-space";
+import { useUserQuery } from "@/hooks/use-user";
+import { AppFooter } from "./app-footer";
+import { FavoritesGroup } from "./favorite-group";
+import { TeamSwitcher } from "./team-switcher";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 
@@ -61,54 +61,54 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
 
   // Only enable shortcuts for spaces that actually exist
   useGlobalHotkeys({
-    keys: 'alt+1',
+    keys: "alt+1",
     callback: () => handleSpaceShortcut(1),
     options: { enabled: !!user && spacesCount >= 1, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+2',
+    keys: "alt+2",
     callback: () => handleSpaceShortcut(2),
     options: { enabled: !!user && spacesCount >= 2, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+3',
+    keys: "alt+3",
     callback: () => handleSpaceShortcut(3),
     options: { enabled: !!user && spacesCount >= 3, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+4',
+    keys: "alt+4",
     callback: () => handleSpaceShortcut(4),
     options: { enabled: !!user && spacesCount >= 4, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+5',
+    keys: "alt+5",
     callback: () => handleSpaceShortcut(5),
     options: { enabled: !!user && spacesCount >= 5, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+6',
+    keys: "alt+6",
     callback: () => handleSpaceShortcut(6),
     options: { enabled: !!user && spacesCount >= 6, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+7',
+    keys: "alt+7",
     callback: () => handleSpaceShortcut(7),
     options: { enabled: !!user && spacesCount >= 7, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+8',
+    keys: "alt+8",
     callback: () => handleSpaceShortcut(8),
     options: { enabled: !!user && spacesCount >= 8, preventDefault: true },
   });
   useGlobalHotkeys({
-    keys: 'alt+9',
+    keys: "alt+9",
     callback: () => handleSpaceShortcut(9),
     options: { enabled: !!user && spacesCount >= 9, preventDefault: true },
   });
 
   // Register Alt+0 for new space
   useGlobalHotkeys({
-    keys: 'alt+0',
+    keys: "alt+0",
     callback: () => router.push(`/${slug}/settings/new-space`),
     options: { enabled: !!user },
   });
@@ -130,20 +130,20 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
                 <PostComposerDialog />
               </SidebarMenuItem>
               {sidebarNav.map((nav) => {
-                if (nav.conditional && nav.title === 'Drafts' && !hasDrafts) {
+                if (nav.conditional && nav.title === "Drafts" && !hasDrafts) {
                   return null;
                 }
 
                 const Icon = Icons[nav.icon as keyof typeof Icons];
-                const isDraftItem = nav.conditional && nav.title === 'Drafts';
-                const isInboxItem = nav.title === 'Inbox';
+                const isDraftItem = nav.conditional && nav.title === "Drafts";
+                const isInboxItem = nav.title === "Inbox";
 
                 return (
                   <SidebarMenuItem
                     className={
                       isDraftItem
-                        ? 'slide-in-from-bottom-2 fade-in animate-in duration-300 ease-out'
-                        : ''
+                        ? "slide-in-from-bottom-2 fade-in animate-in duration-300 ease-out"
+                        : ""
                     }
                     key={nav.title}
                   >

@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   EmojiPicker,
   EmojiPickerContent,
   EmojiPickerSearch,
-} from '@coordinize/ui/components/emoji-picker';
+} from "@coordinize/ui/components/emoji-picker";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@coordinize/ui/components/popover';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { useState } from 'react';
-import { useStatusEmoji } from '@/hooks/use-user';
+} from "@coordinize/ui/components/popover";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { useState } from "react";
+import { useStatusEmoji } from "@/hooks/use-user";
 
-interface EmojiPickerPopoverProps {
+type EmojiPickerPopoverProps = {
   statusEmoji: string | null;
-}
+};
 
 export function EmojiPickerPopover({ statusEmoji }: EmojiPickerPopoverProps) {
   const statusEmojiMutation = useStatusEmoji();
@@ -38,8 +38,8 @@ export function EmojiPickerPopover({ statusEmoji }: EmojiPickerPopoverProps) {
       <PopoverTrigger asChild className="focus-visible:ring-0">
         <Button
           className="size-7 rounded-sm text-muted-foreground"
-          size={'icon'}
-          variant={'ghost'}
+          size={"icon"}
+          variant={"ghost"}
         >
           {emoji ? emoji : <Icons.emojiPlus />}
         </Button>

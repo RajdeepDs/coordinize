@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/button';
+import { Button } from "@coordinize/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from '@coordinize/ui/dialog';
-import { Icons } from '@coordinize/ui/icons';
-import { Input } from '@coordinize/ui/input';
-import { Label } from '@coordinize/ui/label';
-import { useCallback, useEffect, useState } from 'react';
+} from "@coordinize/ui/dialog";
+import { Icons } from "@coordinize/ui/icons";
+import { Input } from "@coordinize/ui/input";
+import { Label } from "@coordinize/ui/label";
+import { useCallback, useEffect, useState } from "react";
 import {
   useCurrentInviteToken,
   useGenerateInviteToken,
   useResetInviteToken,
-} from '@/hooks/use-invites';
-import { getUrl } from '@/utils/environment';
+} from "@/hooks/use-invites";
+import { getUrl } from "@/utils/environment";
 
 export function InviteDialog() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [currentToken, setCurrentToken] = useState<string>('');
+  const [currentToken, setCurrentToken] = useState<string>("");
   const [usesLeft, setUsesLeft] = useState<number>(2);
 
   const url = getUrl();
-  const inviteLink = currentToken ? `${url}/invite/${currentToken}` : '';
+  const inviteLink = currentToken ? `${url}/invite/${currentToken}` : "";
 
   const { data: existingTokenData, isLoading: isLoadingExisting } =
     useCurrentInviteToken();
@@ -104,7 +104,7 @@ export function InviteDialog() {
       <DialogTrigger asChild>
         <Button
           className="ml-auto font-normal"
-          size={'sm'}
+          size={"sm"}
           tooltip="Invite people"
           variant="default"
         >
@@ -121,7 +121,7 @@ export function InviteDialog() {
             <Label>Invite link</Label>
             <p className="select-auto text-sm text-ui-gray-900">
               Anyone with this link can join workspace. ({usesLeft} use
-              {usesLeft !== 1 ? 's' : ''} remaining)
+              {usesLeft !== 1 ? "s" : ""} remaining)
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -132,7 +132,7 @@ export function InviteDialog() {
                 disabled={isLoading}
                 readOnly
                 tabIndex={-1}
-                value={isLoading ? 'Loading invite link...' : inviteLink}
+                value={isLoading ? "Loading invite link..." : inviteLink}
               />
               {isLoading ? (
                 <div className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center">
@@ -161,13 +161,13 @@ export function InviteDialog() {
             <Button
               disabled={!currentToken || resetToken.isPending}
               onClick={handleResetToken}
-              size={'sm'}
+              size={"sm"}
               variant="default"
             >
               {resetToken.isPending ? (
                 <Icons.loader className="h-4 w-4 animate-spin" />
               ) : (
-                'Reset'
+                "Reset"
               )}
             </Button>
           </div>
@@ -176,16 +176,16 @@ export function InviteDialog() {
           <Button
             className="text-foreground"
             onClick={() => setOpen(false)}
-            size={'sm'}
-            variant={'ghost'}
+            size={"sm"}
+            variant={"ghost"}
           >
             Manage members
           </Button>
           <Button
             className="text-foreground"
             onClick={() => setOpen(false)}
-            size={'sm'}
-            variant={'ghost'}
+            size={"sm"}
+            variant={"ghost"}
           >
             Done
           </Button>

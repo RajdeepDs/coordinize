@@ -1,7 +1,7 @@
-import type { PrismaClient } from '@coordinize/database/db';
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod/v4';
-import { createTRPCRouter, protectedProcedure } from '../init';
+import type { PrismaClient } from "@coordinize/database/db";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod/v4";
+import { createTRPCRouter, protectedProcedure } from "../init";
 
 async function validatePostExists(db: PrismaClient, postId: string) {
   const post = await db.post.findUnique({
@@ -11,8 +11,8 @@ async function validatePostExists(db: PrismaClient, postId: string) {
 
   if (!post) {
     throw new TRPCError({
-      code: 'NOT_FOUND',
-      message: 'Post not found.',
+      code: "NOT_FOUND",
+      message: "Post not found.",
     });
   }
 }
@@ -34,7 +34,7 @@ export const reactionRouter = createTRPCRouter({
             },
           },
         },
-        orderBy: { createdAt: 'asc' },
+        orderBy: { createdAt: "asc" },
       });
 
       const groupedReactions = reactions.reduce(
@@ -90,8 +90,8 @@ export const reactionRouter = createTRPCRouter({
 
       if (existingReaction) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'You have already reacted with this emoji.',
+          code: "BAD_REQUEST",
+          message: "You have already reacted with this emoji.",
         });
       }
 
@@ -123,8 +123,8 @@ export const reactionRouter = createTRPCRouter({
 
       if (!reaction) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Reaction not found.',
+          code: "NOT_FOUND",
+          message: "Reaction not found.",
         });
       }
 
@@ -169,7 +169,7 @@ export const reactionRouter = createTRPCRouter({
               },
             },
           });
-          return { action: 'removed' as const };
+          return { action: "removed" as const };
         }
 
         await tx.reaction.create({
@@ -179,7 +179,7 @@ export const reactionRouter = createTRPCRouter({
             emoji,
           },
         });
-        return { action: 'added' as const };
+        return { action: "added" as const };
       });
 
       return toggleResult;

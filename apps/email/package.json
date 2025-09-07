@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@coordinize/tsconfig": "workspace:*",
+    "@react-email/preview-server": "4.2.8",
     "@types/node": "^24.3.1",
     "@types/react": "^19.1.6",
     "typescript": "^5.9.2"

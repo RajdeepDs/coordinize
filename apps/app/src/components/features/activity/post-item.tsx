@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import AvatarStatus from '@/components/ui/avatar-status';
-import { Dot } from '@/components/ui/dot';
-import { stripHtml } from '@/utils/strip-html';
+import Link from "next/link";
+import AvatarStatus from "@/components/ui/avatar-status";
+import { Dot } from "@/components/ui/dot";
+import { stripHtml } from "@/utils/strip-html";
 
-interface PostItemProps {
+type PostItemProps = {
   id: string;
   title: string;
   description?: string;
@@ -11,7 +11,7 @@ interface PostItemProps {
   userImage?: string;
   authorName: string;
   workspaceSlug?: string;
-}
+};
 
 export function PostItem({
   id,
@@ -20,7 +20,7 @@ export function PostItem({
   userImage,
   authorName,
   description,
-  workspaceSlug = '',
+  workspaceSlug = "",
 }: PostItemProps) {
   return (
     <Link href={`/${workspaceSlug}/posts/${id}`}>
@@ -29,7 +29,7 @@ export function PostItem({
           alt={authorName}
           className="size-8"
           fallback={authorName?.charAt(0)}
-          src={userImage || ''}
+          src={userImage || ""}
         />
         <div className="flex min-w-0 flex-1 flex-col gap-0">
           <div className="flex min-w-0 select-none items-center gap-2">
@@ -40,7 +40,7 @@ export function PostItem({
             </p>
           </div>
           <p className="line-clamp-1 text-sm text-ui-gray-900">
-            {stripHtml(description || '')}
+            {stripHtml(description || "")}
           </p>
         </div>
       </div>

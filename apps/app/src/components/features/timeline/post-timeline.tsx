@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { Icons } from '@coordinize/ui/lib/icons';
-import { CommentWrapper } from '@/components/features/timeline/comment-item';
-import { PostEventItem } from '@/components/features/timeline/post-event-item';
-import { usePostTimelineQuery } from '@/hooks/use-timeline';
 import type {
   CommentTimelineEvent,
   ProcessedTimelineEvent,
-} from '@/lib/queries';
+} from "@coordinize/api/queries";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { CommentWrapper } from "@/components/features/timeline/comment-item";
+import { PostEventItem } from "@/components/features/timeline/post-event-item";
+import { usePostTimelineQuery } from "@/hooks/use-timeline";
 
 function isCommentEvent(
   event: ProcessedTimelineEvent
 ): event is CommentTimelineEvent {
-  return event.action === 'COMMENTED' && 'comment' in event;
+  return event.action === "COMMENTED" && "comment" in event;
 }
 
 export function PostTimeline({ postId }: { postId: string }) {
@@ -42,7 +42,7 @@ export function PostTimeline({ postId }: { postId: string }) {
           </span>
         </div>
         <p className="mt-1 text-sm text-ui-red-600">
-          {error?.message || 'Something went wrong while loading the timeline.'}
+          {error?.message || "Something went wrong while loading the timeline."}
         </p>
       </div>
     );

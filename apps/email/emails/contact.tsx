@@ -1,4 +1,4 @@
-import { ContactTemplate } from '@coordinize/email/templates/contact';
+import { ContactTemplate } from "@coordinize/email/templates/contact";
 
 const ExampleContactEmail = () => (
   <ContactTemplate

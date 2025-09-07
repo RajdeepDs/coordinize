@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@coordinize/ui/components/sidebar';
-import { toast } from '@coordinize/ui/components/sonner';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useTRPC } from '@/trpc/client';
+} from "@coordinize/ui/components/sidebar";
+import { toast } from "@coordinize/ui/components/sonner";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
 
 export function PostSidebarActions({ postId }: { postId: string }) {
   const router = useRouter();
@@ -20,7 +20,7 @@ export function PostSidebarActions({ postId }: { postId: string }) {
   const { mutate: deletePost } = useMutation(
     trpc.post.delete.mutationOptions({
       onSuccess: () => {
-        toast.success('Post deleted successfully.');
+        toast.success("Post deleted successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
@@ -34,7 +34,7 @@ export function PostSidebarActions({ postId }: { postId: string }) {
   const { mutate: resolvePost } = useMutation(
     trpc.post.resolve.mutationOptions({
       onSuccess: () => {
-        toast.success('Post resolved successfully.');
+        toast.success("Post resolved successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });
@@ -48,7 +48,7 @@ export function PostSidebarActions({ postId }: { postId: string }) {
   const { mutate: archivePost } = useMutation(
     trpc.post.archive.mutationOptions({
       onSuccess: () => {
-        toast.success('Post archived successfully.');
+        toast.success("Post archived successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.post.getAllPublished.queryKey(),
         });

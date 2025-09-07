@@ -125,24 +125,6 @@ export function EditorBubbleMenu({ editor }: EditorBubbleMenuProps) {
         }
         return true;
       }}
-      tippyOptions={{
-        placement: "top",
-        offset: [0, 10],
-        zIndex: 99,
-        arrow: false,
-        animation: "shift-away",
-        moveTransition: "transform 0.2s ease-in-out",
-        popperOptions: {
-          modifiers: [
-            { name: "flip", enabled: true },
-            {
-              name: "preventOverflow",
-              enabled: true,
-              options: { padding: 16 },
-            },
-          ],
-        },
-      }}
       updateDelay={0}
     >
       <div

@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@coordinize/ui/components/form';
-import { Input } from '@coordinize/ui/components/input';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
-import z from 'zod/v4';
-import { useJoinWaitlist } from '@/hooks/use-waitlist';
-import { useTRPC } from '@/trpc/client';
+} from "@coordinize/ui/components/form";
+import { Input } from "@coordinize/ui/components/input";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import z from "zod/v4";
+import { useJoinWaitlist } from "@/hooks/use-waitlist";
+import { useTRPC } from "@/trpc/client";
 
 const waitlistFormSchema = z.object({
-  email: z.email('Invalid email.'),
+  email: z.email("Invalid email."),
 });
 
 type waitlistForm = z.infer<typeof waitlistFormSchema>;
@@ -32,7 +32,7 @@ export function WaitlistForm() {
 
   const form = useForm<z.infer<typeof waitlistFormSchema>>({
     resolver: zodResolver(waitlistFormSchema),
-    defaultValues: { email: '' },
+    defaultValues: { email: "" },
   });
 
   const joinWaitlistMutation = useJoinWaitlist();
@@ -65,7 +65,7 @@ export function WaitlistForm() {
             </FormItem>
           )}
         />
-        <Button disabled={joinWaitlistMutation.isPending} size={'sm'}>
+        <Button disabled={joinWaitlistMutation.isPending} size={"sm"}>
           {joinWaitlistMutation.isPending ? (
             <>
               <Icons.loader className="mr-2 h-4 w-4 animate-spin" />

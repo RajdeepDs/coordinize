@@ -1,4 +1,4 @@
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,10 +7,10 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@coordinize/ui/components/dropdown-menu';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
-import { usePathname } from 'next/navigation';
+} from "@coordinize/ui/components/dropdown-menu";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
+import { usePathname } from "next/navigation";
 import {
   useDeletePost,
   useMovePostToSpace,
@@ -18,12 +18,12 @@ import {
   usePostByIdQuery,
   useResolvePost,
   useUnresolvePost,
-} from '@/hooks/use-posts';
-import { useSpacesQuery } from '@/hooks/use-space';
-import { useToggleFavorite } from '@/hooks/use-toggle-favorite';
-import { copyPostLink } from '@/utils/clipboard';
+} from "@/hooks/use-posts";
+import { useSpacesQuery } from "@/hooks/use-space";
+import { useToggleFavorite } from "@/hooks/use-toggle-favorite";
+import { copyPostLink } from "@/utils/clipboard";
 
-interface PostOption {
+type PostOption = {
   icon: (typeof Icons)[keyof typeof Icons];
   label: string;
   onClick?: () => void;
@@ -32,11 +32,11 @@ interface PostOption {
     label: string;
     onClick?: () => void;
   }>;
-}
+};
 
-interface PostOptionsProps {
+type PostOptionsProps = {
   postId: string;
-}
+};
 
 export function PostOptions({ postId }: PostOptionsProps) {
   const pathname = usePathname();
@@ -76,7 +76,7 @@ export function PostOptions({ postId }: PostOptionsProps) {
   };
 
   const handleToggleFavorite = () => {
-    toggleFavorite({ id: postId, type: 'post' });
+    toggleFavorite({ id: postId, type: "post" });
   };
 
   // Filter out the current space from the list
@@ -88,11 +88,11 @@ export function PostOptions({ postId }: PostOptionsProps) {
     [
       {
         icon: Icons.bellDot,
-        label: 'Subscribe',
+        label: "Subscribe",
       },
       {
         icon: isFavorited ? Icons.starOff : Icons.star,
-        label: isFavorited ? 'Remove from favorites' : 'Add to favorites',
+        label: isFavorited ? "Remove from favorites" : "Add to favorites",
         onClick: handleToggleFavorite,
       },
     ],
@@ -101,9 +101,9 @@ export function PostOptions({ postId }: PostOptionsProps) {
         ? [
             {
               icon: Icons.space,
-              label: 'Move to space',
+              label: "Move to space",
               subMenu: availableSpaces.map((space) => ({
-                icon: space.icon ? space.icon : '',
+                icon: space.icon ? space.icon : "",
                 label: space.name,
                 onClick: () => handleMoveToSpace(space.id),
               })),
@@ -112,21 +112,21 @@ export function PostOptions({ postId }: PostOptionsProps) {
         : []),
       {
         icon: post?.pinned ? Icons.pinOff : Icons.pin,
-        label: post?.pinned ? 'Unpin from space' : 'Pin to space',
+        label: post?.pinned ? "Unpin from space" : "Pin to space",
         onClick: handlePinToSpace,
       },
       ...(post?.resolvedAt
         ? [
             {
               icon: Icons.circleX,
-              label: 'Reopen post',
+              label: "Reopen post",
               onClick: handleUnresolvePost,
             },
           ]
         : [
             {
               icon: Icons.resolve,
-              label: 'Resolve post',
+              label: "Resolve post",
               onClick: handleResolvePost,
             },
           ]),
@@ -134,18 +134,18 @@ export function PostOptions({ postId }: PostOptionsProps) {
     [
       {
         icon: Icons.share,
-        label: 'Share',
+        label: "Share",
       },
       {
         icon: Icons.link,
-        label: 'Copy link',
+        label: "Copy link",
         onClick: handleCopyLink,
       },
     ],
     [
       {
         icon: Icons.trash,
-        label: 'Delete post',
+        label: "Delete post",
         onClick: handleDeletePost,
       },
     ],
@@ -155,10 +155,10 @@ export function PostOptions({ postId }: PostOptionsProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="focus-visible:ring-0">
         <Button
-          className={cn('size-7 rounded-sm text-muted-foreground')}
-          size={'icon'}
+          className={cn("size-7 rounded-sm text-muted-foreground")}
+          size={"icon"}
           tooltip="More options"
-          variant={'ghost'}
+          variant={"ghost"}
         >
           <Icons.ellipsis />
         </Button>
@@ -170,7 +170,7 @@ export function PostOptions({ postId }: PostOptionsProps) {
         {options.map((group) => (
           <div
             className="border-b p-1 last:border-none"
-            key={`group-${group.map((item) => item.label).join('-')}`}
+            key={`group-${group.map((item) => item.label).join("-")}`}
           >
             {group.map((item) =>
               item.subMenu ? (

@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 import {
   authenticatedProcedure,
   createTRPCRouter,
   protectedProcedure,
-} from '../init';
-import { getUserQuery } from '../queries';
+} from "../init";
+import { getUserQuery } from "../queries";
 
 export const userRouter = createTRPCRouter({
   me: authenticatedProcedure.query(async ({ ctx: { session } }) => {
@@ -36,7 +36,7 @@ export const userRouter = createTRPCRouter({
       z.object({
         preferredName: z
           .string()
-          .min(1, { message: 'Name is required.' })
+          .min(1, { message: "Name is required." })
           .optional(),
         image: z.string().optional(),
       })

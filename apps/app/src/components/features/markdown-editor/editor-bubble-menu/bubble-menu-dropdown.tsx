@@ -1,28 +1,28 @@
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@coordinize/ui/components/dropdown-menu';
-import { Tooltip } from '@coordinize/ui/components/tooltip';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
-import type React from 'react';
+} from "@coordinize/ui/components/dropdown-menu";
+import { Tooltip } from "@coordinize/ui/components/tooltip";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
+import type React from "react";
 
-export interface MenuItems {
+export type MenuItems = {
   label: string;
   type: string;
   isActive: () => boolean;
   onClick: () => void;
   icon: string;
-}
+};
 
-interface BubbleMenuDropdownProps {
+type BubbleMenuDropdownProps = {
   items: MenuItems[];
   menuIcon: React.ReactNode;
   tooltip?: string;
-}
+};
 
 export function BubbleMenuDropdown({
   items,
@@ -34,10 +34,10 @@ export function BubbleMenuDropdown({
       <Tooltip label={tooltip}>
         <DropdownMenuTrigger asChild className="focus-visible:ring-0">
           <Button
-            className={cn('size-min h-6 gap-0.5 rounded px-1')}
-            size={'icon'}
+            className={cn("size-min h-6 gap-0.5 rounded px-1")}
+            size={"icon"}
             type="button"
-            variant={'ghost'}
+            variant={"ghost"}
           >
             {menuIcon}
             <Icons.chevronDown />
@@ -48,8 +48,8 @@ export function BubbleMenuDropdown({
         align="start"
         alignOffset={0}
         className={cn(
-          'z-[100] focus:outline-none',
-          'w-[12rem] rounded-lg border bg-background p-1 text-primary shadow-md'
+          "z-[100] focus:outline-none",
+          "w-[12rem] rounded-lg border bg-background p-1 text-primary shadow-md"
         )}
         sideOffset={4}
       >
@@ -61,7 +61,7 @@ export function BubbleMenuDropdown({
 
           return (
             <DropdownMenuItem
-              className={cn('flex items-center justify-between')}
+              className={cn("flex items-center justify-between")}
               key={item.label}
               onClick={item.onClick}
             >

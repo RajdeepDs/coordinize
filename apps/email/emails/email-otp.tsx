@@ -1,4 +1,4 @@
-import { EmailOTPTemplate } from '@coordinize/email/templates/email-otp';
+import { EmailOTPTemplate } from "@coordinize/email/templates/email-otp";
 
 const ExampleEmailOTP = () => <EmailOTPTemplate loginCode="123456" />;
 

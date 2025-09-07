@@ -1,10 +1,10 @@
-import { Label } from '@coordinize/ui/components/label';
-import { Separator } from '@coordinize/ui/components/separator';
-import { ChangeEmailDialog } from '@/components/settings/profile/change-email-dialog';
-import { PreferredNameForm } from '@/components/settings/profile/preferred-name-form';
-import { ProfilePic } from '@/components/settings/profile/profile-pic';
-import { SettingsCard } from '@/components/settings/settings-card';
-import { getQueryClient, HydrateClient, trpc } from '@/trpc/server';
+import { Label } from "@coordinize/ui/components/label";
+import { Separator } from "@coordinize/ui/components/separator";
+import { ChangeEmailDialog } from "@/components/settings/profile/change-email-dialog";
+import { PreferredNameForm } from "@/components/settings/profile/preferred-name-form";
+import { ProfilePic } from "@/components/settings/profile/profile-pic";
+import { SettingsCard } from "@/components/settings/settings-card";
+import { getQueryClient, HydrateClient, trpc } from "@/trpc/server";
 
 export default async function ProfilePage() {
   const queryClient = getQueryClient();

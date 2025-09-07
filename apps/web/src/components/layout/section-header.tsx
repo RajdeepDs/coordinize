@@ -1,8 +1,8 @@
-interface SectionHeaderProps {
+type SectionHeaderProps = {
   tagLine?: string;
   title: string;
   subtitle: string;
-}
+};
 
 export function SectionHeader({
   tagLine,

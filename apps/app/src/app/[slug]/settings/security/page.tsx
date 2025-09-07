@@ -1,9 +1,9 @@
-import { auth } from '@coordinize/auth/auth';
-import { Label } from '@coordinize/ui/components/label';
-import { headers } from 'next/headers';
-import { LogOutAllDevices } from '@/components/settings/security/log-out-all-devices';
-import { SessionsList } from '@/components/settings/security/sessions-list';
-import { SettingsCard } from '@/components/settings/settings-card';
+import { auth } from "@coordinize/auth/auth";
+import { Label } from "@coordinize/ui/components/label";
+import { headers } from "next/headers";
+import { LogOutAllDevices } from "@/components/settings/security/log-out-all-devices";
+import { SessionsList } from "@/components/settings/security/sessions-list";
+import { SettingsCard } from "@/components/settings/settings-card";
 
 export default async function SecurityPage() {
   const sessions = await auth.api.listSessions({

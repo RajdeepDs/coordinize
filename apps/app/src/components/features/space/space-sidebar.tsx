@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
-} from '@coordinize/ui/components/sidebar';
-import { Switch } from '@coordinize/ui/components/switch';
-import { Icons } from '@coordinize/ui/lib/icons';
-import AvatarStatus from '@/components/ui/avatar-status';
-import { useSpaceWithPublishedPostsQuery } from '@/hooks/use-space';
+} from "@coordinize/ui/components/sidebar";
+import { Switch } from "@coordinize/ui/components/switch";
+import { Icons } from "@coordinize/ui/lib/icons";
+import AvatarStatus from "@/components/ui/avatar-status";
+import { useSpaceWithPublishedPostsQuery } from "@/hooks/use-space";
 
-interface SpaceSidebarProps {
+type SpaceSidebarProps = {
   identifier: string;
-}
+};
 
 export function SpaceSidebar({ identifier }: SpaceSidebarProps) {
   const { data: space } = useSpaceWithPublishedPostsQuery(identifier);
@@ -26,12 +26,12 @@ export function SpaceSidebar({ identifier }: SpaceSidebarProps) {
       <SidebarGroup className="pl-2 sm:pl-0">
         <SidebarGroupLabel>About</SidebarGroupLabel>
         <p className="px-2 text-sm">
-          {space?.about || 'No description available.'}
+          {space?.about || "No description available."}
         </p>
       </SidebarGroup>
       <SidebarGroup className="hidden pl-2 sm:pl-0">
         <SidebarGroupLabel>
-          {membersCount} member{membersCount !== 1 ? 's' : ''}
+          {membersCount} member{membersCount !== 1 ? "s" : ""}
         </SidebarGroupLabel>
         <SidebarGroupContent className="flex items-center">
           {space?.members.map((member) => (
@@ -43,16 +43,16 @@ export function SpaceSidebar({ identifier }: SpaceSidebarProps) {
                 alt={member.user.name}
                 className="size-6"
                 fallback={member.user.name}
-                src={member.user.image ?? ''}
+                src={member.user.image ?? ""}
                 statusShow={false}
               />
             </div>
           ))}
           <Button
             className="size-7 rounded-full"
-            size={'icon'}
+            size={"icon"}
             tooltip="Add member"
-            variant={'secondary'}
+            variant={"secondary"}
           >
             <Icons.plus />
           </Button>

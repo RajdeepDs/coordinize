@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { createSpaceSchema } from "@coordinize/api/schemas";
+import { Button } from "@coordinize/ui/components/button";
 import {
   EmojiPicker,
   EmojiPickerContent,
   EmojiPickerSearch,
-} from '@coordinize/ui/components/emoji-picker';
+} from "@coordinize/ui/components/emoji-picker";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-} from '@coordinize/ui/components/form';
-import { Input } from '@coordinize/ui/components/input';
+} from "@coordinize/ui/components/form";
+import { Input } from "@coordinize/ui/components/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@coordinize/ui/components/popover';
-import { toast } from '@coordinize/ui/components/sonner';
-import { Textarea } from '@coordinize/ui/components/textarea';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import type { z } from 'zod/v4';
-import { SettingsCard } from '@/components/settings/settings-card';
-import { createSpaceSchema } from '@/lib/schemas';
-import { useTRPC } from '@/trpc/client';
+} from "@coordinize/ui/components/popover";
+import { toast } from "@coordinize/ui/components/sonner";
+import { Textarea } from "@coordinize/ui/components/textarea";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod/v4";
+import { SettingsCard } from "@/components/settings/settings-card";
+import { useTRPC } from "@/trpc/client";
 
 function generateIdentifier(name: string) {
   return name.toUpperCase().slice(0, 3);
@@ -42,30 +42,30 @@ export function CreateNewSpaceForm() {
   const form = useForm<z.infer<typeof createSpaceSchema>>({
     resolver: zodResolver(createSpaceSchema),
     defaultValues: {
-      name: '',
-      identifier: '',
-      about: '',
-      icon: '',
+      name: "",
+      identifier: "",
+      about: "",
+      icon: "",
     },
   });
 
-  const spaceName = form.watch('name');
+  const spaceName = form.watch("name");
 
   useEffect(() => {
-    const generated = generateIdentifier(spaceName || '');
-    form.setValue('identifier', generated);
+    const generated = generateIdentifier(spaceName || "");
+    form.setValue("identifier", generated);
   }, [spaceName, form]);
 
   const { mutate, isPending } = useMutation(
     trpc.space.create.mutationOptions({
       onSuccess: ({ workspaceSlug }) => {
-        toast.success('Space created successfully.');
+        toast.success("Space created successfully.");
         const spacesSettingsPath = `/${workspaceSlug}/settings/spaces`;
 
         router.push(`${spacesSettingsPath}`);
       },
       onError: () => {
-        toast.error('Something went wrong.');
+        toast.error("Something went wrong.");
       },
       onSettled: () => {
         form.reset();
@@ -100,7 +100,7 @@ export function CreateNewSpaceForm() {
                     <PopoverTrigger asChild>
                       <Button
                         className="shadow-none"
-                        size={'icon'}
+                        size={"icon"}
                         type="button"
                         variant="outline"
                       >
@@ -200,7 +200,7 @@ export function CreateNewSpaceForm() {
           {isPending ? (
             <Icons.loader className="mx-auto animate-spin" />
           ) : (
-            'Create space'
+            "Create space"
           )}
         </Button>
       </form>

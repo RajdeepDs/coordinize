@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { Label } from '@coordinize/ui/components/label';
-import { Separator } from '@coordinize/ui/components/separator';
-import { SidebarTrigger, useSidebar } from '@coordinize/ui/components/sidebar';
+import { Label } from "@coordinize/ui/components/label";
+import { Separator } from "@coordinize/ui/components/separator";
+import { SidebarTrigger, useSidebar } from "@coordinize/ui/components/sidebar";
 
-interface _InboxHeaderProps {
-  currentFilter: 'all' | 'unread' | 'archived';
-  onFilterChange: (filter: 'all' | 'unread' | 'archived') => void;
-}
+type _InboxHeaderProps = {
+  currentFilter: "all" | "unread" | "archived";
+  onFilterChange: (filter: "all" | "unread" | "archived") => void;
+};
 
 export function InboxHeader() {
   const { isMobile, leftState } = useSidebar();
@@ -15,7 +15,7 @@ export function InboxHeader() {
   return (
     <div className="flex min-h-8 items-center justify-between pr-4 pl-3">
       <div className="flex items-center gap-3">
-        {(isMobile || leftState === 'collapsed') && (
+        {(isMobile || leftState === "collapsed") && (
           <div className="flex shrink-0 items-center gap-1.5">
             <SidebarTrigger className="size-7 rounded-sm text-muted-foreground" />
             <Separator className="min-h-4" orientation="vertical" />

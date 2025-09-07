@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
-import { Logo } from '@/components/ui/logo';
+import { Button } from "@coordinize/ui/components/button";
+import { Logo } from "@/components/ui/logo";
 
-interface WelcomeProps {
+type WelcomeProps = {
   nextStep: () => void;
-}
+};
 
 export function Welcome({ nextStep }: WelcomeProps) {
   return (
@@ -16,11 +16,11 @@ export function Welcome({ nextStep }: WelcomeProps) {
           Welcome to Coordinize
         </h1>
         <p className="text-sm text-ui-gray-900">
-          A modern async-first platform built for global teams. <br />{' '}
+          A modern async-first platform built for global teams. <br />{" "}
           Communicate clearly, collaborate effortlessly.
         </p>
       </div>
-      <Button className="h-11 w-3xs" onClick={nextStep} size={'lg'}>
+      <Button className="h-11 w-3xs" onClick={nextStep} size={"lg"}>
         Continue
       </Button>
     </div>

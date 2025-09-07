@@ -1,22 +1,22 @@
-import type { Post, Space } from '@coordinize/database/db';
-import { Button } from '@coordinize/ui/components/button';
-import { Separator } from '@coordinize/ui/components/separator';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
-import { useParams } from 'next/navigation';
-import { PageHeader } from '@/components/layout/page-header';
-import { usePostByIdQuery } from '@/hooks/use-posts';
-import { useToggleFavorite } from '@/hooks/use-toggle-favorite';
-import { ActivitySection } from '../activity/activity-section';
-import { EditablePostContent } from './editable-post-content';
-import { PostActivitySection } from './post-activity-section';
-import { PostMetadata } from './post-metadata';
-import { PostOptions } from './post-options';
-import { ResolvedPostLabel } from './resolved-post-label';
+import type { Post, Space } from "@coordinize/database/db";
+import { Button } from "@coordinize/ui/components/button";
+import { Separator } from "@coordinize/ui/components/separator";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
+import { useParams } from "next/navigation";
+import { PageHeader } from "@/components/layout/page-header";
+import { usePostByIdQuery } from "@/hooks/use-posts";
+import { useToggleFavorite } from "@/hooks/use-toggle-favorite";
+import { ActivitySection } from "../activity/activity-section";
+import { EditablePostContent } from "./editable-post-content";
+import { PostActivitySection } from "./post-activity-section";
+import { PostMetadata } from "./post-metadata";
+import { PostOptions } from "./post-options";
+import { ResolvedPostLabel } from "./resolved-post-label";
 
-interface PostPageContentProps {
+type PostPageContentProps = {
   postId: string;
-}
+};
 
 /**
  * This component displays the content of a post. Used in the Inbox.
@@ -41,13 +41,13 @@ export function PostView({ postId }: PostPageContentProps) {
   );
 }
 
-interface PostViewTitlebarProps {
+type PostViewTitlebarProps = {
   slug: string;
   post: Post & {
     favorite?: Array<{ id: string }>;
     space: Partial<Space>;
   };
-}
+};
 
 function PostViewTitlebar({ post, slug }: PostViewTitlebarProps) {
   const { mutate: toggleFavorite } = useToggleFavorite();
@@ -55,7 +55,7 @@ function PostViewTitlebar({ post, slug }: PostViewTitlebarProps) {
 
   function handleToggleFavorite() {
     if (post) {
-      toggleFavorite({ id: post.id, type: 'post' });
+      toggleFavorite({ id: post.id, type: "post" });
     }
   }
   return (
@@ -67,7 +67,7 @@ function PostViewTitlebar({ post, slug }: PostViewTitlebarProps) {
           ) : (
             <Icons.space size={16} />
           ),
-          label: post.space?.name || 'Space',
+          label: post.space?.name || "Space",
           href: `/${slug}/spaces/${post.space.identifier}`,
         },
         {
@@ -77,19 +77,19 @@ function PostViewTitlebar({ post, slug }: PostViewTitlebarProps) {
       leftContent={
         <Button
           className={cn(
-            'size-7 rounded-sm',
+            "size-7 rounded-sm",
             isFavorited
-              ? 'text-ui-amber-700 hover:text-ui-amber-600'
-              : 'text-muted-foreground'
+              ? "text-ui-amber-700 hover:text-ui-amber-600"
+              : "text-muted-foreground"
           )}
           onClick={() => handleToggleFavorite()}
-          size={'icon'}
+          size={"icon"}
           tooltip={
-            isFavorited ? 'Remove from favorites' : 'Add to your favorites'
+            isFavorited ? "Remove from favorites" : "Add to your favorites"
           }
-          variant={'ghost'}
+          variant={"ghost"}
         >
-          <Icons.star className={isFavorited ? 'fill-current' : ''} />
+          <Icons.star className={isFavorited ? "fill-current" : ""} />
         </Button>
       }
       rightContent={<PostOptions postId={post.id} />}
@@ -113,13 +113,13 @@ function InnerPostViewContent({
         {post.resolvedAt && post.resolvedById && (
           <ResolvedPostLabel
             resolvedAt={post.resolvedAt}
-            userName={post.resolvedBy?.name || ''}
+            userName={post.resolvedBy?.name || ""}
           />
         )}
         <PostMetadata
           createdAt={post.createdAt}
-          userImage={post.author.image ?? ''}
-          userName={post.author.name ?? ''}
+          userImage={post.author.image ?? ""}
+          userName={post.author.name ?? ""}
         />
         <EditablePostContent
           initialContent={post.content}
@@ -127,10 +127,10 @@ function InnerPostViewContent({
           postId={post.id}
         />
         <Button
-          className={cn('size-7 rounded-sm text-muted-foreground')}
-          size={'icon'}
+          className={cn("size-7 rounded-sm text-muted-foreground")}
+          size={"icon"}
           tooltip="Add a reaction"
-          variant={'ghost'}
+          variant={"ghost"}
         >
           <Icons.emojiPlus size={16} />
         </Button>

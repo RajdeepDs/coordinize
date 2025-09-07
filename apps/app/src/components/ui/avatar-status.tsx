@@ -1,17 +1,17 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@coordinize/ui/avatar';
-import { Icons } from '@coordinize/ui/icons';
+import { Avatar, AvatarFallback, AvatarImage } from "@coordinize/ui/avatar";
+import { Icons } from "@coordinize/ui/icons";
 
-interface AvatarStatusProps {
+type AvatarStatusProps = {
   readonly src: string;
   readonly fallback: string | undefined;
   readonly alt: string;
   className: string;
   statusShow?: boolean;
-}
+};
 
 export default function AvatarStatus({
   src,
-  fallback = 'A',
+  fallback = "A",
   alt,
   className,
   statusShow = true,
