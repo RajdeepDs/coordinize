@@ -1,5 +1,6 @@
-'use client';
+"use client";
 
+import type { WorkspaceSetupSchema } from "@coordinize/api/schemas";
 import {
   Form,
   FormControl,
@@ -7,14 +8,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@coordinize/ui/components/form';
-import { Input } from '@coordinize/ui/components/input';
-import type { UseFormReturn } from 'react-hook-form';
-import type { WorkspaceSetupSchema } from '@/lib/schemas/setup';
+} from "@coordinize/ui/components/form";
+import { Input } from "@coordinize/ui/components/input";
+import type { UseFormReturn } from "react-hook-form";
 
-interface WorkspaceSetupFormProps {
+type WorkspaceSetupFormProps = {
   form: UseFormReturn<WorkspaceSetupSchema>;
-}
+};
 
 export function WorkspaceSetupForm({ form }: WorkspaceSetupFormProps) {
   return (

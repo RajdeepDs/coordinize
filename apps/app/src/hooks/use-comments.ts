@@ -1,10 +1,10 @@
-import { toast } from '@coordinize/ui/components/sonner';
+import { toast } from "@coordinize/ui/components/sonner";
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
-} from '@tanstack/react-query';
-import { useTRPC } from '@/trpc/client';
+} from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
 export function useCommentsQuery(postId: string) {
   const trpc = useTRPC();
@@ -18,7 +18,7 @@ export function useCreateComment(postId: string) {
   return useMutation(
     trpc.comment.create.mutationOptions({
       onSuccess: () => {
-        toast.success('Comment added successfully.');
+        toast.success("Comment added successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.comment.getComments.queryKey({ postId }),
         });
@@ -40,7 +40,7 @@ export function useUpdateComment(postId: string) {
   return useMutation(
     trpc.comment.update.mutationOptions({
       onSuccess: () => {
-        toast.success('Comment updated successfully.');
+        toast.success("Comment updated successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.comment.getComments.queryKey({ postId }),
         });
@@ -56,7 +56,7 @@ export function useDeleteComment(postId: string) {
   return useMutation(
     trpc.comment.delete.mutationOptions({
       onSuccess: () => {
-        toast.success('Comment deleted successfully.');
+        toast.success("Comment deleted successfully.");
         queryClient.invalidateQueries({
           queryKey: trpc.comment.getComments.queryKey({ postId }),
         });

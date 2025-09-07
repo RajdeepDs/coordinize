@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from "react";
 
 export type ImageBlockWidthProps = {
   onChange: (value: number) => void;
@@ -15,7 +15,7 @@ export const ImageBlockWidth = memo(
 
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        const nextValue = Number.parseInt(e.target.value);
+        const nextValue = Number.parseInt(e.target.value, 10);
         onChange(nextValue);
         setCurrentValue(nextValue);
       },
@@ -41,4 +41,4 @@ export const ImageBlockWidth = memo(
   }
 );
 
-ImageBlockWidth.displayName = 'ImageBlockWidth';
+ImageBlockWidth.displayName = "ImageBlockWidth";

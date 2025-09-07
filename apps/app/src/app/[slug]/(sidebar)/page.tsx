@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
-import { ActivitySection } from '@/components/features/activity/activity-section';
-import { PublishedPostsList } from '@/components/features/activity/published-posts-list';
-import { PageHeader } from '@/components/layout/page-header';
+import type { Metadata } from "next";
+import { ActivitySection } from "@/components/features/activity/activity-section";
+import { PublishedPostsList } from "@/components/features/activity/published-posts-list";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
-  title: 'Home',
+  title: "Home",
 };
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
       <PageHeader
         breadcrumb={[
           {
-            label: 'Home',
+            label: "Home",
           },
         ]}
       />

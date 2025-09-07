@@ -9,11 +9,11 @@ import {
   Preview,
   Tailwind,
   Text,
-} from '@react-email/components';
+} from "@react-email/components";
 
-interface EmailOTPTemplateProps {
+type EmailOTPTemplateProps = {
   loginCode?: string;
-}
+};
 
 export const EmailOTPTemplate = ({ loginCode }: EmailOTPTemplateProps) => (
   <Tailwind>
@@ -38,7 +38,7 @@ export const EmailOTPTemplate = ({ loginCode }: EmailOTPTemplateProps) => (
             alt="Coordinize's Logo"
             height="32"
             src={
-              'https://rg7ysodw5o.ufs.sh/f/HNPoq5Qqdz35KyXCE4MQbgvyZ6z4LukWd5fhroJmOFxRPsq1'
+              "https://rg7ysodw5o.ufs.sh/f/HNPoq5Qqdz35KyXCE4MQbgvyZ6z4LukWd5fhroJmOFxRPsq1"
             }
             width="32"
           />

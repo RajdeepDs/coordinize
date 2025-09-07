@@ -9,25 +9,25 @@ export type NavItem = {
 
 export const appSidebarNav = (slug: string): NavItem[] => [
   {
-    title: 'Home',
+    title: "Home",
     href: `/${slug}`,
-    icon: 'home',
-    tooltip: 'Go to Home',
-    tooltipShortcut: 'g then h',
+    icon: "home",
+    tooltip: "Go to Home",
+    tooltipShortcut: "g then h",
   },
   {
-    title: 'Inbox',
+    title: "Inbox",
     href: `/${slug}/inbox`,
-    icon: 'inbox',
-    tooltip: 'Go to Inbox',
-    tooltipShortcut: 'g then i',
+    icon: "inbox",
+    tooltip: "Go to Inbox",
+    tooltipShortcut: "g then i",
   },
   {
-    title: 'Drafts',
+    title: "Drafts",
     href: `/${slug}/drafts`,
-    icon: 'draft',
-    tooltip: 'Go to Drafts',
-    tooltipShortcut: 'g then d',
+    icon: "draft",
+    tooltip: "Go to Drafts",
+    tooltipShortcut: "g then d",
     conditional: true,
   },
 ];

@@ -2,21 +2,21 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from '@coordinize/ui/components/sidebar';
-import { Icons } from '@coordinize/ui/lib/icons';
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import type { ReactNode } from 'react';
-import { SettingsSidebar } from '@/components/layout/settings-sidebar/settings-sidebar';
-import { settingsSidebarNav } from '@/config/navigation';
+} from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
+import type { Metadata } from "next";
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { SettingsSidebar } from "@/components/layout/settings-sidebar/settings-sidebar";
+import { settingsSidebarNav } from "@/config/navigation";
 
-interface SettingsLayoutProps {
+type SettingsLayoutProps = {
   readonly children: ReactNode;
   params: Promise<{ slug: string }>;
-}
+};
 
 export const metadata: Metadata = {
-  title: 'Settings',
+  title: "Settings",
 };
 
 export default async function SettingsLayout({
@@ -32,7 +32,7 @@ export default async function SettingsLayout({
       <SidebarInset>
         <header className="flex h-10 items-center gap-2 border-b px-4 sm:hidden">
           <SidebarTrigger />
-          <Link className="flex items-center gap-2" href={'/'}>
+          <Link className="flex items-center gap-2" href={"/"}>
             <Icons.chevronLeft className="size-5 text-muted-foreground" />
             Settings
           </Link>

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@coordinize/ui/components/collapsible';
-import { Label } from '@coordinize/ui/components/label';
+} from "@coordinize/ui/components/collapsible";
+import { Label } from "@coordinize/ui/components/label";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -13,11 +13,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@coordinize/ui/components/sidebar';
-import { Icons } from '@coordinize/ui/lib/icons';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useFavoritesQuery } from '@/hooks/use-favorite';
+} from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useFavoritesQuery } from "@/hooks/use-favorite";
 
 export function FavoritesGroup({ slug }: { slug: string }) {
   const { data: favorites, isLoading } = useFavoritesQuery();
@@ -81,15 +81,15 @@ export function FavoritesGroup({ slug }: { slug: string }) {
                   if (
                     favorite.postId &&
                     favorite.post?.title &&
-                    typeof favorite.postId === 'string'
+                    typeof favorite.postId === "string"
                   ) {
                     const postHref = `/${slug}/posts/${favorite.postId}`;
                     return (
                       <SidebarMenuItem
                         className={`transition-all duration-300 ease-out ${
                           isAnimated
-                            ? 'translate-y-0 opacity-100'
-                            : '-translate-y-4 opacity-0'
+                            ? "translate-y-0 opacity-100"
+                            : "-translate-y-4 opacity-0"
                         }`}
                         key={favorite.id}
                       >
@@ -106,15 +106,15 @@ export function FavoritesGroup({ slug }: { slug: string }) {
                   if (
                     favorite.space?.identifier &&
                     favorite.space?.name &&
-                    typeof favorite.space.identifier === 'string'
+                    typeof favorite.space.identifier === "string"
                   ) {
                     const spaceHref = `/${slug}/spaces/${favorite.space.identifier}`;
                     return (
                       <SidebarMenuItem
                         className={`transition-all duration-300 ease-out ${
                           isAnimated
-                            ? 'translate-y-0 opacity-100'
-                            : '-translate-y-4 opacity-0'
+                            ? "translate-y-0 opacity-100"
+                            : "-translate-y-4 opacity-0"
                         }`}
                         key={favorite.id}
                       >

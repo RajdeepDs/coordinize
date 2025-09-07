@@ -2,16 +2,16 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@coordinize/ui/components/avatar';
-import { Button } from '@coordinize/ui/components/button';
-import { Icons } from '@coordinize/ui/lib/icons';
+} from "@coordinize/ui/components/avatar";
+import { Button } from "@coordinize/ui/components/button";
+import { Icons } from "@coordinize/ui/lib/icons";
 
-const title = 'Catch up without the chaos';
+const title = "Catch up without the chaos";
 const subtitle =
-  'A single timeline for posts, comments, and changes — on your schedule.';
+  "A single timeline for posts, comments, and changes — on your schedule.";
 
 const avatarSrc =
-  'https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2wKk9O55aLExDt78kHByCdQqiVMWhzjPNsu4O' as const;
+  "https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2wKk9O55aLExDt78kHByCdQqiVMWhzjPNsu4O" as const;
 
 export function TimelineSection() {
   return (
@@ -40,10 +40,10 @@ export function TimelineSection() {
               </div>
             </div>
             <div className="relative w-full divide-y rounded-md border border-ui-gray-200 bg-background">
-              <div className="group relative flex flex-col gap-y-2 p-3 ">
+              <div className="group relative flex flex-col gap-y-2 p-3">
                 <div className="flex select-none items-center gap-2">
                   <Avatar className="size-6">
-                    <AvatarImage alt={'User Image'} src={avatarSrc} />
+                    <AvatarImage alt={"User Image"} src={avatarSrc} />
                     <AvatarFallback className="select-none uppercase">
                       A
                     </AvatarFallback>
@@ -59,10 +59,10 @@ export function TimelineSection() {
                   </p>
                 </div>
               </div>
-              <div className="group relative flex flex-col gap-y-2 p-3 ">
+              <div className="group relative flex flex-col gap-y-2 p-3">
                 <div className="flex select-none items-center gap-2">
                   <Avatar className="size-6">
-                    <AvatarImage alt={'User Image'} src={''} />
+                    <AvatarImage alt={"User Image"} src={""} />
                     <AvatarFallback className="select-none uppercase">
                       A
                     </AvatarFallback>
@@ -76,10 +76,10 @@ export function TimelineSection() {
                   </p>
                 </div>
               </div>
-              <div className="group relative flex items-center gap-x-2 p-3 ">
+              <div className="group relative flex items-center gap-x-2 p-3">
                 <div className="flex select-none items-center gap-2">
                   <Avatar className="size-6">
-                    <AvatarImage alt={'User Image'} src={avatarSrc} />
+                    <AvatarImage alt={"User Image"} src={avatarSrc} />
                     <AvatarFallback className="select-none uppercase">
                       R
                     </AvatarFallback>
@@ -90,7 +90,7 @@ export function TimelineSection() {
                 </div>
                 <Button
                   className={
-                    'mt-auto ml-auto size-7 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000'
+                    "mt-auto ml-auto size-7 disabled:border disabled:border-ui-gray-500 disabled:bg-ui-gray-400 disabled:text-ui-gray-1000"
                   }
                   disabled
                   size="sm"

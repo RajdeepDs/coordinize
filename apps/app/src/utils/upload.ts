@@ -1,11 +1,11 @@
-import { auth } from '@coordinize/auth/auth';
-import { type FileRouter, storage, UploadError } from '@coordinize/storage';
-import { headers } from 'next/headers';
+import { auth } from "@coordinize/auth/auth";
+import { type FileRouter, storage, UploadError } from "@coordinize/storage";
+import { headers } from "next/headers";
 
 export const router: FileRouter = {
   imageUploader: storage({
     image: {
-      maxFileSize: '4MB',
+      maxFileSize: "4MB",
       maxFileCount: 1,
     },
   })
@@ -15,7 +15,7 @@ export const router: FileRouter = {
       });
 
       if (!session) {
-        throw new UploadError('Unauthorized');
+        throw new UploadError("Unauthorized");
       }
 
       return { userId: session.user.id };

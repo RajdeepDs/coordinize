@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
 import {
   RadioGroup,
   RadioGroupItem,
-} from '@coordinize/ui/components/radio-group';
-import { CheckIcon, MinusIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+} from "@coordinize/ui/components/radio-group";
+import { CheckIcon, MinusIcon } from "lucide-react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const items = [
-  { value: 'light', label: 'Light', image: '/ui-light.webp' },
-  { value: 'dark', label: 'Dark', image: '/ui-dark.webp' },
-  { value: 'system', label: 'System', image: '/ui-system.webp' },
+  { value: "light", label: "Light", image: "/ui-light.webp" },
+  { value: "dark", label: "Dark", image: "/ui-dark.webp" },
+  { value: "system", label: "System", image: "/ui-system.webp" },
 ];
 
 export default function InterfaceSelect() {

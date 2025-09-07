@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/button';
-import { cn } from '@coordinize/ui/cn';
+import { Button } from "@coordinize/ui/button";
+import { cn } from "@coordinize/ui/cn";
 import {
   Command,
   CommandEmpty,
@@ -9,14 +9,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@coordinize/ui/command';
+} from "@coordinize/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@coordinize/ui/popover';
-import { CheckIcon, ChevronDownIcon } from 'lucide-react';
-import { useEffect, useId, useMemo, useState } from 'react';
+} from "@coordinize/ui/popover";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
+import { useEffect, useId, useMemo, useState } from "react";
 
 type TimezoneSelectProps = {
   value: string;
@@ -32,28 +32,28 @@ export default function TimezoneSelect({
   const [timezones, setTimezones] = useState<string[]>([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && Intl.supportedValuesOf) {
-      setTimezones(Intl.supportedValuesOf('timeZone'));
+    if (typeof window !== "undefined" && Intl.supportedValuesOf) {
+      setTimezones(Intl.supportedValuesOf("timeZone"));
     }
   }, []);
 
   const formattedTimezones = useMemo(() => {
     return timezones
       .map((timezone) => {
-        const formatter = new Intl.DateTimeFormat('en', {
+        const formatter = new Intl.DateTimeFormat("en", {
           timeZone: timezone,
-          timeZoneName: 'shortOffset',
+          timeZoneName: "shortOffset",
         });
         const parts = formatter.formatToParts(new Date());
         const offset =
-          parts.find((part) => part.type === 'timeZoneName')?.value || '';
-        const modifiedOffset = offset === 'GMT' ? 'GMT+0' : offset;
+          parts.find((part) => part.type === "timeZoneName")?.value || "";
+        const modifiedOffset = offset === "GMT" ? "GMT+0" : offset;
 
         return {
           value: timezone,
-          label: `(${modifiedOffset}) ${timezone.replace(/_/g, ' ')}`,
+          label: `(${modifiedOffset}) ${timezone.replace(/_/g, " ")}`,
           numericOffset: Number.parseInt(
-            offset.replace('GMT', '').replace('+', '') || '0',
+            offset.replace("GMT", "").replace("+", "") || "0",
             10
           ),
         };
@@ -71,10 +71,10 @@ export default function TimezoneSelect({
       <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
           <Button className="w-full justify-between" id={id} variant="outline">
-            <span className={cn('truncate', !value && 'text-muted-foreground')}>
+            <span className={cn("truncate", !value && "text-muted-foreground")}>
               {value
                 ? formattedTimezones.find((tz) => tz.value === value)?.label
-                : 'Select timezone'}
+                : "Select timezone"}
             </span>
             <ChevronDownIcon size={16} />
           </Button>

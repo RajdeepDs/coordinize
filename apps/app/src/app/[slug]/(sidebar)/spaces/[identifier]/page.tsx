@@ -1,11 +1,11 @@
-import { Sidebar, SidebarContent } from '@coordinize/ui/components/sidebar';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { ActivitySection } from '@/components/features/activity/activity-section';
-import { SpaceFavorite } from '@/components/features/space/space-favorite';
-import { SpacePublishedPostsList } from '@/components/features/space/space-posts-list';
-import { SpaceSidebar } from '@/components/features/space/space-sidebar';
-import { PageHeader } from '@/components/layout/page-header';
-import { getQueryClient, HydrateClient, trpc } from '@/trpc/server';
+import { Sidebar, SidebarContent } from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { ActivitySection } from "@/components/features/activity/activity-section";
+import { SpaceFavorite } from "@/components/features/space/space-favorite";
+import { SpacePublishedPostsList } from "@/components/features/space/space-posts-list";
+import { SpaceSidebar } from "@/components/features/space/space-sidebar";
+import { PageHeader } from "@/components/layout/page-header";
+import { getQueryClient, HydrateClient, trpc } from "@/trpc/server";
 
 export default async function SpacesPage({
   params,
@@ -31,7 +31,7 @@ export default async function SpacesPage({
             breadcrumb={[
               {
                 icon: <Icons.space className="text-ui-gray-900" size={16} />,
-                label: 'Spaces',
+                label: "Spaces",
               },
               {
                 icon: space?.icon ? (

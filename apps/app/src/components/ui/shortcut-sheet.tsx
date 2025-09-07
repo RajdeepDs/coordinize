@@ -1,19 +1,19 @@
-import { KeyboardShortcut } from '@coordinize/ui/components/keyboard-shortcut';
-import { Label } from '@coordinize/ui/components/label';
+import { KeyboardShortcut } from "@coordinize/ui/components/keyboard-shortcut";
+import { Label } from "@coordinize/ui/components/label";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@coordinize/ui/components/sheet';
-import { keyboardShortcuts } from '@/config/shortcuts';
-import { ScrollableContainer } from '../layout/scrollable-container';
+} from "@coordinize/ui/components/sheet";
+import { keyboardShortcuts } from "@/config/shortcuts";
+import { ScrollableContainer } from "../layout/scrollable-container";
 
-interface ShortcutSheetProps {
+type ShortcutSheetProps = {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-}
+};
 
 export function ShortcutSheet({ open, onOpenChange }: ShortcutSheetProps) {
   return (

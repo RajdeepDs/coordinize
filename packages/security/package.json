@@ -10,12 +10,12 @@
   "dependencies": {
     "@arcjet/next": "^1.0.0-beta.8",
     "@nosecone/next": "^1.0.0-beta.8",
-    "@t3-oss/env-nextjs": "^0.13.6",
+    "@t3-oss/env-nextjs": "^0.13.8",
     "zod": "^3.25.56"
   },
   "devDependencies": {
     "@coordinize/tsconfig": "workspace:*",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "exports": {
     ".": "./src/index.ts",

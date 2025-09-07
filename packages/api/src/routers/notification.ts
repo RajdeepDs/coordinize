@@ -1,11 +1,11 @@
-import { z } from 'zod/v4';
-import { createTRPCRouter, protectedProcedure } from '../init';
+import { z } from "zod/v4";
+import { createTRPCRouter, protectedProcedure } from "../init";
 
 export const notificationRouter = createTRPCRouter({
   getInbox: protectedProcedure
     .input(
       z.object({
-        filter: z.enum(['all', 'unread', 'archived']).default('all'),
+        filter: z.enum(["all", "unread", "archived"]).default("all"),
         limit: z.number().min(1).max(100).default(50),
         cursor: z.string().optional(),
       })
@@ -16,9 +16,9 @@ export const notificationRouter = createTRPCRouter({
       const where = {
         userId: session.user.id,
         workspaceId,
-        ...(filter === 'unread' && { read: false }),
-        ...(filter === 'archived' && { archived: true }),
-        ...(filter === 'all' && { archived: false }),
+        ...(filter === "unread" && { read: false }),
+        ...(filter === "archived" && { archived: true }),
+        ...(filter === "all" && { archived: false }),
       };
 
       const notifications = await db.notification.findMany({
@@ -38,7 +38,7 @@ export const notificationRouter = createTRPCRouter({
           },
         },
         orderBy: {
-          createdAt: 'desc',
+          createdAt: "desc",
         },
         take: limit + 1,
         cursor: cursor ? { id: cursor } : undefined,

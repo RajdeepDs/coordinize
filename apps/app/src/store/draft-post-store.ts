@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { type PostSchema, postDefaultValues } from '@/lib/schemas/post';
-import { EMPTY_HTML } from '@/utils/markdown';
+import { type PostSchema, postDefaultValues } from "@coordinize/api/schemas";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { EMPTY_HTML } from "@/utils/markdown";
 
-export interface DraftPostData {
+export type DraftPostData = {
   title: string;
   description: string;
   space_id: string;
   lastModified: string;
-}
+};
 
-interface DraftPostStore {
+type DraftPostStore = {
   draftPost: DraftPostData;
   hasContent: boolean;
 
@@ -22,7 +22,7 @@ interface DraftPostStore {
   clearDraft: () => void;
   updateLastModified: () => void;
   checkHasContent: () => boolean;
-}
+};
 
 export const useDraftPostStore = create<DraftPostStore>()(
   persist(
@@ -35,9 +35,9 @@ export const useDraftPostStore = create<DraftPostStore>()(
 
       saveDraft: (data: Partial<PostSchema>) => {
         const draftData: DraftPostData = {
-          title: data.title || '',
-          description: data.description || '',
-          space_id: data.space_id || '',
+          title: data.title || "",
+          description: data.description || "",
+          space_id: data.space_id || "",
           lastModified: new Date().toISOString(),
         };
 
@@ -94,7 +94,7 @@ export const useDraftPostStore = create<DraftPostStore>()(
       },
     }),
     {
-      name: 'coordinize-draft-post', // localStorage key
+      name: "coordinize-draft-post", // localStorage key
       partialize: (state) => ({
         draftPost: state.draftPost,
       }), // Only persist draftPost, not hasContent

@@ -1,11 +1,11 @@
-import { Toolbar } from '@coordinize/ui/toolbar';
-import { BubbleMenu as BaseBubbleMenu, useEditorState } from '@tiptap/react';
-import { type JSX, useCallback, useRef } from 'react';
-import { type Instance, sticky } from 'tippy.js';
-import { v4 as uuid } from 'uuid';
-import { getRenderContainer } from '../../../lib/utils/get-render-container';
-import type { MenuProps } from '../../../types/menu';
-import { ImageBlockWidth } from './image-block-width';
+import { Toolbar } from "@coordinize/ui/toolbar";
+import { BubbleMenu as BaseBubbleMenu, useEditorState } from "@tiptap/react";
+import { type JSX, useCallback, useRef } from "react";
+import { type Instance, sticky } from "tippy.js";
+import { v4 as uuid } from "uuid";
+import { getRenderContainer } from "../../../lib/utils/get-render-container";
+import type { MenuProps } from "../../../types/menu";
+import { ImageBlockWidth } from "./image-block-width";
 
 export const ImageBlockMenu = ({
   editor,
@@ -15,7 +15,7 @@ export const ImageBlockMenu = ({
   const tippyInstance = useRef<Instance | null>(null);
 
   const getReferenceClientRect = useCallback(() => {
-    const renderContainer = getRenderContainer(editor, 'node-imageBlock');
+    const renderContainer = getRenderContainer(editor, "node-imageBlock");
     const rect =
       renderContainer?.getBoundingClientRect() ||
       new DOMRect(-1000, -1000, 0, 0);
@@ -24,13 +24,13 @@ export const ImageBlockMenu = ({
   }, [editor]);
 
   const shouldShow = useCallback(() => {
-    const isActive = editor.isActive('imageBlock');
+    const isActive = editor.isActive("imageBlock");
 
     return isActive;
   }, [editor]);
 
   const onWidthChange = useCallback(
-    (value: number) => {
+    (_value: number) => {
       editor.chain().focus(undefined, { scrollIntoView: false }).set.run();
     },
     [editor]
@@ -40,7 +40,8 @@ export const ImageBlockMenu = ({
     selector: (ctx) => {
       return {
         width: Number.parseInt(
-          ctx.editor.getAttributes('imageBlock')?.width || 0
+          ctx.editor.getAttributes("imageBlock")?.width || 0,
+          10
         ),
       };
     },
@@ -54,7 +55,7 @@ export const ImageBlockMenu = ({
       tippyOptions={{
         offset: [0, 8],
         popperOptions: {
-          modifiers: [{ name: 'flip', enabled: false }],
+          modifiers: [{ name: "flip", enabled: false }],
         },
         getReferenceClientRect,
         onCreate: (instance: Instance) => {
@@ -64,7 +65,7 @@ export const ImageBlockMenu = ({
           return appendTo?.current;
         },
         plugins: [sticky],
-        sticky: 'popper',
+        sticky: "popper",
       }}
       updateDelay={0}
     >

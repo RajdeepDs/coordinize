@@ -1,41 +1,41 @@
-'use client';
+"use client";
 
-import { toast } from '@coordinize/ui/components/sonner';
-import { Form, FormControl, FormField, FormItem } from '@coordinize/ui/form';
-import { Input } from '@coordinize/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import slugify from '@sindresorhus/slugify';
-import { useMutation } from '@tanstack/react-query';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { useAutoSaveForm } from '@/components/forms/auto-save-form';
-import { SettingsCard } from '@/components/settings/settings-card';
-import { useTRPC } from '@/trpc/client';
+import { toast } from "@coordinize/ui/components/sonner";
+import { Form, FormControl, FormField, FormItem } from "@coordinize/ui/form";
+import { Input } from "@coordinize/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import slugify from "@sindresorhus/slugify";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback, useEffect, useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useAutoSaveForm } from "@/components/forms/auto-save-form";
+import { SettingsCard } from "@/components/settings/settings-card";
+import { useTRPC } from "@/trpc/client";
 
 const formSchema = z.object({
   workspaceName: z
     .string()
-    .min(3, { message: 'Name must be at least 3 characters.' }),
+    .min(3, { message: "Name must be at least 3 characters." }),
   workspaceSlug: z
     .string()
-    .min(3, { message: 'Slug must be at least 3 characters.' }),
+    .min(3, { message: "Slug must be at least 3 characters." }),
 });
 
-interface WorkspaceNameSlugProps {
+type WorkspaceNameSlugProps = {
   workspace: {
     name: string;
     slug: string;
   };
-}
+};
 
 export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
   const trpc = useTRPC();
 
   const initialValues = useMemo(
     () => ({
-      workspaceName: workspace.name || '',
-      workspaceSlug: slugify(workspace.name || ''),
+      workspaceName: workspace.name || "",
+      workspaceSlug: slugify(workspace.name || ""),
     }),
     [workspace.name]
   );
@@ -45,20 +45,20 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
     defaultValues: initialValues,
   });
 
-  const workspaceName = form.watch('workspaceName');
+  const workspaceName = form.watch("workspaceName");
 
   useEffect(() => {
-    const newSlug = slugify(workspaceName || '');
-    form.setValue('workspaceSlug', newSlug);
+    const newSlug = slugify(workspaceName || "");
+    form.setValue("workspaceSlug", newSlug);
   }, [workspaceName, form]);
 
   const { mutate: updateWorkspace } = useMutation(
     trpc.workspace.update.mutationOptions({
       onError: () => {
-        toast.error('Something went wrong!');
+        toast.error("Something went wrong!");
       },
       onSuccess: () => {
-        toast.success('Workspace updated.');
+        toast.success("Workspace updated.");
       },
     })
   );
@@ -97,9 +97,9 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
                     <Input
                       {...field}
                       className={`peer min-w-87.5 ${
-                        form.getValues('workspaceName') ? 'bg-input' : ''
+                        form.getValues("workspaceName") ? "bg-input" : ""
                       }`}
-                      onBlur={() => handleFieldBlur('workspaceName')}
+                      onBlur={() => handleFieldBlur("workspaceName")}
                       placeholder="Enter your workspace name"
                       type="text"
                     />
@@ -125,9 +125,9 @@ export function WorkspaceNameSlug({ workspace }: WorkspaceNameSlugProps) {
                     <Input
                       {...field}
                       className={`peer min-w-87.5 ps-36 ${
-                        form.getValues('workspaceSlug') ? 'bg-input' : ''
+                        form.getValues("workspaceSlug") ? "bg-input" : ""
                       }`}
-                      onBlur={() => handleFieldBlur('workspaceSlug')}
+                      onBlur={() => handleFieldBlur("workspaceSlug")}
                       type="text"
                     />
                     <span className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground text-sm peer-disabled:opacity-50">

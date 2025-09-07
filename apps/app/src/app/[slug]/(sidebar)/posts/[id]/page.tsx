@@ -1,5 +1,5 @@
-import { PostPageContent } from '@/components/features/post/post-page-content';
-import { getQueryClient, trpc } from '@/trpc/server';
+import { PostPageContent } from "@/components/features/post/post-page-content";
+import { getQueryClient, trpc } from "@/trpc/server";
 
 export default async function PostPage({
   params,

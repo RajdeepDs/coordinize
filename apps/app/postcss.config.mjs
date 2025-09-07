@@ -1,1 +1,1 @@
-export { default } from '@coordinize/ui/postcss';
+export { default } from "@coordinize/ui/postcss";

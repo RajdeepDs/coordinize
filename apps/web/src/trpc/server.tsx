@@ -1,14 +1,14 @@
-import 'server-only';
+import "server-only";
 
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import {
   createTRPCOptionsProxy,
   type TRPCQueryOptions,
-} from '@trpc/tanstack-react-query';
-import { cache } from 'react';
-import { createTRPCContext } from './init';
-import { makeQueryClient } from './query-client';
-import { appRouter } from './routers/_app';
+} from "@trpc/tanstack-react-query";
+import { cache } from "react";
+import { createTRPCContext } from "./init";
+import { makeQueryClient } from "./query-client";
+import { appRouter } from "./routers/_app";
 
 // IMPORTANT: Create a stable getter for the query client that
 //            will return the same client during the same request.
@@ -36,7 +36,7 @@ export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
 ) {
   const queryClient = getQueryClient();
 
-  if (queryOptions.queryKey[1]?.type === 'infinite') {
+  if (queryOptions.queryKey[1]?.type === "infinite") {
     // biome-ignore lint/suspicious/noExplicitAny: "InfiniteQueryOptions" is not typed correctly in TRPC
     queryClient.prefetchInfiniteQuery(queryOptions as any);
   } else {
@@ -51,7 +51,7 @@ export function batchPrefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   const queryClient = getQueryClient();
 
   for (const queryOptions of queryOptionsArray) {
-    if (queryOptions.queryKey[1]?.type === 'infinite') {
+    if (queryOptions.queryKey[1]?.type === "infinite") {
       // biome-ignore lint/suspicious/noExplicitAny: "InfiniteQueryOptions" is not typed correctly in TRPC
       queryClient.prefetchInfiniteQuery(queryOptions as any);
     } else {

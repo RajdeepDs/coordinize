@@ -1,19 +1,19 @@
-import { TRPCError } from '@trpc/server';
+import { TRPCError } from "@trpc/server";
+import { createTRPCRouter, protectedProcedure } from "../init";
 import {
   createCommentMutation,
   deleteCommentMutation,
   updateCommentMutation,
-} from '@/lib/mutations';
-import { createPostTimelineEvent } from '@/lib/mutations/timeline-helpers';
-import { createPostCommentNotification } from '@/lib/notifications';
-import { getCommentByIdQuery, getPostCommentsQuery } from '@/lib/queries';
+} from "../mutations";
+import { createPostCommentNotification } from "../mutations/notifications";
+import { createPostTimelineEvent } from "../mutations/timeline-helpers";
+import { getCommentByIdQuery, getPostCommentsQuery } from "../queries";
 import {
   createCommentSchema,
   deleteCommentSchema,
   getCommentsSchema,
   updateCommentSchema,
-} from '@/lib/schemas/comment';
-import { createTRPCRouter, protectedProcedure } from '../init';
+} from "../schemas/comment";
 
 export const commentRouter = createTRPCRouter({
   getComments: protectedProcedure
@@ -40,25 +40,24 @@ export const commentRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Post not found.',
+          code: "NOT_FOUND",
+          message: "Post not found.",
         });
       }
 
-      const comment = await createCommentMutation(
-        db,
+      const comment = await createCommentMutation(db, {
         content,
         postId,
-        session.user.id,
-        parentId
-      );
+        authorId: session.user.id,
+        parentId,
+      });
 
       // Create timeline event for the comment
       await createPostTimelineEvent(db, {
-        action: 'COMMENTED',
+        action: "COMMENTED",
         postId,
         actorId: session.user.id,
-        referenceType: 'Comment',
+        referenceType: "Comment",
         referenceId: comment.id,
       });
 
@@ -70,7 +69,7 @@ export const commentRouter = createTRPCRouter({
           postAuthorId: post.authorId,
           workspaceId: post.workspaceId,
           commentAuthorId: session.user.id,
-          commentAuthorName: session.user.name || 'Someone',
+          commentAuthorName: session.user.name || "Someone",
         });
       }
 
@@ -86,15 +85,15 @@ export const commentRouter = createTRPCRouter({
 
       if (!existingComment) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Comment not found.',
+          code: "NOT_FOUND",
+          message: "Comment not found.",
         });
       }
 
       if (existingComment.authorId !== session.user.id) {
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized: Only the author can edit this comment.',
+          code: "UNAUTHORIZED",
+          message: "Unauthorized: Only the author can edit this comment.",
         });
       }
 
@@ -110,15 +109,15 @@ export const commentRouter = createTRPCRouter({
 
       if (!existingComment) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Comment not found.',
+          code: "NOT_FOUND",
+          message: "Comment not found.",
         });
       }
 
       if (existingComment.authorId !== session.user.id) {
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized: Only the author can delete this comment.',
+          code: "UNAUTHORIZED",
+          message: "Unauthorized: Only the author can delete this comment.",
         });
       }
 

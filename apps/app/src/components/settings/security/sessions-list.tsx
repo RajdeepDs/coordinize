@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import type { Session } from '@coordinize/database/db';
-import { useState } from 'react';
-import { SessionCard } from '@/components/settings/security/session-card';
+import type { Session } from "@coordinize/database/db";
+import { useState } from "react";
+import { SessionCard } from "@/components/settings/security/session-card";
 
-interface SessionsListProps {
+type SessionsListProps = {
   readonly initialSessions: Array<
     Session & {
       isCurrent: boolean;
     }
   >;
-}
+};
 
 export function SessionsList({ initialSessions }: SessionsListProps) {
   const [sessions, setSessions] = useState(initialSessions);

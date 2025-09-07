@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import type { Notification } from '@coordinize/database/db';
-import { createContext, useContext, useState } from 'react';
+import type { Notification } from "@coordinize/database/db";
+import { createContext, useContext, useState } from "react";
 
-interface InboxContextType {
+type InboxContextType = {
   selectedNotification: (Notification & { workspace: { slug: string } }) | null;
   setSelectedNotification: (
     notification: (Notification & { workspace: { slug: string } }) | null
   ) => void;
-}
+};
 
 const InboxContext = createContext<InboxContextType | undefined>(undefined);
 
@@ -32,7 +32,7 @@ export function InboxProvider({ children }: { children: React.ReactNode }) {
 export function useInboxContext() {
   const context = useContext(InboxContext);
   if (context === undefined) {
-    throw new Error('useInboxContext must be used within an InboxProvider');
+    throw new Error("useInboxContext must be used within an InboxProvider");
   }
   return context;
 }

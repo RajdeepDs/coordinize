@@ -1,6 +1,6 @@
-import { toast } from '@coordinize/ui/components/sonner';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useTRPC } from '@/trpc/client';
+import { toast } from "@coordinize/ui/components/sonner";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
 export function useCurrentInviteToken() {
   const trpc = useTRPC();
@@ -18,7 +18,7 @@ export function useGenerateInviteToken() {
   return useMutation(
     trpc.invite.generateToken.mutationOptions({
       onError: () => {
-        toast.error('Failed to generate invite link.');
+        toast.error("Failed to generate invite link.");
       },
     })
   );
@@ -44,7 +44,7 @@ export function useAcceptInvite() {
   return useMutation(
     trpc.invite.acceptInvite.mutationOptions({
       onSuccess: () => {
-        toast.success('Successfully joined workspace!');
+        toast.success("Successfully joined workspace!");
       },
       onError: (error: { message: string }) => {
         toast.error(error.message);
@@ -59,7 +59,7 @@ export function useResetInviteToken() {
   return useMutation(
     trpc.invite.resetToken.mutationOptions({
       onSuccess: () => {
-        toast.success('Invite link reset successfully.');
+        toast.success("Invite link reset successfully.");
       },
     })
   );

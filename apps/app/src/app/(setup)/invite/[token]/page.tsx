@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
-import { AcceptInvite } from '@/components/setup/accept-invite';
-import { HydrateClient, prefetch, trpc } from '@/trpc/server';
+import type { Metadata } from "next";
+import { AcceptInvite } from "@/components/setup/accept-invite";
+import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 
 export const metadata: Metadata = {
-  title: 'Accept Invite',
+  title: "Accept Invite",
 };
 
 export default async function InvitePage({

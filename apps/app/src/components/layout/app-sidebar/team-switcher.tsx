@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { authClient } from '@coordinize/auth/auth-client';
+import { authClient } from "@coordinize/auth/auth-client";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@coordinize/ui/components/avatar';
-import { Button } from '@coordinize/ui/components/button';
+} from "@coordinize/ui/components/avatar";
+import { Button } from "@coordinize/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,20 +20,20 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@coordinize/ui/components/dropdown-menu';
-import { Label } from '@coordinize/ui/components/label';
-import { LayeredHotkeys } from '@coordinize/ui/components/layered-hotkeys';
+} from "@coordinize/ui/components/dropdown-menu";
+import { Label } from "@coordinize/ui/components/label";
+import { LayeredHotkeys } from "@coordinize/ui/components/layered-hotkeys";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
   useSidebar,
-} from '@coordinize/ui/components/sidebar';
-import { Icons } from '@coordinize/ui/lib/icons';
-import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
+} from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { useCurrentWorkspaceQuery } from "@/hooks/use-workspace";
 
 export function TeamSwitcher({ email }: { email: string }) {
   const router = useRouter();
@@ -45,7 +45,7 @@ export function TeamSwitcher({ email }: { email: string }) {
     authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push('/login');
+          router.push("/login");
         },
       },
     });
@@ -55,7 +55,7 @@ export function TeamSwitcher({ email }: { email: string }) {
     <>
       <LayeredHotkeys
         callback={handleLogout}
-        keys={'alt+shift+q'}
+        keys={"alt+shift+q"}
         options={{ preventDefault: true }}
       />
       <SidebarMenu>
@@ -66,7 +66,7 @@ export function TeamSwitcher({ email }: { email: string }) {
                 <Avatar className="size-5 overflow-hidden rounded border">
                   <AvatarImage
                     alt="workspace-logo"
-                    src={workspace?.logo ?? ''}
+                    src={workspace?.logo ?? ""}
                   />
                   <AvatarFallback className="select-none rounded-none">
                     {workspace?.name.at(0)?.toUpperCase()}
@@ -106,7 +106,7 @@ export function TeamSwitcher({ email }: { email: string }) {
                         <Avatar className="size-5 rounded border">
                           <AvatarImage
                             alt="workspace-logo"
-                            src={workspace?.logo ?? ''}
+                            src={workspace?.logo ?? ""}
                           />
                           <AvatarFallback className="select-none">
                             {workspace?.name.at(0)?.toUpperCase()}
@@ -133,9 +133,9 @@ export function TeamSwitcher({ email }: { email: string }) {
             <Button
               asChild
               className="size-7 rounded-sm text-muted-foreground"
-              size={'icon'}
+              size={"icon"}
               tooltip="Search workspace"
-              variant={'ghost'}
+              variant={"ghost"}
             >
               <Link href={`/${params.slug}/search`}>
                 <Icons.search />

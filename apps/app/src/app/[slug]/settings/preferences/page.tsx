@@ -1,6 +1,6 @@
-import { Label } from '@coordinize/ui/components/label';
-import InterfaceSelect from '@/components/settings/preferences/interface-select';
-import { SettingsCard } from '@/components/settings/settings-card';
+import { Label } from "@coordinize/ui/components/label";
+import InterfaceSelect from "@/components/settings/preferences/interface-select";
+import { SettingsCard } from "@/components/settings/settings-card";
 
 export default function PreferencesPage() {
   return (

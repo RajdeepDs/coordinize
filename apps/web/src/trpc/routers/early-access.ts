@@ -1,10 +1,10 @@
-import { database } from '@coordinize/database/db';
-import z from 'zod/v4';
+import { database } from "@coordinize/database/db";
+import z from "zod/v4";
 import {
   createTRPCRouter,
   publicProcedure,
   rateLimitedProcedure,
-} from '../init';
+} from "../init";
 
 export const earlyAccessRouter = createTRPCRouter({
   getWaitlistCount: publicProcedure.query(async () => {
@@ -31,7 +31,7 @@ export const earlyAccessRouter = createTRPCRouter({
 
       await database.earlyAccess.create({
         data: {
-          name: '',
+          name: "",
           email: input.email,
         },
       });

@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
-import { Input } from '@coordinize/ui/components/input';
-import { Label } from '@coordinize/ui/components/label';
-import { useCallback, useEffect, useState } from 'react';
+import { Button } from "@coordinize/ui/components/button";
+import { Input } from "@coordinize/ui/components/input";
+import { Label } from "@coordinize/ui/components/label";
+import { useCallback, useEffect, useState } from "react";
 import {
   useCurrentInviteToken,
   useGenerateInviteToken,
-} from '@/hooks/use-invites';
-import { getUrl } from '@/utils/environment';
+} from "@/hooks/use-invites";
+import { getUrl } from "@/utils/environment";
 
-interface InviteProps {
+type InviteProps = {
   nextStep: () => void;
-}
+};
 
 export function Invite({ nextStep }: InviteProps) {
   const [copied, setCopied] = useState(false);
-  const [currentToken, setCurrentToken] = useState<string>('');
+  const [currentToken, setCurrentToken] = useState<string>("");
   const [usesLeft, setUsesLeft] = useState<number>(2);
 
   const url = getUrl();
-  const inviteLink = currentToken ? `${url}/invite/${currentToken}` : '';
+  const inviteLink = currentToken ? `${url}/invite/${currentToken}` : "";
 
   const { data: existingTokenData, isLoading: isLoadingExisting } =
     useCurrentInviteToken();
@@ -85,7 +85,7 @@ export function Invite({ nextStep }: InviteProps) {
           <Label>Invite link</Label>
           <p className="select-auto text-start text-sm text-ui-gray-900">
             Anyone with this link can join workspace. ({usesLeft} use
-            {usesLeft !== 1 ? 's' : ''} remaining)
+            {usesLeft !== 1 ? "s" : ""} remaining)
           </p>
         </div>
         <div className="flex w-full items-center gap-2 sm:w-lg">
@@ -95,15 +95,15 @@ export function Invite({ nextStep }: InviteProps) {
             disabled={isLoading}
             readOnly
             tabIndex={-1}
-            value={isLoading ? 'Loading invite link...' : inviteLink}
+            value={isLoading ? "Loading invite link..." : inviteLink}
           />
           <Button
             className="w-24"
             onClick={handleCopy}
-            size={'sm'}
+            size={"sm"}
             variant="default"
           >
-            {copied ? 'Copied' : 'Copy'}
+            {copied ? "Copied" : "Copy"}
           </Button>
         </div>
       </div>

@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { authClient } from '@coordinize/auth/auth-client';
-import { Button } from '@coordinize/ui/components/button';
-import { Input } from '@coordinize/ui/components/input';
-import { toast } from '@coordinize/ui/components/sonner';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { motion as m } from 'motion/react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useAuthRedirect } from '@/hooks/use-auth-redirect';
-import { type LoginCodeSchema, loginCodeSchema } from '@/lib/schemas/auth';
+import { type LoginCodeSchema, loginCodeSchema } from "@coordinize/api/schemas";
+import { authClient } from "@coordinize/auth/auth-client";
+import { Button } from "@coordinize/ui/components/button";
+import { Input } from "@coordinize/ui/components/input";
+import { toast } from "@coordinize/ui/components/sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion as m } from "motion/react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAuthRedirect } from "@/hooks/use-auth-redirect";
 
-interface CheckYourEmailProps {
+type CheckYourEmailProps = {
   email: string;
   onReset?: () => void;
-}
+};
 
 export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
   const { handleAuthSuccess } = useAuthRedirect();
@@ -24,7 +24,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
 
   const form = useForm({
     resolver: zodResolver(loginCodeSchema),
-    defaultValues: { code: '' },
+    defaultValues: { code: "" },
   });
 
   const {
@@ -47,9 +47,9 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
 
       if (error) {
         const errorMessage =
-          error.code === 'invalid_otp'
-            ? 'Invalid verification code. Please check and try again.'
-            : 'Authentication failed. Please try again.';
+          error.code === "invalid_otp"
+            ? "Invalid verification code. Please check and try again."
+            : "Authentication failed. Please try again.";
         toast.error(errorMessage);
         return;
       }
@@ -69,11 +69,11 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
     try {
       const { error } = await authClient.emailOtp.sendVerificationOtp({
         email,
-        type: 'sign-in',
+        type: "sign-in",
       });
 
       if (error) {
-        toast.error('Failed to send verification code. Please try again.');
+        toast.error("Failed to send verification code. Please try again.");
         return;
       }
 
@@ -88,17 +88,17 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
       <div className="space-y-6">
         <h1 className="font-medium text-lg">Check your email</h1>
         <p className="text-sm text-ui-gray-900">
-          We've sent you a temporary login {isLoginWithCode ? 'code' : 'link'}.{' '}
-          <br /> Please check your inbox at{' '}
+          We've sent you a temporary login {isLoginWithCode ? "code" : "link"}.{" "}
+          <br /> Please check your inbox at{" "}
           <span className="text-foreground">{email}</span>.
         </p>
         {isLoginWithCode ? (
           <m.form
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             className="space-y-3"
-            initial={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
+            initial={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
             onSubmit={handleSubmit(onSubmit)}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
           >
             <Input
               aria-describedby="code-error"
@@ -107,7 +107,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
               className="h-11 bg-transparent"
               placeholder="Enter code"
               type="text"
-              {...register('code')}
+              {...register("code")}
             />
             {errors.code && (
               <p
@@ -121,9 +121,9 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
             <Button
               className="h-11 w-full"
               disabled={isSubmitting}
-              size={'lg'}
+              size={"lg"}
               type="submit"
-              variant={'outline'}
+              variant={"outline"}
             >
               Continue with login code
             </Button>
@@ -134,8 +134,8 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
               className="h-11 w-full"
               disabled={isSendingOtp}
               onClick={handleLoginWithCode}
-              size={'lg'}
-              variant={'outline'}
+              size={"lg"}
+              variant={"outline"}
             >
               Enter code manually
             </Button>
@@ -147,7 +147,7 @@ export function CheckYourEmail({ email, onReset }: CheckYourEmailProps) {
         onClick={() => {
           onReset?.();
         }}
-        variant={'link'}
+        variant={"link"}
       >
         Back to login
       </Button>

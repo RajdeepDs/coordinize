@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
-import Link from 'next/link';
-import { env } from '@/env';
-import { Logo } from '../logo';
+import { Button } from "@coordinize/ui/components/button";
+import Link from "next/link";
+import { env } from "@/env";
+import { Logo } from "../logo";
 
 const APP_URL: string = env.NEXT_PUBLIC_APP_URL;
 
 const Links = [
   {
-    href: '/product',
-    label: 'Product',
+    href: "/product",
+    label: "Product",
   },
   {
-    href: '/resources',
-    label: 'Resources',
+    href: "/resources",
+    label: "Resources",
   },
   {
-    href: '/changelog',
-    label: 'Changelog',
+    href: "/changelog",
+    label: "Changelog",
   },
   {
-    href: '/community',
-    label: 'Community',
+    href: "/community",
+    label: "Community",
   },
 ] as const;
 
@@ -30,7 +30,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background-200 backdrop-blur-lg">
       <div className="flex h-(--header-height) items-center justify-between px-4">
-        <Link href={'/'}>
+        <Link href={"/"}>
           <Logo />
         </Link>
 

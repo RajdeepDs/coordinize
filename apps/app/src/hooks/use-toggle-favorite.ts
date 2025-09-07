@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useTRPC } from '@/trpc/client';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
 export function useToggleFavorite() {
   const trpc = useTRPC();
@@ -13,11 +13,11 @@ export function useToggleFavorite() {
         });
 
         // Only invalidate specific queries based on the toggle type
-        if (variables.type === 'post') {
+        if (variables.type === "post") {
           queryClient.invalidateQueries({
             queryKey: trpc.post.getPostById.queryKey({ id: variables.id }),
           });
-        } else if (variables.type === 'space') {
+        } else if (variables.type === "space") {
           queryClient.invalidateQueries({
             queryKey: trpc.space.getSpaceWithPublishedPosts.queryKey(),
           });

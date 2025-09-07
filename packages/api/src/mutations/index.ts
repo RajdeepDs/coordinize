@@ -1,21 +1,27 @@
-import type { PrismaClient } from '@coordinize/database/db';
+import type { PrismaClient } from "@coordinize/database/db";
 
 // Define a type that can accept both PrismaClient and transaction client
 type PrismaTransactionClient = Omit<
   PrismaClient,
-  '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+  "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
 >;
 type DatabaseClient = PrismaClient | PrismaTransactionClient;
 
+type CreateSpaceParams = {
+  name: string;
+  identifier: string;
+  about?: string;
+  icon?: string;
+  workspaceId: string;
+  userId: string;
+};
+
 export async function createNewSpace(
   db: DatabaseClient,
-  name: string,
-  identifier: string,
-  about: string | undefined,
-  icon: string | undefined,
-  workspaceId: string,
-  userId: string
+  params: CreateSpaceParams
 ) {
+  const { name, identifier, about, icon, workspaceId, userId } = params;
+
   const space = await db.space.create({
     data: {
       name,
@@ -31,21 +37,27 @@ export async function createNewSpace(
     data: {
       spaceId: space.id,
       userId,
-      role: 'ADMIN',
+      role: "ADMIN",
     },
   });
 
   return space;
 }
 
+type CreatePostParams = {
+  title: string;
+  description: string;
+  spaceId: string;
+  userId: string;
+  workspaceId: string;
+};
+
 export async function createNewPost(
   db: DatabaseClient,
-  title: string,
-  description: string,
-  spaceId: string,
-  userId: string,
-  workspaceId: string
+  params: CreatePostParams
 ) {
+  const { title, description, spaceId, userId, workspaceId } = params;
+
   const post = await db.post.create({
     data: {
       title,
@@ -53,41 +65,53 @@ export async function createNewPost(
       authorId: userId,
       spaceId,
       workspaceId,
-      status: 'PUBLISHED',
+      status: "PUBLISHED",
       publishedAt: new Date(),
     },
   });
   return post;
 }
 
+type CreateDraftPostParams = {
+  title: string;
+  description: string;
+  spaceId: string;
+  userId: string;
+  workspaceId: string;
+};
+
 export async function createDraftPost(
   db: DatabaseClient,
-  title: string,
-  description: string,
-  spaceId: string,
-  userId: string,
-  workspaceId: string
+  params: CreateDraftPostParams
 ) {
-  await db.post.create({
+  const { title, description, spaceId, userId, workspaceId } = params;
+
+  return await db.post.create({
     data: {
-      title: title || 'Untitled',
+      title: title || "Untitled",
       content: description,
       authorId: userId,
       spaceId,
       workspaceId,
-      status: 'DRAFT',
+      status: "DRAFT",
       publishedAt: null,
     },
   });
 }
 
+type CreateCommentParams = {
+  content: string;
+  postId: string;
+  authorId: string;
+  parentId?: string;
+};
+
 export async function createCommentMutation(
   db: DatabaseClient,
-  content: string,
-  postId: string,
-  authorId: string,
-  parentId?: string
+  params: CreateCommentParams
 ) {
+  const { content, postId, authorId, parentId } = params;
+
   const comment = await db.comment.create({
     data: {
       content,

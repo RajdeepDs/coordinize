@@ -4,8 +4,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@coordinize/ui/components/sidebar';
-import { Icons } from '@coordinize/ui/lib/icons';
+} from "@coordinize/ui/components/sidebar";
+import { Icons } from "@coordinize/ui/lib/icons";
 
 export function SpaceGroup({
   spaceName,

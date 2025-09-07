@@ -1,18 +1,18 @@
-import z, { string } from 'zod/v4';
-import { createNewSpace } from '@/lib/mutations';
-import { getSpacesQuery, getSpaceWithPublishedPosts } from '@/lib/queries';
-import { createSpaceSchema } from '@/lib/schemas';
-import { createTRPCRouter, protectedProcedure } from '../init';
+import z, { string } from "zod/v4";
+import { createTRPCRouter, protectedProcedure } from "../init";
+import { createNewSpace } from "../mutations";
+import { getSpacesQuery, getSpaceWithPublishedPosts } from "../queries";
+import { createSpaceSchema } from "../schemas";
 
 const updateSpaceSchema = z.object({
   id: z.string(),
   name: z
     .string()
-    .min(3, { message: 'Name must be at least 3 characters.' })
+    .min(3, { message: "Name must be at least 3 characters." })
     .optional(),
   identifier: z
     .string()
-    .min(3, { message: 'Identifier must be at least 3 characters.' })
+    .min(3, { message: "Identifier must be at least 3 characters." })
     .optional(),
   about: z.string().optional(),
   icon: z.string().optional(),
@@ -48,7 +48,7 @@ export const spaceRouter = createTRPCRouter({
       });
 
       if (!space) {
-        throw new Error('Space not found');
+        throw new Error("Space not found");
       }
 
       return space;
@@ -84,7 +84,7 @@ export const spaceRouter = createTRPCRouter({
           },
         },
         orderBy: {
-          joined: 'asc',
+          joined: "asc",
         },
       });
 
@@ -95,15 +95,14 @@ export const spaceRouter = createTRPCRouter({
     .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
       const { name, identifier, about, icon } = input;
 
-      await createNewSpace(
-        db,
+      await createNewSpace(db, {
         name,
         identifier,
         about,
         icon,
         workspaceId,
-        session.user.id
-      );
+        userId: session.user.id,
+      });
 
       return {
         workspaceSlug: session.user.defaultWorkspace,

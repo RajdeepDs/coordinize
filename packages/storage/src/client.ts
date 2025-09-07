@@ -1,1 +1,1 @@
-export * from '@uploadthing/react';
+export * from "@uploadthing/react";

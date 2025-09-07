@@ -1,43 +1,43 @@
-'use client';
+"use client";
 
-import type { Comment, User } from '@coordinize/database/db';
-import { Button } from '@coordinize/ui/components/button';
+import type { Comment, User } from "@coordinize/database/db";
+import { Button } from "@coordinize/ui/components/button";
 import {
   EmojiPicker,
   EmojiPickerContent,
   EmojiPickerSearch,
-} from '@coordinize/ui/components/emoji-picker';
+} from "@coordinize/ui/components/emoji-picker";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@coordinize/ui/components/popover';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { useState } from 'react';
-import { CommentEmojiReactions } from '@/components/features/comment/comment-emoji-reactions';
-import { MarkdownEditor } from '@/components/features/markdown-editor';
+} from "@coordinize/ui/components/popover";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { useState } from "react";
+import { CommentEmojiReactions } from "@/components/features/comment/comment-emoji-reactions";
+import { MarkdownEditor } from "@/components/features/markdown-editor";
 import {
   CommentProvider,
   useComment,
-} from '@/components/features/timeline/comment-context';
-import { CommentForm } from '@/components/features/timeline/comment-form';
-import AvatarStatus from '@/components/ui/avatar-status';
-import { useCommentReactions } from '@/hooks/use-comment-reactions';
-import { formatDate } from '@/utils/format-date';
+} from "@/components/features/timeline/comment-context";
+import { CommentForm } from "@/components/features/timeline/comment-form";
+import AvatarStatus from "@/components/ui/avatar-status";
+import { useCommentReactions } from "@/hooks/use-comment-reactions";
+import { formatDate } from "@/utils/format-date";
 
 type CommentWithAuthor = Comment & {
   author: Partial<User>;
   replies?: CommentWithAuthor[];
 };
 
-interface CommentItemProps {
+type CommentItemProps = {
   comment: CommentWithAuthor;
   isReply?: boolean;
-}
+};
 
-interface CommentContainerProps {
+type CommentContainerProps = {
   comment: CommentWithAuthor;
-}
+};
 
 export function CommentWrapper({ comment }: CommentContainerProps) {
   return (
@@ -80,13 +80,13 @@ export function CommentItem({ comment, isReply }: CommentItemProps) {
   const hasReactions = reactions.length > 0;
 
   return (
-    <div className="group relative flex flex-col gap-y-2 p-3 ">
+    <div className="group relative flex flex-col gap-y-2 p-3">
       <div className="flex select-none items-center gap-2">
         <AvatarStatus
           alt="comment-author-image"
           className="size-6"
-          fallback={comment.author?.name?.at(0) ?? ''}
-          src={comment.author?.image ?? ''}
+          fallback={comment.author?.name?.at(0) ?? ""}
+          src={comment.author?.image ?? ""}
           statusShow={false}
         />
         <p className="font-medium text-sm">{comment.author?.name}</p>
@@ -143,10 +143,10 @@ function CommentOptions({
         <Button
           className="size-7 rounded-sm"
           onClick={handleReplyClick}
-          size={'icon'}
+          size={"icon"}
           title="Reply to comment"
           tooltip="Reply to comment"
-          variant={'ghost'}
+          variant={"ghost"}
         >
           <Icons.reply />
         </Button>
@@ -177,20 +177,20 @@ function CommentOptions({
         </Popover>
       )}
       <Button
-        className={'hidden size-7 rounded-sm '}
-        size={'icon'}
+        className={"hidden size-7 rounded-sm"}
+        size={"icon"}
         title="Mark as resolved"
         tooltip="Mark as resolved"
-        variant={'ghost'}
+        variant={"ghost"}
       >
         <Icons.check />
       </Button>
       <Button
         className="hidden size-7 rounded-sm"
-        size={'icon'}
+        size={"icon"}
         title="More options"
         tooltip="More options"
-        variant={'ghost'}
+        variant={"ghost"}
       >
         <Icons.ellipsis />
       </Button>

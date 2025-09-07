@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
+import type { PostSchema } from "@coordinize/api/schemas";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from '@coordinize/ui/components/dialog';
-import { SidebarMenuButton } from '@coordinize/ui/components/sidebar';
-import { useGlobalHotkeys } from '@coordinize/ui/hooks';
-import { cn } from '@coordinize/ui/lib/utils';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
-import { useLocalStoragePost } from '@/hooks/use-local-storage-post';
-import { useSpacesQuery } from '@/hooks/use-space';
-import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
-import type { PostSchema } from '@/lib/schemas/post';
-import { useTRPC } from '@/trpc/client';
-import { PostComposerActions } from './post-composer-actions';
-import { PostComposerForm } from './post-composer-form';
+} from "@coordinize/ui/components/dialog";
+import { SidebarMenuButton } from "@coordinize/ui/components/sidebar";
+import { useGlobalHotkeys } from "@coordinize/ui/hooks";
+import { cn } from "@coordinize/ui/lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import { useLocalStoragePost } from "@/hooks/use-local-storage-post";
+import { useSpacesQuery } from "@/hooks/use-space";
+import { useCurrentWorkspaceQuery } from "@/hooks/use-workspace";
+import { useTRPC } from "@/trpc/client";
+import { PostComposerActions } from "./post-composer-actions";
+import { PostComposerForm } from "./post-composer-form";
 import {
   PostComposerFormProvider,
   type PostComposerFormRef,
-} from './post-composer-form-provider';
-import { PostComposerSpacesPicker } from './post-composer-spaces-picker';
-import { UnsavedChangesDialog } from './unsaved-changes-dialog';
+} from "./post-composer-form-provider";
+import { PostComposerSpacesPicker } from "./post-composer-spaces-picker";
+import { UnsavedChangesDialog } from "./unsaved-changes-dialog";
 
 export function PostComposerDialog() {
   const [open, setOpen] = useState(false);
@@ -129,13 +129,13 @@ export function PostComposerDialog() {
   };
 
   useGlobalHotkeys({
-    keys: 'c',
+    keys: "c",
     callback: handleCreatePost,
     options: { preventDefault: true },
   });
 
   useGlobalHotkeys({
-    keys: 'ctrl+shift+m',
+    keys: "ctrl+shift+m",
     callback: () => setOpenSpacePicker(!openSpacePicker),
     options: {
       preventDefault: true,
@@ -152,11 +152,11 @@ export function PostComposerDialog() {
           <DialogTrigger asChild>
             <SidebarMenuButton
               className={cn(
-                'relative flex cursor-pointer justify-center overflow-visible border transition-colors duration-300 ease-in-out hover:border-ui-gray-500'
+                "relative flex cursor-pointer justify-center overflow-visible border transition-colors duration-300 ease-in-out hover:border-ui-gray-500"
               )}
               tooltip="Create a new post"
               tooltipShortcut="c"
-              variant={'outline'}
+              variant={"outline"}
             >
               <span className="font-normal">New post</span>
               {hasStoredPost && (
@@ -177,12 +177,12 @@ export function PostComposerDialog() {
                 open={openSpacePicker}
                 setOpen={setOpenSpacePicker}
                 spaces={spaces || []}
-                workspaceSlug={workspace?.slug ?? ''}
+                workspaceSlug={workspace?.slug ?? ""}
               />
             </PostComposerForm>
             <PostComposerActions
-              isDraftSaving={isDraftSaving === 'pending'}
-              isSubmitting={isSubmitting === 'pending'}
+              isDraftSaving={isDraftSaving === "pending"}
+              isSubmitting={isSubmitting === "pending"}
               onSaveDraft={handleSaveDraft}
               onSubmit={handleSubmitPost}
             />

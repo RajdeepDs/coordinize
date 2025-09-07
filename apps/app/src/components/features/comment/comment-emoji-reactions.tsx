@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   EmojiPicker,
   EmojiPickerContent,
   EmojiPickerSearch,
-} from '@coordinize/ui/components/emoji-picker';
+} from "@coordinize/ui/components/emoji-picker";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@coordinize/ui/components/popover';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
-import { useState } from 'react';
-import { useCommentReactions } from '@/hooks/use-comment-reactions';
-import { useUserQuery } from '@/hooks/use-user';
-import { getTooltipText } from '@/utils/get-reaction-tooltip';
+} from "@coordinize/ui/components/popover";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
+import { useState } from "react";
+import { useCommentReactions } from "@/hooks/use-comment-reactions";
+import { useUserQuery } from "@/hooks/use-user";
+import { getTooltipText } from "@/utils/get-reaction-tooltip";
 
-interface CommentEmojiReactionsProps {
+type CommentEmojiReactionsProps = {
   commentId: string;
-}
+};
 
-interface ReactionData {
+type ReactionData = {
   emoji: string;
   count: number;
   users: { id: string; name: string; image: string | null }[];
   hasReacted: boolean;
-}
+};
 
 export function CommentEmojiReactions({
   commentId,
@@ -55,9 +55,9 @@ export function CommentEmojiReactions({
       {reactions.map((reaction: ReactionData) => (
         <Button
           className={cn(
-            'focus:bg-accent',
-            'h-7 rounded-full bg-background-200 px-2 font-normal text-sm ring ring-ui-gray-400 transition-colors',
-            'hover:bg-ui-gray-100'
+            "focus:bg-accent",
+            "h-7 rounded-full bg-background-200 px-2 font-normal text-sm ring ring-ui-gray-400 transition-colors",
+            "hover:bg-ui-gray-100"
           )}
           disabled={isToggling}
           key={reaction.emoji}

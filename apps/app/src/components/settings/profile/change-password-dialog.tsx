@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@coordinize/ui/components/dialog';
+} from "@coordinize/ui/components/dialog";
 import {
   Form,
   FormControl,
@@ -16,45 +16,47 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@coordinize/ui/components/form';
-import { Input } from '@coordinize/ui/components/input';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+} from "@coordinize/ui/components/form";
+import { Input } from "@coordinize/ui/components/input";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const passwordSchema = z
   .object({
-    currentPassword: z.string().min(1, 'Current password is required'),
+    currentPassword: z.string().min(1, "Current password is required"),
     newPassword: z
       .string()
-      .min(8, 'Password must be at least 8 characters')
-      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .regex(/[0-9]/, 'Password must contain at least one number'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
+      .min(8, "Password must be at least 8 characters")
+      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+      .regex(/[0-9]/, "Password must contain at least one number"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ['confirmPassword'],
+    path: ["confirmPassword"],
   });
 
 export function ChangePasswordDialog() {
   const form = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
     },
   });
-  function onSubmit(values: z.infer<typeof passwordSchema>) {
-    console.log(values);
+  function onSubmit(_values: z.infer<typeof passwordSchema>) {
+    // TODO: Implement password change logic
+    // Reset form after submission
+    form.reset();
   }
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="font-normal" size={'sm'} variant={'outline'}>
+        <Button className="font-normal" size={"sm"} variant={"outline"}>
           Change password
         </Button>
       </DialogTrigger>

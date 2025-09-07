@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import type { Post, Space, User } from '@coordinize/database/db';
-import { isToday, isYesterday } from 'date-fns';
-import { useRouter } from 'next/navigation';
-import { PostItem } from '@/components/features/activity/post-item';
-import { PostSeparator } from '@/components/ui/post-separator';
-import { useKeyboardNavigation } from '@/hooks/use-keyboard-post-navigation';
-import { usePublishedPostsQuery } from '@/hooks/use-posts';
-import { useCurrentWorkspaceQuery } from '@/hooks/use-workspace';
-import { formatDate } from '@/utils/format-date';
+import type { Post, Space, User } from "@coordinize/database/db";
+import { isToday, isYesterday } from "date-fns";
+import { useRouter } from "next/navigation";
+import { PostItem } from "@/components/features/activity/post-item";
+import { PostSeparator } from "@/components/ui/post-separator";
+import { useKeyboardNavigation } from "@/hooks/use-keyboard-post-navigation";
+import { usePublishedPostsQuery } from "@/hooks/use-posts";
+import { useCurrentWorkspaceQuery } from "@/hooks/use-workspace";
+import { formatDate } from "@/utils/format-date";
 
 type PostWithRelations = Post & {
-  space: Pick<Space, 'id' | 'name' | 'identifier'> | null;
-  author: Pick<User, 'id' | 'name' | 'image'> | null;
+  space: Pick<Space, "id" | "name" | "identifier"> | null;
+  author: Pick<User, "id" | "name" | "image"> | null;
 };
 
 export function PublishedPostsList() {
@@ -35,16 +35,16 @@ export function PublishedPostsList() {
 
   function getDateLabel(publishedAt: Date | null): string {
     if (!publishedAt) {
-      return 'Older';
+      return "Older";
     }
 
     const date = new Date(publishedAt);
 
     if (isToday(date)) {
-      return 'Today';
+      return "Today";
     }
     if (isYesterday(date)) {
-      return 'Yesterday';
+      return "Yesterday";
     }
 
     return formatDate(date);
@@ -88,19 +88,19 @@ export function PublishedPostsList() {
               return (
                 <div
                   className={`rounded-md transition-colors ${
-                    isSelected ? 'bg-accent' : ''
+                    isSelected ? "bg-accent" : ""
                   }`}
                   key={post.id}
                   ref={isSelected ? selectedRef : null}
                 >
                   <PostItem
-                    authorName={post.author?.name || ''}
+                    authorName={post.author?.name || ""}
                     description={post.content || undefined}
                     id={post.id}
-                    spaceName={post.space?.name || ''}
+                    spaceName={post.space?.name || ""}
                     title={post.title}
                     userImage={post.author?.image || undefined}
-                    workspaceSlug={currentWorkspace?.slug || ''}
+                    workspaceSlug={currentWorkspace?.slug || ""}
                   />
                 </div>
               );

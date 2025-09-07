@@ -1,12 +1,12 @@
-import { TRPCError } from '@trpc/server';
-import z from 'zod/v4';
-import { getWorkspaceMembersQuery, getWorkspaceQuery } from '@/lib/queries';
-import { workspaceSetupSchema } from '@/lib/schemas/setup';
+import { TRPCError } from "@trpc/server";
+import z from "zod/v4";
 import {
   authenticatedProcedure,
   createTRPCRouter,
   protectedProcedure,
-} from '../init';
+} from "../init";
+import { getWorkspaceMembersQuery, getWorkspaceQuery } from "../queries";
+import { workspaceSetupSchema } from "../schemas/setup";
 
 export const workspaceRouter = createTRPCRouter({
   current: protectedProcedure.query(async ({ ctx: { workspaceId } }) => {
@@ -34,8 +34,8 @@ export const workspaceRouter = createTRPCRouter({
 
       if (existingWorkspace) {
         throw new TRPCError({
-          code: 'CONFLICT',
-          message: 'A workspace with this URL already exists.',
+          code: "CONFLICT",
+          message: "A workspace with this URL already exists.",
         });
       }
 
@@ -52,7 +52,7 @@ export const workspaceRouter = createTRPCRouter({
           data: {
             workspaceId: workspace.id,
             userId: user.id,
-            role: 'ADMIN',
+            role: "ADMIN",
           },
         });
 
@@ -73,11 +73,11 @@ export const workspaceRouter = createTRPCRouter({
       z.object({
         workspaceName: z
           .string()
-          .min(1, { message: 'Workspace name is required.' })
+          .min(1, { message: "Workspace name is required." })
           .optional(),
         workspaceURL: z
           .string()
-          .min(3, { message: 'Workspace URL must be at least 3 characters.' })
+          .min(3, { message: "Workspace URL must be at least 3 characters." })
           .optional(),
         workspaceLogoURL: z.string().optional(),
       })
@@ -89,8 +89,8 @@ export const workspaceRouter = createTRPCRouter({
 
       if (!workspaceSlug) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Workspace not found',
+          code: "NOT_FOUND",
+          message: "Workspace not found",
         });
       }
 
@@ -153,24 +153,24 @@ export const workspaceRouter = createTRPCRouter({
 
       if (!workspace) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Workspace not found.',
+          code: "NOT_FOUND",
+          message: "Workspace not found.",
         });
       }
 
       // Check if the user is an admin of this workspace
       const userMembership = workspace.WorkspaceMember[0];
-      if (!userMembership || userMembership.role !== 'ADMIN') {
+      if (!userMembership || userMembership.role !== "ADMIN") {
         throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: 'Only workspace admins can delete the workspace.',
+          code: "FORBIDDEN",
+          message: "Only workspace admins can delete the workspace.",
         });
       }
 
       if (workspace.createdBy !== session.user.id) {
         throw new TRPCError({
-          code: 'FORBIDDEN',
-          message: 'Only the workspace creator can delete the workspace.',
+          code: "FORBIDDEN",
+          message: "Only the workspace creator can delete the workspace.",
         });
       }
 
@@ -302,7 +302,7 @@ export const workspaceRouter = createTRPCRouter({
 
       return {
         success: true,
-        message: 'Workspace deleted successfully.',
+        message: "Workspace deleted successfully.",
         details: result,
       };
     }),

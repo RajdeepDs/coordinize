@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from "next/navigation";
 
 /**
  * Hook to handle authentication redirects after successful login
@@ -9,7 +9,7 @@ export function useAuthRedirect() {
   const searchParams = useSearchParams();
 
   const handleAuthSuccess = () => {
-    const callbackUrl = searchParams.get('callbackUrl');
+    const callbackUrl = searchParams.get("callbackUrl");
 
     if (callbackUrl) {
       router.push(callbackUrl);

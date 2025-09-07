@@ -23,21 +23,23 @@
     "db:generate": "turbo db:generate --filter=@coordinize/database",
     "db:migrate": "cd packages/database && bun db:migrate",
     "db:deploy": "turbo db:deploy --filter=@coordinize/database",
-    "postinstall": "bun run db:generate",
     "prepare": "husky"
   },
   "packageManager": "bun@1.1.38",
   "resolutions": {
-    "jackspeak": "2.1.1"
+    "jackspeak": "2.1.1",
+    "@trpc/server": "*",
+    "@trpc/client": "*",
+    "@trpc/tanstack-react-query": "*"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.5",
-    "@manypkg/cli": "^0.23.0",
+    "@biomejs/biome": "2.2.2",
+    "@manypkg/cli": "^0.25.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
-    "turbo": "2.3.3",
-    "typescript": "^5.8.2",
-    "ultracite": "5.0.23"
+    "lint-staged": "^16.1.6",
+    "turbo": "2.5.6",
+    "typescript": "^5.9.2",
+    "ultracite": "5.3.3"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [

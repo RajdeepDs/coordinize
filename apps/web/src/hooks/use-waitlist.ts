@@ -1,10 +1,10 @@
-import { toast } from '@coordinize/ui/components/sonner';
+import { toast } from "@coordinize/ui/components/sonner";
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
-} from '@tanstack/react-query';
-import { useTRPC } from '@/trpc/client';
+} from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
 export function useWaitlistCount() {
   const trpc = useTRPC();
@@ -46,7 +46,7 @@ export function useJoinWaitlist() {
             context.previousCount
           );
         }
-        toast.error('Something went wrong. Please try again.');
+        toast.error("Something went wrong. Please try again.");
       },
       onSuccess: (data) => {
         toast.success(data.message);

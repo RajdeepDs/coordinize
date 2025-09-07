@@ -1,11 +1,11 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod/v4';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod/v4";
+import { createTRPCRouter, protectedProcedure } from "../init";
 import {
   createTimelineEventMutation,
   getPostTimelineEventsQuery,
-} from '@/lib/queries';
-import { timelineSchema } from '@/lib/schemas/timeline';
-import { createTRPCRouter, protectedProcedure } from '../init';
+} from "../queries";
+import { timelineSchema } from "../schemas/timeline";
 
 export const timelineRouter = createTRPCRouter({
   getPostTimeline: protectedProcedure
@@ -20,8 +20,8 @@ export const timelineRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Post not found',
+          code: "NOT_FOUND",
+          message: "Post not found",
         });
       }
 
@@ -43,7 +43,7 @@ export const timelineRouter = createTRPCRouter({
 
       const timelineEvent = await createTimelineEventMutation(db, {
         actorId: session.user.id,
-        actorType: 'User',
+        actorType: "User",
         subjectType,
         subjectId,
         referenceType,

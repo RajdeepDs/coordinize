@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import type { TimelineEvent } from '@coordinize/database/db';
-import { Icons } from '@coordinize/ui/lib/icons';
-import AvatarStatus from '@/components/ui/avatar-status';
-import type { ProcessedTimelineEvent } from '@/lib/queries';
-import { TimelineEventMessages } from '@/lib/types/timeline';
-import { formatDate } from '@/utils/format-date';
+import type { ProcessedTimelineEvent } from "@coordinize/api/queries";
+import type { TimelineEvent } from "@coordinize/database/db";
+import { Icons } from "@coordinize/ui/lib/icons";
+import AvatarStatus from "@/components/ui/avatar-status";
+import { TimelineEventMessages } from "@/lib/types/timeline";
+import { formatDate } from "@/utils/format-date";
 
-interface PostEventItemProps {
+type PostEventItemProps = {
   event: ProcessedTimelineEvent;
-}
+};
 
 // Type-safe function to get timeline event message
 const getTimelineMessage = (processedEvent: ProcessedTimelineEvent): string => {
@@ -29,20 +29,20 @@ const getTimelineMessage = (processedEvent: ProcessedTimelineEvent): string => {
 export function PostEventItem({ event }: PostEventItemProps) {
   const getIcon = () => {
     switch (event.action) {
-      case 'RESOLVED':
-      case 'REOPENED':
+      case "RESOLVED":
+      case "REOPENED":
         return <Icons.post className="text-ui-gray-900" size={16} />;
-      case 'UPDATED_TITLE':
+      case "UPDATED_TITLE":
         return <Icons.pen className="text-ui-gray-900" size={16} />;
-      case 'MOVED_SPACE':
+      case "MOVED_SPACE":
         return <Icons.space className="text-ui-gray-900" size={16} />;
       default:
         return (
           <AvatarStatus
             alt="user-avatar"
             className="size-6"
-            fallback={event.actor?.name?.charAt(0) || '?'}
-            src={event.actor?.image || ''}
+            fallback={event.actor?.name?.charAt(0) || "?"}
+            src={event.actor?.image || ""}
             statusShow={false}
           />
         );

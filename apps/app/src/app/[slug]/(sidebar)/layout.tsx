@@ -1,7 +1,7 @@
-import { SidebarProvider } from '@coordinize/ui/components/sidebar';
-import { AppSidebar } from '@/components/layout/app-sidebar/app-sidebar';
-import { SidebarLayout } from '@/components/layout/app-sidebar/sidebar-layout';
-import { batchPrefetch, HydrateClient, trpc } from '@/trpc/server';
+import { SidebarProvider } from "@coordinize/ui/components/sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar/app-sidebar";
+import { SidebarLayout } from "@/components/layout/app-sidebar/sidebar-layout";
+import { batchPrefetch, HydrateClient, trpc } from "@/trpc/server";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   batchPrefetch([

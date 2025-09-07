@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import type { Workspace } from '@coordinize/database/db';
-import AvatarUploader from '@coordinize/ui/components/avatar-uploader';
+import type { Workspace } from "@coordinize/database/db";
+import AvatarUploader from "@coordinize/ui/components/avatar-uploader";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@coordinize/ui/components/form';
-import { toast } from '@coordinize/ui/components/sonner';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useAction } from 'next-safe-action/hooks';
-import { useCallback, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { updateWorkspaceAction } from '@/actions/update-workspace-action';
-import { useUploadThing } from '@/utils/uploadthing';
+} from "@coordinize/ui/components/form";
+import { toast } from "@coordinize/ui/components/sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
+import { useCallback, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { updateWorkspaceAction } from "@/actions/update-workspace-action";
+import { useUploadThing } from "@/utils/uploadthing";
 
 const formSchema = z.object({
   workspaceLogo: z.string().url().or(z.string().length(0)),
@@ -29,30 +29,29 @@ export function WorkspaceLogo({ workspace }: { workspace: Workspace }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      workspaceLogo: '',
+      workspaceLogo: "",
       workspaceLogoFile: undefined,
     },
   });
 
-  const { startUpload } = useUploadThing('imageUploader');
+  const { startUpload } = useUploadThing("imageUploader");
   const isSubmitting = useRef(false);
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (workspace) {
       form.reset({
-        workspaceLogo: workspace.logo ?? '',
+        workspaceLogo: workspace.logo ?? "",
         workspaceLogoFile: undefined,
       });
     }
   }, [workspace, form]);
 
   const { execute } = useAction(updateWorkspaceAction, {
-    onError: ({ error }) => {
-      toast.error('Something went wrong.');
-      console.log({ error });
+    onError: () => {
+      toast.error("Something went wrong.");
     },
-    onSuccess: () => toast.success('Workspace updated.'),
+    onSuccess: () => toast.success("Workspace updated."),
   });
 
   const hasSubmitted = useRef(false);
@@ -71,12 +70,12 @@ export function WorkspaceLogo({ workspace }: { workspace: Workspace }) {
 
         if (values.workspaceLogoFile instanceof File) {
           const uploaded = await startUpload([values.workspaceLogoFile]);
-          workspaceLogoUrl = (uploaded?.[0]?.ufsUrl || workspace?.logo) ?? '';
+          workspaceLogoUrl = (uploaded?.[0]?.ufsUrl || workspace?.logo) ?? "";
         }
 
         execute({ workspaceLogoURL: workspaceLogoUrl });
-      } catch (error) {
-        console.error('Error submitting form:', error);
+      } catch {
+        toast.error("Failed to update workspace logo");
       } finally {
         isSubmitting.current = false;
 
@@ -91,9 +90,9 @@ export function WorkspaceLogo({ workspace }: { workspace: Workspace }) {
 
   const handleAvatarChange = useCallback(
     (file: File | null) => {
-      form.setValue('workspaceLogoFile', file || undefined);
+      form.setValue("workspaceLogoFile", file || undefined);
       if (!file) {
-        form.setValue('workspaceLogo', '');
+        form.setValue("workspaceLogo", "");
         form.handleSubmit(onSubmit)();
         return;
       }
@@ -119,7 +118,7 @@ export function WorkspaceLogo({ workspace }: { workspace: Workspace }) {
               <FormControl>
                 <AvatarUploader
                   onChange={handleAvatarChange}
-                  previewUrl={form.getValues('workspaceLogo') || ''}
+                  previewUrl={form.getValues("workspaceLogo") || ""}
                 />
               </FormControl>
               <FormMessage />

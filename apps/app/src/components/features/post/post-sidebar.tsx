@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
-} from '@coordinize/ui/components/sidebar';
-import { Switch } from '@coordinize/ui/components/switch';
-import { PostSidebarActions } from './post-sidebar-actions';
-import { PostSidebarFooter } from './post-sidebar-footer';
-import { SpaceGroup } from './space-group';
+} from "@coordinize/ui/components/sidebar";
+import { Switch } from "@coordinize/ui/components/switch";
+import { PostSidebarActions } from "./post-sidebar-actions";
+import { PostSidebarFooter } from "./post-sidebar-footer";
+import { SpaceGroup } from "./space-group";
 
-interface PostSidebarProps {
+type PostSidebarProps = {
   spaceName: string;
   postId: string;
   spaceIcon: string | null;
-}
+};
 
 export function PostSidebar({
   spaceName,

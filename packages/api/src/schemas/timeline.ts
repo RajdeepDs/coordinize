@@ -1,12 +1,12 @@
-import z from 'zod/v4';
+import z from "zod/v4";
 
 export const timelineSchema = z.object({
   action: z.enum([
-    'UPDATED_TITLE',
-    'MOVED_SPACE',
-    'RESOLVED',
-    'REOPENED',
-    'COMMENTED',
+    "UPDATED_TITLE",
+    "MOVED_SPACE",
+    "RESOLVED",
+    "REOPENED",
+    "COMMENTED",
   ]),
   subjectType: z.string(),
   subjectId: z.string(),

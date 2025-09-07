@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   Dialog,
   DialogClose,
@@ -10,20 +10,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@coordinize/ui/components/dialog';
-import { Input } from '@coordinize/ui/components/input';
-import { Label } from '@coordinize/ui/components/label';
-import { toast } from '@coordinize/ui/components/sonner';
-import { useMutation } from '@tanstack/react-query';
-import { CircleAlertIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useTRPC } from '@/trpc/client';
+} from "@coordinize/ui/components/dialog";
+import { Input } from "@coordinize/ui/components/input";
+import { Label } from "@coordinize/ui/components/label";
+import { toast } from "@coordinize/ui/components/sonner";
+import { useMutation } from "@tanstack/react-query";
+import { CircleAlertIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useTRPC } from "@/trpc/client";
 
-interface DeleteWorkspaceDialogProps {
+type DeleteWorkspaceDialogProps = {
   workspaceId: string;
   workspaceName: string;
-}
+};
 
 export default function DeleteWorkspaceDialog({
   workspaceId,
@@ -33,22 +33,22 @@ export default function DeleteWorkspaceDialog({
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   const { mutate: deleteWorkspace, isPending } = useMutation(
     trpc.workspace.delete.mutationOptions({
       onSuccess: (data) => {
         toast.success(data.message);
-        router.push('/workspace-setup');
+        router.push("/workspace-setup");
       },
       onError: (error) => {
         toast.error(
-          error.message || 'Error deleting workspace. Please try again.'
+          error.message || "Error deleting workspace. Please try again."
         );
       },
       onSettled: () => {
         setOpen(false);
-        setInputValue('');
+        setInputValue("");
       },
     })
   );
@@ -58,8 +58,8 @@ export default function DeleteWorkspaceDialog({
       <DialogTrigger asChild>
         <Button
           className="border-destructive-foreground font-normal text-destructive-foreground hover:bg-destructive/10 hover:text-destructive-foreground"
-          size={'sm'}
-          variant={'outline'}
+          size={"sm"}
+          variant={"outline"}
         >
           Delete workspace
         </Button>
@@ -78,7 +78,7 @@ export default function DeleteWorkspaceDialog({
             </DialogTitle>
             <DialogDescription className="sm:text-center">
               This action cannot be undone. To confirm, please enter the
-              workspace name{' '}
+              workspace name{" "}
               <span className="text-foreground">{workspaceName}</span>.
             </DialogDescription>
           </DialogHeader>
@@ -106,7 +106,7 @@ export default function DeleteWorkspaceDialog({
               onClick={() => deleteWorkspace({ workspaceId })}
               type="button"
             >
-              {isPending ? 'Deleting...' : 'Delete'}
+              {isPending ? "Deleting..." : "Delete"}
             </Button>
           </DialogFooter>
         </form>

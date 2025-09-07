@@ -1,10 +1,10 @@
-import { Label } from '@coordinize/ui/components/label';
-import { Separator } from '@coordinize/ui/components/separator';
-import { SettingsCard } from '@/components/settings/settings-card';
-import DeleteWorkspaceDialog from '@/components/settings/workspace/delete-workspace-dialog';
-import { WorkspaceLogo } from '@/components/settings/workspace/workspace-logo';
-import { WorkspaceNameSlug } from '@/components/settings/workspace/workspace-name-slug';
-import { getQueryClient, HydrateClient, trpc } from '@/trpc/server';
+import { Label } from "@coordinize/ui/components/label";
+import { Separator } from "@coordinize/ui/components/separator";
+import { SettingsCard } from "@/components/settings/settings-card";
+import DeleteWorkspaceDialog from "@/components/settings/workspace/delete-workspace-dialog";
+import { WorkspaceLogo } from "@/components/settings/workspace/workspace-logo";
+import { WorkspaceNameSlug } from "@/components/settings/workspace/workspace-name-slug";
+import { getQueryClient, HydrateClient, trpc } from "@/trpc/server";
 
 export default async function WorkspacePage() {
   const queryClient = getQueryClient();

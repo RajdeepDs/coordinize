@@ -1,7 +1,7 @@
-import { betterFetch } from '@better-fetch/fetch';
-import { type NextRequest, NextResponse } from 'next/server';
-import type { auth } from '../auth';
-import { apiAuthPrefix, authRoutes, publicRoutes } from './routes';
+import { betterFetch } from "@better-fetch/fetch";
+import { type NextRequest, NextResponse } from "next/server";
+import type { auth } from "../auth";
+import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
 
 type Session = typeof auth.$Infer.Session;
 
@@ -12,15 +12,15 @@ export async function authMiddleware(request: NextRequest) {
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(pathname);
   const isAuthRoute = authRoutes.includes(pathname);
-  const isOnboardingRoute = pathname.startsWith('/onboarding');
-  const isWorkspaceSetupRoute = pathname === '/workspace-setup';
+  const isOnboardingRoute = pathname.startsWith("/onboarding");
+  const isWorkspaceSetupRoute = pathname === "/workspace-setup";
 
   const { data: session } = await betterFetch<Session>(
-    '/api/auth/get-session',
+    "/api/auth/get-session",
     {
       baseURL: request.nextUrl.origin,
       headers: {
-        cookie: request.headers.get('cookie') || '',
+        cookie: request.headers.get("cookie") || "",
       },
     }
   );
@@ -33,14 +33,14 @@ export async function authMiddleware(request: NextRequest) {
     return handleUnauthenticatedUser(isAuthRoute, isPublicRoute, nextUrl);
   }
 
-  return handleAuthenticatedUser(
+  return handleAuthenticatedUser({
     session,
     pathname,
     isAuthRoute,
     isOnboardingRoute,
     isWorkspaceSetupRoute,
-    nextUrl
-  );
+    nextUrl,
+  });
 }
 
 function handleUnauthenticatedUser(
@@ -49,29 +49,38 @@ function handleUnauthenticatedUser(
   nextUrl: URL
 ) {
   if (!(isAuthRoute || isPublicRoute)) {
-    const loginUrl = new URL('/login', nextUrl);
-    loginUrl.searchParams.set('callbackUrl', nextUrl.pathname + nextUrl.search);
+    const loginUrl = new URL("/login", nextUrl);
+    loginUrl.searchParams.set("callbackUrl", nextUrl.pathname + nextUrl.search);
     return NextResponse.redirect(loginUrl);
   }
   return NextResponse.next();
 }
 
-function handleAuthenticatedUser(
-  session: Session,
-  pathname: string,
-  isAuthRoute: boolean,
-  isOnboardingRoute: boolean,
-  isWorkspaceSetupRoute: boolean,
-  nextUrl: URL
-) {
+type AuthenticatedUserParams = {
+  session: Session;
+  pathname: string;
+  isAuthRoute: boolean;
+  isOnboardingRoute: boolean;
+  isWorkspaceSetupRoute: boolean;
+  nextUrl: URL;
+};
+
+function handleAuthenticatedUser({
+  session,
+  pathname,
+  isAuthRoute,
+  isOnboardingRoute,
+  isWorkspaceSetupRoute,
+  nextUrl,
+}: AuthenticatedUserParams) {
   const { onboarded, defaultWorkspace } = session.user;
 
   // Handle workspace setup flow - if user doesn't have a workspace
   if (!defaultWorkspace) {
-    if (isWorkspaceSetupRoute || pathname.startsWith('/invite')) {
+    if (isWorkspaceSetupRoute || pathname.startsWith("/invite")) {
       return NextResponse.next();
     }
-    return NextResponse.redirect(new URL('/workspace-setup', nextUrl));
+    return NextResponse.redirect(new URL("/workspace-setup", nextUrl));
   }
 
   // Handle onboarding flow - user has workspace but not onboarded
@@ -82,7 +91,7 @@ function handleAuthenticatedUser(
   // User is fully set up - redirect auth routes and home to their workspace
   if (
     isAuthRoute ||
-    pathname === '/' ||
+    pathname === "/" ||
     isOnboardingRoute ||
     isWorkspaceSetupRoute
   ) {
@@ -93,12 +102,12 @@ function handleAuthenticatedUser(
 }
 
 function handleOnboardingFlow(pathname: string, nextUrl: URL) {
-  if (pathname.startsWith('/invite')) {
+  if (pathname.startsWith("/invite")) {
     return NextResponse.next();
   }
 
-  if (!pathname.startsWith('/onboarding')) {
-    return NextResponse.redirect(new URL('/onboarding/welcome', nextUrl));
+  if (!pathname.startsWith("/onboarding")) {
+    return NextResponse.redirect(new URL("/onboarding/welcome", nextUrl));
   }
 
   return NextResponse.next();

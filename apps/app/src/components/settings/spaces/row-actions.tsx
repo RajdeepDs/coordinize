@@ -1,15 +1,15 @@
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@coordinize/ui/components/dropdown-menu';
-import { Icons } from '@coordinize/ui/lib/icons';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { getSpaceNavigation } from '@/config/team-navigation';
+} from "@coordinize/ui/components/dropdown-menu";
+import { Icons } from "@coordinize/ui/lib/icons";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { getSpaceNavigation } from "@/config/team-navigation";
 
 export function RowActions({ identifier }: { identifier: string }) {
   const params = useParams<{ slug: string }>();

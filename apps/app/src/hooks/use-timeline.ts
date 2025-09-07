@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useTRPC } from '@/trpc/client';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
 export function usePostTimelineQuery(postId: string) {
   const trpc = useTRPC();

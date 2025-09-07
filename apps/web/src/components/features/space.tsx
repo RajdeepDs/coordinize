@@ -1,23 +1,23 @@
-import { Icons } from '@coordinize/ui/lib/icons';
+import { Icons } from "@coordinize/ui/lib/icons";
 
-const title = 'Organized by spaces';
-const subtitle = 'Keep posts grouped by topic, project, or team.';
+const title = "Organized by spaces";
+const subtitle = "Keep posts grouped by topic, project, or team.";
 
 const spaces = [
   {
     id: 1,
-    name: 'Getting Started',
-    icon: '⚡',
+    name: "Getting Started",
+    icon: "⚡",
   },
   {
     id: 2,
-    name: 'Engineering',
-    icon: '⚒️',
+    name: "Engineering",
+    icon: "⚒️",
   },
   {
     id: 3,
-    name: 'Product',
-    icon: '💡',
+    name: "Product",
+    icon: "💡",
   },
 ];
 

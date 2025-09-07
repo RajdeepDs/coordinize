@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useSidebar } from '@coordinize/ui/components/sidebar';
-import { cn } from '@coordinize/ui/lib/utils';
+import { useSidebar } from "@coordinize/ui/components/sidebar";
+import { cn } from "@coordinize/ui/lib/utils";
 
-interface SidebarLayoutProps {
+type SidebarLayoutProps = {
   readonly children: React.ReactNode;
-}
+};
 
 export function SidebarLayout({ children }: SidebarLayoutProps) {
   const { isMobile, leftState } = useSidebar();
   return (
     <div
       className={cn(
-        'flex h-screen w-full flex-col overflow-hidden bg-sidebar py-2 pr-2',
+        "flex h-screen w-full flex-col overflow-hidden bg-sidebar py-2 pr-2",
         {
-          'pl-2': isMobile || leftState === 'collapsed',
+          "pl-2": isMobile || leftState === "collapsed",
         }
       )}
     >

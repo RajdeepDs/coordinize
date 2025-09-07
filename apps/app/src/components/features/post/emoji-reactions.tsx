@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { Button } from '@coordinize/ui/components/button';
+import { Button } from "@coordinize/ui/components/button";
 import {
   EmojiPicker,
   EmojiPickerContent,
   EmojiPickerSearch,
-} from '@coordinize/ui/components/emoji-picker';
+} from "@coordinize/ui/components/emoji-picker";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@coordinize/ui/components/popover';
-import { Icons } from '@coordinize/ui/lib/icons';
-import { cn } from '@coordinize/ui/lib/utils';
-import { useState } from 'react';
-import { useReactions } from '@/hooks/use-reactions';
-import { useUserQuery } from '@/hooks/use-user';
-import { getTooltipText } from '@/utils/get-reaction-tooltip';
+} from "@coordinize/ui/components/popover";
+import { Icons } from "@coordinize/ui/lib/icons";
+import { cn } from "@coordinize/ui/lib/utils";
+import { useState } from "react";
+import { useReactions } from "@/hooks/use-reactions";
+import { useUserQuery } from "@/hooks/use-user";
+import { getTooltipText } from "@/utils/get-reaction-tooltip";
 
-interface EmojiReactionsProps {
+type EmojiReactionsProps = {
   postId: string;
-}
+};
 
 export function EmojiReactions({ postId }: EmojiReactionsProps) {
   const { reactions, toggleReaction, isToggling } = useReactions(postId);
@@ -41,9 +41,9 @@ export function EmojiReactions({ postId }: EmojiReactionsProps) {
       {reactions.map((reaction) => (
         <Button
           className={cn(
-            'focus:bg-accent',
-            'h-7 rounded-full bg-background-200 px-2 font-normal text-sm ring ring-ui-gray-400 transition-colors',
-            'hover:bg-ui-gray-100'
+            "focus:bg-accent",
+            "h-7 rounded-full bg-background-200 px-2 font-normal text-sm ring ring-ui-gray-400 transition-colors",
+            "hover:bg-ui-gray-100"
           )}
           disabled={isToggling}
           key={reaction.emoji}

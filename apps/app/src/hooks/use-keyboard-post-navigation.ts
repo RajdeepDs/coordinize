@@ -1,5 +1,5 @@
-import { useGlobalHotkeys } from '@coordinize/ui/hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useGlobalHotkeys } from "@coordinize/ui/hooks";
+import { useEffect, useRef, useState } from "react";
 
 export function useKeyboardNavigation<T>(
   items: T[],
@@ -40,19 +40,19 @@ export function useKeyboardNavigation<T>(
 
   // Register hotkeys
   useGlobalHotkeys({
-    keys: ['k', 'up'],
+    keys: ["k", "up"],
     callback: navigateUp,
     options: { enabled: items.length > 0 },
   });
 
   useGlobalHotkeys({
-    keys: ['j', 'down'],
+    keys: ["j", "down"],
     callback: navigateDown,
     options: { enabled: items.length > 0 },
   });
 
   useGlobalHotkeys({
-    keys: 'enter',
+    keys: "enter",
     callback: selectCurrent,
     options: { enabled: items.length > 0 },
   });
@@ -61,8 +61,8 @@ export function useKeyboardNavigation<T>(
   useEffect(() => {
     if (selectedRef.current && items.length > 0 && selectedIndex !== null) {
       selectedRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
+        behavior: "smooth",
+        block: "nearest",
       });
     }
   }, [selectedIndex, items.length]);

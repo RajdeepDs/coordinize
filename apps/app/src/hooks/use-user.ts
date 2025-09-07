@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import type { User } from '@coordinize/database/db';
+import type { User } from "@coordinize/database/db";
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
-} from '@tanstack/react-query';
-import { useTRPC } from '@/trpc/client';
+} from "@tanstack/react-query";
+import { useTRPC } from "@/trpc/client";
 
 export function useUserQuery() {
   const trpc = useTRPC();

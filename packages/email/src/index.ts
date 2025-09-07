@@ -1,14 +1,14 @@
-import { render } from '@react-email/components';
-import nodemailer from 'nodemailer';
-import type { ReactElement } from 'react';
-import { Resend } from 'resend';
-import { keys } from '../keys';
+import { render } from "@react-email/components";
+import nodemailer from "nodemailer";
+import type { ReactElement } from "react";
+import { Resend } from "resend";
+import { keys } from "../keys";
 
 const env = keys();
 
 export const getResend = () => {
   if (!env.RESEND_TOKEN) {
-    throw new Error('RESEND_TOKEN is required for Resend service');
+    throw new Error("RESEND_TOKEN is required for Resend service");
   }
   return new Resend(env.RESEND_TOKEN);
 };
@@ -37,7 +37,7 @@ export const emailService = {
     template: ReactElement;
     from?: string;
   }) {
-    const isDevelopment = env.NODE_ENV === 'development';
+    const isDevelopment = env.NODE_ENV === "development";
 
     if (isDevelopment) {
       // Use MailHog for local development
@@ -47,7 +47,7 @@ export const emailService = {
 
       const result = await transporter.sendMail({
         from: options.from || env.SMTP_FROM,
-        to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
+        to: Array.isArray(options.to) ? options.to.join(", ") : options.to,
         subject: options.subject,
         html: emailHTML,
       });
@@ -56,7 +56,7 @@ export const emailService = {
     }
     if (!(env.RESEND_TOKEN && env.RESEND_FROM)) {
       throw new Error(
-        'RESEND_TOKEN and RESEND_FROM must be set for production email'
+        "RESEND_TOKEN and RESEND_FROM must be set for production email"
       );
     }
 

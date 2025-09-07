@@ -2,15 +2,15 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '@coordinize/ui/components/avatar';
+} from "@coordinize/ui/components/avatar";
 
 const avatarSrc =
-  'https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2wKk9O55aLExDt78kHByCdQqiVMWhzjPNsu4O' as const;
+  "https://c0nwx4j17a.ufs.sh/f/WFTadyjmVJh2wKk9O55aLExDt78kHByCdQqiVMWhzjPNsu4O" as const;
 
 export function FoundersMemo() {
   return (
     <div className="mx-4 mt-20 space-y-4 rounded-2xl bg-background p-4 text-ui-gray-900 ring ring-ui-gray-400 sm:p-12 md:mx-auto md:max-w-xl lg:max-w-5xl">
-      <h1 className="font-medium text-foreground ">From the creator,</h1>
+      <h1 className="font-medium text-foreground">From the creator,</h1>
       <p>
         I built Coordinize because modern tools reward constant pings and
         instant replies — not thoughtful communication. I've seen great ideas
@@ -28,7 +28,7 @@ export function FoundersMemo() {
       </p>
       <div className="mt-12 flex items-center gap-2">
         <Avatar className="size-9">
-          <AvatarImage alt={'User Image'} src={avatarSrc} />
+          <AvatarImage alt={"User Image"} src={avatarSrc} />
           <AvatarFallback className="select-none uppercase">A</AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-0 text-sm">

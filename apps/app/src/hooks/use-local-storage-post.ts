@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useDraftPostStore } from '@/store/draft-post-store';
+import { useDraftPostStore } from "@/store/draft-post-store";
 
 export function useLocalStoragePost() {
   const {

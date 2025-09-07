@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import type { Notification, User } from '@coordinize/database/db';
-import { Icons } from '@coordinize/ui/lib/icons';
-import AvatarStatus from '@/components/ui/avatar-status';
-import { formatDate } from '@/utils/format-date';
+import type { Notification, User } from "@coordinize/database/db";
+import { Icons } from "@coordinize/ui/lib/icons";
+import AvatarStatus from "@/components/ui/avatar-status";
+import { formatDate } from "@/utils/format-date";
 
-interface NotificationItemProps {
+type NotificationItemProps = {
   notification: Notification & {
     actor?: User;
   };
-}
+};
 
 export function NotificationItem({ notification }: NotificationItemProps) {
   const getNotificationIcon = () => {
     switch (notification.type) {
-      case 'POST_COMMENT':
+      case "POST_COMMENT":
         return Icons.megaphone;
-      case 'POST_MENTION':
+      case "POST_MENTION":
         return Icons.megaphone;
-      case 'POST_UPDATE':
+      case "POST_UPDATE":
         return Icons.pen;
-      case 'POST_RESOLVED':
+      case "POST_RESOLVED":
         return Icons.resolve;
-      case 'POST_REOPENED':
+      case "POST_REOPENED":
         return Icons.circleX;
       default:
         return Icons.bell;
@@ -38,8 +38,8 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           <AvatarStatus
             alt="User Avatar"
             className="size-8"
-            fallback={notification.actor?.name.charAt(0) ?? ''}
-            src={notification.actor?.image ?? ''}
+            fallback={notification.actor?.name.charAt(0) ?? ""}
+            src={notification.actor?.image ?? ""}
             statusShow={false}
           />
         ) : (
@@ -55,7 +55,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
         </div>
         <div className="flex h-full flex-col justify-end">
           <span className="text-sm text-ui-gray-800">
-            {formatDate(notification.createdAt).split(' ago')[0]}
+            {formatDate(notification.createdAt).split(" ago")[0]}
           </span>
         </div>
       </div>

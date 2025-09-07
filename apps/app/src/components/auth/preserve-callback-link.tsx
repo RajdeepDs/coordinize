@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import type { ComponentProps } from 'react';
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import type { ComponentProps } from "react";
 
 interface PreserveCallbackLinkProps extends ComponentProps<typeof Link> {
   href: string;
@@ -18,7 +18,7 @@ export function PreserveCallbackLink({
   ...props
 }: PreserveCallbackLinkProps) {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl');
+  const callbackUrl = searchParams.get("callbackUrl");
 
   const finalHref = callbackUrl
     ? `${href}?callbackUrl=${encodeURIComponent(callbackUrl)}`

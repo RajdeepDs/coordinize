@@ -1,19 +1,15 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod/v4';
-import { createDraftPost, createNewPost } from '@/lib/mutations';
-import { createPostTimelineEvent } from '@/lib/mutations/timeline-helpers';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod/v4";
+import { createTRPCRouter, protectedProcedure } from "../init";
+import { createDraftPost, createNewPost } from "../mutations";
+import { createPostTimelineEvent } from "../mutations/timeline-helpers";
 import {
   getDraftPostsQuery,
   getPostByIdQuery,
   getPublishedPostsQuery,
   searchPostsQuery,
-} from '@/lib/queries';
-import {
-  draftPostSchema,
-  postSchema,
-  updatePostSchema,
-} from '@/lib/schemas/post';
-import { createTRPCRouter, protectedProcedure } from '../init';
+} from "../queries";
+import { draftPostSchema, postSchema, updatePostSchema } from "../schemas/post";
 
 export const postRouter = createTRPCRouter({
   getAllPublished: protectedProcedure.query(
@@ -58,14 +54,13 @@ export const postRouter = createTRPCRouter({
     .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
       const { title, description, space_id } = input;
 
-      await createNewPost(
-        db,
+      await createNewPost(db, {
         title,
         description,
-        space_id,
-        session.user.id,
-        workspaceId
-      );
+        spaceId: space_id,
+        userId: session.user.id,
+        workspaceId,
+      });
     }),
 
   createDraft: protectedProcedure
@@ -73,14 +68,13 @@ export const postRouter = createTRPCRouter({
     .mutation(async ({ input, ctx: { db, session, workspaceId } }) => {
       const { title, description, space_id } = input;
 
-      await createDraftPost(
-        db,
-        title || '',
-        description || '',
-        space_id,
-        session.user.id,
-        workspaceId
-      );
+      await createDraftPost(db, {
+        title: title || "",
+        description: description || "",
+        spaceId: space_id,
+        userId: session.user.id,
+        workspaceId,
+      });
     }),
 
   delete: protectedProcedure
@@ -95,15 +89,15 @@ export const postRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post not found.',
+          code: "BAD_REQUEST",
+          message: "Post not found.",
         });
       }
 
       if (post.authorId !== session.user.id) {
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized: Only the author can delete this post.',
+          code: "UNAUTHORIZED",
+          message: "Unauthorized: Only the author can delete this post.",
         });
       }
 
@@ -124,24 +118,23 @@ export const postRouter = createTRPCRouter({
 
       if (!existingPost) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post not found.',
+          code: "BAD_REQUEST",
+          message: "Post not found.",
         });
       }
 
       if (existingPost.authorId !== session.user.id) {
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized: Only the author can edit this post.',
+          code: "UNAUTHORIZED",
+          message: "Unauthorized: Only the author can edit this post.",
         });
       }
 
       const updateData: Record<string, string> = {};
-      let titleChanged = false;
+      const titleChanged = title !== undefined && title !== existingPost.title;
 
-      if (title !== undefined && title !== existingPost.title) {
+      if (titleChanged) {
         updateData.title = title;
-        titleChanged = true;
       }
       if (content !== undefined) {
         updateData.content = content;
@@ -156,7 +149,7 @@ export const postRouter = createTRPCRouter({
         // Create timeline event for title changes
         if (titleChanged) {
           await createPostTimelineEvent(db, {
-            action: 'UPDATED_TITLE',
+            action: "UPDATED_TITLE",
             postId: id,
             actorId: session.user.id,
             metadata: {
@@ -180,8 +173,8 @@ export const postRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post not found.',
+          code: "BAD_REQUEST",
+          message: "Post not found.",
         });
       }
 
@@ -192,7 +185,7 @@ export const postRouter = createTRPCRouter({
 
       // Create timeline event for resolving post
       await createPostTimelineEvent(db, {
-        action: 'RESOLVED',
+        action: "RESOLVED",
         postId: id,
         actorId: session.user.id,
         metadata: {
@@ -213,15 +206,15 @@ export const postRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post not found.',
+          code: "BAD_REQUEST",
+          message: "Post not found.",
         });
       }
 
       if (!post.resolvedAt) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post is not resolved.',
+          code: "BAD_REQUEST",
+          message: "Post is not resolved.",
         });
       }
 
@@ -232,7 +225,7 @@ export const postRouter = createTRPCRouter({
 
       // Create timeline event for unresolving post
       await createPostTimelineEvent(db, {
-        action: 'REOPENED',
+        action: "REOPENED",
         postId: id,
         actorId: session.user.id,
         metadata: {
@@ -253,15 +246,15 @@ export const postRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post not found.',
+          code: "BAD_REQUEST",
+          message: "Post not found.",
         });
       }
 
       if (post.authorId !== session.user.id) {
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized: Only the author can archive this post.',
+          code: "UNAUTHORIZED",
+          message: "Unauthorized: Only the author can archive this post.",
         });
       }
 
@@ -283,15 +276,15 @@ export const postRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post not found.',
+          code: "BAD_REQUEST",
+          message: "Post not found.",
         });
       }
 
       if (post.authorId !== session.user.id) {
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized: Only the author can move this post.',
+          code: "UNAUTHORIZED",
+          message: "Unauthorized: Only the author can move this post.",
         });
       }
 
@@ -304,10 +297,10 @@ export const postRouter = createTRPCRouter({
 
       // Create timeline event for moving post to space
       await createPostTimelineEvent(db, {
-        action: 'MOVED_SPACE',
+        action: "MOVED_SPACE",
         postId,
         actorId: session.user.id,
-        referenceType: 'Space',
+        referenceType: "Space",
         referenceId: spaceId,
         metadata: {
           oldSpaceId,
@@ -328,15 +321,15 @@ export const postRouter = createTRPCRouter({
 
       if (!post) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Post not found.',
+          code: "BAD_REQUEST",
+          message: "Post not found.",
         });
       }
 
       if (post.authorId !== session.user.id) {
         throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: 'Unauthorized: Only the author can pin/unpin this post.',
+          code: "UNAUTHORIZED",
+          message: "Unauthorized: Only the author can pin/unpin this post.",
         });
       }
 
