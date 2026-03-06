@@ -37,7 +37,7 @@
     "date-fns": "^4.1.0",
     "little-date": "^1.0.0",
     "motion": "^12.23.12",
-    "next": "^15.5.2",
+    "next": "15.5.9",
     "next-safe-action": "^8.0.11",
     "novel": "^1.0.2",
     "react": "^19.1.1",
