@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@prisma/nextjs-monorepo-workaround-plugin": "6.9.0",
-    "next": "^15.5.2"
+    "next": "15.5.9"
   },
   "devDependencies": {
     "@coordinize/tsconfig": "workspace:*",
